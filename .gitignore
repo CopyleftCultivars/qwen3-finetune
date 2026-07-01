@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+data/
+outputs/
+merged-model/
+*.zip
+*.7z
+unsloth_compiled_cache/
+wandb/
