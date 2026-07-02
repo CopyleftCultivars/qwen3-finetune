@@ -1,0 +1,922 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,cls7wnkym00002t7dewspesjn,cls7wwbix003z8iq0a98ufuci,"```json
+[
+  {
+    ""Scientific Name"": ""Brassica oleracea var. capitata"",
+    ""Common Name"": ""Cabbage"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Nasturtium"",
+      ""Mint"",
+      ""Horsetail""
+    ],
+    ""Quantities"": [
+      ""Nasturtium: 300g/m2 for pest control and trace minerals."",
+      ""Mint: 300g/m2 for pest control and soil health."",
+      ""Horsetail: 400g/m2 for silica and disease resistance.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Plant nasturtium around cabbage to deter pests and provide trace minerals."",
+      ""Grow mint in the vicinity (in containers to control spread) for pest control."",
+      ""Use horsetail as a foliar spray or soil amendment for silica and to boost disease resistance.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Daucus carota"",
+    ""Common Name"": ""Carrot"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Chamomile"",
+      ""Yarrow"",
+      ""Flax""
+    ],
+    ""Quantities"": [
+      ""Chamomile: 200g/m2 for growth promotion and soil health."",
+      ""Yarrow: 300g/m2 for nutrient cycling and attracting beneficial insects."",
+      ""Flax: 400g/m2 for soil health and weed suppression.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Intercrop chamomile with carrots to promote growth and improve soil health."",
+      ""Plant yarrow nearby to enhance nutrient cycling and attract beneficial insects."",
+      ""Grow flax as a cover crop to improve soil health and suppress weeds.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Spinacia oleracea"",
+    ""Common Name"": ""Spinach"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Garlic"",
+      ""Borage"",
+      ""Mustard""
+    ],
+    ""Quantities"": [
+      ""Garlic: 300g/m2 for pest control."",
+      ""Borage: 300g/m2 for mineral content and growth promotion."",
+      ""Mustard: 400g/m2 for biofumigation and organic matter.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Plant garlic around spinach to deter pests."",
+      ""Use borage as a companion plant for its mineral content and to promote growth."",
+      ""Incorporate mustard as a green manure for biofumigation and to add organic matter.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Allium cepa"",
+    ""Common Name"": ""Onion"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Tansy"",
+      ""Marigold"",
+      ""Clover""
+    ],
+    ""Quantities"": [
+      ""Tansy: 300g/m2 for pest control."",
+      ""Marigold: 300g/m2 for nematode control and attracting beneficial insects."",
+      ""Clover: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Plant tansy around onions to deter pests."",
+      ""Grow marigold among onions to control nematodes and attract beneficial insects."",
+      ""Incorporate clover into the soil before planting onions for nitrogen fixation.""
+    ]
+  }
+]
+```
+This data extends the guide for farmers to create their own fertilizers using locally available plants, now including crops such as Cabbage, Carrot, Spinach, and Onion. Each crop is paired with beneficial plants that can be used to improve soil health, deter pests, and provide essential nutrients, along with the quantities needed and recipes for creating effective natural fertilizers. Is your question or issue resolved?",agent,[],,false,2024-02-04T19:44:30+00:00
+,cls7wnkym00002t7dewspesjn,cls7wsixl00488io9fxkj72pd,"```json
+[
+  {
+    ""Scientific Name"": ""Oryza sativa"",
+    ""Common Name"": ""Rice"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Azolla"",
+      ""Leguminous plants (e.g., beans, peas)"",
+      ""Comfrey""
+    ],
+    ""Quantities"": [
+      ""Azolla: 500g/m2 during vegetative growth stage for nitrogen."",
+      ""Leguminous plants: 600g/m2 (after composting) during reproductive growth stage for phosphorus."",
+      ""Comfrey: 500g/m2 during fruiting for potassium.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Incorporate Azolla directly into the soil or as a water surface layer in paddy fields."",
+      ""Compost leguminous plants and apply the compost to the soil before planting."",
+      ""Use comfrey leaves to make a liquid fertilizer by fermenting in water, then apply to the soil or as a foliar spray.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Zea mays"",
+    ""Common Name"": ""Corn"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Nettles"",
+      ""Dandelion"",
+      ""Clover""
+    ],
+    ""Quantities"": [
+      ""Nettles: 400g/m2 early in the vegetative stage for nitrogen."",
+      ""Dandelion: 400g/m2 throughout the growth cycle for potassium and micronutrients."",
+      ""Clover: 500g/m2 in the vegetative stage for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Prepare a fermented plant juice (FPJ) from nettles and apply as a foliar spray."",
+      ""Dandelion can be used to make a liquid fertilizer or added to compost for soil application."",
+      ""Incorporate clover as a green manure by plowing it into the soil before planting.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Solanum lycopersicum"",
+    ""Common Name"": ""Tomato"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Borage"",
+      ""Yarrow"",
+      ""Mustard greens""
+    ],
+    ""Quantities"": [
+      ""Borage: 300g/m2 during fruiting for potassium."",
+      ""Yarrow: 300g/m2 throughout the growth cycle for a wide range of nutrients."",
+      ""Mustard greens: 400g/m2 in the vegetative stage for nitrogen.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Use borage leaves to make a liquid fertilizer for foliar spray or soil application."",
+      ""Yarrow can be used as a compost activator or made into a liquid fertilizer."",
+      ""Mustard greens can be composted or used as a green manure by incorporating into the soil before planting.""
+    ]
+  }
+]
+```
+This data is structured to assist farmers in creating their own fertilizers using locally available plants, aligned with the Nutritive Cycle Theory and principles of Natural Farming. It emphasizes the importance of using the right material at the right amount and at the right stage of crop growth to achieve optimum growth and avoid diseases. Is your question or issue resolved?",agent,"[{""score"":0.8280562,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-02-04T19:41:33+00:00
+,cls7wnkym00002t7dewspesjn,cls7wuv3t003x8iq0ae2b8u39,"```json
+[
+  {
+    ""Scientific Name"": ""Glycine max"",
+    ""Common Name"": ""Soybeans"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Alfalfa"",
+      ""Clovers (Red, White)"",
+      ""Buckwheat""
+    ],
+    ""Quantities"": [
+      ""Alfalfa: 600g/m2 for nitrogen and micronutrients."",
+      ""Clovers: 500g/m2 for nitrogen fixation."",
+      ""Buckwheat: 400g/m2 for phosphorus and attracting beneficial insects.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Use alfalfa as a green manure or in compost for nitrogen and micronutrients."",
+      ""Incorporate clovers into the soil before planting for nitrogen fixation."",
+      ""Grow buckwheat as a cover crop to improve phosphorus availability and attract beneficial insects.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Vigna unguiculata"",
+    ""Common Name"": ""Cowpeas"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Sorghum"",
+      ""Sunhemp"",
+      ""Marigold""
+    ],
+    ""Quantities"": [
+      ""Sorghum: 500g/m2 for soil structure and organic matter."",
+      ""Sunhemp: 500g/m2 for nitrogen fixation."",
+      ""Marigold: 300g/m2 for nematode control and attracting beneficial insects.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Use sorghum as a cover crop to improve soil structure and add organic matter."",
+      ""Grow sunhemp before planting cowpeas to fix nitrogen in the soil."",
+      ""Plant marigold among cowpeas to control nematodes and attract beneficial insects.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Vitis vinifera"",
+    ""Common Name"": ""Grapes"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Mustard"",
+      ""Phacelia"",
+      ""Comfrey""
+    ],
+    ""Quantities"": [
+      ""Mustard: 400g/m2 for biofumigation and organic matter."",
+      ""Phacelia: 400g/m2 for attracting pollinators and beneficial insects."",
+      ""Comfrey: 500g/m2 for potassium and trace minerals.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Incorporate mustard as a green manure for biofumigation and to add organic matter."",
+      ""Grow phacelia to attract pollinators and beneficial insects."",
+      ""Use comfrey leaves to make a liquid fertilizer for potassium and trace minerals.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Pisum sativum"",
+    ""Common Name"": ""Peas"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Rye"",
+      ""Vetch"",
+      ""Oats""
+    ],
+    ""Quantities"": [
+      ""Rye: 500g/m2 for soil structure and organic matter."",
+      ""Vetch: 500g/m2 for nitrogen fixation."",
+      ""Oats: 400g/m2 for soil structure and organic matter.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Use rye as a cover crop to improve soil structure and add organic matter."",
+      ""Grow vetch before planting peas to fix nitrogen in the soil."",
+      ""Incorporate oats as a cover crop for soil structure and organic matter.""
+    ]
+  }
+]
+```
+This data provides a guide for farmers to create their own fertilizers using locally available plants that are nutritionally matched to specific crops such as Soybeans, Cowpeas, Grapes, and Peas. Each crop has a list of beneficial plants that can be used to improve soil health and fertility, along with the quantities needed and recipes for creating effective natural fertilizers. Is your question or issue resolved?",agent,"[{""score"":0.78576976,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.78428555,""chunk_id"":""c1d16be1-5da7-48bb-b25d-94683c5f8973"",""mime_type"":""text/csv"",""source_url"":"""",""datasource_id"":""cls72vep0000b2t6thwzxy9q3"",""datasource_name"":""Crop_recommendation.csv"",""datasource_type"":""file""}]",,false,2024-02-04T19:43:22+00:00
+,cls7wnkym00002t7dewspesjn,cls7x7s8z004d8iq04l4vd1az,"```json
+[
+  {
+    ""Scientific Name"": ""Daucus carota subsp. sativus"",
+    ""Common Name"": ""Carrot"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Comfrey"",
+      ""Horsetail"",
+      ""Nettles""
+    ],
+    ""Quantities"": [
+      ""Comfrey: 500g/m2 for potassium and trace minerals."",
+      ""Horsetail: 400g/m2 for silica and disease resistance."",
+      ""Nettles: 400g/m2 for nitrogen and iron.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment comfrey with LABs to create a potassium-rich liquid fertilizer."",
+      ""Prepare a horsetail ferment with LABs for foliar application to enhance disease resistance and provide silica."",
+      ""Ferment nettles with LABs to produce a nitrogen-rich plant feed.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Lycopersicon esculentum"",
+    ""Common Name"": ""Tomato"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Borage"",
+      ""Yarrow"",
+      ""Clovers""
+    ],
+    ""Quantities"": [
+      ""Borage: 300g/m2 for potassium and growth promotion."",
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects."",
+      ""Clovers: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Prepare a borage ferment with LABs for potassium and to promote growth."",
+      ""Use yarrow fermented with LABs as a foliar spray to provide a wide range of nutrients and attract beneficial insects."",
+      ""Ferment clovers with LABs to enhance nitrogen fixation in the soil.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Cucumis melo"",
+    ""Common Name"": ""Melon"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Alfalfa"",
+      ""Comfrey"",
+      ""Horsetail""
+    ],
+    ""Quantities"": [
+      ""Alfalfa: 600g/m2 for nitrogen and micronutrients."",
+      ""Comfrey: 500g/m2 for potassium and trace minerals."",
+      ""Horsetail: 400g/m2 for silica and disease resistance.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment alfalfa with LABs to create a nitrogen-rich liquid fertilizer."",
+      ""Prepare a comfrey ferment with LABs for potassium and trace minerals."",
+      ""Use horsetail fermented with LABs to enhance disease resistance and provide silica.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Raphanus sativus"",
+    ""Common Name"": ""Radish"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Nettles"",
+      ""Yarrow"",
+      ""Clovers""
+    ],
+    ""Quantities"": [
+      ""Nettles: 400g/m2 for nitrogen and iron."",
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects."",
+      ""Clovers: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment nettles with LABs to produce a nitrogen-rich plant feed."",
+      ""Use yarrow fermented with LABs as a foliar spray to provide a wide range of nutrients and attract beneficial insects."",
+      ""Ferment clovers with LABs to enhance nitrogen fixation in the soil.""
+    ]
+  }
+]
+```
+This data continues to guide farmers in creating their own fertilizers using locally available plants, now including crops such as Carrot, Tomato, Melon, and Radish. Each crop is paired with beneficial plants from the bioaccumulator list that are nutritionally matched to the crops' needs, following regenerative farming approaches and Natural Farming inputs. The provided recipes emphasize the use of fermenting ingredients with Lactic Acid Bacteria (LABs) to create potent, nutritionally matched fertilizers that improve soil health, deter pests, and provide essential nutrients, aligning with the principles of regenerative agriculture and Natural Farming. Is your question or issue resolved?",agent,[],,false,2024-02-04T19:53:25+00:00
+,cls7wnkym00002t7dewspesjn,cls7wnlab003n8iq0hrci785e,Please run a comprehensive and complete list with all of the relevant information that is available.,human,null,,false,2024-02-04T19:37:43+00:00
+,cls7wnkym00002t7dewspesjn,cls7wopt000438io9ermbb7kh,That's all right but please continue and make sure that it is complete and comprehensive in every way possible. Mood of the entries that you can,human,null,,false,2024-02-04T19:38:35+00:00
+,cls7wnkym00002t7dewspesjn,cls7wu5g3003w8iq0hps33tdj,Please continue with new crops you have not mentioned,human,null,,false,2024-02-04T19:42:49+00:00
+,cls7wnkym00002t7dewspesjn,cls7xazbz004q8iq04oz9c95n,"```json
+[
+  {
+    ""Scientific Name"": ""Daucus carota subsp. sativus"",
+    ""Common Name"": ""Carrot"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Comfrey"",
+      ""Horsetail"",
+      ""Nettles""
+    ],
+    ""Quantities"": [
+      ""Comfrey: 500g/m2 for potassium and trace minerals."",
+      ""Horsetail: 400g/m2 for silica and disease resistance."",
+      ""Nettles: 400g/m2 for nitrogen and iron.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment comfrey with LABs to create a potassium-rich liquid fertilizer."",
+      ""Prepare a horsetail ferment with LABs for foliar application to enhance disease resistance and provide silica."",
+      ""Ferment nettles with LABs to produce a nitrogen-rich plant feed.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Lycopersicon esculentum"",
+    ""Common Name"": ""Tomato"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Borage"",
+      ""Yarrow"",
+      ""Clovers""
+    ],
+    ""Quantities"": [
+      ""Borage: 300g/m2 for potassium and growth promotion."",
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects."",
+      ""Clovers: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Prepare a borage ferment with LABs for potassium and to promote growth."",
+      ""Use yarrow fermented with LABs as a foliar spray to provide a wide range of nutrients and attract beneficial insects."",
+      ""Ferment clovers with LABs to enhance nitrogen fixation in the soil.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Cucumis melo"",
+    ""Common Name"": ""Melon"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Alfalfa"",
+      ""Comfrey"",
+      ""Horsetail""
+    ],
+    ""Quantities"": [
+      ""Alfalfa: 600g/m2 for nitrogen and micronutrients."",
+      ""Comfrey: 500g/m2 for potassium and trace minerals."",
+      ""Horsetail: 400g/m2 for silica and disease resistance.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment alfalfa with LABs to create a nitrogen-rich liquid fertilizer."",
+      ""Prepare a comfrey ferment with LABs for potassium and trace minerals."",
+      ""Use horsetail fermented with LABs to enhance disease resistance and provide silica.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Raphanus sativus"",
+    ""Common Name"": ""Radish"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Nettles"",
+      ""Yarrow"",
+      ""Clovers""
+    ],
+    ""Quantities"": [
+      ""Nettles: 400g/m2 for nitrogen and iron."",
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects."",
+      ""Clovers: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment nettles with LABs to produce a nitrogen-rich plant feed."",
+      ""Use yarrow fermented with LABs as a foliar spray to provide a wide range of nutrients and attract beneficial insects."",
+      ""Ferment clovers with LABs to enhance nitrogen fixation in the soil.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""LABs"",
+    ""Common Name"": ""Lactic Acid Bacteria"",
+    ""Location"": ""General"",
+    ""Local Plants"": ""N/A"",
+    ""Quantities"": ""N/A"",
+    ""Fertilizer Recipes"": [
+      ""Collect rice wash water in a container and leave it at room temperature for about 7 days until it turns slightly sour, indicating microbial activity."",
+      ""Strain the liquid to remove any solids, then mix this liquid with equal parts milk (preferably raw milk) and leave it at room temperature for another 7 days. The milk provides a food source for the LABs, encouraging them to multiply."",
+      ""After 7 days, you will notice separation; the curd on top and the yellowish liquid (serum) below. The serum contains the LABs."",
+      ""Carefully extract the serum, avoiding the curd, and mix it with an equal amount of molasses or sugar to stabilize it. This mixture is your LAB solution."",
+      ""Dilute the LAB solution with water before applying to plants or soil. A general dilution ratio is 1:1000 (LAB solution to water).""
+    ]
+  }
+]
+```
+This data continues to guide farmers in creating their own fertilizers using locally available plants, now including a detailed walkthrough on how to make Lactic Acid Bacteria (LABs) using the Korean Natural Farming method. LABs are a crucial component in many natural farming practices, providing a wide range of benefits including improving soil health, enhancing plant growth, and acting as a natural pesticide. The provided recipes emphasize the use of natural, locally sourced inputs to create potent, nutritionally matched fertilizers that align with the principles of regenerative agriculture and Natural Farming. Is your question or issue resolved?",agent,[],,false,2024-02-04T19:55:54+00:00
+,cls7wnkym00002t7dewspesjn,cls7xb16700558io9huue7pox,"Please provide, in that same format, detailed walkthroughs of how to make fertilizers with LABs in the Natural Farming style and other recipesl of how to make it from greek yogurt whey",human,null,,false,2024-02-04T19:55:56+00:00
+,cls7wnkym00002t7dewspesjn,cls7wqdv700458io9b9c25kp9,Please continue and make sure that the data makes sense for Farmers to make their own fertilizer with locally available plants which are nutritionally matched to their crops,human,null,,false,2024-02-04T19:39:53+00:00
+,cls7wnkym00002t7dewspesjn,cls7wv9ho003y8iq0gwof3r93,Please continue with additional crops you have not stated yet,human,null,,false,2024-02-04T19:43:41+00:00
+,cls7wnkym00002t7dewspesjn,cls7wrdgh00478io967zidcc3,Please continue and make sure that the data makes sense for Farmers to make their own fertilizer with locally available plants which are nutritionally matched to their crops,human,null,,false,2024-02-04T19:40:39+00:00
+,cls7wnkym00002t7dewspesjn,cls7wtqn4003v8iq0agjk7uah,"Okay, please continue",human,null,,false,2024-02-04T19:42:29+00:00
+,cls7wnkym00002t7dewspesjn,cls7wwzwz00498io9bs04dog8,"That's great, please continue but with fertilizer's made with matching nutrition from the bioaccumulators list",human,null,,false,2024-02-04T19:45:01+00:00
+,cls7wnkym00002t7dewspesjn,cls7wzbmy004b8io98vzx3332,Great. Please continue with regenerative farming approached and Natural Farming inputs as nutritionally matched fertilizers,human,null,,false,2024-02-04T19:46:50+00:00
+,cls7wnkym00002t7dewspesjn,cls7x3lqy00468iq01vyc2phb,Great. Please continue with regenerative farming approached and Natural Farming inputs as nutritionally matched fertilizers,human,null,,false,2024-02-04T19:50:10+00:00
+,cls7wnkym00002t7dewspesjn,cls7x5abb004r8io9bki65p4p,"Great. Please continue with regenerative farming approached and Natural Farming inputs such as fermenting ingredients with LABs, as nutritionally matched fertilizers",human,null,,false,2024-02-04T19:51:28+00:00
+,cls7wnkym00002t7dewspesjn,cls7x6phk004c8iq07wrgdpit,Great. Please continue with regenerative farming approached and Natural Farming inputs as nutritionally matched fertilizers. No mustard as an ingredient. Use ingredients from the bioaccumulator list data chunks.,human,null,,false,2024-02-04T19:52:34+00:00
+,cls7wnkym00002t7dewspesjn,cls7x8m10004n8iq0dop00yw0,Great! Please continue and include an entey detailing walkthrough-style how to make LABs (Korean Natural Farming method),human,null,,false,2024-02-04T19:54:03+00:00
+,cls7wnkym00002t7dewspesjn,cls7wnz97003o8iq0h8sp2r9k,"```json
+[
+  {
+    ""Scientific Name"": ""Oryza sativa"",
+    ""Common Name"": ""Rice"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""BRV (Brown rice Vinegar)"",
+      ""SW (Seawater)"",
+      ""SES (Seed / Seedling Treatment)"",
+      ""FMC (Fermented Mixed Compost)"",
+      ""AIA (Aromatic Insect Attractants)""
+    ],
+    ""Quantities"": [
+      ""1ml:1000ml for solutions""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Collect and prepare ingredients annually for continued results."",
+      ""Spray solution on crops in the evening or at night.""
+    ]
+  }
+]
+```
+Is your question or issue resolved?",agent,"[{""score"":0.7530152,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.7252717,""chunk_id"":""ce370a22-0e13-4b50-bccd-611d77b53a7a"",""mime_type"":""text/csv"",""source_url"":"""",""datasource_id"":""cls72vep0000b2t6thwzxy9q3"",""datasource_name"":""Crop_recommendation.csv"",""datasource_type"":""file""}]",,false,2024-02-04T19:38:01+00:00
+,cls7wnkym00002t7dewspesjn,cls7wpkng00448io9au92bn68,"```json
+[
+  {
+    ""Scientific Name"": ""Oryza sativa"",
+    ""Common Name"": ""Rice"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""BRV (Brown rice Vinegar)"",
+      ""SW (Seawater)"",
+      ""SES (Seed / Seedling Treatment)"",
+      ""FMC (Fermented Mixed Compost)"",
+      ""AIA (Aromatic Insect Attractants)""
+    ],
+    ""Quantities"": [
+      ""1ml:1000ml for solutions""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Collect and prepare ingredients annually for continued results."",
+      ""Spray solution on crops in the evening or at night.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Zea mays"",
+    ""Common Name"": ""Corn"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""FPJ (Fermented Plant Juice)"",
+      ""FFJ (Fruit Fermented Juice)"",
+      ""OHN (Oriental Herbal Nutrient)"",
+      ""LAB (Lactic Acid Bacteria)""
+    ],
+    ""Quantities"": [
+      ""Dilution rates vary; typically 1:500 to 1:1000 for foliar application""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Prepare FPJ and FFJ from local plant materials."",
+      ""Mix with water at appropriate dilution rates."",
+      ""Apply to crops during vegetative growth stage for best results.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Solanum lycopersicum"",
+    ""Common Name"": ""Tomato"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""WCA (Water-soluble Calcium)"",
+      ""WCP (Water-soluble Calcium Phosphate)"",
+      ""FAA (Fish Amino Acid)""
+    ],
+    ""Quantities"": [
+      ""Dilution rates for foliar spray are typically 1:500 to 1:1000""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Collect eggshells and bones for WCA and WCP preparation."",
+      ""Prepare FAA from local fish waste."",
+      ""Apply as foliar spray or soil drench during flowering and fruiting stages.""
+    ]
+  }
+]
+```
+Is your question or issue resolved?",agent,"[{""score"":0.7286421,""chunk_id"":""f3353f03-2cb4-458b-ad21-660243726fa2"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":3,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-02-04T19:39:15+00:00
+,cls7wnkym00002t7dewspesjn,cls7wrach00468io99n714tqk,"```json
+[
+  {
+    ""Scientific Name"": ""Oryza sativa"",
+    ""Common Name"": ""Rice"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Azolla"",
+      ""Leguminous plants (e.g., beans, peas)"",
+      ""Comfrey""
+    ],
+    ""Quantities"": [
+      ""Azolla: 500g/m2"",
+      ""Leguminous plants: 600g/m2 (after composting)"",
+      ""Comfrey: 500g/m2""
+    ],
+    ""Fertilizer Recipes"": [
+      ""During vegetative growth stage, use Azolla for nitrogen."",
+      ""Incorporate leguminous plant compost for phosphorus during the reproductive growth stage."",
+      ""Apply comfrey as a potassium source during fruiting.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Zea mays"",
+    ""Common Name"": ""Corn"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Nettles"",
+      ""Dandelion"",
+      ""Clover""
+    ],
+    ""Quantities"": [
+      ""Nettles: 400g/m2"",
+      ""Dandelion: 400g/m2"",
+      ""Clover: 500g/m2""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Use nettles early in the vegetative stage for a nitrogen boost."",
+      ""Dandelion can be used throughout the growth cycle for its potassium and micronutrients."",
+      ""Clover, being a legume, is beneficial for nitrogen fixation and can be used in the vegetative stage.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Solanum lycopersicum"",
+    ""Common Name"": ""Tomato"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Borage"",
+      ""Yarrow"",
+      ""Mustard greens""
+    ],
+    ""Quantities"": [
+      ""Borage: 300g/m2"",
+      ""Yarrow: 300g/m2"",
+      ""Mustard greens: 400g/m2""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Borage is rich in potassium and beneficial for fruiting stage."",
+      ""Yarrow is useful throughout the growth cycle for its wide range of nutrients."",
+      ""Mustard greens can be used in the vegetative stage for nitrogen.""
+    ]
+  }
+]
+```
+This data is designed to help farmers create their own fertilizer using locally available plants that are nutritionally matched to their crops, following the principles of Natural Farming and the Nutritive Cycle Theory. Is your question or issue resolved?",agent,"[{""score"":0.8280562,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-02-04T19:40:35+00:00
+,cls7wnkym00002t7dewspesjn,cls7x0ekc004c8io93f87fxg8,"```json
+[
+  {
+    ""Scientific Name"": ""Cucumis sativus"",
+    ""Common Name"": ""Cucumber"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Horsetail"",
+      ""Comfrey"",
+      ""Leguminous cover crops (e.g., vetch, clover)""
+    ],
+    ""Quantities"": [
+      ""Horsetail: 400g/m2 for silica and disease resistance."",
+      ""Comfrey: 500g/m2 for potassium and trace minerals."",
+      ""Leguminous cover crops: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Prepare a horsetail tea for foliar application to enhance disease resistance."",
+      ""Use comfrey in a liquid fertilizer mix for potassium and trace minerals."",
+      ""Incorporate leguminous cover crops into the soil before planting for nitrogen fixation.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Solanum melongena"",
+    ""Common Name"": ""Eggplant"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Neem"",
+      ""Mustard"",
+      ""Phacelia""
+    ],
+    ""Quantities"": [
+      ""Neem: 300g/m2 for pest control and soil health."",
+      ""Mustard: 400g/m2 for biofumigation and organic matter."",
+      ""Phacelia: 400g/m2 for attracting pollinators and beneficial insects.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Apply neem cake or neem oil mixtures to the soil for pest control."",
+      ""Use mustard as a green manure for biofumigation and to add organic matter."",
+      ""Grow phacelia to attract pollinators and beneficial insects.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Brassica napus"",
+    ""Common Name"": ""Rapeseed (Canola)"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Buckwheat"",
+      ""Clovers"",
+      ""Rye""
+    ],
+    ""Quantities"": [
+      ""Buckwheat: 400g/m2 for phosphorus and to attract beneficial insects."",
+      ""Clovers: 500g/m2 for nitrogen fixation."",
+      ""Rye: 500g/m2 for soil structure and organic matter.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Grow buckwheat as a cover crop to improve phosphorus availability and attract beneficial insects."",
+      ""Incorporate clovers into the soil before planting for nitrogen fixation."",
+      ""Use rye as a cover crop to improve soil structure and add organic matter.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Fragaria × ananassa"",
+    ""Common Name"": ""Strawberry"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Alfalfa"",
+      ""Yarrow"",
+      ""Borage""
+    ],
+    ""Quantities"": [
+      ""Alfalfa: 600g/m2 for nitrogen and micronutrients."",
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects."",
+      ""Borage: 300g/m2 for potassium and growth promotion.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Incorporate alfalfa as a green manure or in compost for nitrogen and micronutrients."",
+      ""Use yarrow as a compost activator or make into a liquid fertilizer."",
+      ""Prepare a borage liquid fertilizer for potassium and to promote growth.""
+    ]
+  }
+]
+```
+This data extends the guide for farmers to create their own fertilizers using locally available plants, now including crops such as Cucumber, Eggplant, Rapeseed (Canola), and Strawberry. Each crop is paired with beneficial plants that are nutritionally matched to the crops' needs, following regenerative farming approaches and Natural Farming inputs. The provided recipes emphasize the use of natural, locally sourced inputs to improve soil health, deter pests, and provide essential nutrients, aligning with the principles of regenerative agriculture and Natural Farming. Is your question or issue resolved?",agent,[],,false,2024-02-04T19:47:40+00:00
+,cls7wnkym00002t7dewspesjn,cls7wy1uk004a8io9durd2zuw,"```json
+[
+  {
+    ""Scientific Name"": ""Beta vulgaris"",
+    ""Common Name"": ""Beetroot"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Comfrey"",
+      ""Nettles"",
+      ""Buckwheat""
+    ],
+    ""Quantities"": [
+      ""Comfrey: 500g/m2 for potassium and trace minerals."",
+      ""Nettles: 400g/m2 for nitrogen and iron."",
+      ""Buckwheat: 400g/m2 for phosphorus and to attract beneficial insects.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Prepare a comfrey liquid fertilizer for potassium and trace minerals."",
+      ""Ferment nettles to create a nitrogen-rich plant feed."",
+      ""Use buckwheat as a cover crop to improve phosphorus availability and attract beneficial insects.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Cucurbita pepo"",
+    ""Common Name"": ""Zucchini"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Alfalfa"",
+      ""Clovers"",
+      ""Marigold""
+    ],
+    ""Quantities"": [
+      ""Alfalfa: 600g/m2 for nitrogen and micronutrients."",
+      ""Clovers: 500g/m2 for nitrogen fixation."",
+      ""Marigold: 300g/m2 for nematode control and attracting beneficial insects.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Incorporate alfalfa as a green manure or in compost for nitrogen and micronutrients."",
+      ""Grow clovers as a cover crop for nitrogen fixation."",
+      ""Plant marigold among zucchini to control nematodes and attract beneficial insects.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Capsicum annuum"",
+    ""Common Name"": ""Bell Pepper"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Yarrow"",
+      ""Borage"",
+      ""Mustard""
+    ],
+    ""Quantities"": [
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects."",
+      ""Borage: 300g/m2 for potassium and growth promotion."",
+      ""Mustard: 400g/m2 for biofumigation and organic matter.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Use yarrow as a compost activator or make into a liquid fertilizer."",
+      ""Prepare a borage liquid fertilizer for potassium and to promote growth."",
+      ""Incorporate mustard as a green manure for biofumigation and to add organic matter.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Lactuca sativa"",
+    ""Common Name"": ""Lettuce"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Chamomile"",
+      ""Dandelion"",
+      ""Clover""
+    ],
+    ""Quantities"": [
+      ""Chamomile: 200g/m2 for growth promotion and soil health."",
+      ""Dandelion: 400g/m2 for potassium, calcium, and attracting beneficial insects."",
+      ""Clover: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Intercrop chamomile with lettuce to promote growth and improve soil health."",
+      ""Use dandelion to make a liquid fertilizer for potassium and calcium."",
+      ""Grow clover as a cover crop for nitrogen fixation.""
+    ]
+  }
+]
+```
+This data continues the guide for farmers to create their own fertilizers using locally available plants, now including crops such as Beetroot, Zucchini, Bell Pepper, and Lettuce. Each crop is paired with beneficial plants from the bioaccumulators list that can be used to match the nutritional needs of the crops, improve soil health, deter pests, and provide essential nutrients, along with the quantities needed and recipes for creating effective natural fertilizers. Is your question or issue resolved?",agent,[],good,false,2024-02-04T19:45:51+00:00
+,cls7wnkym00002t7dewspesjn,cls7x4x6i004a8iq09c1ebi23,"```json
+[
+  {
+    ""Scientific Name"": ""Phaseolus vulgaris"",
+    ""Common Name"": ""Common Bean"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Marigold"",
+      ""Nasturtium"",
+      ""Buckwheat""
+    ],
+    ""Quantities"": [
+      ""Marigold: 300g/m2 for nematode control and attracting beneficial insects."",
+      ""Nasturtium: 300g/m2 for pest control and trace minerals."",
+      ""Buckwheat: 400g/m2 for phosphorus and to attract beneficial insects.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Plant marigold around bean plots to control nematodes and attract beneficial insects."",
+      ""Grow nasturtium as a companion plant for its pest control benefits and to provide trace minerals."",
+      ""Use buckwheat as a cover crop to improve phosphorus availability and attract beneficial insects.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Brassica rapa"",
+    ""Common Name"": ""Turnip"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Clovers"",
+      ""Rye"",
+      ""Mustard""
+    ],
+    ""Quantities"": [
+      ""Clovers: 500g/m2 for nitrogen fixation."",
+      ""Rye: 500g/m2 for soil structure and organic matter."",
+      ""Mustard: 400g/m2 for biofumigation and organic matter.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Incorporate clovers into the soil before planting turnips for nitrogen fixation."",
+      ""Use rye as a cover crop to improve soil structure and add organic matter."",
+      ""Grow mustard before turnip planting for biofumigation and to add organic matter.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Allium sativum"",
+    ""Common Name"": ""Garlic"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Chamomile"",
+      ""Yarrow"",
+      ""Comfrey""
+    ],
+    ""Quantities"": [
+      ""Chamomile: 200g/m2 for growth promotion and soil health."",
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects."",
+      ""Comfrey: 500g/m2 for potassium and trace minerals.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Intercrop chamomile with garlic to promote growth and improve soil health."",
+      ""Plant yarrow nearby to enhance nutrient cycling and attract beneficial insects."",
+      ""Use comfrey in a liquid fertilizer mix for potassium and trace minerals.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Rubus idaeus"",
+    ""Common Name"": ""Raspberry"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Alfalfa"",
+      ""Borage"",
+      ""Clovers""
+    ],
+    ""Quantities"": [
+      ""Alfalfa: 600g/m2 for nitrogen and micronutrients."",
+      ""Borage: 300g/m2 for potassium and growth promotion."",
+      ""Clovers: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Incorporate alfalfa as a green manure or in compost for nitrogen and micronutrients."",
+      ""Prepare a borage liquid fertilizer for potassium and to promote growth."",
+      ""Grow clovers as a cover crop for nitrogen fixation.""
+    ]
+  }
+]
+```
+This data continues to guide farmers in creating their own fertilizers using locally available plants, now including crops such as Common Bean, Turnip, Garlic, and Raspberry. Each crop is paired with beneficial plants that are nutritionally matched to the crops' needs, following regenerative farming approaches and Natural Farming inputs. The provided recipes emphasize the use of natural, locally sourced inputs to improve soil health, deter pests, and provide essential nutrients, aligning with the principles of regenerative agriculture and Natural Farming. Is your question or issue resolved?",agent,[],,false,2024-02-04T19:51:11+00:00
+,cls7wnkym00002t7dewspesjn,cls7x6bye004s8io97ve705pt,"```json
+[
+  {
+    ""Scientific Name"": ""Capsicum frutescens"",
+    ""Common Name"": ""Hot Pepper"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Garlic"",
+      ""Ginger"",
+      ""Horsetail""
+    ],
+    ""Quantities"": [
+      ""Garlic: 300g/m2 for pest control and immune boosting."",
+      ""Ginger: 300g/m2 for growth promotion and disease resistance."",
+      ""Horsetail: 400g/m2 for silica and fungal disease resistance.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment garlic and ginger with LABs to create a potent biopesticide and growth promoter."",
+      ""Prepare a horsetail ferment with LABs for foliar application to enhance disease resistance.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Solanum tuberosum"",
+    ""Common Name"": ""Potato"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Comfrey"",
+      ""Nettles"",
+      ""Yarrow""
+    ],
+    ""Quantities"": [
+      ""Comfrey: 500g/m2 for potassium and trace minerals."",
+      ""Nettles: 400g/m2 for nitrogen and iron."",
+      ""Yarrow: 300g/m2 for a wide range of nutrients and attracting beneficial insects.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment comfrey and nettles with LABs to create a nutrient-rich liquid fertilizer."",
+      ""Use yarrow fermented with LABs as a foliar spray to provide a wide range of nutrients and attract beneficial insects.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Cucurbita maxima"",
+    ""Common Name"": ""Pumpkin"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Borage"",
+      ""Mustard"",
+      ""Clovers""
+    ],
+    ""Quantities"": [
+      ""Borage: 300g/m2 for potassium and growth promotion."",
+      ""Mustard: 400g/m2 for biofumigation and organic matter."",
+      ""Clovers: 500g/m2 for nitrogen fixation.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Prepare a borage ferment with LABs for potassium and growth promotion."",
+      ""Ferment mustard with LABs for a biofumigant and soil conditioner."",
+      ""Use clovers fermented with LABs to enhance nitrogen fixation in the soil.""
+    ]
+  },
+  {
+    ""Scientific Name"": ""Brassica oleracea var. italica"",
+    ""Common Name"": ""Broccoli"",
+    ""Location"": ""General"",
+    ""Local Plants"": [
+      ""Alfalfa"",
+      ""Dandelion"",
+      ""Chamomile""
+    ],
+    ""Quantities"": [
+      ""Alfalfa: 600g/m2 for nitrogen and micronutrients."",
+      ""Dandelion: 400g/m2 for potassium, calcium, and attracting beneficial insects."",
+      ""Chamomile: 200g/m2 for growth promotion and soil health.""
+    ],
+    ""Fertilizer Recipes"": [
+      ""Ferment alfalfa with LABs to create a nitrogen-rich liquid fertilizer."",
+      ""Prepare a dandelion ferment with LABs for potassium and calcium."",
+      ""Use chamomile fermented with LABs to promote growth and improve soil health.""
+    ]
+  }
+]
+```
+This data continues to guide farmers in creating their own fertilizers using locally available plants, now including crops such as Hot Pepper, Potato, Pumpkin, and Broccoli. Each crop is paired with beneficial plants that are nutritionally matched to the crops' needs, following regenerative farming approaches and Natural Farming inputs. The provided recipes emphasize the use of fermenting ingredients with Lactic Acid Bacteria (LABs) to create potent, nutritionally matched fertilizers that improve soil health, deter pests, and provide essential nutrients, aligning with the principles of regenerative agriculture and Natural Farming. Is your question or issue resolved?",agent,[],,false,2024-02-04T19:52:17+00:00

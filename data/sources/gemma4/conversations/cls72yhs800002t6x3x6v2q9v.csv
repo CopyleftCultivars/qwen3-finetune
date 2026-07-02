@@ -1,0 +1,75 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,cls72yhs800002t6x3x6v2q9v,cls72yu9900ta8io94mak8e2d,"```json
+[
+    {
+        ""Crop"": ""Rice"",
+        ""NPK"": {
+            ""N"": ""60-98"",
+            ""P"": ""35-59"",
+            ""K"": ""36-44""
+        }
+    },
+    {
+        ""Crop"": ""Soyabeans"",
+        ""NPK"": {
+            ""N"": ""22-60"",
+            ""P"": ""56-80"",
+            ""K"": ""76-85""
+        }
+    },
+    {
+        ""Crop"": ""Cowpeas"",
+        ""NPK"": {
+            ""N"": ""1-35"",
+            ""P"": ""39-59"",
+            ""K"": ""15-25""
+        }
+    },
+    {
+        ""Crop"": ""Peas"",
+        ""NPK"": {
+            ""N"": ""1-37"",
+            ""P"": ""55-80"",
+            ""K"": ""15-25""
+        }
+    }
+]
+```",agent,"[{""score"":0.83134353,""chunk_id"":""ce370a22-0e13-4b50-bccd-611d77b53a7a"",""mime_type"":""text/csv"",""source_url"":"""",""datasource_id"":""cls72vep0000b2t6thwzxy9q3"",""datasource_name"":""Crop_recommendation.csv"",""datasource_type"":""file""},{""score"":0.80725086,""chunk_id"":""43639fbb-16c1-4ac7-b642-6d9f73f9f678"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":10,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-02-04T05:46:39+00:00
+,cls72yhs800002t6x3x6v2q9v,cls7308ap00ti8iq0271m11lc,Please provide them completely for all crops. Please make them the plant names be their scientific names.,human,null,,false,2024-02-04T05:47:44+00:00
+,cls72yhs800002t6x3x6v2q9v,cls730l6g00tj8iq0347k1sct,"```json
+[
+    {
+        ""Crop"": ""Oryza sativa"",
+        ""NPK"": {
+            ""N"": ""60-98"",
+            ""P"": ""35-59"",
+            ""K"": ""36-44""
+        }
+    },
+    {
+        ""Crop"": ""Zea mays"",
+        ""NPK"": {
+            ""N"": ""I don't know"",
+            ""P"": ""I don't know"",
+            ""K"": ""I don't know""
+        }
+    },
+    {
+        ""Crop"": ""Capsicum annuum var. annuum"",
+        ""NPK"": {
+            ""N"": ""I don't know"",
+            ""P"": ""I don't know"",
+            ""K"": ""I don't know""
+        }
+    },
+    {
+        ""Crop"": ""Pisum sativum"",
+        ""NPK"": {
+            ""N"": ""I don't know"",
+            ""P"": ""I don't know"",
+            ""K"": ""I don't know""
+        }
+    }
+]
+```",agent,"[{""score"":0.7805125,""chunk_id"":""c1d16be1-5da7-48bb-b25d-94683c5f8973"",""mime_type"":""text/csv"",""source_url"":"""",""datasource_id"":""cls72vep0000b2t6thwzxy9q3"",""datasource_name"":""Crop_recommendation.csv"",""datasource_type"":""file""}]",,false,2024-02-04T05:48:00+00:00
+,cls72yhs800002t6x3x6v2q9v,cls72yi4b00t98io9dy5khqhk,"Please walk me through the NPK requirements of rice, corn, jalapeno peppers, and snap peas. Json format in text. Continue until all of those crops' nutrition is completed.",human,null,,false,2024-02-04T05:46:23+00:00

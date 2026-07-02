@@ -1,0 +1,110 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,cltej81ex0000336xwsvq7m7d,cltej8eiq06yx8io92sdz0dp2,Do your best with the knowledge you have,human,null,,false,2024-03-05T15:36:04+00:00
+,cltej81ex0000336xwsvq7m7d,cltej9sly06ys8iq0348tajzn,"Continue, less related to natural farming and more related to farming in saudi arabia",human,null,,false,2024-03-05T15:37:09+00:00
+,cltej81ex0000336xwsvq7m7d,cltej99xm06yy8io9an5eamv1,"{
+ ""dpo_dataset_dict"": [
+  {
+   ""prompt"": [""How can I improve soil fertility naturally in Saudi Arabia?"", ""What are indigenous microorganisms and how can they benefit my farm in Saudi Arabia?""],
+   ""chosen"": [""To improve soil fertility naturally, focus on using Indigenous Microorganisms (IMOs) which are powerful and effective as they have adapted to local conditions. Culturing microorganisms from different areas of your farm can enhance microbial diversity, crucial for soil health."", ""Indigenous Microorganisms (IMOs) are microorganisms that have been living in the local area for a long time. They are very effective in making soil good for growing plants because they are adapted to the extreme climatic conditions of the local environment. Using IMOs can significantly benefit your farm by improving soil condition and fertility.""],
+   ""rejected"": [""Just use chemical fertilizers for quick results."", ""IMOs are not necessary for farming.""]
+  },
+  {
+   ""prompt"": [""How can I deal with phosphate-accumulated soil in Saudi Arabia?"", ""What is a cost-effective way to make fertilizers in Saudi Arabia?""],
+   ""chosen"": [""Using Lactic Acid Bacteria (LAB) in phosphate-accumulated soil can increase its capacity to absorb the insoluble form of phosphates and help overcome saline disorder. This method is natural and enhances soil health."", ""You can make fertilizers out of wildcrafted or foraged plant materials using LABs. This method allows the nutrients bioaccumulated in the plants to be bioavailable for your crops, offering a cost-effective and sustainable way to create fertilizers.""],
+   ""rejected"": [""Ignore the phosphate accumulation, it's not a big issue."", ""Buying commercial fertilizers is the only way to ensure crop health.""]
+  },
+  {
+   ""prompt"": [""How can I store Lactic Acid Bacteria (LAB) in Saudi Arabia?"", ""Is it necessary to use rice-washed water for obtaining Lactic Acid Bacteria (LAB)?""],
+   ""chosen"": [""Keep the refined LAB serum at cool temperatures (1-15ºC) to ensure longevity. Avoid storage under direct sunlight and mix LAB with an equal amount of brown sugar, stirring with a wooden stick for best results."", ""Using rice-washed water in obtaining Lactic Acid Bacteria (LAB) is recommended because it selects for stronger bacteria. These strong LABs can survive in poor nutrient conditions like rice-washed water, making them more effective for agricultural use.""],
+   ""rejected"": [""Just leave the LAB out in the open; storage conditions don't matter."", ""Any water is fine for obtaining LAB; rice-washed water is not special.""]
+  },
+  {
+   ""prompt"": [""What is the importance of microbial diversity in farming?"", ""Can I use LAB to resist fungi in my crops?""],
+   ""chosen"": [""Microbial diversity is crucial for farming as it ensures a healthy soil ecosystem, which is essential for plant growth and disease resistance. Culturing microorganisms from different areas of your farm can enhance this diversity."", ""Yes, LAB has the power to resist some fungi, making it a valuable tool in managing fungal diseases in crops. Incorporating LAB into your farming practices can help protect your crops from fungal infections.""],
+   ""rejected"": [""Microbial diversity is not important; focus on chemical treatments."", ""LAB cannot help with fungal diseases; it's better to use fungicides.""]
+  }
+ ]
+}",agent,"[{""score"":0.74725413,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-03-05T15:36:45+00:00
+,cltej81ex0000336xwsvq7m7d,cltejaaol06yt8iq0crue5f6c,"{
+ ""dpo_dataset_dict"": [
+  {
+   ""prompt"": [""How can I conserve water in my farm in Saudi Arabia?"", ""What crops are best suited for the arid climate of Saudi Arabia?""],
+   ""chosen"": [""Implement drip irrigation systems to minimize water usage and ensure that water is delivered directly to the plant roots. Mulching can also help retain soil moisture."", ""Crops like dates, barley, and wheat are well-suited for the arid climate of Saudi Arabia. These crops have adapted to thrive in conditions with minimal water.""],
+   ""rejected"": [""Just use traditional flood irrigation; water conservation is not necessary."", ""Try growing tropical fruits; they should adapt to the climate.""]
+  },
+  {
+   ""prompt"": [""How can I protect my crops from sandstorms in Saudi Arabia?"", ""What is the best way to improve sandy soil for farming in Saudi Arabia?""],
+   ""chosen"": [""Use windbreaks such as trees or constructed barriers to protect your crops from sandstorms. This can also help in reducing evaporation."", ""Incorporate organic matter into the sandy soil to improve its water retention and fertility. Composting and using green manures can significantly enhance sandy soil's structure.""],
+   ""rejected"": [""Sandstorms are not a big issue; no need to take any protective measures."", ""Sandy soil cannot be improved; it's better to use chemical fertilizers.""]
+  },
+  {
+   ""prompt"": [""What are the common pests in Saudi Arabian agriculture?"", ""How can I naturally control locust invasions in my farm in Saudi Arabia?""],
+   ""chosen"": [""Common pests include locusts, aphids, and red palm weevils. Monitoring and early detection are key to managing these pests."", ""For natural control of locusts, encourage the presence of natural predators like birds. Additionally, using neem oil can deter locusts without harming beneficial insects.""],
+   ""rejected"": [""Pests are not a concern in Saudi Arabian agriculture."", ""Use heavy pesticides immediately at the first sign of locusts; natural methods are ineffective.""]
+  },
+  {
+   ""prompt"": [""How can I increase date palm production in Saudi Arabia?"", ""What are the best practices for wheat cultivation in Saudi Arabia?""],
+   ""chosen"": [""Ensure proper irrigation and fertilization tailored to the needs of date palms. Pruning and thinning also help in increasing fruit production."", ""For wheat, practice crop rotation to maintain soil health, and choose drought-resistant varieties. Timely sowing and minimal tillage can also enhance wheat production.""],
+   ""rejected"": [""Overwatering is the key to increasing date palm production."", ""Wheat does not require specific practices; just plant and harvest.""]
+  }
+ ]
+}",agent,"[{""score"":0.8188268,""chunk_id"":""a3d7930b-37f5-427d-90c4-7ef216b2f47b"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":1,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",bad,false,2024-03-05T15:37:33+00:00
+,cltej81ex0000336xwsvq7m7d,cltejbdfd06z38io9g51o1x1r,Never recommend pesticides ever,human,null,,false,2024-03-05T15:38:23+00:00
+,cltej81ex0000336xwsvq7m7d,cltej83gs06ym8iq0en728kjx,"{
+ ""error"": ""I don't have access to current or specific data about organic farming concerns, pests, diseases, and important crops in Saudi Arabia beyond the provided knowledge base.""
+}",agent,"[{""score"":0.7959479,""chunk_id"":""de360d27-3807-4497-aaba-15afdffbd140"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":9,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-03-05T15:35:50+00:00
+,cltej81ex0000336xwsvq7m7d,cltej81nf06yl8iq0dvs0a7dm,"Please create a DPO dataset of one hundred examples of organic farming assistance specially tailored for Saudi Arabian farming concerns, specific to the pests, diseases, and important crops in Saudi Arabia.",human,null,,false,2024-03-05T15:35:48+00:00
+,cltej81ex0000336xwsvq7m7d,cltejcixm06yy8iq0369u1znb,Continue with as many examples as possible,human,null,,false,2024-03-05T15:39:17+00:00
+,cltej81ex0000336xwsvq7m7d,cltejbw8v06z48io95lbm4xnv,"{
+ ""dpo_dataset_dict"": [
+  {
+   ""prompt"": [""How can I conserve water in my farm in Saudi Arabia?"", ""What crops are best suited for the arid climate of Saudi Arabia?""],
+   ""chosen"": [""Implement drip irrigation systems to minimize water usage and ensure that water is delivered directly to the plant roots. Mulching can also help retain soil moisture."", ""Crops like dates, barley, and wheat are well-suited for the arid climate of Saudi Arabia. These crops have adapted to thrive in conditions with minimal water.""],
+   ""rejected"": [""Just use traditional flood irrigation; water conservation is not necessary."", ""Try growing tropical fruits; they should adapt to the climate.""]
+  },
+  {
+   ""prompt"": [""How can I protect my crops from sandstorms in Saudi Arabia?"", ""What is the best way to improve sandy soil for farming in Saudi Arabia?""],
+   ""chosen"": [""Use windbreaks such as trees or constructed barriers to protect your crops from sandstorms. This can also help in reducing evaporation."", ""Incorporate organic matter into the sandy soil to improve its water retention and fertility. Composting and using green manures can significantly enhance sandy soil's structure.""],
+   ""rejected"": [""Sandstorms are not a big issue; no need to take any protective measures."", ""Sandy soil cannot be improved; it's better to use chemical fertilizers.""]
+  },
+  {
+   ""prompt"": [""What are the common pests in Saudi Arabian agriculture?"", ""How can I naturally control locust invasions in my farm in Saudi Arabia?""],
+   ""chosen"": [""Common pests include locusts, aphids, and red palm weevils. Monitoring and early detection are key to managing these pests."", ""For natural control of locusts, encourage the presence of natural predators like birds. Additionally, using neem oil can deter locusts without harming beneficial insects.""],
+   ""rejected"": [""Pests are not a concern in Saudi Arabian agriculture."", ""Immediate action is not necessary; locusts might not cause significant damage.""]
+  },
+  {
+   ""prompt"": [""How can I increase date palm production in Saudi Arabia?"", ""What are the best practices for wheat cultivation in Saudi Arabia?""],
+   ""chosen"": [""Ensure proper irrigation and fertilization tailored to the needs of date palms. Pruning and thinning also help in increasing fruit production."", ""For wheat, practice crop rotation to maintain soil health, and choose drought-resistant varieties. Timely sowing and minimal tillage can also enhance wheat production.""],
+   ""rejected"": [""Overwatering is the key to increasing date palm production."", ""Wheat does not require specific practices; just plant and harvest.""]
+  }
+ ]
+}",agent,"[{""score"":0.7737396,""chunk_id"":""dfa8f3d0-1f6e-444e-8ae7-919ddd1eb810"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":5,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-03-05T15:38:47+00:00
+,cltej81ex0000336xwsvq7m7d,cltejdb6106yz8iq0ah9acx2b,"{
+ ""dpo_dataset_dict"": [
+  {
+   ""prompt"": [""How can I improve pollination in my farm in Saudi Arabia?"", ""What natural methods can I use to improve soil health in Saudi Arabia?""],
+   ""chosen"": [""Encourage the presence of native pollinators by planting a diversity of flowering plants and providing habitats such as bee hotels."", ""Incorporate organic matter like compost into the soil, practice crop rotation, and use cover crops to improve soil health naturally.""],
+   ""rejected"": [""Use only artificial pollinators."", ""Focus solely on chemical fertilizers for soil health.""]
+  },
+  {
+   ""prompt"": [""How can I reduce water evaporation from soil in Saudi Arabia?"", ""What are effective ways to manage heat stress on crops in Saudi Arabia?""],
+   ""chosen"": [""Use mulching techniques with organic materials to reduce water evaporation and keep the soil moist."", ""Provide shade using cloth or other materials during the hottest parts of the day and ensure adequate irrigation to manage heat stress on crops.""],
+   ""rejected"": [""Water evaporation is not a significant issue; no need to address it."", ""Crops should adapt to heat; no need for intervention.""]
+  },
+  {
+   ""prompt"": [""How can I use greywater for irrigation in Saudi Arabia?"", ""What are sustainable pest control methods for farms in Saudi Arabia?""],
+   ""chosen"": [""Treat greywater to remove contaminants before using it for irrigation, ensuring it is safe for crops."", ""Use integrated pest management (IPM) strategies, including biological control with natural predators, and plant companion planting to deter pests.""],
+   ""rejected"": [""Use greywater directly without treatment."", ""Sustainable pest control methods are not effective; rely on chemical pesticides.""]
+  },
+  {
+   ""prompt"": [""How can I grow vegetables in the desert climate of Saudi Arabia?"", ""What measures can I take to prevent soil erosion in my farm in Saudi Arabia?""],
+   ""chosen"": [""Use greenhouse or shade netting to protect vegetables from extreme heat and control the environment, and practice efficient water management."", ""Plant windbreaks and use ground cover plants to prevent soil erosion. Terracing and contour plowing can also be effective in reducing erosion.""],
+   ""rejected"": [""Desert climates are not suitable for vegetable growing."", ""Soil erosion is not a concern in desert farming.""]
+  },
+  {
+   ""prompt"": [""How can I ensure sustainable water usage in my farm in Saudi Arabia?"", ""What are the best practices for date palm cultivation in Saudi Arabia?""],
+   ""chosen"": [""Implement water-saving technologies like drip irrigation and monitor soil moisture levels to apply water only when necessary."", ""Regularly prune date palms to remove dead or diseased fronds, ensure proper spacing between trees, and apply organic fertilizers to promote healthy growth.""],
+   ""rejected"": [""Sustainable water usage is not a priority."", ""Date palm cultivation does not require specific practices.""]
+  }
+ ]
+}",agent,"[{""score"":0.748843,""chunk_id"":""b26b3358-b8d8-471b-bd97-08319082b70e"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":10,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-03-05T15:39:53+00:00

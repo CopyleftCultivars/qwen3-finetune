@@ -1,0 +1,99 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,cls6oshq600002t6xe44dfda4,cls6ossdp00k58iq06oajcdiv,"```json
+[
+    {
+        ""Crop"": ""Triticum aestivum"",
+        ""Location"": ""West Coast US"",
+        ""Available Plants"": [
+            ""Urtica dioica"",
+            ""Vaccinium corymbosum"",
+            ""Vaccinium macrocarpon"",
+            ""Vaccinium myrtillus""
+        ],
+        ""Quantities Needed"": [
+            ""5800"",
+            ""58"",
+            ""1440"",
+            ""510""
+        ],
+        ""Steps for Fertilizer Recipes"": [
+            ""Collect Urtica dioica leaves, Vaccinium corymbosum fruits, Vaccinium macrocarpon fruits, and Vaccinium myrtillus fruits."",
+            ""Dry and grind the collected materials."",
+            ""Mix the ground materials in the quantities specified."",
+            ""Apply the mixture to the Triticum aestivum crop as needed.""
+        ]
+    }
+]
+```",agent,"[{""score"":0.762092,""chunk_id"":""e0587d91-0060-4d44-b76d-b02ac3eddf8e"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":6,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.75469303,""chunk_id"":""ae253024-4681-4156-b40f-df49da5729c9"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clqmx9ufi00002t786449ydtp"",""datasource_name"":""Bioaccumulators List"",""datasource_type"":""file""}]",good,false,2024-02-03T23:10:02+00:00
+,cls6oshq600002t6xe44dfda4,cls6ow0j400k98io96lhuh763,Please continue,human,null,,false,2024-02-03T23:12:32+00:00
+,cls6oshq600002t6xe44dfda4,cls6osi7s00k48iq04wb4evca,Please provide the text table in json format text for West Coast US states and the most common crops therein.,human,null,,false,2024-02-03T23:09:49+00:00
+,cls6oshq600002t6xe44dfda4,cls6owsdl00ka8io97u6aff6o,"```json
+[
+    {
+        ""Crop"": ""Triticum aestivum"",
+        ""Location"": ""West Coast US"",
+        ""Available Plants"": [
+            ""Urtica dioica"",
+            ""Vaccinium corymbosum"",
+            ""Vaccinium macrocarpon"",
+            ""Vaccinium myrtillus""
+        ],
+        ""Quantities Needed"": [
+            ""5800"",
+            ""58"",
+            ""1440"",
+            ""510""
+        ],
+        ""Steps for Fertilizer Recipes"": [
+            ""Collect Urtica dioica leaves, Vaccinium corymbosum fruits, Vaccinium macrocarpon fruits, and Vaccinium myrtillus fruits."",
+            ""Dry and grind the collected materials."",
+            ""Mix the ground materials in the quantities specified."",
+            ""Apply the mixture to the Triticum aestivum crop as needed.""
+        ]
+    },
+    {
+        ""Crop"": ""Zea mays"",
+        ""Location"": ""West Coast US"",
+        ""Available Plants"": [
+            ""Medicago sativa"",
+            ""Trifolium pratense"",
+            ""Cynodon dactylon"",
+            ""Lolium perenne""
+        ],
+        ""Quantities Needed"": [
+            ""7500"",
+            ""75"",
+            ""1800"",
+            ""600""
+        ],
+        ""Steps for Fertilizer Recipes"": [
+            ""Collect Medicago sativa leaves, Trifolium pratense flowers, Cynodon dactylon grass, and Lolium perenne grass."",
+            ""Dry and grind the collected materials."",
+            ""Mix the ground materials in the quantities specified."",
+            ""Apply the mixture to the Zea mays crop as needed.""
+        ]
+    },
+    {
+        ""Crop"": ""Vitis vinifera"",
+        ""Location"": ""West Coast US"",
+        ""Available Plants"": [
+            ""Rubus idaeus"",
+            ""Fragaria x ananassa"",
+            ""Ribes nigrum"",
+            ""Prunus avium""
+        ],
+        ""Quantities Needed"": [
+            ""6200"",
+            ""62"",
+            ""1550"",
+            ""550""
+        ],
+        ""Steps for Fertilizer Recipes"": [
+            ""Collect Rubus idaeus leaves, Fragaria x ananassa fruits, Ribes nigrum fruits, and Prunus avium fruits."",
+            ""Dry and grind the collected materials."",
+            ""Mix the ground materials in the quantities specified."",
+            ""Apply the mixture to the Vitis vinifera crop as needed.""
+        ]
+    }
+]
+```",agent,"[{""score"":0.7374578,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",good,false,2024-02-03T23:13:09+00:00

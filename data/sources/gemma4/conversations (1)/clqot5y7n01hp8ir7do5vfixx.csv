@@ -1,0 +1,40 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+clnqta3rc008zqa8iqse9twgz,clqot5y7n01hp8ir7do5vfixx,clqot5ya301hr8ir7c1zp3gke,give me the top 5 plants for each nutrient by ppms,human,[],,false,2023-12-28T06:12:41+00:00
+clnqta3rc008zqa8iqse9twgz,clqot5y7n01hp8ir7do5vfixx,clqot7rd201ht8ir7hooy3grb,"Based on the data provided, here are the top 5 plants for each nutrient by parts per million (ppm):
+
+**Nitrogen (N):**
+1. Chenopodium ambrosioides (Mexican Tea) - Leaf: 3000 - 21000 ppm
+2. Elytrigia repens (Couch Grass) - Plant: 3000 - 9280 ppm
+3. Quercus phellos (Willow Oak) - Stem: 2940 - 14700 ppm
+4. Nyssa sylvatica (Black Gum) - Stem: 2850 - 14520 ppm
+5. Stachys officinalis (Wood Betony) - Plant: 2822 - 16800 ppm
+
+**Phosphorus (P):**
+1. Phoenix dactylifera (Date Palm) - Fruit: 10 - 380 ppm
+2. Chenopodium ambrosioides (Mexican Tea) - Leaf: 10 - 70 ppm
+3. Ribes uva-crispa (Gooseberry) - Fruit: 10 - 82 ppm
+4. Ipomoea batatas (Sweet Potato) - Root: 10 - 1229 ppm
+5. Urtica dioica (Stinging Nettle) - Leaf: 10 - 49 ppm
+
+**Potassium (K):**
+1. Ipomoea batatas (Sweet Potato) - Root: 10 - 1229 ppm
+2. Citrus aurantiifolia (Lime) - Fruit: 10 - 222 ppm
+3. Nelumbo nucifera (Lotus) - Seed: 10 - 490 ppm
+4. Glycine max (Soybean) - Seed: 9 - 3800 ppm
+5. Allium cepa (Onion) - Bulb: 8 - 2052 ppm
+
+**Calcium (Ca):**
+1. Foeniculum vulgare (Fennel) - Seed: 17.3 - 160 ppm
+2. Bertholletia excelsa (Brazil Nut) - Seed: 3 - 497 ppm
+3. Eriodictyon californicum (Yerba Santa) - Leaf: 2.6 - 12 ppm
+4. Phyllanthus emblica (Indian Gooseberry) - Fruit: 2.4 - 12 ppm
+5. Nepeta cataria (Catnip) - Plant: 2 - 12.3 ppm
+
+**Magnesium (Mg):**
+1. Polygonum multiflorum (Fo-ti) - Root: -- - 152 ppm
+2. Stevia rebaudiana (Stevia) - Leaf: -- - 72 ppm
+3. Elytrigia repens (Couch Grass) - Plant: -- - 331 ppm
+4. Annona muricata (Soursop) - Fruit: -- - 5 ppm
+5. Genipa americana (Genip) - Seed: -- - 20 ppm
+
+Please note that the ppm values represent a range from minimum to maximum content found in the plant parts. The actual nutrient content can vary based on several factors, including soil conditions, plant health, and environmental factors. It's also important to consider the bioavailability of these nutrients when using them as fertilizers.",agent,"[{""score"":0.84275424,""chunk_id"":""07e6d200-7a0e-4ef3-94df-50d9a6c6f898"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clnqtxysd0092qa8i9b5iw6up/clo3eeuo300002t6tmbk008ls/clo3eeuo300002t6tmbk008ls.pdf"",""page_number"":87,""total_pages"":112,""datasource_id"":""clo3eeuo300002t6tmbk008ls"",""datasource_name"":""Nutrient Bio Accumulators.pdf"",""datasource_type"":""file""}]",,false,2023-12-28T06:14:05+00:00

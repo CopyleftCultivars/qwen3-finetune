@@ -1,0 +1,34 @@
+# HF write token — set in shell before running: export HF_TOKEN=hf_...
+# HF repo targets
+HF_USERNAME     := "CopyleftCultivars"
+HF_ADAPTER_REPO := HF_USERNAME + "/gemma4-natural-farming-lora"
+HF_GGUF_REPO    := HF_USERNAME + "/gemma4-natural-farming-gguf"
+
+# Build llama-quantize OUTSIDE Nix — run this once before `just export`.
+# cmake must be installed on the system (sudo apt install cmake).
+build-llama-cpp:
+    #!/usr/bin/env bash
+    set -e
+    LLAMA_DIR="$HOME/.unsloth/llama.cpp"
+    if [ ! -d "$LLAMA_DIR" ]; then
+        git clone --depth=1 https://github.com/ggerganov/llama.cpp "$LLAMA_DIR"
+    fi
+    mkdir -p "$LLAMA_DIR/build"
+    cd "$LLAMA_DIR/build"
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF
+    cmake --build . --target llama-quantize -j$(nproc)
+    echo "Built: $LLAMA_DIR/build/bin/llama-quantize"
+
+# Merge LoRA into base model and save to ./gemma4-merged/ (no GGUF step).
+# Upload gemma4-merged/ to Kaggle as a dataset, then run the Kaggle notebook.
+merge:
+    nix develop --command python merge_only.py
+
+# Run the GGUF export inside the Nix dev shell (requires just build-llama-cpp first)
+export:
+    nix develop --command python export_gguf.py
+
+# Nuke the venv and recreate from scratch
+reset:
+    rm -rf .venv
+    nix develop --command true

@@ -1,0 +1,195 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,clscv162z00013576n55be3eh,clscv4cf004jj8io9go1e4lmw,"Continuing with the list of natural farming and Vrikshayurveda inputs, here are additional recipes that utilize wildcrafted plants and other natural ingredients:
+
+```json
+[
+  {
+    ""Recipe"": ""Brown Rice Vinegar (BRV)"",
+    ""Ingredients"": [
+      ""Brown rice"",
+      ""Water"",
+      ""Sugar (optional)""
+    ],
+    ""Steps"": [
+      ""Cook the brown rice and let it cool."",
+      ""Mix the cooked rice with water in a jar. Add sugar if desired to speed up fermentation."",
+      ""Cover the jar with a breathable cloth and secure it."",
+      ""Let it ferment in a warm place for about a month."",
+      ""Strain the liquid to obtain brown rice vinegar.""
+    ]
+  },
+  {
+    ""Recipe"": ""Fish Amino Acids (FAA)"",
+    ""Ingredients"": [
+      ""Fish scraps (non-oily fish preferred)"",
+      ""Brown sugar""
+    ],
+    ""Steps"": [
+      ""Chop the fish scraps finely."",
+      ""Layer the fish scraps and brown sugar in a container, starting and ending with brown sugar."",
+      ""Cover the container with a breathable cloth and secure it."",
+      ""Let it ferment in a cool, dark place for about 3 months."",
+      ""Strain the liquid and store it in a glass container.""
+    ]
+  },
+  {
+    ""Recipe"": ""Water-Soluble Calcium (WCA)"",
+    ""Ingredients"": [
+      ""Eggshells"",
+      ""Brown rice vinegar (BRV)""
+    ],
+    ""Steps"": [
+      ""Clean and dry the eggshells."",
+      ""Crush the eggshells into small pieces."",
+      ""Place the crushed eggshells in a jar and cover them with brown rice vinegar."",
+      ""Let the mixture sit for about 7 days in a cool, dark place."",
+      ""Strain the liquid to obtain water-soluble calcium.""
+    ]
+  },
+  {
+    ""Recipe"": ""Water-Soluble Phosphorus (WSP)"",
+    ""Ingredients"": [
+      ""Bones (fish bones or small animal bones)"",
+      ""Brown rice vinegar (BRV)""
+    ],
+    ""Steps"": [
+      ""Clean and dry the bones."",
+      ""Char the bones to create bone char."",
+      ""Crush the bone char into small pieces."",
+      ""Place the crushed bone char in a jar and cover it with brown rice vinegar."",
+      ""Let the mixture sit for about 7 days in a cool, dark place."",
+      ""Strain the liquid to obtain water-soluble phosphorus.""
+    ]
+  },
+  {
+    ""Recipe"": ""Jeevamrut (Jeevamrit)"",
+    ""Ingredients"": [
+      ""Cow dung"",
+      ""Cow urine"",
+      ""Jaggery"",
+      ""Pulse flour"",
+      ""Soil from the farm"",
+      ""Water""
+    ],
+    ""Steps"": [
+      ""Mix cow dung, cow urine, jaggery, pulse flour, and soil from the farm in a large container."",
+      ""Add water to the mixture and stir well."",
+      ""Cover the container and let it ferment for about 48 hours."",
+      ""Stir the mixture twice a day."",
+      ""Use the Jeevamrut to enrich the soil or as a foliar spray.""
+    ]
+  }
+]
+```
+
+These recipes provide a range of options for creating natural farming and Vrikshayurveda inputs using readily available materials. By utilizing these inputs, you can enhance soil fertility, promote healthy plant growth, and support sustainable agricultural practices.
+
+Is your question or issue resolved?",agent,[],,true,2024-02-08T06:53:36+00:00
+,clscv162z00013576n55be3eh,clscv30xe04jg8io96mms4har,Please continue with the remaining Natural Farming inputs and Vrikshayerveda inputs,human,null,,true,2024-02-08T06:52:34+00:00
+,clscv162z00013576n55be3eh,clscv1a1s04cd8iq0ah950hjy,List of all possible Natural Farming and Vrikshayerveda recipes whereby wildcrafted plants could be combined to make fertilizers. This should leave an ad-lib style to the recipes ingredients whereby any combination of the wildcrafted plants could be easily sorted into the recipes,human,null,,true,2024-02-08T06:51:13+00:00
+,clscv162z00013576n55be3eh,clscv2htu04ce8iq05aqs1vvu,"Based on the information from the Cho Natural Farming guide, here is a list of possible natural farming and Vrikshayurveda recipes that can be created using wildcrafted plants. These recipes are designed to be flexible, allowing for various combinations of wildcrafted plants to be incorporated.
+
+```json
+[
+  {
+    ""Recipe"": ""Fermented Plant Juice (FPJ)"",
+    ""Ingredients"": [
+      ""Wildcrafted plants (leafy greens, herbs, etc.)"",
+      ""Brown sugar""
+    ],
+    ""Steps"": [
+      ""Chop the wildcrafted plants finely."",
+      ""Layer the chopped plants and brown sugar in a container, starting and ending with brown sugar."",
+      ""Cover the container with a breathable cloth and secure it."",
+      ""Let it ferment in a cool, dark place for 7-10 days."",
+      ""Strain the liquid and store it in a glass container.""
+    ]
+  },
+  {
+    ""Recipe"": ""Fermented Fruit Juice (FFJ)"",
+    ""Ingredients"": [
+      ""Wildcrafted fruits"",
+      ""Brown sugar""
+    ],
+    ""Steps"": [
+      ""Chop the wildcrafted fruits finely."",
+      ""Layer the chopped fruits and brown sugar in a container, starting and ending with brown sugar."",
+      ""Cover the container with a breathable cloth and secure it."",
+      ""Let it ferment in a cool, dark place for 7-10 days."",
+      ""Strain the liquid and store it in a glass container.""
+    ]
+  },
+  {
+    ""Recipe"": ""Lactic Acid Bacteria (LAB)"",
+    ""Ingredients"": [
+      ""Rice-washed water"",
+      ""Milk (preferably raw)"",
+      ""Brown sugar""
+    ],
+    ""Steps"": [
+      ""Collect rice-washed water and let it sit until a clear liquid forms on top."",
+      ""Mix the clear liquid with an equal amount of milk and let it ferment for about a week."",
+      ""After fermentation, the curd will separate. Remove the curd."",
+      ""Mix the remaining liquid with an equal amount of brown sugar."",
+      ""Store the LAB serum in a cool place.""
+    ]
+  },
+  {
+    ""Recipe"": ""Fermented Mixed Compost (FMC)"",
+    ""Ingredients"": [
+      ""Wildcrafted plant materials (leaves, fruits, etc.)"",
+      ""Animal materials (optional)"",
+      ""Fermented plant juice (FPJ)"",
+      ""Lactic Acid Bacteria (LAB)"",
+      ""Brown rice vinegar (BRV)"",
+      ""Seawater (SW) or salt solution""
+    ],
+    ""Steps"": [
+      ""Mix wildcrafted plant and optional animal materials in a container."",
+      ""Add FPJ, LAB, BRV, and SW to the mix."",
+      ""Cover the container and let it ferment for a few weeks."",
+      ""Turn the mixture occasionally."",
+      ""Use the compost as needed for gardening or farming.""
+    ]
+  }
+]
+```
+
+These recipes are adaptable and can be modified based on the availability of wildcrafted plants in your area. The key is to experiment with different combinations and ratios to find what works best for your specific gardening or farming needs.
+
+Is your question or issue resolved?",agent,"[{""score"":0.8611548,""chunk_id"":""1e892043-703e-4643-a421-28ca16d5ecbd"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":10,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,true,2024-02-08T06:52:10+00:00
+,clscv162z00013576n55be3eh,clscvabvi04jl8io9d07s40e9,"Okay, please give an entry for fermenting wildcrafted plants with LABs and/or IMO4, whereby the slots for ingredients could be filled by later selecting wildcrafted plants to constitute fertilizers of various nutrient levels.",human,null,,true,2024-02-08T06:58:15+00:00
+,clscv162z00013576n55be3eh,clscvb9n204jn8io93fs0avtv,"Here's an adaptable recipe entry for fermenting wildcrafted plants with Lactic Acid Bacteria (LAB) and/or Indigenous Microorganisms (IMO4). This template allows for flexibility in selecting wildcrafted plants to create fertilizers with various nutrient levels:
+
+```json
+{
+  ""Recipe"": ""Fermented Wildcrafted Plant Fertilizer"",
+  ""Ingredients"": [
+    ""Wildcrafted plants (to be selected based on desired nutrient levels)"",
+    ""LAB (Lactic Acid Bacteria) serum"",
+    ""IMO4 (Indigenous Microorganisms, if available)"",
+    ""Brown sugar or molasses (optional, for faster fermentation)"",
+    ""Water (non-chlorinated)""
+  ],
+  ""Steps"": [
+    ""Collect and finely chop or grind the selected wildcrafted plants."",
+    ""If using, mix brown sugar or molasses with the chopped plants to initiate fermentation."",
+    ""Add LAB serum to the mixture. If IMO4 is available, it can be added at this stage to introduce a diverse range of beneficial microorganisms."",
+    ""Add enough non-chlorinated water to the mixture to create a slurry."",
+    ""Place the mixture in a fermentation container. Ensure the container is large enough to allow for expansion and gas release."",
+    ""Cover the container with a breathable cloth to allow air exchange while preventing contaminants."",
+    ""Let the mixture ferment in a cool, dark place for 7-14 days. Check periodically and stir if necessary."",
+    ""After fermentation, the mixture can be diluted with water (1 part fertilizer to 10 parts water) and applied directly to the soil or used as a foliar spray."",
+    ""Store any unused portion in a cool, dark place. Ensure the container is sealed to prevent contamination.""
+  ],
+  ""Notes"": [
+    ""The selection of wildcrafted plants should be based on their known nutrient profiles and the specific needs of the crops being fertilized."",
+    ""LAB and IMO4 serve to accelerate the breakdown of plant material, making nutrients more readily available to plants and enhancing soil microbiology."",
+    ""Adjust the ratio of ingredients based on the volume of fertilizer needed and the concentration of nutrients desired.""
+  ]
+}
+```
+
+This recipe provides a framework for creating a nutrient-rich, fermented plant fertilizer using wildcrafted plants and beneficial microorganisms. By selecting specific plants based on their nutrient content, you can tailor the fertilizer to meet the needs of your crops, promoting healthy growth and sustainable farming practices.
+
+Is your question or issue resolved?",agent,[],,true,2024-02-08T06:58:59+00:00

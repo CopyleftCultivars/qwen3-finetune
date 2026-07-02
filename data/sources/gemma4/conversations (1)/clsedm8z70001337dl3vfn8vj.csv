@@ -1,0 +1,304 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,clsedm8z70001337dl3vfn8vj,clsedm9d701kr8iq04d9gczs0,"Please produce 50 entries in a dataset detailing regenerative farming solutions to common farming problems, in Portuguese, with cultural awareness as to the Amazon Rainforest and marginalized Brazilian farming communities. This should show prompt and replies. Every word must be in Portuguese.",human,null,,false,2024-02-09T08:19:11+00:00
+,clsedm8z70001337dl3vfn8vj,clsedpfbu01ku8iq06kgbc63y,"```json
+[
+  {
+    ""Problema de Agricultura"": ""Erosão do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Plantio Direto"",
+    ""Descrição"": ""O plantio direto consiste em semear diretamente no solo sem revolvê-lo, reduzindo a erosão e melhorando a saúde do solo."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades ribeirinhas""
+  },
+  {
+    ""Problema de Agricultura"": ""Perda de Biodiversidade"",
+    ""Solução de Agricultura Regenerativa"": ""Agrofloresta"",
+    ""Descrição"": ""Integração de árvores e culturas agrícolas para criar um sistema mais diversificado e resiliente."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso excessivo de fertilizantes químicos"",
+    ""Solução de Agricultura Regenerativa"": ""Biofertilizantes"",
+    ""Descrição"": ""Uso de compostos orgânicos e microorganismos para nutrir o solo de forma sustentável."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Pequenos agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Escassez de Água"",
+    ""Solução de Agricultura Regenerativa"": ""Captação de Água da Chuva"",
+    ""Descrição"": ""Sistemas de coleta e armazenamento de água da chuva para irrigação."",
+    ""Local"": ""Semiárido"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Degradation do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Rotação de Culturas"",
+    ""Descrição"": ""Alternância de culturas para manter a saúde do solo e reduzir pragas."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Pragas e Doenças"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo Integrado de Pragas"",
+    ""Descrição"": ""Uso de práticas culturais, biológicas e mecânicas para controlar pragas de forma sustentável."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Compactação do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Cobertura do Solo"",
+    ""Descrição"": ""Uso de plantas de cobertura para proteger e melhorar a estrutura do solo."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores de café""
+  },
+  {
+    ""Problema de Agricultura"": ""Poluição por Agrotóxicos"",
+    ""Solução de Agricultura Regenerativa"": ""Controle Biológico de Pragas"",
+    ""Descrição"": ""Uso de predadores naturais e organismos benéficos para controlar pragas."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades ribeirinhas""
+  },
+  {
+    ""Problema de Agricultura"": ""Desmatamento"",
+    ""Solução de Agricultura Regenerativa"": ""Sistemas Agroflorestais"",
+    ""Descrição"": ""Criação de sistemas que imitam a floresta natural, promovendo a conservação das árvores."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Conhecimento Técnico"",
+    ""Solução de Agricultura Regenerativa"": ""Educação e Capacitação"",
+    ""Descrição"": ""Programas de treinamento e capacitação em práticas de agricultura regenerativa."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Queimadas"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo do Fogo"",
+    ""Descrição"": ""Técnicas controladas de uso do fogo para prevenir incêndios descontrolados."",
+    ""Local"": ""Cerrado"",
+    ""Comunidades"": ""Comunidades locais""
+  },
+  {
+    ""Problema de Agricultura"": ""Monocultura"",
+    ""Solução de Agricultura Regenerativa"": ""Policultura"",
+    ""Descrição"": ""Cultivo de várias espécies de plantas simultaneamente para promover a diversidade."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Emissões de Gases de Efeito Estufa"",
+    ""Solução de Agricultura Regenerativa"": ""Sequestro de Carbono"",
+    ""Descrição"": ""Práticas que aumentam a capacidade do solo de armazenar carbono, reduzindo o aquecimento global."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Perda de Nutrientes do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Compostagem"",
+    ""Descrição"": ""Transformação de resíduos orgânicos em fertilizante natural para enriquecer o solo."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Acesso limitado a Mercados"",
+    ""Solução de Agricultura Regenerativa"": ""Cooperativas Agrícolas"",
+    ""Descrição"": ""Organizações que ajudam os agricultores a vender seus produtos de forma coletiva, melhorando o acesso ao mercado."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso Ineficiente de Recursos"",
+    ""Solução de Agricultura Regenerativa"": ""Agricultura de Precisão"",
+    ""Descrição"": ""Uso de tecnologias para otimizar o uso de recursos e aumentar a eficiência."",
+    ""Local"": ""Sul e Sudeste"",
+    ""Comunidades"": ""Agricultores de grande porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Água para Irrigação"",
+    ""Solução de Agricultura Regenerativa"": ""Irrigação por Gotejamento"",
+    ""Descrição"": ""Sistema de irrigação que economiza água, liberando-a lentamente na base das plantas."",
+    ""Local"": ""Semiárido"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Salinização do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo de Salinidade"",
+    ""Descrição"": ""Práticas para prevenir ou reduzir a acumulação de sal no solo."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Agricultores de áreas irrigadas""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Diversidade Genética"",
+    ""Solução de Agricultura Regenerativa"": ""Bancos de Sementes"",
+    ""Descrição"": ""Coleções de sementes de diferentes espécies e variedades para preservar a diversidade genética."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Conflitos por Terra"",
+    ""Solução de Agricultura Regenerativa"": ""Mediação de Conflitos"",
+    ""Descrição"": ""Processos de diálogo e negociação para resolver disputas de terra de forma pacífica."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas e rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Infraestrutura Básica"",
+    ""Solução de Agricultura Regenerativa"": ""Desenvolvimento Comunitário"",
+    ""Descrição"": ""Projetos que melhoram a infraestrutura local, como estradas e sistemas de irrigação."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Resistência a Agrotóxicos"",
+    ""Solução de Agricultura Regenerativa"": ""Rotação de Culturas e Controle Biológico"",
+    ""Descrição"": ""Alternância de culturas e uso de organismos benéficos para controlar pragas e reduzir a dependência de agrotóxicos."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Polinização"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo de Polinizadores"",
+    ""Descrição"": ""Criação de habitats para abelhas e outros polinizadores para aumentar a polinização."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Crédito"",
+    ""Solução de Agricultura Regenerativa"": ""Microcrédito"",
+    ""Descrição"": ""Empréstimos de pequeno valor para agricultores investirem em suas propriedades."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Tecnologia"",
+    ""Solução de Agricultura Regenerativa"": ""Tecnologia Social"",
+    ""Descrição"": ""Tecnologias simples e acessíveis que melhoram a vida dos agricultores."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Água Potável"",
+    ""Solução de Agricultura Regenerativa"": ""Sistemas de Filtração de Água"",
+    ""Descrição"": ""Tecnologias para purificar a água, tornando-a segura para consumo e irrigação."",
+    ""Local"": ""Semiárido"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Sementes de Qualidade"",
+    ""Solução de Agricultura Regenerativa"": ""Troca de Sementes"",
+    ""Descrição"": ""Redes de agricultores que trocam sementes de qualidade entre si."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Informação"",
+    ""Solução de Agricultura Regenerativa"": ""Redes de Conhecimento"",
+    ""Descrição"": ""Plataformas e redes sociais que facilitam a troca de informações entre agricultores."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Mercados Justos"",
+    ""Solução de Agricultura Regenerativa"": ""Feiras Orgânicas e Mercados Locais"",
+    ""Descrição"": ""Espaços que promovem a venda direta de produtos orgânicos e locais, garantindo preços justos."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Assistência Técnica"",
+    ""Solução de Agricultura Regenerativa"": ""Extensão Rural"",
+    ""Descrição"": ""Serviços de assistência técnica e extensão rural para apoiar os agricultores em suas práticas."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Seguro Agrícola"",
+    ""Solução de Agricultura Regenerativa"": ""Seguros Comunitários"",
+    ""Descrição"": ""Iniciativas de seguros agrícolas baseadas na comunidade para proteger contra perdas."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Terra"",
+    ""Solução de Agricultura Regenerativa"": ""Reforma Agrária"",
+    ""Descrição"": ""Distribuição de terras para garantir o acesso à terra para agricultura familiar."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Sem Terra""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Nutrientes do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Bancos de Biofertilizantes"",
+    ""Descrição"": ""Centros que fornecem biofertilizantes acessíveis para enriquecer o solo."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Energia Renovável"",
+    ""Solução de Agricultura Regenerativa"": ""Energia Solar"",
+    ""Descrição"": ""Instalação de painéis solares para fornecer energia limpa e renovável para as fazendas."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Educação"",
+    ""Solução de Agricultura Regenerativa"": ""Programas de Educação Rural"",
+    ""Descrição"": ""Programas educacionais focados nas necessidades e realidades dos agricultores rurais."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Saúde"",
+    ""Solução de Agricultura Regenerativa"": ""Clínicas Rurais"",
+    ""Descrição"": ""Serviços de saúde localizados em áreas rurais para atender às necessidades dos agricultores."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Água para Consumo"",
+    ""Solução de Agricultura Regenerativa"": ""Cisternas"",
+    ""Descrição"": ""Sistemas de armazenamento de água da chuva para garantir o acesso à água potável."",
+    ""Local"": ""Semiárido"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Mercados Internacionais"",
+    ""Solução de Agricultura Regenerativa"": ""Certificações Orgânicas"",
+    ""Descrição"": ""Obtenção de certificações que permitem a exportação de produtos para mercados internacionais."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Transporte"",
+    ""Solução de Agricultura Regenerativa"": ""Cooperativas de Transporte"",
+    ""Descrição"": ""Organizações que fornecem soluções de transporte acessíveis para agricultores."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Armazenamento Adequado"",
+    ""Solução de Agricultura Regenerativa"": ""Silos Comunitários"",
+    ""Descrição"": ""Estruturas de armazenamento compartilhadas para manter a qualidade dos produtos agrícolas."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Processamento de Produtos"",
+    ""Solução de Agricultura Regenerativa"": ""Unidades de Processamento Comunitário"",
+    ""Descrição"": ""Instalações que permitem aos agricultores processar seus produtos localmente."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Embalagens Sustentáveis"",
+    ""Solução de Agricultura Regenerativa"": ""Embalagens Biodegradáveis"",
+    ""Descrição"": ""Uso de materiais biodegradáveis para embalar produtos, reduzindo o impacto ambiental."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Todos os agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Acesso a Mercados Digitais"",
+    ""Solução de Agricultura Regenerativa"": ""Plataformas de Vendas Online"",
+    ""Descrição"": ""Sites e aplicativos que facilitam a venda de produtos agrícolas diretamente aos consumidores."",
+    ""Local"": ""Todo o Brasil"",
+    ""Comunidades"": ""Pequenos e médios agricult",agent,[],good,false,2024-02-09T08:21:39+00:00

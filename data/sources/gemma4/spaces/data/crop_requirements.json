@@ -1,0 +1,1457 @@
+[
+  {
+    "Crop": "Rice",
+    "Scientific Name": "Oryza sativa",
+    "NPK Requirements": {
+      "Nitrogen": "60-100",
+      "Phosphorus": "35-58",
+      "Potassium": "36-44"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-27",
+      "Humidity (%)": "80-83",
+      "pH": "5.5-6.8",
+      "Rainfall (mm)": "202-291"
+    }
+  },
+  {
+    "Crop": "Corn",
+    "Scientific Name": "Zea mays",
+    "NPK Requirements": {
+      "Nitrogen": "150-200",
+      "Phosphorus": "30-70",
+      "Potassium": "40-140"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-27",
+      "Humidity (%)": "65-75",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "500-800"
+    }
+  },
+  {
+    "Crop": "Jalapeno Peppers",
+    "Scientific Name": "Capsicum annuum",
+    "NPK Requirements": {
+      "Nitrogen": "140-200",
+      "Phosphorus": "30-50",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-27",
+      "Humidity (%)": "40-70",
+      "pH": "6.0-6.8",
+      "Rainfall (mm)": "600-1200"
+    }
+  },
+  {
+    "Crop": "Snap Peas",
+    "Scientific Name": "Pisum sativum var. macrocarpon",
+    "NPK Requirements": {
+      "Nitrogen": "20-40",
+      "Phosphorus": "55-80",
+      "Potassium": "15-25"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "13-18",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Banana",
+    "Scientific Name": "Musa spp.",
+    "NPK Requirements": {
+      "Nitrogen": "100-200",
+      "Phosphorus": "30-50",
+      "Potassium": "100-300"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "22-35",
+      "Humidity (%)": "75-85",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "98-120"
+    }
+  },
+  {
+    "Crop": "Mango",
+    "Scientific Name": "Mangifera indica",
+    "NPK Requirements": {
+      "Nitrogen": "7-40",
+      "Phosphorus": "16-38",
+      "Potassium": "25-33"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "24-30",
+      "Humidity (%)": "50-55",
+      "pH": "5.5-7.5",
+      "Rainfall (mm)": "89-100"
+    }
+  },
+  {
+    "Crop": "Grapes",
+    "Scientific Name": "Vitis vinifera",
+    "NPK Requirements": {
+      "Nitrogen": "2-36",
+      "Phosphorus": "122-145",
+      "Potassium": "195-205"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "8-39",
+      "Humidity (%)": "80-85",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "65-75"
+    }
+  },
+  {
+    "Crop": "Anise",
+    "Scientific Name": "Pimpinella anisum",
+    "NPK Requirements": {
+      "Nitrogen": "90",
+      "Phosphorus": "40",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-22",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "500-600"
+    }
+  },
+  {
+    "Crop": "Bay Leaf",
+    "Scientific Name": "Laurus nobilis",
+    "NPK Requirements": {
+      "Nitrogen": "100",
+      "Phosphorus": "50",
+      "Potassium": "70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "8-20",
+      "Humidity (%)": "70-80",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "1000-1500"
+    }
+  },
+  {
+    "Crop": "Chamomile",
+    "Scientific Name": "Matricaria chamomilla",
+    "NPK Requirements": {
+      "Nitrogen": "60",
+      "Phosphorus": "40",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "19-25",
+      "Humidity (%)": "40-60",
+      "pH": "5.6-7.5",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Coriander",
+    "Scientific Name": "Coriandrum sativum",
+    "NPK Requirements": {
+      "Nitrogen": "80",
+      "Phosphorus": "40",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "17-27",
+      "Humidity (%)": "40-70",
+      "pH": "6.0-6.8",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Dill",
+    "Scientific Name": "Anethum graveolens",
+    "NPK Requirements": {
+      "Nitrogen": "90",
+      "Phosphorus": "50",
+      "Potassium": "70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "300-500"
+    }
+  },
+  {
+    "Crop": "Horseradish",
+    "Scientific Name": "Armoracia rusticana",
+    "NPK Requirements": {
+      "Nitrogen": "120",
+      "Phosphorus": "60",
+      "Potassium": "80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "6-24",
+      "Humidity (%)": "60-80",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Lavender",
+    "Scientific Name": "Lavandula angustifolia",
+    "NPK Requirements": {
+      "Nitrogen": "70",
+      "Phosphorus": "30",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-30",
+      "Humidity (%)": "30-50",
+      "pH": "6.5-7.5",
+      "Rainfall (mm)": "500-600"
+    }
+  },
+  {
+    "Crop": "Mint",
+    "Scientific Name": "Mentha spicata",
+    "NPK Requirements": {
+      "Nitrogen": "110",
+      "Phosphorus": "50",
+      "Potassium": "80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-24",
+      "Humidity (%)": "40-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-900"
+    }
+  },
+  {
+    "Crop": "Oregano",
+    "Scientific Name": "Origanum vulgare",
+    "NPK Requirements": {
+      "Nitrogen": "80",
+      "Phosphorus": "40",
+      "Potassium": "50"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-28",
+      "Humidity (%)": "40-70",
+      "pH": "6.0-8.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Parsley",
+    "Scientific Name": "Petroselinum crispum",
+    "NPK Requirements": {
+      "Nitrogen": "100",
+      "Phosphorus": "50",
+      "Potassium": "70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-30",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Rosemary",
+    "Scientific Name": "Rosmarinus officinalis",
+    "NPK Requirements": {
+      "Nitrogen": "90",
+      "Phosphorus": "40",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "8-26",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "400-700"
+    }
+  },
+  {
+    "Crop": "Sage",
+    "Scientific Name": "Salvia officinalis",
+    "NPK Requirements": {
+      "Nitrogen": "80",
+      "Phosphorus": "40",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "30-50",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Thyme",
+    "Scientific Name": "Thymus vulgaris",
+    "NPK Requirements": {
+      "Nitrogen": "70",
+      "Phosphorus": "50",
+      "Potassium": "70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-25",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-8.0",
+      "Rainfall (mm)": "300-400"
+    }
+  },
+  {
+    "Crop": "Bergamot",
+    "Scientific Name": "Citrus bergamia",
+    "NPK Requirements": {
+      "Nitrogen": "100",
+      "Phosphorus": "50",
+      "Potassium": "150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "50-70",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "1200-1400"
+    }
+  },
+  {
+    "Crop": "Black Pepper",
+    "Scientific Name": "Piper nigrum",
+    "NPK Requirements": {
+      "Nitrogen": "120",
+      "Phosphorus": "40",
+      "Potassium": "100"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "23-30",
+      "Humidity (%)": "75-95",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "2000-3000"
+    }
+  },
+  {
+    "Crop": "Cardamom",
+    "Scientific Name": "Elettaria cardamomum",
+    "NPK Requirements": {
+      "Nitrogen": "150",
+      "Phosphorus": "50",
+      "Potassium": "200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-35",
+      "Humidity (%)": "70-90",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "1500-2500"
+    }
+  },
+  {
+    "Crop": "Clove",
+    "Scientific Name": "Syzygium aromaticum",
+    "NPK Requirements": {
+      "Nitrogen": "100",
+      "Phosphorus": "30",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-30",
+      "Humidity (%)": "70-80",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "2000-3000"
+    }
+  },
+  {
+    "Crop": "Cocoa",
+    "Scientific Name": "Theobroma cacao",
+    "NPK Requirements": {
+      "Nitrogen": "200",
+      "Phosphorus": "100",
+      "Potassium": "150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-32",
+      "Humidity (%)": "80-90",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "1000-2000"
+    }
+  },
+  {
+    "Crop": "Coffee",
+    "Scientific Name": "Coffea arabica",
+    "NPK Requirements": {
+      "Nitrogen": "150",
+      "Phosphorus": "80",
+      "Potassium": "180"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-24",
+      "Humidity (%)": "70-80",
+      "pH": "6.0-6.5",
+      "Rainfall (mm)": "1200-2200"
+    }
+  },
+  {
+    "Crop": "Ginger",
+    "Scientific Name": "Zingiber officinale",
+    "NPK Requirements": {
+      "Nitrogen": "80",
+      "Phosphorus": "40",
+      "Potassium": "120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-30",
+      "Humidity (%)": "80-90",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "1500-2500"
+    }
+  },
+  {
+    "Crop": "Lemongrass",
+    "Scientific Name": "Cymbopogon citratus",
+    "NPK Requirements": {
+      "Nitrogen": "100",
+      "Phosphorus": "50",
+      "Potassium": "80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "25-30",
+      "Humidity (%)": "70-90",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "750-1000"
+    }
+  },
+  {
+    "Crop": "Nutmeg",
+    "Scientific Name": "Myristica fragrans",
+    "NPK Requirements": {
+      "Nitrogen": "120",
+      "Phosphorus": "60",
+      "Potassium": "80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "25-30",
+      "Humidity (%)": "75-85",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "1500-2500"
+    }
+  },
+  {
+    "Crop": "Saffron",
+    "Scientific Name": "Crocus sativus",
+    "NPK Requirements": {
+      "Nitrogen": "120",
+      "Phosphorus": "30",
+      "Potassium": "40"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Turmeric",
+    "Scientific Name": "Curcuma longa",
+    "NPK Requirements": {
+      "Nitrogen": "150",
+      "Phosphorus": "50",
+      "Potassium": "100"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-30",
+      "Humidity (%)": "70-90",
+      "pH": "5.5-7.5",
+      "Rainfall (mm)": "1500-2000"
+    }
+  },
+  {
+    "Crop": "Vanilla",
+    "Scientific Name": "Vanilla planifolia",
+    "NPK Requirements": {
+      "Nitrogen": "100",
+      "Phosphorus": "100",
+      "Potassium": "200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "21-32",
+      "Humidity (%)": "80-85",
+      "pH": "6.5-7.5",
+      "Rainfall (mm)": "2000-3000"
+    }
+  },
+  {
+    "Crop": "Wasabi",
+    "Scientific Name": "Eutrema japonicum",
+    "NPK Requirements": {
+      "Nitrogen": "80",
+      "Phosphorus": "60",
+      "Potassium": "120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "8-20",
+      "Humidity (%)": "80-90",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "1000-2000"
+    }
+  },
+  {
+    "Crop": "Astragalus membranaceus",
+    "Scientific Name": "Astragalus membranaceus",
+    "NPK Requirements": {
+      "Nitrogen": "80",
+      "Phosphorus": "40",
+      "Potassium": "60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-20",
+      "Humidity (%)": "30-40",
+      "pH": "6.5-7.5",
+      "Rainfall (mm)": "300-400"
+    }
+  },
+  {
+    "Crop": "Atractylodes lancea",
+    "Scientific Name": "Atractylodes lancea",
+    "NPK Requirements": {
+      "Nitrogen": "90",
+      "Phosphorus": "50",
+      "Potassium": "70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "40-50",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "400-500"
+    }
+  },
+  {
+    "Crop": "Avena sativa",
+    "Scientific Name": "Avena sativa",
+    "NPK Requirements": {
+      "Nitrogen": "100",
+      "Phosphorus": "50",
+      "Potassium": "80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-15",
+      "Humidity (%)": "40-60",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Averrhoa bilimbi",
+    "Scientific Name": "Averrhoa bilimbi",
+    "NPK Requirements": {
+      "Nitrogen": "110",
+      "Phosphorus": "60",
+      "Potassium": "90"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-30",
+      "Humidity (%)": "50-70",
+      "pH": "5.0-6.5",
+      "Rainfall (mm)": "1500-2500"
+    }
+  },
+  {
+    "Crop": "Averrhoa carambola",
+    "Scientific Name": "Averrhoa carambola",
+    "NPK Requirements": {
+      "Nitrogen": "120",
+      "Phosphorus": "60",
+      "Potassium": "100"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "25-30",
+      "Humidity (%)": "70-80",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "2000-3000"
+    }
+  },
+  {
+    "Crop": "Azadirachta indica",
+    "Scientific Name": "Azadirachta indica",
+    "NPK Requirements": {
+      "Nitrogen": "130",
+      "Phosphorus": "70",
+      "Potassium": "90"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-35",
+      "Humidity (%)": "30-50",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "500-750"
+    }
+  },
+  {
+    "Crop": "Bacopa monnieri",
+    "Scientific Name": "Bacopa monnieri",
+    "NPK Requirements": {
+      "Nitrogen": "140",
+      "Phosphorus": "70",
+      "Potassium": "110"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "22-28",
+      "Humidity (%)": "60-80",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "300-500"
+    }
+  },
+  {
+    "Crop": "Bactris gasipaes",
+    "Scientific Name": "Bactris gasipaes",
+    "NPK Requirements": {
+      "Nitrogen": "150",
+      "Phosphorus": "80",
+      "Potassium": "120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "24-28",
+      "Humidity (%)": "70-90",
+      "pH": "5.0-6.0",
+      "Rainfall (mm)": "2000-4000"
+    }
+  },
+  {
+    "Crop": "Balanites aegyptiacus",
+    "Scientific Name": "Balanites aegyptiacus",
+    "NPK Requirements": {
+      "Nitrogen": "160",
+      "Phosphorus": "80",
+      "Potassium": "100"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-30",
+      "Humidity (%)": "20-40",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Barosma betulina",
+    "Scientific Name": "Barosma betulina",
+    "NPK Requirements": {
+      "Nitrogen": "170",
+      "Phosphorus": "90",
+      "Potassium": "110"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "50-60",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Basella alba",
+    "Scientific Name": "Basella alba",
+    "NPK Requirements": {
+      "Nitrogen": "180",
+      "Phosphorus": "90",
+      "Potassium": "120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "25-35",
+      "Humidity (%)": "50-70",
+      "pH": "6.5-7.5",
+      "Rainfall (mm)": "1000-1200"
+    }
+  },
+  {
+    "Crop": "Belamcanda chinensis",
+    "Scientific Name": "Belamcanda chinensis",
+    "NPK Requirements": {
+      "Nitrogen": "190",
+      "Phosphorus": "100",
+      "Potassium": "130"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-30",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Artichoke",
+    "Scientific Name": "Cynara scolymus",
+    "NPK Requirements": {
+      "Nitrogen": "150-200",
+      "Phosphorus": "50-100",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "65-80",
+      "pH": "6.5-7.5",
+      "Rainfall (mm)": "500-600"
+    }
+  },
+  {
+    "Crop": "Asparagus",
+    "Scientific Name": "Asparagus officinalis",
+    "NPK Requirements": {
+      "Nitrogen": "75-150",
+      "Phosphorus": "50-100",
+      "Potassium": "50-100"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "16-30",
+      "Humidity (%)": "60-70",
+      "pH": "6.5-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Brussels Sprouts",
+    "Scientific Name": "Brassica oleracea var. gemmifera",
+    "NPK Requirements": {
+      "Nitrogen": "120-180",
+      "Phosphorus": "80-120",
+      "Potassium": "150-200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-18",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-750"
+    }
+  },
+  {
+    "Crop": "Eggplant",
+    "Scientific Name": "Solanum melongena",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "50-80",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "24-30",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Fennel",
+    "Scientific Name": "Foeniculum vulgare",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-70",
+      "Potassium": "60-100"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Okra",
+    "Scientific Name": "Abelmoschus esculentus",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-80",
+      "Potassium": "60-120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "22-35",
+      "Humidity (%)": "50-60",
+      "pH": "6.0-6.8",
+      "Rainfall (mm)": "500-800"
+    }
+  },
+  {
+    "Crop": "Parsnip",
+    "Scientific Name": "Pastinaca sativa",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "50-90",
+      "Potassium": "70-110"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-18",
+      "Humidity (%)": "60-70",
+      "pH": "5.8-7.2",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Rhubarb",
+    "Scientific Name": "Rheum rhabarbarum",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-80",
+      "Potassium": "90-130"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "3-25",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Rutabaga",
+    "Scientific Name": "Brassica napus var. napobrassica",
+    "NPK Requirements": {
+      "Nitrogen": "100-150",
+      "Phosphorus": "50-100",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Turnip",
+    "Scientific Name": "Brassica rapa subsp. rapa",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-80",
+      "Potassium": "60-120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-15",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-6.8",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Watercress",
+    "Scientific Name": "Nasturtium officinale",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "50-90",
+      "Potassium": "70-110"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-18",
+      "Humidity (%)": "80-90",
+      "pH": "6.5-7.5",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Zucchini",
+    "Scientific Name": "Cucurbita pepo var. cylindrica",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "60-100",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-25",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Alfalfa",
+    "Scientific Name": "Medicago sativa",
+    "NPK Requirements": {
+      "Nitrogen": "150-200",
+      "Phosphorus": "50-70",
+      "Potassium": "120-140"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-25",
+      "Humidity (%)": "40-60",
+      "pH": "6.2-7.5",
+      "Rainfall (mm)": "450-900"
+    }
+  },
+  {
+    "Crop": "Cabbage",
+    "Scientific Name": "Brassica oleracea var. capitata",
+    "NPK Requirements": {
+      "Nitrogen": "120-150",
+      "Phosphorus": "80-100",
+      "Potassium": "150-200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-700"
+    }
+  },
+  {
+    "Crop": "Cauliflower",
+    "Scientific Name": "Brassica oleracea var. botrytis",
+    "NPK Requirements": {
+      "Nitrogen": "120-150",
+      "Phosphorus": "80-100",
+      "Potassium": "150-200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "60-70",
+      "pH": "6.5-7.0",
+      "Rainfall (mm)": "600-700"
+    }
+  },
+  {
+    "Crop": "Celery",
+    "Scientific Name": "Apium graveolens",
+    "NPK Requirements": {
+      "Nitrogen": "100-150",
+      "Phosphorus": "50-80",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Chard",
+    "Scientific Name": "Beta vulgaris subsp. vulgaris",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "90-120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Collards",
+    "Scientific Name": "Brassica oleracea var. viridis",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "50-80",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-25",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Kale",
+    "Scientific Name": "Brassica oleracea var. sabellica",
+    "NPK Requirements": {
+      "Nitrogen": "100-150",
+      "Phosphorus": "50-100",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Leek",
+    "Scientific Name": "Allium ampeloprasum var. porrum",
+    "NPK Requirements": {
+      "Nitrogen": "100-150",
+      "Phosphorus": "50-80",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "13-24",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Mustard Greens",
+    "Scientific Name": "Brassica juncea",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "90-120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-25",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Parsley",
+    "Scientific Name": "Petroselinum crispum",
+    "NPK Requirements": {
+      "Nitrogen": "100-150",
+      "Phosphorus": "50-80",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-30",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Pumpkin",
+    "Scientific Name": "Cucurbita pepo",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "60-100",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-27",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Radish",
+    "Scientific Name": "Raphanus sativus",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "90-120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-18",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Hemp",
+    "Scientific Name": "Cannabis sativa",
+    "NPK Requirements": {
+      "Nitrogen": "120",
+      "Phosphorus": "30",
+      "Potassium": "70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "16-27",
+      "Humidity (%)": "40-50",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "250-300"
+    }
+  },
+  {
+    "Crop": "Wheat",
+    "Scientific Name": "Triticum aestivum",
+    "NPK Requirements": {
+      "Nitrogen": "120-150",
+      "Phosphorus": "40-70",
+      "Potassium": "50-80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "12-25",
+      "Humidity (%)": "70-80",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "450-650"
+    }
+  },
+  {
+    "Crop": "Barley",
+    "Scientific Name": "Hordeum vulgare",
+    "NPK Requirements": {
+      "Nitrogen": "80-100",
+      "Phosphorus": "40-60",
+      "Potassium": "50-70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "9-16",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "300-500"
+    }
+  },
+  {
+    "Crop": "Soybean",
+    "Scientific Name": "Glycine max",
+    "NPK Requirements": {
+      "Nitrogen": "40-60",
+      "Phosphorus": "20-40",
+      "Potassium": "60-80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-30",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-6.8",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Sunflower",
+    "Scientific Name": "Helianthus annuus",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "50-70",
+      "Potassium": "60-100"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-25",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Sorghum",
+    "Scientific Name": "Sorghum bicolor",
+    "NPK Requirements": {
+      "Nitrogen": "80-100",
+      "Phosphorus": "30-50",
+      "Potassium": "50-70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "25-30",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Rye",
+    "Scientific Name": "Secale cereale",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "60-80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "1-7",
+      "Humidity (%)": "70-80",
+      "pH": "5.5-7.0",
+      "Rainfall (mm)": "350-450"
+    }
+  },
+  {
+    "Crop": "Oats",
+    "Scientific Name": "Avena sativa",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "50-90"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "5-20",
+      "Humidity (%)": "60-70",
+      "pH": "5.5-7.5",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Peas",
+    "Scientific Name": "Pisum sativum",
+    "NPK Requirements": {
+      "Nitrogen": "20-40",
+      "Phosphorus": "20-40",
+      "Potassium": "50-70"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "13-18",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Lentils",
+    "Scientific Name": "Lens culinaris",
+    "NPK Requirements": {
+      "Nitrogen": "40-60",
+      "Phosphorus": "20-40",
+      "Potassium": "40-60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-24",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "350-450"
+    }
+  },
+  {
+    "Crop": "Chickpeas",
+    "Scientific Name": "Cicer arietinum",
+    "NPK Requirements": {
+      "Nitrogen": "40-70",
+      "Phosphorus": "20-50",
+      "Potassium": "60-90"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "20-25",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Quinoa",
+    "Scientific Name": "Chenopodium quinoa",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "50-100",
+      "Potassium": "70-90"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-8.5",
+      "Rainfall (mm)": "300-400"
+    }
+  },
+  {
+    "Crop": "Peppermint",
+    "Scientific Name": "Mentha × piperita",
+    "NPK Requirements": {
+      "Nitrogen": "100-150",
+      "Phosphorus": "50-70",
+      "Potassium": "70-90"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-22",
+      "Humidity (%)": "70-80",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "900-1200"
+    }
+  },
+  {
+    "Crop": "Basil",
+    "Scientific Name": "Ocimum basilicum",
+    "NPK Requirements": {
+      "Nitrogen": "150-200",
+      "Phosphorus": "50-100",
+      "Potassium": "50-80"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-30",
+      "Humidity (%)": "40-70",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "600-700"
+    }
+  },
+  {
+    "Crop": "Lavender",
+    "Scientific Name": "Lavandula",
+    "NPK Requirements": {
+      "Nitrogen": "50-70",
+      "Phosphorus": "20-50",
+      "Potassium": "30-50"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-30",
+      "Humidity (%)": "30-50",
+      "pH": "6.5-7.5",
+      "Rainfall (mm)": "500-600"
+    }
+  },
+  {
+    "Crop": "Rosemary",
+    "Scientific Name": "Rosmarinus officinalis",
+    "NPK Requirements": {
+      "Nitrogen": "80-100",
+      "Phosphorus": "30-50",
+      "Potassium": "30-60"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "8-26",
+      "Humidity (%)": "40-60",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "400-700"
+    }
+  },
+  {
+    "Crop": "Sweet Potato",
+    "Scientific Name": "Ipomoea batatas",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "24-26",
+      "Humidity (%)": "60-80",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "750-1000"
+    }
+  },
+  {
+    "Crop": "Onion",
+    "Scientific Name": "Allium cepa",
+    "NPK Requirements": {
+      "Nitrogen": "75-150",
+      "Phosphorus": "50-100",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "13-25",
+      "Humidity (%)": "70-80",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "500-700"
+    }
+  },
+  {
+    "Crop": "Garlic",
+    "Scientific Name": "Allium sativum",
+    "NPK Requirements": {
+      "Nitrogen": "100-150",
+      "Phosphorus": "50-80",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "12-24",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Beetroot",
+    "Scientific Name": "Beta vulgaris",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "80-120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "10-24",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.5",
+      "Rainfall (mm)": "500-600"
+    }
+  },
+  {
+    "Crop": "Tomato",
+    "Scientific Name": "Solanum lycopersicum",
+    "NPK Requirements": {
+      "Nitrogen": "80-150",
+      "Phosphorus": "50-70",
+      "Potassium": "100-150"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "18-25",
+      "Humidity (%)": "65-75",
+      "pH": "6.0-6.8",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Lettuce",
+    "Scientific Name": "Lactuca sativa",
+    "NPK Requirements": {
+      "Nitrogen": "80-140",
+      "Phosphorus": "40-70",
+      "Potassium": "100-200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "7-24",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Strawberry",
+    "Scientific Name": "Fragaria × ananassa",
+    "NPK Requirements": {
+      "Nitrogen": "50-80",
+      "Phosphorus": "30-50",
+      "Potassium": "90-120"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-26",
+      "Humidity (%)": "70-80",
+      "pH": "5.5-6.5",
+      "Rainfall (mm)": "600-1200"
+    }
+  },
+  {
+    "Crop": "Carrot",
+    "Scientific Name": "Daucus carota subsp. sativus",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-80",
+      "Potassium": "120-160"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "16-24",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-6.8",
+      "Rainfall (mm)": "300-400"
+    }
+  },
+  {
+    "Crop": "Cucumber",
+    "Scientific Name": "Cucumis sativus",
+    "NPK Requirements": {
+      "Nitrogen": "150-200",
+      "Phosphorus": "50-100",
+      "Potassium": "150-200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-33",
+      "Humidity (%)": "60-80",
+      "pH": "5.5-6.8",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Spinach",
+    "Scientific Name": "Spinacia oleracea",
+    "NPK Requirements": {
+      "Nitrogen": "80-120",
+      "Phosphorus": "40-60",
+      "Potassium": "90-130"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "6-24",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "400-600"
+    }
+  },
+  {
+    "Crop": "Broccoli",
+    "Scientific Name": "Brassica oleracea var. italica",
+    "NPK Requirements": {
+      "Nitrogen": "120-150",
+      "Phosphorus": "80-100",
+      "Potassium": "150-200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "15-20",
+      "Humidity (%)": "60-70",
+      "pH": "6.0-7.0",
+      "Rainfall (mm)": "600-800"
+    }
+  },
+  {
+    "Crop": "Potato",
+    "Scientific Name": "Solanum tuberosum",
+    "NPK Requirements": {
+      "Nitrogen": "80-150",
+      "Phosphorus": "50-100",
+      "Potassium": "100-200"
+    },
+    "Additional Requirements": {
+      "Temperature (°C)": "12-18",
+      "Humidity (%)": "80-90",
+      "pH": "4.8-5.5",
+      "Rainfall (mm)": "500-750"
+    }
+  }
+]

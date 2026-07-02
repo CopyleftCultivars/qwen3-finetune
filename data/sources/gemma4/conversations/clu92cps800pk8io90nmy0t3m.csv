@@ -1,0 +1,70 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+clnqta3rc008zqa8iqse9twgz,clu92cps800pk8io90nmy0t3m,clu92cps800pl8io9c1q25nan,"What are the best practices for farming kale, split peas, and wild rice on a 77 acre farm in Kentucky?",human,null,,false,2024-03-27T00:24:24+00:00
+clnqta3rc008zqa8iqse9twgz,clu92cps800pk8io90nmy0t3m,clu92dcpx00pm8io9ga2a2hpa,"**Best Practices for Farming Kale, Split Peas, and Wild Rice in Kentucky**
+
+Farming kale, split peas, and wild rice on a 77-acre farm in Kentucky requires a comprehensive approach that includes understanding the nutritional needs of each crop, utilizing local bioaccumulators for fertilizer production, and implementing a fertilization schedule tailored to your crops and locality. Let's dive into the specifics.
+
+**Nutritional Needs of Your Crops:**
+
+- **Kale:** High in nitrogen (N), moderate in phosphorus (P), and potassium (K) - approximately a 3-1-2 NPK ratio.
+- **Split Peas:** Moderate in nitrogen, high in phosphorus, and moderate in potassium - approximately a 2-3-2 NPK ratio.
+- **Wild Rice:** Moderate in nitrogen, low in phosphorus, and moderate in potassium - approximately a 2-1-2 NPK ratio.
+
+**Local Bioaccumulators for Fertilizer Production:**
+
+Based on the bioaccumulator data available, the following plants, which are commonly found in Kentucky, can be used to meet the nutritional needs of your crops:
+
+1. **Sudan Grass** - High in nitrogen.
+2. **Blackberry Foliage** - Good source of phosphorus.
+3. **Corn Husks** - Good source of potassium.
+4. **Pear Leaf** - Moderate in nitrogen and potassium.
+5. **Bone Meal** - High in phosphorus.
+
+**Fertilizer Recipes Using Local Ingredients:**
+
+### Recipe 1: Fermented Plant Juice (FPJ) for Nitrogen
+- **Ingredients:** Sudan Grass, water.
+- **Steps:** Chop Sudan Grass, mix with equal weight of brown sugar, let ferment for 7 days.
+
+### Recipe 2: Fish Amino Acids (FAA) for Balanced NPK
+- **Ingredients:** Fish scraps, brown sugar.
+- **Steps:** Mix fish scraps with equal weight of brown sugar, let ferment for 2-3 weeks.
+
+### Recipe 3: Calcium Phosphate from Bone Meal
+- **Ingredients:** Bone meal, brown rice vinegar.
+- **Steps:** Mix bone meal with 10 times its volume of brown rice vinegar, let sit until bones decompose.
+
+**Tables with Bioaccumulators Data and Crop Needs Data:**
+
+```
+| Crops    | Nutritional Needs of User's crops | Bioaccumulator Plants with equivalent nutrition |
+| -------- | --------------------------------- | ------------------------------------------------ |
+| Kale     | 3-1-2                             | Sudan Grass FPJ, Bone Meal                       |
+| Split Peas | 2-3-2                           | Blackberry Foliage, Bone Meal                    |
+| Wild Rice | 2-1-2                            | Corn Husks, Pear Leaf FPJ                        |
+```
+
+**Instructions on Using the Fertilizers (SOPs):**
+
+1. **FPJ and FAA:** Dilute 1:500 with water before application.
+2. **Calcium Phosphate:** Apply directly to the soil around the base of the plants.
+
+**Fertilizer Application Schedule:**
+
+- **Early Growth Stage:** Apply FPJ weekly for nitrogen.
+- **Mid-Growth Stage:** Introduce FAA for balanced NPK.
+- **Flowering and Fruiting Stage:** Apply calcium phosphate to support reproductive growth.
+
+**Philosophical Encouragement Related to Natural Farming:**
+
+Embrace the principles of natural farming by working with nature, not against it. Cultivating a deep understanding of your land and crops will lead to a harmonious and sustainable farming practice that benefits both the environment and your community.
+
+**Alternative Set of Recipes Using Localized Free Ingredients:**
+
+- **Compost Tea:** Utilize kitchen scraps and garden waste.
+- **Wood Ash:** Provides potassium, sprinkle lightly around the base of plants.
+- **Green Manure:** Grow cover crops like clover and plow them under to enrich the soil.
+
+**Words of Encouragement:**
+
+Your journey in natural farming is a powerful step towards sustainability and resilience. Remember, every small action contributes to a larger impact. Keep learning, experimenting, and sharing your knowledge with others. Together, we can cultivate a healthier planet.",agent,"[{""score"":0.81480664,""chunk_id"":""e0587d91-0060-4d44-b76d-b02ac3eddf8e"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":6,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-03-27T00:24:53+00:00

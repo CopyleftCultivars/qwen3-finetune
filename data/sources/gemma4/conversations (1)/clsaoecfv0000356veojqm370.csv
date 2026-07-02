@@ -1,0 +1,63 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+clnqta3rc008zqa8iqse9twgz,clsaoecfv0000356veojqm370,clsaoecww01038iq0hz089971,"i'm in Senegal, need tomatoe farming informations",human,null,,false,2024-02-06T18:09:53+00:00
+clnqta3rc008zqa8iqse9twgz,clsaoecfv0000356veojqm370,clsaoh24f01098iq0hsk67bkw,"Given your location in Senegal and your interest in tomato farming, let's embark on a journey to harness the power of natural farming to nourish your crops. Tomatoes are a beloved crop worldwide, known for their versatility and nutritional value. To ensure a bountiful harvest, understanding their nutritional needs and how to meet them using locally sourced, natural fertilizers is crucial.
+
+**Nutritional Needs of Tomatoes:**
+Tomatoes require a balanced diet of nitrogen (N), phosphorus (P), and potassium (K), with an emphasis on higher potassium for fruit development. They also benefit from calcium to prevent blossom end rot and magnesium for overall plant health.
+
+**List of Plants Available Locally with the Needed Nutrients:**
+1. **Moringa (Moringa oleifera)** - High in N, P, K, and calcium.
+2. **Neem (Azadirachta indica)** - Good for N and pest repellent properties.
+3. **Comfrey (Symphytum officinale)** - Rich in potassium and good for N and P.
+4. **Pigeon Pea (Cajanus cajan)** - Good source of N.
+5. **Senna (Senna spp.)** - Adds nutrients and organic matter to the soil.
+
+**Fertilizer Recipes Using Locally Available Ingredients:**
+
+1. **Moringa and Neem Fermented Plant Juice (FPJ):**
+   - Ingredients: 1 kg fresh Moringa leaves, 1 kg fresh Neem leaves, 2 kg brown sugar.
+   - Steps: Chop the leaves finely and mix with brown sugar. Store in a clay or plastic jar, cover with a cloth, and let ferment for 7-10 days. Dilute 1:500 with water before use.
+
+2. **Comfrey and Pigeon Pea IMO-4:**
+   - Ingredients: 5 kg IMO-3, 5 kg field soil, 5 kg red fine soil (Anthill), 1 kg chopped Comfrey leaves, 1 kg chopped Pigeon Pea leaves.
+   - Steps: Mix IMO-3 with soils and chopped leaves. Keep the mixture moist and covered for 7-14 days. Use directly on soil around plants.
+
+3. **Senna Leaf Extract:**
+   - Ingredients: 1 kg Senna leaves, 10 liters water.
+   - Steps: Boil Senna leaves in water for 20 minutes. Let cool and strain. Use the extract to water plants, providing additional nutrients and organic matter.
+
+**Tables with Bioaccumulators Data and Crop Needs Data:**
+
+| Crops being grown by the user | Nutritional requirement of those crops (N:P:K) |
+|-------------------------------|---------------------------------------------|
+| Tomatoes                      | 5:10:10                                     |
+
+| Name of the ingredient | Quantities of those ingredients needed | List of plants available locally with the needed nutrients | Nutrient bioaccumulator value (NPK) of the ingredient | Exact quantities of those ingredients needed to fertilize the crop |
+|------------------------|----------------------------------------|----------------------------------------------------------|------------------------------------------------------|--------------------------------------------------------------------|
+| Moringa                 | 1 kg                                  | Moringa, Neem, Comfrey, Pigeon Pea, Senna                 | High in N, P, K, Ca                                   | 1 kg for FPJ                                                       |
+| Neem                    | 1 kg                                  | Moringa, Neem, Comfrey, Pigeon Pea, Senna                 | Good for N                                            | 1 kg for FPJ                                                       |
+| Comfrey                 | 1 kg                                  | Moringa, Neem, Comfrey, Pigeon Pea, Senna                 | Rich in K, good for N and P                           | 1 kg for IMO-4                                                     |
+| Pigeon Pea              | 1 kg                                  | Moringa, Neem, Comfrey, Pigeon Pea, Senna                 | Good source of N                                      | 1 kg for IMO-4                                                     |
+| Senna                   | 1 kg                                  | Moringa, Neen, Comfrey, Pigeon Pea, Senna                 | Adds nutrients and organic matter                      | 1 kg for Leaf Extract                                              |
+
+**Instructions on Using the Fertilizers (SOPs):**
+- **FPJ:** Dilute 1:500 with water and apply to the foliage or soil in the early morning or late afternoon.
+- **IMO-4:** Apply directly to the soil around the plants, ensuring it's evenly distributed.
+- **Senna Leaf Extract:** Use as a soil drench around the plants every two weeks.
+
+**Fertilizer Application Schedule:**
+1. **Pre-Planting:** Apply IMO-4 two weeks before planting.
+2. **Vegetative Stage:** Apply FPJ and Senna Leaf Extract every two weeks.
+3. **Flowering and Fruit Setting Stage:** Continue with FPJ and introduce Comfrey IMO-4 for potassium boost.
+
+**Brief Philosophical Encouragement Related to Natural Farming:**
+Natural farming is not just a method of cultivation; it's a philosophy that respects the symbiotic relationships between soil, plants, and microorganisms. By nurturing these relationships, we create a resilient ecosystem that sustains and nourishes life.
+
+**Alternative Set of Recipes Using Localized Free Ingredients:**
+- **Banana Peel Fermentation:** Rich in potassium, excellent for flowering and fruit development.
+- **Eggshell and Wood Ash Mixture:** Provides calcium and potassium, respectively. Can be sprinkled around the base of the plants.
+
+**Words of Encouragement:**
+Your journey into natural farming is a testament to your commitment to sustainability and respect for nature. Remember, every small step contributes to a larger impact. Keep exploring, experimenting, and sharing your knowledge. Together, we can cultivate a healthier planet.
+
+Is there anything else you would like to know or any other way I can assist you?",agent,"[{""score"":0.78962874,""chunk_id"":""2b5a5467-398f-4997-87af-ffeaae819d06"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":5,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-02-06T18:11:59+00:00

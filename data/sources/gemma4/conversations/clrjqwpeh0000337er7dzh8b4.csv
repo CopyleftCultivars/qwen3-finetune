@@ -1,0 +1,100 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+clnqta3rc008zqa8iqse9twgz,clrjqwpeh0000337er7dzh8b4,clrjqwplx000j8io9bnd04rbo,"I am in Washington State. I am hoping to save money and reduce my environmental impacts by making my own fertilizers. I will have 1/8th acre of heirloom corn, and a 1/4 acre garden with various brassica and spicy pepper crops.",human,null,,false,2024-01-18T21:50:22+00:00
+clnqta3rc008zqa8iqse9twgz,clrjqwpeh0000337er7dzh8b4,clrjqz6my000o8ivh6hbl82ay,What is Jeevamrut?,human,null,,false,2024-01-18T21:52:18+00:00
+clnqta3rc008zqa8iqse9twgz,clrjqwpeh0000337er7dzh8b4,clrjqzedz000p8ivh82sj4tkg,"Jeevamrut is a traditional Indian organic fertilizer and soil amendment that is part of the Vrikshayurveda farming practice. It is a fermented mixture that typically includes cow dung, cow urine, jaggery (unrefined sugar), pulse flour, water, and sometimes soil. This concoction is rich in beneficial microorganisms and nutrients, which help to improve soil fertility and plant health.
+
+The preparation of Jeevamrut involves the following steps:
+
+1. Mix cow dung and cow urine in a container.
+2. Add jaggery and pulse flour to the mixture to provide a food source for the microorganisms.
+3. Add water to create a slurry.
+4. Allow the mixture to ferment for a few days, stirring it twice a day.
+5. Once fermented, the Jeevamrut can be diluted with water and applied to the soil or used as a foliar spray.
+
+Jeevamrut is valued for its ability to enhance microbial activity in the soil, leading to improved nutrient cycling and soil structure. It is an integral part of sustainable agriculture practices that aim to maintain soil health and reduce reliance on chemical fertilizers.",agent,"[{""score"":0.75537175,""chunk_id"":""0cb3bd29-7d2c-424d-b248-86d7bee6363c"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":3,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.75403756,""chunk_id"":""84275507-2cfd-4a81-9bb3-e31b94feb2b0"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clnqtxysd0092qa8i9b5iw6up/clo3eeuo300002t6tmbk008ls/clo3eeuo300002t6tmbk008ls.pdf"",""page_number"":67,""total_pages"":112,""datasource_id"":""clo3eeuo300002t6tmbk008ls"",""datasource_name"":""Nutrient Bio Accumulators.pdf"",""datasource_type"":""file""}]",good,false,2024-01-18T21:52:28+00:00
+clnqta3rc008zqa8iqse9twgz,clrjqwpeh0000337er7dzh8b4,clrjqyqms000k8io9c4v50h6v,"**Short Introduction**
+Welcome to the world of natural farming! It's wonderful to hear that you're looking to create your own fertilizers for your heirloom corn, brassicas, and spicy pepper crops in Washington State. By using locally sourced, wildcrafted ingredients, you can create effective fertilizers that are both cost-efficient and environmentally friendly.
+
+**Nutritional Needs of the User's Crops**
+Heirloom corn typically requires a balanced supply of nitrogen (N), phosphorus (P), and potassium (K), with a higher emphasis on nitrogen during the vegetative growth phase. Brassicas, such as broccoli, cabbage, and kale, need a steady supply of nitrogen and potassium, and a moderate amount of phosphorus. Spicy peppers also require a good amount of nitrogen and potassium, especially during the fruiting stage, and adequate phosphorus for root development.
+
+**List of Plants Available Locally with the Needed Nutrients**
+Based on the data provided, here are five plants that can be used as fertilizer ingredients due to their nutrient content:
+
+1. Nettles (Stinging European) - High in nitrogen (N: 5.6)
+2. Comfrey - High in potassium (K: 5.3)
+3. Cottonseed Meal - Balanced NPK (N: 6.6, P: 2-3, K: 1-2)
+4. Ground Fish (Dried) - High in nitrogen and phosphorus (N: 8.5, P: 7.4)
+5. Cowpeas (Green forage) - Moderate NPK (N: 0.45, P: 0.12, K: 0.45)
+
+**List of Locally Available Ingredients, Quantity Needed, and Steps for Multiple Fertilizer Recipes**
+Here are three different sets of recipes using locally available ingredients:
+
+**Set 1: Jadam Fertilizer Recipes**
+1. Jadam Liquid Fertilizer (JLF) from Nettles:
+   - Gather fresh nettles and chop them into small pieces.
+   - Fill a container halfway with nettles and top it up with water.
+   - Add 1 part brown sugar to 10 parts nettles by weight to initiate fermentation.
+   - Allow the mixture to ferment for at least 2 weeks, stirring occasionally.
+   - Strain and dilute the JLF with water at a 1:500 ratio before application.
+
+2. Jadam Microorganism Solution (JMS) from Comfrey:
+   - Collect fresh comfrey leaves and blend them into a slurry.
+   - Mix the slurry with an equal amount of brown sugar and a handful of soil from your farm.
+   - Allow the mixture to ferment for 7 days, stirring daily.
+   - Dilute the JMS with water at a 1:20 ratio for use as a soil drench.
+
+**Set 2: Vrikshayurveda Inputs**
+1. Panchagavya from Cowpeas:
+   - Blend green cowpea forage with equal parts water.
+   - Add cow urine, cow dung, milk, curd, and ghee in small quantities (1:10 ratio to the cowpea mixture).
+   - Allow the mixture to ferment for 15 days, stirring twice a day.
+   - Use the diluted Panchagavya (1:30 with water) as a foliar spray or soil drench.
+
+2. Jeevamrut from Cottonseed Meal:
+   - Mix 10 kg of cottonseed meal with 10 liters of water, 1 kg of jaggery, and a handful of soil.
+   - Add cow urine and dung to the mixture.
+   - Allow it to ferment for 7 days, stirring daily.
+   - Apply the diluted Jeevamrut (1:10 with water) to the soil.
+
+**Set 3: Korean Natural Farming Inputs**
+1. Fermented Plant Juice (FPJ) from Nettles:
+   - Collect young nettle shoots and chop them finely.
+   - Mix the nettles with an equal weight of brown sugar and pack them into a container.
+   - Allow the mixture to ferment for 7 days in a cool, shaded area.
+   - Strain and dilute the FPJ with water at a 1:500 ratio before use.
+
+2. Fish Amino Acids (FAA) from Ground Fish:
+   - Mix dried ground fish with an equal weight of brown sugar.
+   - Store the mixture in a container, ensuring it is airtight.
+   - Allow it to ferment for at least 3 months, stirring occasionally.
+   - Dilute the FAA with water at a 1:1000 ratio for application.
+
+**Tables with Bioaccumulators Data and Crop Needs Data**
+Please refer to the tables below for detailed information on the nutrient content of the ingredients and the nutritional needs of your crops.
+
+**Instructions on Using the Fertilizers (SOPs)**
+1. Always dilute the fertilizers before application to avoid burning the plants.
+2. Apply liquid fertilizers either as a foliar spray or soil drench, depending on the crop's stage of growth.
+3. Use solid fertilizers as a top dressing or work them into the soil around the base of the plants.
+
+**Fertilizer Application Schedule and Crop Rotation Recommendations**
+1. Apply JLF or FPJ during the early vegetative growth phase of your crops, every two weeks.
+2. Use JMS or Jeevamrut to enrich the soil microbiology once a month.
+3. Apply FAA during the flowering and fruiting stages of your crops, every three weeks.
+4. Rotate crops annually to prevent soil nutrient depletion and pest buildup.
+
+**Brief Philosophical Encouragement Related to Natural Farming**
+Natural farming is not just a method of cultivation; it's a philosophy that respects the symbiotic relationships within nature. By creating your own fertilizers, you're participating in a cycle of growth and regeneration that nurtures both the soil and the soul.
+
+**Alternative Set of Recipes Using Localized Free Ingredients**
+1. Wood Ash Fertilizer:
+   - Collect wood ash from a clean source (ensure no treated wood is used).
+   - Sprinkle the wood ash directly onto your soil or compost it before use to provide potassium.
+
+2. Green Manure from White Clover:
+   - Plant white clover as a cover crop in fallow areas.
+   - Before flowering, cut and incorporate the clover into the soil to add nitrogen and organic matter.
+
+**Words of Encouragement**
+Your journey into natural farming is a testament to your commitment to sustainability and stewardship of the land. Remember, each step you take towards self-sufficiency is a step towards a healthier planet. Keep nurturing your growth mindset, and your crops will flourish alongside your knowledge. Happy farming!",agent,"[{""score"":0.7960285,""chunk_id"":""a7214855-e705-4fb7-bd57-e3a365ae9136"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":1,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.79203916,""chunk_id"":""47745c7d-a9d6-4dc0-9ab4-cc17a2f57f75"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clnqtxysd0092qa8i9b5iw6up/clo3eeuo300002t6tmbk008ls/clo3eeuo300002t6tmbk008ls.pdf"",""page_number"":102,""total_pages"":112,""datasource_id"":""clo3eeuo300002t6tmbk008ls"",""datasource_name"":""Nutrient Bio Accumulators.pdf"",""datasource_type"":""file""}]",good,false,2024-01-18T21:51:57+00:00

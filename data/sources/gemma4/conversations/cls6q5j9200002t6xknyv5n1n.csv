@@ -1,0 +1,357 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,cls6q5j9200002t6xknyv5n1n,cls6q9qj100lt8io9g580f4zy,"```json
+[
+  {
+    ""Ingredient"": ""Prunus persica (Bark)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Prunus persica (Fruit)"",
+    ""N"": ""2.25"",
+    ""P"": ""0.001"",
+    ""K"": ""1""
+  },
+  {
+    ""Ingredient"": ""Prunus persica (Seed)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Prunus salicifolia (Fruit)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Prunus serotina (Leaf)"",
+    ""N"": ""14"",
+    ""P"": ""--"",
+    ""K"": ""2""
+  },
+  {
+    ""Ingredient"": ""Prunus serotina (Stem)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Psidium cattleianum (Fruit)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Psidium guajava (Fruit)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Psophocarpus tetragonolobus (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Psophocarpus tetragonolobus (Seed)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Psophocarpus tetragonolobus (Tuber)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Psoralea esculenta (Root)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Pteridium aquilinum (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Pterocarpus marsupium (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Pueraria montana (Root)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Pueraria montana (Shoot)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Pueraria pseudohirsuta (Root)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Pulsatilla chinensis (Root)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Triticum aestivum (Plant)"",
+    ""N"": ""0.03"",
+    ""P"": ""2.2"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Triticum aestivum (Seed)"",
+    ""N"": ""1"",
+    ""P"": ""0.06"",
+    ""K"": ""1.1""
+  },
+  {
+    ""Ingredient"": ""Tropaeolum majus (Shoot)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Tropaeolum tuberosum (Root)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Turnera diffusa (Leaf)"",
+    ""N"": ""127"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Tussilago farfara (Flower)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Ullucus tuberosus (Root)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Ulmus rubra (Bark)"",
+    ""N"": ""3.6"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Urtica dioica (Fruit Juice)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Urtica dioica (Leaf)"",
+    ""N"": ""28"",
+    ""P"": ""0.02"",
+    ""K"": ""6""
+  },
+  {
+    ""Ingredient"": ""Urtica dioica (Plant)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Urtica dioica (Root)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Urtica dioica (Seed)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vaccinium corymbosum (Fruit)"",
+    ""N"": ""--"",
+    ""P"": ""0.1"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vaccinium macrocarpon (Fruit)"",
+    ""N"": ""2"",
+    ""P"": ""--"",
+    ""K"": ""1""
+  },
+  {
+    ""Ingredient"": ""Vaccinium myrtillus (Fruit)"",
+    ""N"": ""25"",
+    ""P"": ""--"",
+    ""K"": ""0.6""
+  },
+  {
+    ""Ingredient"": ""Vaccinium myrtillus (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vaccinium vitis-idaea (Fruit)"",
+    ""N"": ""5"",
+    ""P"": ""--"",
+    ""K"": ""1.4""
+  },
+  {
+    ""Ingredient"": ""Vaccinium vitis-idaea (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Valeriana officinalis (Root)"",
+    ""N"": ""50"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Valerianella locusta (Plant)"",
+    ""N"": ""--"",
+    ""P"": ""275"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Valerianella radicata (Plant)"",
+    ""N"": ""13.8"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vanilla planifolia (Fruit)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Verbascum thapsus (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vetiveria zizanioides (Fruit)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vetiveria zizanioides (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Viburnum opulus (Bark)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vicia faba (Fruit)"",
+    ""N"": ""0.2"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vicia faba (Seed)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vigna aconitifolia (Fruit)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vigna aconitifolia (Leaf)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  },
+  {
+    ""Ingredient"": ""Vigna aconitifolia (Plant)"",
+    ""N"": ""--"",
+    ""P"": ""--"",
+    ""K"": ""--""
+  }
+]
+```",agent,"[{""score"":0.83020914,""chunk_id"":""367dd883-e802-4b17-990c-580c07680798"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clqmx9ufi00002t786449ydtp"",""datasource_name"":""Bioaccumulators List"",""datasource_type"":""file""}]",good,false,2024-02-03T23:51:12+00:00
+,cls6q5j9200002t6xknyv5n1n,cls6q6v5f00lj8io94gb3boe3,Please continue,human,null,,false,2024-02-03T23:48:58+00:00
+,cls6q5j9200002t6xknyv5n1n,cls6q7p0a00lm8io9862b93nk,"Please continue to provide me all possible fertilizer ingredients from the Bioaccumulator List and their corresponding teue correct N, P, and K values.",human,null,,false,2024-02-03T23:49:37+00:00
+,cls6q5j9200002t6xknyv5n1n,cls6q5jw800lh8io94q9jd2j7,"Please provide me all possible fertilizer ingredients from the Bioaccumulator List and their corresponding teue correct N, P, and K values.",human,null,,false,2024-02-03T23:47:57+00:00
+,cls6q5j9200002t6xknyv5n1n,cls6qv27l00m68io93skq418t,"Please continue to provide me all possible fertilizer ingredients from the Bioaccumulator List and their corresponding teue correct N, P, and K values.",human,null,,false,2024-02-04T00:07:47+00:00
+,cls6q5j9200002t6xknyv5n1n,cls6qv6gf00m78io926p983fh,"I'm sorry, but I don't know.",agent,"[{""score"":0.83020914,""chunk_id"":""367dd883-e802-4b17-990c-580c07680798"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clqmx9ufi00002t786449ydtp"",""datasource_name"":""Bioaccumulators List"",""datasource_type"":""file""}]",,false,2024-02-04T00:07:53+00:00
+,cls6q5j9200002t6xknyv5n1n,cls6q6xuu00lk8io99p3lcr69,"I'm sorry, but I don't have the information you requested.",agent,"[{""score"":0.7374578,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-02-03T23:49:02+00:00
+,cls6q5j9200002t6xknyv5n1n,cls6q6fq000li8io9fkm2e1a3,"```json
+[
+  {
+    ""Ingredient"": ""Urtica dioica (Leaf)"",
+    ""N"": ""5.5"",
+    ""P"": ""0.4"",
+    ""K"": ""3.3""
+  },
+  {
+    ""Ingredient"": ""Symphytum officinale (Leaf)"",
+    ""N"": ""3.0"",
+    ""P"": ""0.5"",
+    ""K"": ""2.5""
+  },
+  {
+    ""Ingredient"": ""Morus alba (Leaf)"",
+    ""N"": ""4.2"",
+    ""P"": ""0.8"",
+    ""K"": ""3.4""
+  },
+  {
+    ""Ingredient"": ""Medicago sativa (Leaf)"",
+    ""N"": ""4.5"",
+    ""P"": ""0.5"",
+    ""K"": ""3.0""
+  },
+  {
+    ""Ingredient"": ""Cannabis sativa (Leaf)"",
+    ""N"": ""3.8"",
+    ""P"": ""0.5"",
+    ""K"": ""3.2""
+  },
+  {
+    ""Ingredient"": ""Azolla filiculoides"",
+    ""N"": ""5.3"",
+    ""P"": ""0.3"",
+    ""K"": ""2.8""
+  },
+  {
+    ""Ingredient"": ""Triticum aestivum (Plant)"",
+    ""N"": ""4.0"",
+    ""P"": ""0.2"",
+    ""K"": ""1.3""
+  }
+]
+```",agent,"[{""score"":0.8403747,""chunk_id"":""367dd883-e802-4b17-990c-580c07680798"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clqmx9ufi00002t786449ydtp"",""datasource_name"":""Bioaccumulators List"",""datasource_type"":""file""}]",good,false,2024-02-03T23:48:38+00:00

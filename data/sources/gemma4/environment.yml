@@ -1,0 +1,29 @@
+name: unsloth-gguf
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - jupyterlab
+  - ipykernel
+  - ipywidgets
+  - pip:
+      # cu124 wheels match the installed CUDA toolkit (nvcc 12.4).
+      # Do NOT omit the index-url — default PyPI torch pulls CUDA 13 libs
+      # which cause an NCCL crash on this system.
+      - --extra-index-url https://download.pytorch.org/whl/cu124
+      - nvidia-cudnn-cu12==9.1.0.70
+      - torch==2.5.1
+      - torchvision==0.20.1
+      - torchaudio==2.5.1
+      - unsloth
+      - bitsandbytes
+      - transformers>=4.40.0
+      - peft>=0.10.0
+      - accelerate>=0.28.0
+      - trl>=0.8.0
+      - huggingface_hub>=0.22.0
+      - sentencepiece
+      - protobuf
+      - safetensors

@@ -1,0 +1,254 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,clofzn9qn00od8ir0bw972qb2,clokbgrdb001pr08i98wil9ex,"Please create a comprehensive and full-length professional academic grant proposal for an AI LLM system which is trained on indigenous languages and indigenous knowledge systems, using the hugging face open source repositories. This is to be launched by a consortium of Evergreen State College professors and Alum (ie a Data Scientist) and tribal affiliations (leave as fill-in the blank brackets for the names and organizations in the consortium and working on the project, while still including all important details to include in a grant proposal. The group has created a propf of concept using contexting systtems for ChatGPT-4, however that has been originally trained in english and with western data sources. Include all usual academic grant sections including a budget.",human,[],,false,2023-11-04T17:25:47+00:00
+,clofzn9qn00od8ir0bw972qb2,clokblsix0022r08iwof52g7g,"The conversational AI (could be used for language revitalization, etc) and the legal assistant AI should be seperate products of the grant. That way they could be used in tandem to support many tribal interests, seperately or together, such as cultural revitalization, hertitage work, legal disputes, treaty interpretation, etc.",human,[],,false,2023-11-04T17:29:46+00:00
+,clofzn9qn00od8ir0bw972qb2,clokbnraa0007oh8iayyl5f3f,"Great, now delivery the entire new proposal",human,[],,false,2023-11-04T17:30:55+00:00
+,clofzn9qn00od8ir0bw972qb2,clokblsii00178ir0euxtb5w6,"Absolutely, your suggestion to develop the conversational AI and the legal assistant AI as separate products under the grant is a strategic approach. This would allow for a more targeted development and application of each system, while also providing the flexibility for them to be used in tandem or separately, depending on the specific needs and contexts of the tribal communities. 
+
+**Revised Project Description:**
+
+The project will now be divided into two main components:
+
+1. **Indigenous Languages Conversational AI (ILCAI):** This system will be designed to understand and generate responses in indigenous languages, serving as a tool for language revitalization and cultural heritage work. It can be used in educational settings, community engagement, and other contexts where the promotion and preservation of indigenous languages are important.
+
+2. **Indigenous Knowledge Systems Legal Assistant AI (IKSLAI):** This system will focus on the interpretation and application of indigenous knowledge systems in legal contexts. It will be trained on tribal treaties, case law, and other legal documents, and can assist in legal research, dispute resolution, treaty interpretation, and other legal processes related to indigenous rights and sovereignty.
+
+Both systems will leverage the open-source repositories of Hugging Face and build upon a proof of concept using contexting systems for ChatGPT-4. They will be developed in close collaboration with indigenous communities and experts to ensure cultural appropriateness, accuracy, and respectfulness.
+
+**Revised Budget:**
+
+| Item | Cost |
+| --- | --- |
+| Data collection and preparation | $60,000 |
+| ILCAI development | $70,000 |
+| IKSLAI development | $70,000 |
+| Testing and validation | $40,000 |
+| Project management and administration | $20,000 |
+| Collaboration and consultation with indigenous communities and experts | $60,000 |
+| Dissemination and outreach | $20,000 |
+| Contingency (10%) | $34,000 |
+| **Total** | **$374,000** |
+
+The rest of the proposal, including the timeline, expected outcomes, evaluation, and conclusion, will remain largely the same but will be adjusted to reflect the division of the project into two separate components. This approach will allow us to better serve the diverse needs and interests of tribal communities, contributing to the broader goals of cultural revitalization, legal empowerment, and the recognition and respect for indigenous rights and sovereignty.",agent,"[{""score"":0.7894702,""chunk_id"":""28dd0981-55e6-4935-976a-41bbb7be53ed"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-florida-tribes-of-indians-1823-0203"",""datasource_id"":""clof67sh2001i8irj8dzq7c7b"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-florida-tribes-of-indians-1823-0203"",""datasource_type"":""web_page""},{""score"":0.78863156,""chunk_id"":""35f6e375-d714-42cd-8422-849cc0114721"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-kaskaskia-peoria-etc-1854-0636"",""datasource_id"":""clof67sh300408irjftb339z8"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-kaskaskia-peoria-etc-1854-0636"",""datasource_type"":""web_page""},{""score"":0.7884425,""chunk_id"":""bd04e17a-fa80-4aee-971a-b160cd7e6236"",""source_url"":""https://treaties.okstate.edu/about/"",""datasource_id"":""clof67sh600bn8irjfdkc41w7"",""datasource_name"":""https://treaties.okstate.edu/about/"",""datasource_type"":""web_page""},{""score"":0.7873129,""chunk_id"":""1bd1aef3-f4af-435e-b1d0-b6a00b7337c8"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-sioux-sisseton-and-wahpeton-bands-1867-0956"",""datasource_id"":""clof67sh500948irj1ebn6z9c"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-sioux-sisseton-and-wahpeton-bands-1867-0956"",""datasource_type"":""web_page""}]",good,false,2023-11-04T17:30:38+00:00
+,clofzn9qn00od8ir0bw972qb2,clokfr5je0001oh8i22542w08,"Add the pressing need, more thoroughly, and please include a more realistic budget given the need to retrain fundamental machine learning models. Also include empowering exciting language about the possibilities which come from this project, and how training AI on indigenous languages will create an inherent perspective which is distinct from the functions of all presently available AIs(LLMs)",human,[],,false,2023-11-04T19:25:27+00:00
+,clofzn9qn00od8ir0bw972qb2,clogu3swx01zcr08iu0ivt01r,What about the Medicine Creek Treaty?,human,[],,false,2023-11-02T06:55:47+00:00
+,clofzn9qn00od8ir0bw972qb2,clofzp6j401ksr08icbi5w0rb,"Hello, please help me understand the treaty rights relevent in Olympia Washington",human,[],,true,2023-11-01T16:44:47+00:00
+,clofzn9qn00od8ir0bw972qb2,clofzx68n0003oh8i11bako1y,Is that All of the treaties which are relevant there?,human,[],,true,2023-11-01T16:51:53+00:00
+,clofzn9qn00od8ir0bw972qb2,clogu3swu00ts8ir09dp76tk8,"The Medicine Creek Treaty, also known as the Treaty of Medicine Creek, is a significant treaty in the history of relations between the United States and the Native American tribes in the Pacific Northwest, including those in the area around Olympia, Washington. 
+
+Signed on December 26, 1854, the Medicine Creek Treaty was one of several treaties negotiated by Washington Territory Governor Isaac Stevens with the tribes of the region. The treaty was signed by representatives of the Nisqually, Puyallup, Squaxin Island, and other tribes.
+
+**Treaty Information**
+
+| Treaty | Date | Statute | Ratified | Proclaimed | Provisions |
+| --- | --- | --- | --- | --- | --- |
+| Treaty of Medicine Creek | Dec. 26, 1854 | 10 Stat., 1132 | Mar. 3, 1855 | Apr. 10, 1855 | Establishment of reservations, hunting fishing gathering, provide education assistance, provide agriculture assistance, provide healthcare assistance |
+
+**Relevant Case Law**
+
+The Medicine Creek Treaty has been the subject of numerous legal disputes, particularly concerning fishing rights. The Boldt Decision (United States v. Washington, 1974) is again relevant here, as it affirmed the rights of the tribes who signed the Medicine Creek Treaty to fish in their ""usual and accustomed grounds and stations"" in treaty-protected fishing areas.
+
+**Academic Analysis**
+
+The Medicine Creek Treaty, like many other treaties of the time, was part of a broader U.S. government policy to secure lands for settlement and development. The treaty established reservations for the tribes but also included provisions for hunting, fishing, and gathering, as well as promises of assistance in agriculture, education, and healthcare. However, the implementation and interpretation of these treaties have been fraught with controversy and legal disputes, often centering on issues of land rights, resource access, and tribal sovereignty.
+
+**Strategic Legal Analysis**
+
+From a legal perspective, the Medicine Creek Treaty is still binding and has been upheld by numerous court decisions. However, the interpretation and enforcement of treaty rights often depend on the specific language of the treaty, historical context, and subsequent legal and legislative actions. For instance, the Boldt Decision interpreted the phrase ""in common with"" in the fishing rights provisions of the treaties to mean that the tribes were entitled to up to 50% of the harvestable fish.
+
+**Outro**
+
+Understanding the treaty rights relevant to Olympia, Washington, requires a deep dive into the historical, legal, and cultural contexts of these agreements. While the treaties signed in the mid-19th century continue to shape the relationship between the U.S. government and Native American tribes, they also underscore the ongoing struggle for recognition, rights, and resources that these communities face. As we continue to grapple with these issues, it's crucial to approach them with a commitment to justice, respect for indigenous rights, and a willingness to learn from our shared history. 
+
+Sources:
+- Oklahoma State University Libraries Tribal Treaties Database
+- United States v. Washington, 384 F. Supp. 312 (W.D. Wash. 1974)",agent,"[{""score"":0.85684,""chunk_id"":""1c0d2f26-e8d2-4698-b136-cebf3914fb47"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-cheyenne-and-arapaho-1867-0984"",""datasource_id"":""clof67sh500ab8irjb8f35tl1"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-cheyenne-and-arapaho-1867-0984"",""datasource_type"":""web_page""},{""score"":0.8544233,""chunk_id"":""acef6fe4-6533-48dc-b68e-74ef915f68b8"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-blackfeet-1855-0736"",""datasource_id"":""clof67sh2001t8irjadlga73b"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-blackfeet-1855-0736"",""datasource_type"":""web_page""},{""score"":0.85225594,""chunk_id"":""9fc4588d-4f56-4e31-a625-c211cf81e8df"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-kiowa-comanche-and-apache-1867-0982"",""datasource_id"":""clof67sh3004d8irj4hb5batp"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-kiowa-comanche-and-apache-1867-0982"",""datasource_type"":""web_page""},{""score"":0.8487455,""chunk_id"":""2918b292-6972-46f5-b388-7c6dfc6b7ab2"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-creeks-1796-0046"",""datasource_id"":""clof67sh200138irjcj7f26ub"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-creeks-1796-0046"",""datasource_type"":""web_page""}]",good,false,2023-11-02T06:57:26+00:00
+,clofzn9qn00od8ir0bw972qb2,clofzp6iu00og8ir03i6n0igf,"Certainly, I'd be glad to assist you. The treaty rights relevant to Olympia, Washington, are primarily derived from the treaties signed with the Native American tribes in the mid-19th century. Two such treaties are the Treaty with the Yakima, 1855 and the Treaty with the S'klallam, 1855. 
+
+**Treaty Information**
+
+| Treaty | Date | Statute | Ratified | Proclaimed | Provisions |
+| --- | --- | --- | --- | --- | --- |
+| Treaty with the Yakima, 1855 | June 9, 1855 | 12 Stat., 951 | Mar. 8, 1859 | Apr. 18, 1859 | Roads and highways, right of way, provide agriculture assistance, provide education assistance, provide healthcare assistance |
+| Treaty with the S'klallam, 1855 | Jan. 26, 1855 | 12 Stats., 933 | Mar. 8, 1859 | Apr. 29, 1859 | Roads and highways, hunting fishing gathering, provide education assistance, provide agriculture assistance, right of way, provide healthcare assistance |
+
+**Relevant Case Law**
+
+In terms of case law, the landmark case of United States v. Washington (1974), often referred to as the ""Boldt Decision,"" is particularly relevant. This case affirmed the rights of Washington's Indian tribes to fish in their ""usual and accustomed grounds and stations"" in treaty-protected fishing areas, which would include areas around Olympia, Washington.
+
+**Academic Analysis**
+
+The treaties signed with the Yakima and S'klallam tribes in 1855 were part of a broader U.S. government policy to secure lands for settlement and development. These treaties often included provisions for the establishment of reservations, the right of way for roads and highways, and promises of assistance in agriculture, education, and healthcare. However, the implementation and interpretation of these treaties have been fraught with controversy and legal disputes, often centering on issues of land rights, resource access, and tribal sovereignty.
+
+**Strategic Legal Analysis**
+
+From a legal perspective, these treaties are still binding and have been upheld by numerous court decisions. However, the interpretation and enforcement of treaty rights often depend on the specific language of the treaty, historical context, and subsequent legal and legislative actions. For instance, the Boldt Decision interpreted the phrase ""in common with"" in the fishing rights provisions of the treaties to mean that the tribes were entitled to up to 50% of the harvestable fish.
+
+**Outro**
+
+Understanding the treaty rights relevant to Olympia, Washington, requires a deep dive into the historical, legal, and cultural contexts of these agreements. While the treaties signed in the mid-19th century continue to shape the relationship between the U.S. government and Native American tribes, they also underscore the ongoing struggle for recognition, rights, and resources that these communities face. As we continue to grapple with these issues, it's crucial to approach them with a commitment to justice, respect for indigenous rights, and a willingness to learn from our shared history. 
+
+Sources:
+- Oklahoma State University Libraries Tribal Treaties Database
+- United States v. Washington, 384 F. Supp. 312 (W.D. Wash. 1974)",agent,"[{""score"":0.842813,""chunk_id"":""d120c3c3-ab94-452b-b62a-b8318a1607ab"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-yakima-1855-0698"",""datasource_id"":""clof67sh500a58irj62v8a4vo"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-yakima-1855-0698"",""datasource_type"":""web_page""},{""score"":0.8342264,""chunk_id"":""f284226a-295b-4f77-8f5c-de418b63c4fa"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-sklallam-1855-0674"",""datasource_id"":""clof67sh5009c8irjg2iheijg"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-sklallam-1855-0674"",""datasource_type"":""web_page""},{""score"":0.8334649,""chunk_id"":""de0ee103-4f95-4a87-bbee-ad6fc27c4034"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-nez-perces-1855-0702"",""datasource_id"":""clof67sh300568irj5ca312u6"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-nez-perces-1855-0702"",""datasource_type"":""web_page""}]",,true,2023-11-01T16:46:16+00:00
+,clofzn9qn00od8ir0bw972qb2,clofzx68k00008ioh6g5u9l2h,"Based on the information available, the Treaty with the Yakima, 1855 and the Treaty with the S'klallam, 1855 are the primary treaties relevant to the area around Olympia, Washington. However, it's important to note that the interpretation and application of treaty rights can be complex and may involve other treaties, legal decisions, and legislative actions not mentioned here.
+
+The chunks of knowledge provided also refer to treaties with the Patawattamies of the Wabash and the Winnebago nation, but these treaties are not directly relevant to Olympia, Washington, as these tribes are primarily located in the Midwest.
+
+The last chunk of knowledge refers to the broader international law context, specifically the recognition of indigenous peoples' rights in international law and the role of non-state actors in United Nations processes. This is a significant aspect of indigenous rights discourse but does not pertain to specific treaties relevant to Olympia, Washington.
+
+In conclusion, while the treaties with the Yakima and S'klallam tribes are the primary treaties relevant to Olympia, Washington, the interpretation and enforcement of these treaties' provisions are influenced by a broader legal, historical, and cultural context. It's always recommended to consult with legal experts or scholars specializing in indigenous rights and treaty law for a comprehensive understanding of this complex issue.",agent,"[{""score"":0.8171912,""chunk_id"":""852aadf5-d7ed-4786-ac77-f5ac1a678ba4"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-winnebago-1837-0498"",""datasource_id"":""clof67sh500ao8irjd8b2h64a"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-winnebago-1837-0498"",""datasource_type"":""web_page""},{""score"":0.81509644,""chunk_id"":""742667c0-c48f-4717-bcec-1825d3867de5"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-potawatomi-1836-0471a"",""datasource_id"":""clof67sh400738irj6ywghq8w"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-potawatomi-1836-0471a"",""datasource_type"":""web_page""},{""score"":0.81298524,""chunk_id"":""438ab266-7c3c-443d-b08f-f302bfeadf44"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clof62sdd0138r08iuar9auko/clof794nq0002356s2nlddd2d/clof794nq0002356s2nlddd2d.pdf"",""page_number"":9,""total_pages"":36,""datasource_id"":""clof794nq0002356s2nlddd2d"",""datasource_name"":""Indigenous Peoples Rights.pdf"",""datasource_type"":""file""},{""score"":0.81259465,""chunk_id"":""32116c26-f729-4ebb-b767-baca46d463c6"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-kickapoo-1832-0365"",""datasource_id"":""clof67sh300488irjg5iifdd6"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-kickapoo-1832-0365"",""datasource_type"":""web_page""}]",bad,true,2023-11-01T16:52:29+00:00
+,clofzn9qn00od8ir0bw972qb2,clokbgrd700138ir09y630ss1,"**Title:** Indigenous Knowledge Systems and Languages AI Legal Learning Module (IKSLLM)
+
+**Executive Summary:**
+
+The consortium of professors and alumni from Evergreen State College, in collaboration with [Tribal Affiliations], proposes to develop an AI Legal Learning Module (LLM) trained on indigenous languages and indigenous knowledge systems. This project will leverage the open-source repositories of Hugging Face and build upon a proof of concept using contexting systems for ChatGPT-4. The proposed AI LLM will address the critical need for legal technology that respects and incorporates indigenous perspectives, languages, and legal traditions.
+
+**Project Description:**
+
+The IKSLLM project aims to create an AI system that can understand and interpret indigenous languages and knowledge systems, with a particular focus on legal contexts. This system will be trained on a diverse range of data sources, including tribal treaties, case law, and other legal documents, as well as oral histories, traditional stories, and other forms of indigenous knowledge. The system will be designed to assist in legal research, education, and decision-making, providing a valuable tool for indigenous communities, legal professionals, scholars, and policymakers.
+
+**Methodology:**
+
+The project will use the Hugging Face open-source libraries as a foundation, building upon the existing capabilities of the ChatGPT-4 model. The model will be retrained using a dataset compiled from indigenous languages and knowledge systems. This will involve collaboration with indigenous communities and experts to ensure the accuracy, respectfulness, and cultural appropriateness of the data collection and training process.
+
+**Budget:**
+
+| Item | Cost |
+| --- | --- |
+| Data collection and preparation | $50,000 |
+| Model training and development | $100,000 |
+| Testing and validation | $30,000 |
+| Project management and administration | $20,000 |
+| Collaboration and consultation with indigenous communities and experts | $50,000 |
+| Dissemination and outreach | $10,000 |
+| Contingency (10%) | $26,000 |
+| **Total** | **$286,000** |
+
+**Timeline:**
+
+The project is expected to take 24 months, with the following milestones:
+
+- Months 1-6: Data collection and preparation
+- Months 7-12: Model training and development
+- Months 13-18: Testing and validation
+- Months 19-24: Dissemination and outreach
+
+**Expected Outcomes:**
+
+The IKSLLM project will result in an AI system capable of understanding and interpreting indigenous languages and knowledge systems in legal contexts. This will provide a valuable tool for indigenous communities, legal professionals, scholars, and policymakers, and will contribute to the broader recognition and respect for indigenous rights and legal traditions.
+
+**Evaluation:**
+
+The project will be evaluated based on the accuracy and usefulness of the AI system, as well as the quality of the collaboration with indigenous communities and experts. Feedback from users and stakeholders will be collected and used to improve the system and guide future work.
+
+**Conclusion:**
+
+The IKSLLM project represents a significant opportunity to advance the field of legal technology and contribute to the recognition and respect for indigenous rights and legal traditions. We look forward to the possibility of working with [Granting Agency] to make this vision a reality.",agent,"[{""score"":0.7876132,""chunk_id"":""e737a867-ee6d-4643-84e2-3605064d9098"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-chippewa-of-saginaw-swan-creek-and-black-river-1864-0868"",""datasource_id"":""clof67sh2002i8irj89x48djx"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-chippewa-of-saginaw-swan-creek-and-black-river-1864-0868"",""datasource_type"":""web_page""},{""score"":0.78663176,""chunk_id"":""fabace28-d500-49f3-b8ec-2bcf27d35784"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-cheyenne-and-arapaho-1865-0887"",""datasource_id"":""clof67sh500a98irjggjogx77"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-cheyenne-and-arapaho-1865-0887"",""datasource_type"":""web_page""},{""score"":0.7842295,""chunk_id"":""482cb58a-828b-49c7-95d7-1633669b59a6"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-ottawa-etc-1836-0450"",""datasource_id"":""clof67sh3005y8irjamvede7t"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-ottawa-etc-1836-0450"",""datasource_type"":""web_page""},{""score"":0.78316814,""chunk_id"":""fd591abf-5936-41ac-938e-e4e9c2520e96"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-ottawa-etc-1807-0092"",""datasource_id"":""clof67sh3005t8irja0j81kmg"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-ottawa-etc-1807-0092"",""datasource_type"":""web_page""},{""score"":0.78104,""chunk_id"":""b529ad86-2ad6-42d2-aad0-10e4b78fe315"",""source_url"":""https://treaties.okstate.edu/treaties/amended-agreement-with-certain-sioux-indians-1873-1059"",""datasource_id"":""clof67sh500988irja5nnehnh"",""datasource_name"":""https://treaties.okstate.edu/treaties/amended-agreement-with-certain-sioux-indians-1873-1059"",""datasource_type"":""web_page""}]",good,false,2023-11-04T17:26:43+00:00
+,clofzn9qn00od8ir0bw972qb2,clokbnra600048ioh50la8nok,"**Title:** Indigenous Languages Conversational AI (ILCAI) and Indigenous Knowledge Systems Legal Assistant AI (IKSLAI)
+
+**Executive Summary:**
+
+The consortium of professors and alumni from Evergreen State College, in collaboration with [Tribal Affiliations], proposes to develop two distinct AI systems: an Indigenous Languages Conversational AI (ILCAI) and an Indigenous Knowledge Systems Legal Assistant AI (IKSLAI). These projects will leverage the open-source repositories of Hugging Face and build upon a proof of concept using contexting systems for ChatGPT-4. The proposed AI systems will address the critical need for technology that respects, incorporates, and revitalizes indigenous languages and knowledge systems, particularly in legal contexts.
+
+**Project Description:**
+
+The project will be divided into two main components:
+
+1. **Indigenous Languages Conversational AI (ILCAI):** This system will be designed to understand and generate responses in indigenous languages, serving as a tool for language revitalization and cultural heritage work. It can be used in educational settings, community engagement, and other contexts where the promotion and preservation of indigenous languages are important.
+
+2. **Indigenous Knowledge Systems Legal Assistant AI (IKSLAI):** This system will focus on the interpretation and application of indigenous knowledge systems in legal contexts. It will be trained on tribal treaties, case law, and other legal documents, and can assist in legal research, dispute resolution, treaty interpretation, and other legal processes related to indigenous rights and sovereignty.
+
+Both systems will leverage the open-source repositories of Hugging Face and build upon a proof of concept using contexting systems for ChatGPT-4. They will be developed in close collaboration with indigenous communities and experts to ensure cultural appropriateness, accuracy, and respectfulness.
+
+**Methodology:**
+
+The project will use the Hugging Face open-source libraries as a foundation, building upon the existing capabilities of the ChatGPT-4 model. The models will be retrained using a dataset compiled from indigenous languages and knowledge systems. This will involve collaboration with indigenous communities and experts to ensure the accuracy, respectfulness, and cultural appropriateness of the data collection and training process.
+
+**Budget:**
+
+| Item | Cost |
+| --- | --- |
+| Data collection and preparation | $60,000 |
+| ILCAI development | $70,000 |
+| IKSLAI development | $70,000 |
+| Testing and validation | $40,000 |
+| Project management and administration | $20,000 |
+| Collaboration and consultation with indigenous communities and experts | $60,000 |
+| Dissemination and outreach | $20,000 |
+| Contingency (10%) | $34,000 |
+| **Total** | **$374,000** |
+
+**Timeline:**
+
+The project is expected to take 24 months, with the following milestones:
+
+- Months 1-6: Data collection and preparation
+- Months 7-12: ILCAI and IKSLAI development
+- Months 13-18: Testing and validation
+- Months 19-24: Dissemination and outreach
+
+**Expected Outcomes:**
+
+The ILCAI and IKSLAI projects will result in two distinct AI systems capable of understanding and interpreting indigenous languages and knowledge systems in various contexts. These will provide valuable tools for indigenous communities, legal professionals, scholars, and policymakers, and will contribute to the broader recognition and respect for indigenous rights and legal traditions.
+
+**Evaluation:**
+
+The project will be evaluated based on the accuracy and usefulness of the AI systems, as well as the quality of the collaboration with indigenous communities and experts. Feedback from users and stakeholders will be collected and used to improve the systems and guide future work.
+
+**Conclusion:**
+
+The ILCAI and IKSLAI projects represent a significant opportunity to advance the field of legal technology and contribute to the recognition and respect for indigenous rights and legal traditions. We look forward to the possibility of working with [Granting Agency] to make this vision a reality.",agent,"[{""score"":0.7868537,""chunk_id"":""d4089602-5600-487a-aadd-45d1b7bcdf2a"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-wyandot-1832-0339"",""datasource_id"":""clof67sh500a08irjfncz5f6f"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-wyandot-1832-0339"",""datasource_type"":""web_page""},{""score"":0.7710032,""chunk_id"":""7aaf66aa-0965-4c40-ba44-94fdf52e38d5"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-seneca-1842-0537"",""datasource_id"":""clof67sh400838irjbkb5fxc9"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-seneca-1842-0537"",""datasource_type"":""web_page""},{""score"":0.77054757,""chunk_id"":""b8313f12-9c6c-4c6b-bbbf-0dda69cd3acd"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-chickasaw-1830-1035"",""datasource_id"":""clof67sh1000s8irj3axw0bsn"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-chickasaw-1830-1035"",""datasource_type"":""web_page""},{""score"":0.76963913,""chunk_id"":""d82fc012-4617-4dbc-b3ac-0e89d0c2c1f7"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-eastern-band-shoshoni-and-bannock-1868-1020"",""datasource_id"":""clof67sh5008i8irjdif9b3l3"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-eastern-band-shoshoni-and-bannock-1868-1020"",""datasource_type"":""web_page""},{""score"":0.7680719,""chunk_id"":""934cbfaa-b1d1-462a-9bba-546f54207d2e"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-seneca-etc-1831-0327"",""datasource_id"":""clof67sh400818irjcxun7fwj"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-seneca-etc-1831-0327"",""datasource_type"":""web_page""}]",good,false,2023-11-04T17:32:09+00:00
+,clofzn9qn00od8ir0bw972qb2,clokfr5j900008iohec5v4tcs,"**Title:** Empowering Indigenous Voices: Indigenous Languages Conversational AI (ILCAI) and Indigenous Knowledge Systems Legal Assistant AI (IKSLAI)
+
+**Executive Summary:**
+
+The consortium of professors and alumni from Evergreen State College, in collaboration with [Tribal Affiliations], proposes to develop two groundbreaking AI systems: an Indigenous Languages Conversational AI (ILCAI) and an Indigenous Knowledge Systems Legal Assistant AI (IKSLAI). These projects will leverage the open-source repositories of Hugging Face and build upon a proof of concept using contexting systems for ChatGPT-4. The proposed AI systems will address the urgent need for technology that respects, incorporates, and revitalizes indigenous languages and knowledge systems, particularly in legal contexts. This project is not just about creating new tools, but about fundamentally shifting the perspective of AI systems to reflect the rich diversity and depth of indigenous cultures.
+
+**Project Description:**
+
+The project will be divided into two main components:
+
+1. **Indigenous Languages Conversational AI (ILCAI):** This system will be designed to understand and generate responses in indigenous languages, serving as a tool for language revitalization and cultural heritage work. It can be used in educational settings, community engagement, and other contexts where the promotion and preservation of indigenous languages are important.
+
+2. **Indigenous Knowledge Systems Legal Assistant AI (IKSLAI):** This system will focus on the interpretation and application of indigenous knowledge systems in legal contexts. It will be trained on tribal treaties, case law, and other legal documents, and can assist in legal research, dispute resolution, treaty interpretation, and other legal processes related to indigenous rights and sovereignty.
+
+Both systems will leverage the open-source repositories of Hugging Face and build upon a proof of concept using contexting systems for ChatGPT-4. They will be developed in close collaboration with indigenous communities and experts to ensure cultural appropriateness, accuracy, and respectfulness.
+
+**Methodology:**
+
+The project will use the Hugging Face open-source libraries as a foundation, building upon the existing capabilities of the ChatGPT-4 model. The models will be retrained using a dataset compiled from indigenous languages and knowledge systems. This will involve collaboration with indigenous communities and experts to ensure the accuracy, respectfulness, and cultural appropriateness of the data collection and training process.
+
+**Budget:**
+
+| Item | Cost |
+| --- | --- |
+| Data collection and preparation | $100,000 |
+| ILCAI development | $150,000 |
+| IKSLAI development | $150,000 |
+| Testing and validation | $70,000 |
+| Project management and administration | $30,000 |
+| Collaboration and consultation with indigenous communities and experts | $100,000 |
+| Dissemination and outreach | $30,000 |
+| Contingency (10%) | $63,000 |
+| **Total** | **$693,000** |
+
+**Timeline:**
+
+The project is expected to take 24 months, with the following milestones:
+
+- Months 1-6: Data collection and preparation
+- Months 7-12: ILCAI and IKSLAI development
+- Months 13-18: Testing and validation
+- Months 19-24: Dissemination and outreach
+
+**Expected Outcomes:**
+
+The ILCAI and IKSLAI projects will result in two distinct AI systems capable of understanding and interpreting indigenous languages and knowledge systems in various contexts. These will provide valuable tools for indigenous communities, legal professionals, scholars, and policymakers, and will contribute to the broader recognition and respect for indigenous rights and legal traditions.
+
+**Evaluation:**
+
+The project will be evaluated based on the accuracy and usefulness of the AI systems, as well as the quality of the collaboration with indigenous communities and experts. Feedback from users and stakeholders will be collected and used to improve the systems and guide future work.
+
+**Conclusion:**
+
+The ILCAI and IKSLAI projects represent a significant opportunity to advance the field of legal technology and contribute to the recognition and respect for indigenous rights and legal traditions. By training AI on indigenous languages, we are not only preserving these languages but also creating AI systems with a unique perspective that reflects the rich diversity and depth of indigenous cultures. This is a bold step towards a future where technology truly serves all of humanity, respecting and celebrating our diverse cultural heritage. We look forward to the possibility of working with [Granting Agency] to make this vision a reality.",agent,"[{""score"":0.7679419,""chunk_id"":""e3c3b125-73d3-44fa-b6e9-3de4e1110960"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-ponca-1858-0772"",""datasource_id"":""clof67sh4006h8irjg7z947tj"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-ponca-1858-0772"",""datasource_type"":""web_page""},{""score"":0.76489455,""chunk_id"":""0f820f70-519a-48a3-b1fd-f3f2548c0dfa"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-yankton-sioux-1858-0776"",""datasource_id"":""clof67sh500a88irjec3t67q2"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-yankton-sioux-1858-0776"",""datasource_type"":""web_page""},{""score"":0.7630836,""chunk_id"":""9fd94fbe-2d4b-4fc9-9874-ce6739f18348"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-pawnee-1857-0764"",""datasource_id"":""clof67sh300678irjgz3e1nx9"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-pawnee-1857-0764"",""datasource_type"":""web_page""},{""score"":0.76221347,""chunk_id"":""e51639c4-3703-422a-84e3-3b619b7e1caf"",""source_url"":""https://treaties.okstate.edu/treaties/treaty-with-the-tribes-of-middle-oregon-1855-0714"",""datasource_id"":""clof67sh5009i8irjgu8lbbf2"",""datasource_name"":""https://treaties.okstate.edu/treaties/treaty-with-the-tribes-of-middle-oregon-1855-0714"",""datasource_type"":""web_page""}]",good,false,2023-11-04T19:26:46+00:00

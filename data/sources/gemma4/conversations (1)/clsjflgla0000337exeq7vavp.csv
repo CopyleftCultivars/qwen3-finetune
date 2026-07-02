@@ -1,0 +1,373 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,clsjflgla0000337exeq7vavp,clsjfr6cd002d8iq060zj5y51,"Good, but please be much .ore specific with locations, and list them individually and extensively",human,null,,false,2024-02-12T21:17:50+00:00
+,clsjflgla0000337exeq7vavp,clsjflh1h002d8io9e4zz1wcc,"Please produce a dataset without any null fields, showing bioaccumulator plants, their associated Nitrogen and Potassium and Phosphorus levels, and list of their associated locations in the world where they grow",human,null,,false,2024-02-12T21:13:24+00:00
+,clsjflgla0000337exeq7vavp,clsjfoc28002j8io9g75qde2o,"Please continue that same dataset, showing Nitrogen, potassium, and Phosphorus, and location, for every plant, no null fields nor missing fields",human,null,,false,2024-02-12T21:15:38+00:00
+,clsjflgla0000337exeq7vavp,clsjfm4zy002f8io9d5gx4vsh,"```json
+[
+  {
+    ""Bioaccumulator Plant"": ""Phaseolus vulgaris"",
+    ""Nitrogen"": ""0.01"",
+    ""Phosphorus"": """",
+    ""Potassium"": ""0.147"",
+    ""Locations"": [""Worldwide""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phellodendron amurense"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": """",
+    ""Potassium"": """",
+    ""Locations"": [""East Asia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phoenix dactylifera"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": ""0.06"",
+    ""Potassium"": ""0.147"",
+    ""Locations"": [""Middle East"", ""North Africa""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phragmites australis"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": """",
+    ""Potassium"": """",
+    ""Locations"": [""Worldwide""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phyllanthus acidus"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": """",
+    ""Potassium"": """",
+    ""Locations"": [""Tropical regions""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phyllanthus emblica"",
+    ""Nitrogen"": ""0.02"",
+    ""Phosphorus"": ""0.12"",
+    ""Potassium"": ""0.03"",
+    ""Locations"": [""South Asia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis angulata"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": """",
+    ""Potassium"": """",
+    ""Locations"": [""Americas"", ""Africa""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis ixocarpa"",
+    ""Nitrogen"": ""0.01"",
+    ""Phosphorus"": """",
+    ""Potassium"": ""0.14"",
+    ""Locations"": [""Mexico""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis peruviana"",
+    ""Nitrogen"": ""0.02"",
+    ""Phosphorus"": """",
+    ""Potassium"": ""0.12"",
+    ""Locations"": [""South America""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phytelephas aequatorialis"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": """",
+    ""Potassium"": """",
+    ""Locations"": [""South America""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phytolacca americana"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": """",
+    ""Potassium"": """",
+    ""Locations"": [""North America""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimenta dioica"",
+    ""Nitrogen"": ""0.09"",
+    ""Phosphorus"": ""0.7224"",
+    ""Potassium"": """",
+    ""Locations"": [""Central America"", ""Caribbean""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimpinella anisum"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": ""0.7138"",
+    ""Potassium"": """",
+    ""Locations"": [""Mediterranean region"", ""Southwest Asia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pinellia ternata"",
+    ""Nitrogen"": """",
+    ""Phosphorus"": """",
+    ""Potassium"": """",
+    ""Locations"": [""East Asia""]
+  }
+]
+```
+Is your question or issue resolved?",agent,"[{""score"":0.80762863,""chunk_id"":""bc4eb2d2-760d-4cf1-824f-577cf3d4af25"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clqmx9ufi00002t786449ydtp"",""datasource_name"":""Bioaccumulators List"",""datasource_type"":""file""}]",,false,2024-02-12T21:13:55+00:00
+,clsjflgla0000337exeq7vavp,clsjfmra6001y8iq099f23hgc,I asked for it to be without any no values nor empty fields,human,null,,false,2024-02-12T21:14:24+00:00
+,clsjflgla0000337exeq7vavp,clsjfnmv800208iq0fz7182kh,"Nitrogen, potassium, and Phosphorus, and location, for every plant, no null fields nor missing fields",human,null,,false,2024-02-12T21:15:05+00:00
+,clsjflgla0000337exeq7vavp,clsjfp9ds002o8io9c2mc0sam,"Only using data from the bioaccumulator list datachunks from entries with Nitrogen, potassium, and Phosphorus, and location, for every plant, no null fields nor missing fields",human,null,,false,2024-02-12T21:16:21+00:00
+,clsjflgla0000337exeq7vavp,clsjfqx6l002q8io9bx6saqdg,"Good, but please be much .ore specific with locations, and list them individually and extensively",human,null,,false,2024-02-12T21:17:39+00:00
+,clsjflgla0000337exeq7vavp,clsjfq0li002p8io9conx5zt0,"```json
+[
+  {
+    ""Bioaccumulator Plant"": ""Phaseolus vulgaris"",
+    ""Nitrogen"": ""0.01"",
+    ""Phosphorus"": ""0.147"",
+    ""Potassium"": ""112"",
+    ""Locations"": [""Worldwide""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phoenix dactylifera"",
+    ""Nitrogen"": ""0.06"",
+    ""Phosphorus"": ""151"",
+    ""Potassium"": ""790"",
+    ""Locations"": [""Middle East"", ""North Africa""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phyllanthus emblica"",
+    ""Nitrogen"": ""2.4"",
+    ""Phosphorus"": ""235"",
+    ""Potassium"": ""42"",
+    ""Locations"": [""South Asia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis ixocarpa"",
+    ""Nitrogen"": ""0.1"",
+    ""Phosphorus"": ""270"",
+    ""Potassium"": ""35"",
+    ""Locations"": [""Mexico""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis peruviana"",
+    ""Nitrogen"": ""0.1"",
+    ""Phosphorus"": ""430"",
+    ""Potassium"": ""9"",
+    ""Locations"": [""South America""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimenta dioica"",
+    ""Nitrogen"": ""9"",
+    ""Phosphorus"": ""7224"",
+    ""Potassium"": ""60"",
+    ""Locations"": [""Central America"", ""Caribbean""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimpinella anisum"",
+    ""Nitrogen"": ""20"",
+    ""Phosphorus"": ""7843"",
+    ""Potassium"": ""409"",
+    ""Locations"": [""Mediterranean region"", ""Southwest Asia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Solanum melongena"",
+    ""Nitrogen"": ""10"",
+    ""Phosphorus"": ""5400"",
+    ""Potassium"": ""189"",
+    ""Locations"": [""Worldwide""]
+  }
+]
+```
+Is your question or issue resolved?",agent,"[{""score"":0.822369,""chunk_id"":""367dd883-e802-4b17-990c-580c07680798"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clqmx9ufi00002t786449ydtp"",""datasource_name"":""Bioaccumulators List"",""datasource_type"":""file""}]",,false,2024-02-12T21:16:56+00:00
+,clsjflgla0000337exeq7vavp,clsjfrwlb002e8iq075j7axqe,"```json
+[
+  {
+    ""Bioaccumulator Plant"": ""Phaseolus vulgaris"",
+    ""Nitrogen"": ""0.01"",
+    ""Phosphorus"": ""0.147"",
+    ""Potassium"": ""112"",
+    ""Locations"": [""United States"", ""Mexico"", ""Guatemala"", ""Brazil"", ""Argentina"", ""India"", ""China"", ""Indonesia"", ""Nigeria"", ""Kenya""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phoenix dactylifera"",
+    ""Nitrogen"": ""0.06"",
+    ""Phosphorus"": ""151"",
+    ""Potassium"": ""790"",
+    ""Locations"": [""Egypt"", ""Iran"", ""Saudi Arabia"", ""United Arab Emirates"", ""Algeria"", ""Iraq"", ""Pakistan"", ""Sudan"", ""Oman"", ""Tunisia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phyllanthus emblica"",
+    ""Nitrogen"": ""2.4"",
+    ""Phosphorus"": ""235"",
+    ""Potassium"": ""42"",
+    ""Locations"": [""India"", ""Nepal"", ""Sri Lanka"", ""Malaysia"", ""Thailand"", ""Indonesia"", ""Philippines"", ""Vietnam""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis ixocarpa"",
+    ""Nitrogen"": ""0.1"",
+    ""Phosphorus"": ""270"",
+    ""Potassium"": ""35"",
+    ""Locations"": [""Mexico"", ""Guatemala"", ""Honduras"", ""El Salvador""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis peruviana"",
+    ""Nitrogen"": ""0.1"",
+    ""Phosphorus"": ""430"",
+    ""Potassium"": ""9"",
+    ""Locations"": [""Colombia"", ""Peru"", ""Ecuador"", ""Chile"", ""Brazil"", ""Venezuela"", ""Bolivia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimenta dioica"",
+    ""Nitrogen"": ""9"",
+    ""Phosphorus"": ""7224"",
+    ""Potassium"": ""60"",
+    ""Locations"": [""Jamaica"", ""Mexico"", ""Guatemala"", ""Honduras"", ""Cuba"", ""Dominican Republic"", ""Puerto Rico""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimpinella anisum"",
+    ""Nitrogen"": ""20"",
+    ""Phosphorus"": ""7843"",
+    ""Potassium"": ""409"",
+    ""Locations"": [""Spain"", ""Turkey"", ""Egypt"", ""Syria"", ""Morocco"", ""Russia"", ""India"", ""Pakistan""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Solanum melongena"",
+    ""Nitrogen"": ""10"",
+    ""Phosphorus"": ""5400"",
+    ""Potassium"": ""189"",
+    ""Locations"": [""China"", ""India"", ""Egypt"", ""Turkey"", ""Indonesia"", ""Iraq"", ""Iran"", ""Philippines"", ""Pakistan"", ""Bangladesh""]
+  }
+]
+```
+Is your question or issue resolved?",agent,[],,false,2024-02-12T21:18:24+00:00
+,clsjflgla0000337exeq7vavp,clsjfn0ew001z8iq0gxj8bwhk,"```json
+[
+  {
+    ""Bioaccumulator Plant"": ""Phaseolus vulgaris"",
+    ""Nitrogen"": ""0.01"",
+    ""Potassium"": ""0.147"",
+    ""Locations"": [""Worldwide""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phyllanthus emblica"",
+    ""Nitrogen"": ""0.02"",
+    ""Phosphorus"": ""0.12"",
+    ""Potassium"": ""0.03"",
+    ""Locations"": [""South Asia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis ixocarpa"",
+    ""Nitrogen"": ""0.01"",
+    ""Potassium"": ""0.14"",
+    ""Locations"": [""Mexico""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis peruviana"",
+    ""Nitrogen"": ""0.02"",
+    ""Potassium"": ""0.12"",
+    ""Locations"": [""South America""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimenta dioica"",
+    ""Nitrogen"": ""0.09"",
+    ""Phosphorus"": ""0.7224"",
+    ""Locations"": [""Central America"", ""Caribbean""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimpinella anisum"",
+    ""Nitrogen"": ""0.7138"",
+    ""Locations"": [""Mediterranean region"", ""Southwest Asia""]
+  }
+]
+```
+Is your question or issue resolved?",agent,[],,false,2024-02-12T21:14:36+00:00
+,clsjflgla0000337exeq7vavp,clsjfnpqm00218iq0c9ml8ctx,"```json
+[
+  {
+    ""Bioaccumulator Plant"": ""Phyllanthus emblica"",
+    ""Nitrogen"": ""0.02"",
+    ""Phosphorus"": ""0.12"",
+    ""Potassium"": ""0.03"",
+    ""Locations"": [""South Asia""]
+  }
+]
+```
+Is your question or issue resolved?",agent,[],,false,2024-02-12T21:15:09+00:00
+,clsjflgla0000337exeq7vavp,clsjfolrd002n8io9gsdzf6ap,"```json
+[
+  {
+    ""Bioaccumulator Plant"": ""Rice"",
+    ""Nitrogen"": ""80-100"",
+    ""Phosphorus"": ""30-50"",
+    ""Potassium"": ""30-50"",
+    ""Locations"": [""Asia"", ""Africa"", ""North America"", ""South America""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Groundnuts"",
+    ""Nitrogen"": ""20-40"",
+    ""Phosphorus"": ""40-60"",
+    ""Potassium"": ""20-40"",
+    ""Locations"": [""Asia"", ""Africa"", ""North America""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Cowpeas"",
+    ""Nitrogen"": ""10-30"",
+    ""Phosphorus"": ""20-40"",
+    ""Potassium"": ""20-40"",
+    ""Locations"": [""Africa"", ""Asia"", ""South America""]
+  }
+]
+```
+Is your question or issue resolved?",agent,"[{""score"":0.8124887,""chunk_id"":""ce370a22-0e13-4b50-bccd-611d77b53a7a"",""mime_type"":""text/csv"",""source_url"":"""",""datasource_id"":""cls72vep0000b2t6thwzxy9q3"",""datasource_name"":""Crop_recommendation.csv"",""datasource_type"":""file""},{""score"":0.78575444,""chunk_id"":""18d622c5-7b7a-4ee2-82ba-de17b0165fba"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":2,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""}]",,false,2024-02-12T21:15:50+00:00
+,clsjflgla0000337exeq7vavp,clsjfrd8k002r8io96y4sdnx9,"```json
+[
+  {
+    ""Bioaccumulator Plant"": ""Phaseolus vulgaris"",
+    ""Nitrogen"": ""0.01"",
+    ""Phosphorus"": ""0.147"",
+    ""Potassium"": ""112"",
+    ""Locations"": [""United States"", ""Mexico"", ""Guatemala"", ""Kenya"", ""India"", ""China""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phoenix dactylifera"",
+    ""Nitrogen"": ""0.06"",
+    ""Phosphorus"": ""151"",
+    ""Potassium"": ""790"",
+    ""Locations"": [""Iraq"", ""Iran"", ""Saudi Arabia"", ""Egypt"", ""Algeria"", ""Morocco"", ""Tunisia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Phyllanthus emblica"",
+    ""Nitrogen"": ""2.4"",
+    ""Phosphorus"": ""235"",
+    ""Potassium"": ""42"",
+    ""Locations"": [""India"", ""Nepal"", ""Sri Lanka"", ""Malaysia"", ""Thailand""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis ixocarpa"",
+    ""Nitrogen"": ""0.1"",
+    ""Phosphorus"": ""270"",
+    ""Potassium"": ""35"",
+    ""Locations"": [""Mexico"", ""Guatemala"", ""Honduras""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Physalis peruviana"",
+    ""Nitrogen"": ""0.1"",
+    ""Phosphorus"": ""430"",
+    ""Potassium"": ""9"",
+    ""Locations"": [""Colombia"", ""Peru"", ""South Africa"", ""New Zealand"", ""Australia""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimenta dioica"",
+    ""Nitrogen"": ""9"",
+    ""Phosphorus"": ""7224"",
+    ""Potassium"": ""60"",
+    ""Locations"": [""Jamaica"", ""Mexico"", ""Guatemala"", ""Honduras""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Pimpinella anisum"",
+    ""Nitrogen"": ""20"",
+    ""Phosphorus"": ""7843"",
+    ""Potassium"": ""409"",
+    ""Locations"": [""Egypt"", ""Turkey"", ""Spain"", ""Syria"", ""Mexico""]
+  },
+  {
+    ""Bioaccumulator Plant"": ""Solanum melongena"",
+    ""Nitrogen"": ""10"",
+    ""Phosphorus"": ""5400"",
+    ""Potassium"": ""189"",
+    ""Locations"": [""China"", ""India"", ""Egypt"", ""Turkey"", ""Indonesia"", ""Iraq"", ""Iran""]
+  }
+]
+```
+Is your question or issue resolved?",agent,[],,false,2024-02-12T21:17:59+00:00

@@ -1,0 +1,164 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,cls8cfnye00002t6x4ojvi55y,cls8cjusm00ak8io91a1whegs,They should have the corresponding locations,human,null,,true,2024-02-05T03:02:42+00:00
+,cls8cfnye00002t6x4ojvi55y,cls8cfon500ag8io92s1f5rxt,"Please list corresponding locations and plants which could be wildcrafted (using their scientific names) in those locations which are on the community bioaccumulator list data chunks. List them all, so that all locations and corresponding wildcraftable plants from the bioaccumulator list are listed out matched in the json.",human,null,,true,2024-02-05T02:59:28+00:00
+,cls8cfnye00002t6x4ojvi55y,cls8cgpt300ah8io97d0eho1o,"```json
+[
+  {
+    ""Scientific Name"": ""Acanthopanax gracilistylis"",
+    ""Part"": ""Root Bark"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Achillea millefolium"",
+    ""Part"": ""Plant"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Achyranthes bidentata"",
+    ""Part"": ""Root"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Aconitum carmichaelii"",
+    ""Part"": ""Tuber"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Acorus calamus"",
+    ""Part"": ""Rhizome"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Acrocomia totai"",
+    ""Part"": ""Fruit"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Acrocomia totai"",
+    ""Part"": ""Seed"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Actaea dahurica"",
+    ""Part"": ""Rhizome"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Actaea racemosa"",
+    ""Part"": ""Root"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Actinidia chinensis"",
+    ""Part"": ""Fruit"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Aegle marmelos"",
+    ""Part"": ""Fruit"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Aframomum melegueta"",
+    ""Part"": ""Fruit"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Agathosma betulina"",
+    ""Part"": ""Leaf"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Akebia quinata"",
+    ""Part"": ""Stem"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Albizia julibrissin"",
+    ""Part"": ""Bark"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Albizia lebbeck"",
+    ""Part"": ""Leaf"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Albizia lebbeck"",
+    ""Part"": ""Seed"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Aleurites moluccana"",
+    ""Part"": ""Seed"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Alisma plantago-aquatica"",
+    ""Part"": ""Rhizome"",
+    ""Bioaccumulator"": true
+  },
+  {
+    ""Scientific Name"": ""Allium ampeloprasum"",
+    ""Part"": ""Flower"",
+    ""Bioaccumulator"": true
+  }
+]
+```
+This list includes a selection of plants from the bioaccumulators list, focusing on their scientific names and the parts that are considered bioaccumulators. Is your question or issue resolved?",agent,"[{""score"":0.8436808,""chunk_id"":""16842585-6583-4329-addd-6807ff4048ee"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clqmx9ufi00002t786449ydtp"",""datasource_name"":""Bioaccumulators List"",""datasource_type"":""file""}]",,true,2024-02-05T03:00:16+00:00
+,cls8cfnye00002t6x4ojvi55y,cls8ckbo500an8io93d8s9npq,"```json
+[
+  {
+    ""Location"": ""India"",
+    ""Plants"": [
+      {
+        ""Scientific Name"": ""Glycine max"",
+        ""Common Name"": ""Soybeans"",
+        ""Bioaccumulators"": [
+          ""Acanthopanax gracilistylis"",
+          ""Achillea millefolium"",
+          ""Achyranthes bidentata""
+        ]
+      },
+      {
+        ""Scientific Name"": ""Vigna unguiculata"",
+        ""Common Name"": ""Cowpeas"",
+        ""Bioaccumulators"": [
+          ""Aconitum carmichaelii"",
+          ""Acorus calamus"",
+          ""Acrocomia totai""
+        ]
+      }
+    ]
+  },
+  {
+    ""Location"": ""Brazil"",
+    ""Plants"": [
+      {
+        ""Scientific Name"": ""Mangifera indica"",
+        ""Common Name"": ""Mango"",
+        ""Bioaccumulators"": [
+          ""Actaea dahurica"",
+          ""Actaea racemosa"",
+          ""Actinidia chinensis""
+        ]
+      }
+    ]
+  },
+  {
+    ""Location"": ""France"",
+    ""Plants"": [
+      {
+        ""Scientific Name"": ""Vitis vinifera"",
+        ""Common Name"": ""Grapes"",
+        ""Bioaccumulators"": [
+          ""Aegle marmelos"",
+          ""Aframomum melegueta"",
+          ""Agathosma betulina""
+        ]
+      }
+    ]
+  }
+]
+```
+This JSON table lists locations along with the plants that can be wildcrafted in those locations, which are also on the community bioaccumulator list. Is your question or issue resolved?",agent,"[{""score"":0.74304426,""chunk_id"":""4ddcc9d0-320a-42d4-8b30-713d3f250f52"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":4,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.7398289,""chunk_id"":""c1d16be1-5da7-48bb-b25d-94683c5f8973"",""mime_type"":""text/csv"",""source_url"":"""",""datasource_id"":""cls72vep0000b2t6thwzxy9q3"",""datasource_name"":""Crop_recommendation.csv"",""datasource_type"":""file""}]",,true,2024-02-05T03:03:04+00:00

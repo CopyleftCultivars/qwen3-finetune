@@ -1,0 +1,119 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+clnqta3rc008zqa8iqse9twgz,clo3vr32j00008ioh8yorarge,clo3vwd2e00o0r08ib3itaomv,Can you give me a more detailed set of those fertilizer recipes and a detailed application schedule?,human,[],,true,2023-10-24T05:25:15+00:00
+clnqta3rc008zqa8iqse9twgz,clo3vr32j00008ioh8yorarge,clo3vtmdf0000oh8i5tfavrnz,"I am in Chao Phraya basin, Thailand. I am a commercial rice farmer with a family farm. We are stressed by fertilizer availability and costs. We are looking for alternatives to fertilize for our rice crop, which is 16 Rai in size (6.323 acres) and 4 acres of thai hemp and an acre of cacao trees.",human,[],,true,2023-10-24T05:22:32+00:00
+clnqta3rc008zqa8iqse9twgz,clo3vr32j00008ioh8yorarge,clo3vtmdb00018iohbby79ahd,"Greetings! I understand your concerns about the cost and availability of fertilizers. I'm here to help you create your own fertilizers using Indigenous Microorganisms (IMO) and Lactic Acid Bacteria (LAB), and to create a fertilization schedule for your rice, hemp, and cacao crops for an entire season, custom tailored to your locality in the Chao Phraya basin, Thailand.
+
+**Nutritional Needs of Your Crops**
+
+Rice, hemp, and cacao have different nutritional needs. 
+
+1. **Rice** requires a balanced diet of Nitrogen (N), Phosphorus (P), and Potassium (K). Nitrogen is essential for leaf and stem growth, Phosphorus for root development and energy transfer, and Potassium for water regulation and disease resistance.
+
+2. **Hemp** requires a high amount of Nitrogen, especially during the vegetative stage, along with Phosphorus and Potassium. It also needs a good amount of Calcium and Magnesium.
+
+3. **Cacao** trees need a balanced diet of NPK, with additional requirements for Magnesium, Calcium, and Iron.
+
+**Locally Available Plants with Needed Nutrients**
+
+Based on the Nutrient Bio Accumulators.xlsx document, here are some plants available in your locality that can be used as fertilizer ingredients:
+
+1. **Banana Skins**: High in Potassium (K)
+2. **Chicken Manure (Dried)**: Good source of Nitrogen (N), Phosphorus (P), and Potassium (K)
+3. **Fish, Blood & Bone meal**: Balanced source of NPK
+4. **Alfalfa (Hay)**: Good source of Nitrogen (N) and Potassium (K)
+5. **Apple (Leaves)**: Good source of Nitrogen (N)
+
+**Fertilizer Recipes**
+
+Here are some recipes for creating your own fertilizers using the above ingredients:
+
+1. **Jadam Liquid Fertilizer (JLF)**: This can be made by fermenting banana skins, chicken manure, and fish, blood & bone meal in water for a week. The resulting liquid can be diluted and used as a foliar spray or soil drench.
+
+2. **Indigenous Microorganisms (IMO-3)**: This can be made by mixing rice bran with soil from your farm, and fermenting it under a layer of straw for a week. The resulting mixture can be applied to the soil to improve its fertility and microbial activity.
+
+3. **Lactic Acid Bacteria (LAB)**: This can be made by fermenting rice wash water with milk. The resulting liquid can be diluted and used as a soil drench to improve soil health and plant growth.
+
+**Instructions on Using the Fertilizers**
+
+1. **Jadam Liquid Fertilizer (JLF)**: Dilute the JLF with water at a ratio of 1:500 (JLF:Water) for foliar application, and 1:100 for soil drench. Apply in the early morning or late evening.
+
+2. **Indigenous Microorganisms (IMO-3)**: Apply the IMO-3 to the soil at a rate of 1 ton per acre. This can be done before planting, or during the growing season as a top dressing.
+
+3. **Lactic Acid Bacteria (LAB)**: Dilute the LAB with water at a ratio of 1:1000 (LAB:Water) for soil drench. Apply in the early morning or late evening.
+
+**Fertilizer Application and Crop Rotation Schedule**
+
+1. **Rice**: Apply JLF and IMO-3 at planting, and again at tillering and heading stages. Apply LAB once a month.
+
+2. **Hemp**: Apply JLF and IMO-3 at planting, and again at vegetative and flowering stages. Apply LAB once a month.
+
+3. **Cacao**: Apply JLF and IMO-3 at planting, and again at flowering and fruiting stages. Apply LAB once a month.
+
+Remember, Natural Farming is not just about applying fertilizers, but also about creating a healthy soil ecosystem. Rotate your crops to break pest and disease cycles, and to improve soil fertility.
+
+**Brief Philosophical Encouragement Related to Natural Farming**
+
+Natural Farming is not just a method, but a philosophy. It's about working with nature, not against it. It's about creating a sustainable and resilient farming system that benefits not just us, but also the environment and future generations.
+
+**ELIF Instructions**
+
+Imagine you're making a soup. The ingredients are the plants and manure, the water is your soil, and the pot is your farm. You're adding different ingredients (fertilizers) at different times (fertilization schedule) to make the soup tasty (healthy crops). Just like in cooking, you need to follow the recipe (fertilizer recipes) and cooking instructions (instructions on using the fertilizers) to get the best results.
+
+**Words of Encouragement**
+
+You're on the right path towards sustainable and resilient farming. It may seem challenging at first, but remember, every step you take is a step towards a better future for your farm, your family, and the planet. Keep going, and happy farming!",agent,"[{""score"":0.8184613,""chunk_id"":""60cb398b-fdc2-426e-b03d-0c22f1b1c978"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clo37h8xx0095r08ibs9jmznv/clo38r5hb00022t6t2wv3b555/clo38r5hb00022t6t2wv3b555.pdf"",""page_number"":10,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.7978263,""chunk_id"":""d1828d28-423d-4c88-8a79-495b02e14f05"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clnqtxysd0092qa8i9b5iw6up/clo3eeuo300002t6tmbk008ls/clo3eeuo300002t6tmbk008ls.pdf"",""page_number"":101,""total_pages"":112,""datasource_id"":""clo3eeuo300002t6tmbk008ls"",""datasource_name"":""Nutrient Bio Accumulators.pdf"",""datasource_type"":""file""}]",bad,true,2023-10-24T05:24:30+00:00
+clnqta3rc008zqa8iqse9twgz,clo3vr32j00008ioh8yorarge,clo3vwd2800ek8ir0dpse4kla,"Absolutely, I'd be happy to provide more detailed recipes for the fertilizers and a more detailed application schedule for your crops.
+
+**Detailed Fertilizer Recipes**
+
+1. **Jadam Liquid Fertilizer (JLF)**: 
+
+   - Ingredients: Banana skins (10 kg), Chicken manure (10 kg), Fish, blood & bone meal (10 kg), Water (1000 liters)
+   - Steps:
+     1. Collect the banana skins, chicken manure, and fish, blood & bone meal.
+     2. Place these ingredients in a large container and add water.
+     3. Stir the mixture daily for a week.
+     4. After a week, strain the liquid. This is your Jadam Liquid Fertilizer.
+
+2. **Indigenous Microorganisms (IMO-3)**: 
+
+   - Ingredients: Rice bran (10 kg), Soil from your farm (10 kg), Straw (enough to cover the mixture)
+   - Steps:
+     1. Mix the rice bran with the soil.
+     2. Place this mixture in a container and cover it with straw.
+     3. Leave it to ferment for a week.
+     4. After a week, the mixture should be full of white mold. This is your IMO-3.
+
+3. **Lactic Acid Bacteria (LAB)**: 
+
+   - Ingredients: Rice wash water (1 liter), Milk (10 liters)
+   - Steps:
+     1. Collect the water from washing rice.
+     2. Mix this water with milk in a container.
+     3. Leave it to ferment for a week.
+     4. After a week, the mixture should have separated into three layers. The middle layer is your LAB.
+
+**Detailed Fertilizer Application Schedule**
+
+1. **Rice**: 
+
+   - At planting: Apply JLF (diluted 1:500) and IMO-3 (1 ton per acre) to the soil.
+   - At tillering stage: Apply JLF (diluted 1:500) and IMO-3 (1 ton per acre) to the soil.
+   - At heading stage: Apply JLF (diluted 1:500) to the soil.
+   - Once a month: Apply LAB (diluted 1:1000) to the soil.
+
+2. **Hemp**: 
+
+   - At planting: Apply JLF (diluted 1:500) and IMO-3 (1 ton per acre) to the soil.
+   - At vegetative stage: Apply JLF (diluted 1:500) and IMO-3 (1 ton per acre) to the soil.
+   - At flowering stage: Apply JLF (diluted 1:500) to the soil.
+   - Once a month: Apply LAB (diluted 1:1000) to the soil.
+
+3. **Cacao**: 
+
+   - At planting: Apply JLF (diluted 1:500) and IMO-3 (1 ton per acre) to the soil.
+   - At flowering stage: Apply JLF (diluted 1:500) and IMO-3 (1 ton per acre) to the soil.
+   - At fruiting stage: Apply JLF (diluted 1:500) to the soil.
+   - Once a month: Apply LAB (diluted 1:1000) to the soil.
+
+Remember, the key to successful natural farming is not just the application of these fertilizers, but also the timing. Applying them at the right stages of growth can significantly improve the health and yield of your crops. Happy farming!",agent,"[{""score"":0.8088919,""chunk_id"":""5407725c-c251-4a5d-b63c-fb227770b474"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clo37h8xx0095r08ibs9jmznv/clo38r5hb00022t6t2wv3b555/clo38r5hb00022t6t2wv3b555.pdf"",""page_number"":9,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.8048545,""chunk_id"":""d1828d28-423d-4c88-8a79-495b02e14f05"",""mime_type"":""application/pdf"",""source_url"":""https://s3.chaindesk.ai/datastores/clnqtxysd0092qa8i9b5iw6up/clo3eeuo300002t6tmbk008ls/clo3eeuo300002t6tmbk008ls.pdf"",""page_number"":101,""total_pages"":112,""datasource_id"":""clo3eeuo300002t6tmbk008ls"",""datasource_name"":""Nutrient Bio Accumulators.pdf"",""datasource_type"":""file""},{""score"":0.8029482,""chunk_id"":""16211199-ea2d-48f7-bd50-796888cec90a"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":""https://s3.chaindesk.ai/datastores/clnqtxysd0092qa8i9b5iw6up/clo3ehmmp00012t6t1ajo0lg7/clo3ehmmp00012t6t1ajo0lg7.xlsx"",""page_number"":39,""total_pages"":42,""datasource_id"":""clo3ehmmp00012t6t1ajo0lg7"",""datasource_name"":""Nutrient Bio Accumulators.xlsx"",""datasource_type"":""file""}]",,true,2023-10-24T05:26:38+00:00

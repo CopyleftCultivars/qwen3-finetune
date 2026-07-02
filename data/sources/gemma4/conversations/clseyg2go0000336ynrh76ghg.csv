@@ -1,0 +1,444 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+,clseyg2go0000336ynrh76ghg,clseygs4802iw8iq05z6e47z6,"```json
+[
+  {
+    ""Problema de Agricultura"": ""Salinização do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Culturas Tolerantes ao Sal"",
+    ""Descrição"": ""Uso de culturas adaptadas a solos salinos para evitar a degradação do solo."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Pequenos agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Emissões de Gases de Efeito Estufa"",
+    ""Solução de Agricultura Regenerativa"": ""Agricultura de Baixo Carbono"",
+    ""Descrição"": ""Práticas agrícolas que reduzem a emissão de gases de efeito estufa, como o plantio direto e a fixação biológica de nitrogênio."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Perda de Nutrientes do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Adubação Verde"",
+    ""Descrição"": ""Uso de plantas que adicionam nutrientes ao solo, melhorando sua fertilidade."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso Ineficiente de Água"",
+    ""Solução de Agricultura Regenerativa"": ""Irrigação por Gotejamento"",
+    ""Descrição"": ""Sistema de irrigação que economiza água, direcionando-a diretamente para a raiz das plantas."",
+    ""Local"": ""Semiárido"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Monocultura"",
+    ""Solução de Agricultura Regenerativa"": ""Policultura"",
+    ""Descrição"": ""Cultivo de várias espécies de plantas simultaneamente, aumentando a biodiversidade e a resiliência do sistema."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Erosão do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Terraceamento"",
+    ""Descrição"": ""Criação de terraços para reduzir a velocidade da água da chuva e evitar a erosão do solo."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores de café""
+  },
+  {
+    ""Problema de Agricultura"": ""Acidificação do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Calagem"",
+    ""Descrição"": ""Aplicação de calcário para neutralizar a acidez do solo e melhorar sua qualidade."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Queimadas"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo Integrado do Fogo"",
+    ""Descrição"": ""Uso controlado do fogo para prevenir incêndios descontrolados e manter ecossistemas saudáveis."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Invasão de Espécies Exóticas"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo de Espécies Nativas"",
+    ""Descrição"": ""Promoção e uso de espécies nativas para restaurar ecossistemas e combater espécies invasoras."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades ribeirinhas""
+  },
+  {
+    ""Problema de Agricultura"": ""Contaminação do Solo por Metais Pesados"",
+    ""Solução de Agricultura Regenerativa"": ""Fitoextração"",
+    ""Descrição"": ""Uso de plantas que absorvem metais pesados do solo, limpando-o."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Pequenos agricultores""
+  }
+]
+```
+Sua questão ou problema está resolvido?",agent,[],,false,2024-02-09T18:02:47+00:00
+,clseyg2go0000336ynrh76ghg,clseyiejm02o98io9avzv2srm,"```json
+[
+  {
+    ""Problema de Agricultura"": ""Redução da Matéria Orgânica no Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Compostagem"",
+    ""Descrição"": ""Transformação de resíduos orgânicos em composto rico em nutrientes para o solo."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores de hortaliças""
+  },
+  {
+    ""Problema de Agricultura"": ""Desertificação"",
+    ""Solução de Agricultura Regenerativa"": ""Revegetação"",
+    ""Descrição"": ""Plantio de vegetação nativa para recuperar áreas degradadas e prevenir a desertificação."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso excessivo de água"",
+    ""Solução de Agricultura Regenerativa"": ""Sistemas Agroflorestais"",
+    ""Descrição"": ""Integração de árvores e culturas agrícolas para criar um sistema mais eficiente no uso da água."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Dependência de Insumos Externos"",
+    ""Solução de Agricultura Regenerativa"": ""Produção de Insumos Locais"",
+    ""Descrição"": ""Criação de insumos agrícolas, como biofertilizantes e sementes, dentro da própria comunidade."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Perda de Polinizadores"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo de Habitat para Polinizadores"",
+    ""Descrição"": ""Criação e preservação de habitats naturais para atrair e proteger polinizadores."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Resistência a Pesticidas"",
+    ""Solução de Agricultura Regenerativa"": ""Rotação de Culturas"",
+    ""Descrição"": ""Alternância de culturas para quebrar o ciclo de pragas e doenças, reduzindo a necessidade de pesticidas."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores de café""
+  },
+  {
+    ""Problema de Agricultura"": ""Concentração de Terras"",
+    ""Solução de Agricultura Regenerativa"": ""Agricultura Comunitária"",
+    ""Descrição"": ""Práticas agrícolas realizadas em conjunto pela comunidade, promovendo o acesso à terra e a produção sustentável."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Poluição do Ar"",
+    ""Solução de Agricultura Regenerativa"": ""Agroecologia"",
+    ""Descrição"": ""Práticas agrícolas que visam a sustentabilidade ambiental, econômica e social, reduzindo a poluição."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Perda de Conhecimento Tradicional"",
+    ""Solução de Agricultura Regenerativa"": ""Resgate de Práticas Tradicionais"",
+    ""Descrição"": ""Valorização e aplicação de conhecimentos agrícolas tradicionais das comunidades locais."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Conflitos por Recursos Naturais"",
+    ""Solução de Agricultura Regenerativa"": ""Gestão Compartilhada de Recursos"",
+    ""Descrição"": ""Administração conjunta de recursos naturais pelas comunidades, promovendo o uso sustentável e evitando conflitos."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  }
+]
+```
+Sua questão ou problema está resolvido?",agent,[],,false,2024-02-09T18:04:03+00:00
+,clseyg2go0000336ynrh76ghg,clsf0ua9402mg8iq0ga723f0t,"Please continue with 50 additional entries in Portuguese this same form and format of dataset json, focusing on using regenerative and organic farming solutions to common issues as well as encouraging community mutual aid and political activism for forest conservation. Subtle themes of Mutual Aid and communism, yet never explicitly mentioned. All language in response should be in Brazilian dialect of Portuguese.",human,null,,false,2024-02-09T19:09:17+00:00
+,clseyg2go0000336ynrh76ghg,clsf0w34x02ry8io9gu7ue563,"Please continue with 50 additional entries you have not yet given, in Portuguese, in this same form and format of dataset json, focusing on using regenerative and organic farming solutions to common issues as well as encouraging community mutual aid and political activism for forest conservation. All language in response should be in Brazilian dialect of Portuguese.",human,null,,false,2024-02-09T19:10:41+00:00
+,clseyg2go0000336ynrh76ghg,clseyhbng02o88io97z2kg4fa,"Please continue with 50 additional entries in Portuguese this same form and format of dataset json, focusing on using regenerative and organic farming solutions to common issues as well as encouraging community mutual aid and political activism for forest conservation. All language in response should be in Brazilian dialect of Portuguese.",human,null,,false,2024-02-09T18:03:13+00:00
+,clseyg2go0000336ynrh76ghg,clseyg2td02iu8iq0bpuf2rsj,"Please continue with 50 additional entries in Portuguese this same form and format of dataset json, focusing on using regenerative and organic farming solutions to common issues as well as encouraging community mutual aid and political activism for forest conservation. All language in response should be in Brazilian dialect of Portuguese. Dataset example: 
+  {
+    ""Problema de Agricultura"": ""Erosão do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Plantio Direto"",
+    ""Descrição"": ""O plantio direto consiste em semear diretamente no solo sem revolvê-lo, reduzindo a erosão e melhorando a saúde do solo."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades ribeirinhas""
+  },
+  {
+    ""Problema de Agricultura"": ""Perda de Biodiversidade"",
+    ""Solução de Agricultura Regenerativa"": ""Agrofloresta"",
+    ""Descrição"": ""Integração de árvores e culturas agrícolas para criar um sistema mais diversificado e resiliente."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso excessivo de fertilizantes químicos"",
+    ""Solução de Agricultura Regenerativa"": ""Biofertilizantes"",
+    ""Descrição"": ""Uso de compostos orgânicos e microorganismos para nutrir o solo de forma sustentável."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Pequenos agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Escassez de Água"",
+    ""Solução de Agricultura Regenerativa"": ""Captação de Água da Chuva"",
+    ""Descrição"": ""Sistemas de coleta e armazenamento de água da chuva para irrigação."",
+    ""Local"": ""Semiárido"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Degradation do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Rotação de Culturas"",
+    ""Descrição"": ""Alternância de culturas para manter a saúde do solo e reduzir pragas."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Pragas e Doenças"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo Integrado de Pragas"",
+    ""Descrição"": ""Uso de práticas culturais, biológicas e mecânicas para controlar pragas de forma sustentável."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Compactação do Solo"",
+    ""Solução de Agricultura Regenerativa"": ""Cobertura do Solo"",
+    ""Descrição"": ""Uso de plantas de cobertura para proteger e melhorar a estrutura do solo."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores de café""
+  },
+  {
+    ""Problema de Agricultura"": ""Poluição por Agrotóxicos"",
+    ""Solução de Agricultura Regenerativa"": ""Controle Biológico de Pragas"",
+    ""Descrição"": ""Uso de predadores naturais e organismos benéficos para controlar pragas."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades ribeirinhas""
+  },
+  {
+    ""Problema de Agricultura"": ""Desmatamento"",
+    ""Solução de Agricultura Regenerativa"": ""Sistemas Agroflorestais"",
+    ""Descrição"": ""Criação de sistemas que imitam a floresta natural, promovendo a conservação das árvores."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },",human,null,,false,2024-02-09T18:02:14+00:00
+,clseyg2go0000336ynrh76ghg,clsf0ye7d02mj8iq0dqbi8qvi,"Please continue with 50 additional entries you have not yet given, in Portuguese, in this same form and format of dataset json, focusing on using regenerative and organic farming solutions to common issues as well as encouraging open source and copyleft approaches to seed sharing. All language in response should be in Brazilian dialect of Portuguese.",human,null,,false,2024-02-09T19:12:28+00:00
+,clseyg2go0000336ynrh76ghg,clsf0zgve02mk8iq09jbngoar,"```json
+[
+  {
+    ""Problema de Agricultura"": ""Patenteamento de Sementes"",
+    ""Solução de Agricultura Regenerativa"": ""Redes de Troca de Sementes Livres"",
+    ""Descrição"": ""Criação de redes para a troca de sementes não patenteadas, promovendo a livre circulação de variedades vegetais."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Grupos de agricultura familiar""
+  },
+  {
+    ""Problema de Agricultura"": ""Perda de Variedades Locais"",
+    ""Solução de Agricultura Regenerativa"": ""Feiras de Sementes Crioulas"",
+    ""Descrição"": ""Organização de feiras dedicadas à troca e venda de sementes crioulas, incentivando a conservação da biodiversidade agrícola."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Dificuldade de Acesso a Sementes Adaptadas"",
+    ""Solução de Agricultura Regenerativa"": ""Bibliotecas de Sementes"",
+    ""Descrição"": ""Estabelecimento de bibliotecas comunitárias de sementes, onde agricultores podem pegar emprestado, trocar ou doar sementes."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Pequenos agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Domínio de Corporações sobre a Agricultura"",
+    ""Solução de Agricultura Regenerativa"": ""Cooperativas de Produção"",
+    ""Descrição"": ""Formação de cooperativas que promovem a produção agrícola colaborativa e independente de grandes corporações."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Informação sobre Cultivo Orgânico"",
+    ""Solução de Agricultura Regenerativa"": ""Workshops de Agricultura Orgânica"",
+    ""Descrição"": ""Realização de workshops gratuitos sobre técnicas de cultivo orgânico e regenerativo, compartilhando conhecimento abertamente."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas e ribeirinhas""
+  },
+  {
+    ""Problema de Agricultura"": ""Barreiras ao Acesso a Mercados Justos"",
+    ""Solução de Agricultura Regenerativa"": ""Plataformas de Venda Direta"",
+    ""Descrição"": ""Desenvolvimento de plataformas online de venda direta, permitindo que agricultores vendam seus produtos diretamente aos consumidores."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores orgânicos""
+  },
+  {
+    ""Problema de Agricultura"": ""Impacto Ambiental da Embalagem"",
+    ""Solução de Agricultura Regenerativa"": ""Embalagens Sustentáveis"",
+    ""Descrição"": ""Uso de embalagens feitas de materiais recicláveis ou biodegradáveis, reduzindo o impacto ambiental."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Mercados locais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Conexão entre Agricultores"",
+    ""Solução de Agricultura Regenerativa"": ""Redes Sociais para Agricultores"",
+    ""Descrição"": ""Criação de redes sociais e fóruns online para agricultores trocarem experiências e conhecimentos."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Comunidades de pequenos produtores""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso Excessivo de Recursos Não Renováveis"",
+    ""Solução de Agricultura Regenerativa"": ""Tecnologias de Baixo Impacto"",
+    ""Descrição"": ""Adoção de tecnologias que utilizam recursos renováveis e têm baixo impacto ambiental, como a energia solar para irrigação."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Apoio Governamental"",
+    ""Solução de Agricultura Regenerativa"": ""Iniciativas de Financiamento Coletivo"",
+    ""Descrição"": ""Utilização de plataformas de financiamento coletivo para apoiar projetos agrícolas sustentáveis e comunitários."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades tradicionais""
+  }
+]
+```
+Sua questão ou problema está resolvido?",agent,[],good,false,2024-02-09T19:13:18+00:00
+,clseyg2go0000336ynrh76ghg,clsf0vfz902mh8iq07f5w9fyo,"```json
+[
+  {
+    ""Problema de Agricultura"": ""Acesso Limitado a Mercados"",
+    ""Solução de Agricultura Regenerativa"": ""Feiras Locais de Troca"",
+    ""Descrição"": ""Organização de feiras onde os produtores podem trocar produtos entre si, fortalecendo a economia local."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores de hortaliças""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Diversidade Genética"",
+    ""Solução de Agricultura Regenerativa"": ""Bancos de Sementes Comunitários"",
+    ""Descrição"": ""Criação de bancos de sementes geridos pela comunidade para preservar a diversidade genética das culturas."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Alta Dependência de Energia Fóssil"",
+    ""Solução de Agricultura Regenerativa"": ""Energias Renováveis na Agricultura"",
+    ""Descrição"": ""Implementação de sistemas de energia solar e eólica para reduzir a dependência de combustíveis fósseis."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultores familiares""
+  },
+  {
+    ""Problema de Agricultura"": ""Degradação de Áreas de Preservação"",
+    ""Solução de Agricultura Regenerativa"": ""Corredores Ecológicos"",
+    ""Descrição"": ""Restauração de áreas degradadas para conectar habitats e preservar a biodiversidade."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Água Potável"",
+    ""Solução de Agricultura Regenerativa"": ""Sistemas de Filtração Comunitários"",
+    ""Descrição"": ""Construção de sistemas de filtração de água geridos pela comunidade para garantir acesso à água potável."",
+    ""Local"": ""Semiárido"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso de Variedades Não Adaptadas"",
+    ""Solução de Agricultura Regenerativa"": ""Seleção Participativa de Sementes"",
+    ""Descrição"": ""Processo coletivo de seleção de variedades de sementes adaptadas às condições locais."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Agricultores de médio porte""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Conexão com a Natureza"",
+    ""Solução de Agricultura Regenerativa"": ""Educação Ambiental nas Escolas"",
+    ""Descrição"": ""Inclusão de programas de educação ambiental nas escolas para promover a conexão com a natureza."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Produtores de café""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Espaços Verdes Urbanos"",
+    ""Solução de Agricultura Regenerativa"": ""Hortas Urbanas Comunitárias"",
+    ""Descrição"": ""Criação de espaços verdes nas cidades onde a comunidade pode cultivar alimentos e plantas."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Comunidades urbanas""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Reconhecimento do Trabalho Feminino"",
+    ""Solução de Agricultura Regenerativa"": ""Cooperativas Agrícolas Femininas"",
+    ""Descrição"": ""Formação de cooperativas agrícolas lideradas por mulheres para promover a igualdade de gênero na agricultura."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Agricultoras""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Apoio a Jovens Agricultores"",
+    ""Solução de Agricultura Regenerativa"": ""Programas de Mentoria para Jovens"",
+    ""Descrição"": ""Criação de programas de mentoria para apoiar jovens agricultores no início de suas carreiras agrícolas."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Jovens agricultores""
+  }
+]
+```
+Sua questão ou problema está resolvido?",agent,[],,false,2024-02-09T19:10:11+00:00
+,clseyg2go0000336ynrh76ghg,clsf0x29h02s38io944l0h974,"```json
+[
+  {
+    ""Problema de Agricultura"": ""Superexploração de Recursos Naturais"",
+    ""Solução de Agricultura Regenerativa"": ""Manejo Sustentável de Recursos"",
+    ""Descrição"": ""Implementação de práticas que garantem a utilização equilibrada dos recursos naturais, assegurando sua renovação e disponibilidade futura."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Comunidades rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Autonomia Alimentar"",
+    ""Solução de Agricultura Regenerativa"": ""Hortas Comunitárias"",
+    ""Descrição"": ""Desenvolvimento de hortas comunitárias que permitem às comunidades cultivar seus próprios alimentos, promovendo a soberania alimentar."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Bairros urbanos""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso de Sementes Transgênicas"",
+    ""Solução de Agricultura Regenerativa"": ""Preservação de Sementes Crioulas"",
+    ""Descrição"": ""Manutenção e uso de sementes tradicionais, livres de modificações genéticas, fortalecendo a biodiversidade e a resiliência das culturas."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Pequenos agricultores""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Espaço para Cultivo"",
+    ""Solução de Agricultura Regenerativa"": ""Agricultura Vertical"",
+    ""Descrição"": ""Técnica de cultivo em camadas verticais, otimizando o espaço disponível e permitindo a agricultura em áreas urbanas."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Comunidades urbanas""
+  },
+  {
+    ""Problema de Agricultura"": ""Destruição de Habitats Naturais"",
+    ""Solução de Agricultura Regenerativa"": ""Restauração Ecológica"",
+    ""Descrição"": ""Recuperação de áreas degradadas para restaurar os ecossistemas originais e promover a biodiversidade."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Comunidades indígenas""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Educação em Sustentabilidade"",
+    ""Solução de Agricultura Regenerativa"": ""Oficinas de Educação Ambiental"",
+    ""Descrição"": ""Realização de oficinas que ensinam práticas sustentáveis e a importância da conservação ambiental para a comunidade."",
+    ""Local"": ""Centro-Oeste"",
+    ""Comunidades"": ""Escolas rurais""
+  },
+  {
+    ""Problema de Agricultura"": ""Poluição dos Cursos d'Água"",
+    ""Solução de Agricultura Regenerativa"": ""Sistemas de Biofiltração"",
+    ""Descrição"": ""Uso de sistemas naturais de filtragem para limpar a água antes de ela retornar aos rios, reduzindo a poluição."",
+    ""Local"": ""Sudeste"",
+    ""Comunidades"": ""Comunidades ribeirinhas""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Iniciativas de Reciclagem"",
+    ""Solução de Agricultura Regenerativa"": ""Programas de Compostagem Comunitária"",
+    ""Descrição"": ""Implementação de programas de compostagem para transformar resíduos orgânicos em fertilizantes, reduzindo o desperdício."",
+    ""Local"": ""Nordeste"",
+    ""Comunidades"": ""Bairros urbanos""
+  },
+  {
+    ""Problema de Agricultura"": ""Uso Intensivo de Plásticos"",
+    ""Solução de Agricultura Regenerativa"": ""Alternativas Biodegradáveis"",
+    ""Descrição"": ""Substituição de materiais plásticos por alternativas biodegradáveis, reduzindo a poluição ambiental."",
+    ""Local"": ""Sul"",
+    ""Comunidades"": ""Mercados locais""
+  },
+  {
+    ""Problema de Agricultura"": ""Falta de Consciência sobre Consumo Responsável"",
+    ""Solução de Agricultura Regenerativa"": ""Campanhas de Conscientização"",
+    ""Descrição"": ""Realização de campanhas educativas sobre a importância do consumo consciente e do apoio à agricultura local."",
+    ""Local"": ""Amazônia"",
+    ""Comunidades"": ""Escolas indígenas""
+  }
+]
+```
+Sua questão ou problema está resolvido?",agent,[],,false,2024-02-09T19:11:26+00:00

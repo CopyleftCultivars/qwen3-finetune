@@ -1,0 +1,58 @@
+agent_id,conversation_id,message_id,text,from,sources,evaluation,read,createdAt
+clnqta3rc008zqa8iqse9twgz,clq3xsx3g00188ipv2o6gct7a,clq3xwlkw001hpv8i16x6zlmp,Tell me how to make a cannabis fertilizer solution for my plants in norther afghanistan answer in pashto,human,[],,false,2023-12-13T15:39:22+00:00
+clnqta3rc008zqa8iqse9twgz,clq3xsx3g00188ipv2o6gct7a,clq3xwlkt001a8ipve49pcyv2,"[Short Introduction]
+په شمالي افغانستان کې د کنابیس نباتاتو لپاره د سرې جوړولو لپاره د طبیعي کرنې د سرې جوړولو لارښود.
+
+[Nutritional Needs of the user's crops]
+کنابیس نباتاتو ته د نایتروجن (N)، فاسفورس (P)، او پوتاشیم (K)، همدارنګه کلسیم (Ca)، مګنیزیم (Mg)، او سلفر (S) په ډیره اندازه اړتیا وي.
+
+[List of plants available locally with the needed nutrients]
+1. نیتروجن (N): ازادراختا اندیکا (نیم پاڼې)
+2. فاسفورس (P): کنجد (کنجد بذر)
+3. پوتاشیم (K): کچالو (کچالو پوستکی)
+4. کلسیم (Ca): اسپناخ (اسپناخ پاڼې)
+5. مګنیزیم (Mg): کدو (کدو پاڼې)
+
+[List of locally available ingredients, quantity needed of ingredients, and steps for multiple fertilizer Recipes]
+** د جادام سرې جوړولو لپاره وصفې: **
+1. د نیم پاڼو سرې: د نیم پاڼو 10 کیلوګرامه، اوبه 20 لیتره، د قهوې په شان د خاورې 1 کیلوګرامه. دا مواد په یوه لوی کانټینر کې مخلوط کړئ او د یوې اونۍ لپاره پریږدئ ترڅو فرمنټ شي.
+2. د کنجد بذر سرې: د کنجد بذر 5 کیلوګرامه، اوبه 10 لیتره، د خاورې 2 کیلوګرامه. دا مواد په یوه کانټینر کې مخلوط کړئ او د دوه اونیو لپاره پریږدئ ترڅو فرمنټ شي.
+3. د کچالو پوستکی سرې: د کچالو پوستکی 10 کیلوګرامه، اوبه 20 لیتره، د خاورې 1 کیلوګرامه. دا مواد په یوه کانټینر کې مخلوط کړئ او د یوې اونۍ لپاره پریږدئ ترڅو فرمنټ شي.
+
+[Tables with bioaccumulators data and crop needs data]
+د کنابیس نباتاتو د غذایی اړتیاوو جدول:
+
+| کنابیس نباتات | N:P:K | Ca | Mg | S |
+|----------------|-------|----|----|---|
+| د کنابیس نباتات | 3:1:2 | گړندی | متوسط | کم |
+
+د محلي بوټو د غذایی ارزښتونو جدول:
+
+| د بوټي نوم | N | P | K | Ca | Mg | S |
+|-------------|---|---|---|----|----|---|
+| نیم پاڼې | گړندی | کم | کم | کم | کم | کم |
+| کنجد بذر | کم | گړندی | کم | کم | کم | کم |
+| کچالو پوستکی | کم | کم | گړندی | کم | کم | کم |
+| اسپناخ پاڼې | کم | کم | کم | گړندی | کم | کم |
+| کدو پاڼې | کم | کم | کم | کم | گړندی | کم |
+
+[Instructions on using the fertilizers (SOPs)]
+د سرې کارولو لارښود:
+1. د فرمنټ شوي سرې محلول جوړ کړئ (د اوبو سره 1:10 تناسب).
+2. د کنابیس نباتاتو په خاوره کې د سرې محلول واچوئ.
+3. د کنابیس نباتاتو د ودې په مختلفو مرحلو کې د سرې مختلف ډولونه وکاروئ.
+
+[Fertilizer application schedule]
+د سرې کارولو مهالویش:
+1. د نباتاتو د نیالګیو په وخت کې د نیتروجن غني سرې وکاروئ.
+2. د گلانو د جوړیدو په وخت کې د فاسفورس غني سرې وکاروئ.
+3. د میوو د جوړیدو په وخت کې د پوتاشیم غني سرې وکاروئ.
+
+[Brief Philosophical encouragement related to Natural Farming]
+طبیعي کرنه دا موقع ورکوي چې موږ د خپلې چاپیریال سره نږدې شو او د طبیعت سره همغږي جوړه کړو. دا د کرنې یوه پایداره او روغتیا بخښونکې طریقه ده.
+
+[ELIF instructions]
+که تاسو غواړئ چې د کنابیس لپاره سرې جوړه کړئ، نو تاسو باید د خپلې سیمې نه د بوټو پاڼې او نور مواد راټول کړئ، دا مواد په اوبو کې واچوئ او بیا دا محلول په خپلو نباتاتو کې وکاروئ.
+
+[Words of encouragement]
+ستاسو د کرنې سفر کې بریالیتوبونه مو ولري. د طبیعت سره همغږي او د خپلو نباتاتو سره مینه به ستاسو کرنه په یوه پایداره او روغتیا بخښونکې لور ته بوزي.",agent,"[{""score"":0.79597855,""chunk_id"":""3e7c162c-c1f9-44b1-8b4d-852fd9940f88"",""mime_type"":""application/pdf"",""source_url"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""page_number"":5,""total_pages"":10,""datasource_id"":""clo38r5hb00022t6t2wv3b555"",""datasource_name"":""WHAT IS NATURAL FARMING Cho Natural Farming .pdf"",""datasource_type"":""file""},{""score"":0.7760874,""chunk_id"":""e53d7650-99e1-42c1-949d-68b5e7c02cf6"",""mime_type"":""application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"",""source_url"":"""",""page_number"":1,""total_pages"":1,""datasource_id"":""clpouoiyw0000357453byeyvi"",""datasource_name"":""Nutrient_Bioaccumulator_List"",""datasource_type"":""file""}]",,false,2023-12-13T15:42:13+00:00
