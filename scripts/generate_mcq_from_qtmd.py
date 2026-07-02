@@ -8,15 +8,16 @@ per collection with genuine rationale in the <think>...</think> block.
 
 Cannabis-only collections (no NF agricultural content) are skipped.
 
-Requires ANTHROPIC_API_KEY in environment or .env.
+Uses `claude -p` subprocess so no API key or .env needed — Claude Code OAuth
+credentials are used automatically.
 
 Usage:
-    python scripts/generate_mcq_from_qtmd.py \
-        --qtmd-dir [LOCAL_PATH] \
-        --output data/sources/qtmd_mcq_generated.jsonl \
-        [--model claude-haiku-4-5-20251001] \
-        [--max-workers 4] \
-        [--max-collections 0] \
+    python scripts/generate_mcq_from_qtmd.py \\
+        --qtmd-dir [LOCAL_PATH] \\
+        --output data/sources/qtmd_mcq_generated.jsonl \\
+        [--model haiku] \\
+        [--max-workers 4] \\
+        [--max-collections 0] \\
         [--resume]
 """
 
@@ -25,10 +26,11 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import re
+import subprocess
 import sys
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -84,24 +86,31 @@ Text:
 JSON array:"""
 
 _OPTION_LETTERS = ("A", "B", "C", "D")
+_RETRY_DELAYS = [2, 5, 15]
 
 
-def _get_client():
-    try:
-        import anthropic
-    except ImportError as e:
-        raise ImportError("pip install anthropic") from e
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        env_file = Path(".env")
-        if env_file.exists():
-            for line in env_file.read_text().splitlines():
-                if line.startswith("ANTHROPIC_API_KEY="):
-                    api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
-                    break
-    if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY not set in environment or .env")
-    return anthropic.Anthropic(api_key=api_key)
+def _call_claude(prompt: str, model: str, timeout: int = 120) -> str:
+    """Call claude -p subprocess and return the result text."""
+    full_prompt = f"{_SYSTEM}\n\n{prompt}"
+    for attempt, delay in enumerate([0] + _RETRY_DELAYS):
+        if delay:
+            time.sleep(delay)
+        try:
+            result = subprocess.run(
+                ["claude", "-p", "--model", model, "--tools", "",
+                 "--output-format", "json", full_prompt],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+            )
+            return json.loads(result.stdout)["result"].strip()
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired,
+                json.JSONDecodeError, KeyError) as exc:
+            if attempt == len(_RETRY_DELAYS):
+                raise
+            log.warning("Claude call failed (attempt %d): %s — retrying", attempt + 1, exc)
+    raise RuntimeError("All retries exhausted")
 
 
 def _read_collection_text(collection_dir: Path, max_chars: int = 3000) -> str | None:
@@ -117,7 +126,6 @@ def _read_collection_text(collection_dir: Path, max_chars: int = 3000) -> str | 
     for md_file in md_files:
         try:
             text = md_file.read_text(encoding="utf-8", errors="replace")
-            # Strip image references and HTML tags
             text = re.sub(r"!\[.*?\]\(.*?\)", "", text)
             text = re.sub(r"<[^>]+>", "", text)
             text = re.sub(r"\n{3,}", "\n\n", text).strip()
@@ -140,21 +148,12 @@ def _is_nf_relevant(text: str) -> bool:
     lower = text.lower()
     nf_hits = sum(1 for kw in _NF_KEYWORDS if kw in lower)
     cannabis_hits = sum(1 for kw in _CANNABIS_ONLY_KEYWORDS if kw in lower)
-    # Relevant if ≥3 NF keywords, or NF keywords outnumber cannabis keywords
     return nf_hits >= 3 or (nf_hits > 0 and nf_hits > cannabis_hits)
 
 
-def _generate_mcq(text: str, n: int, client, model: str) -> list[dict]:
+def _generate_mcq(text: str, n: int, model: str) -> list[dict]:
     prompt = _MCQ_PROMPT.format(n=n, text=text)
-    response = client.messages.create(
-        model=model,
-        max_tokens=2048,
-        system=_SYSTEM,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    raw = response.content[0].text.strip()
-
-    # Extract JSON array — model may wrap in markdown code fences
+    raw = _call_claude(prompt, model)
     json_match = re.search(r"\[.*\]", raw, re.DOTALL)
     if not json_match:
         raise ValueError(f"No JSON array in response: {raw[:200]}")
@@ -209,7 +208,6 @@ def _load_done_collections(output_path: Path) -> set[str]:
 
 def process_collection(
     collection_dir: Path,
-    client,
     model: str,
     n_per_collection: int,
 ) -> list[dict]:
@@ -219,7 +217,7 @@ def process_collection(
         return []
     if not _is_nf_relevant(text):
         return []
-    items = _generate_mcq(text, n_per_collection, client, model)
+    items = _generate_mcq(text, n_per_collection, model)
     pairs: list[dict] = []
     for item in items:
         converted = _validate_and_convert(item, collection_dir.name)
@@ -238,10 +236,10 @@ def main() -> None:
                     default="[LOCAL_PATH]",
                     help="QTMD markdown_corpus directory")
     ap.add_argument("--output", required=True, help="Output JSONL path")
-    ap.add_argument("--model", default="claude-haiku-4-5-20251001",
-                    help="Anthropic model for MCQ generation")
+    ap.add_argument("--model", default="haiku",
+                    help="Claude model alias for claude -p (default: haiku)")
     ap.add_argument("--max-workers", type=int, default=4,
-                    help="Parallel API calls (default: 4)")
+                    help="Parallel claude -p subprocesses (default: 4)")
     ap.add_argument("--n-per-collection", type=int, default=4,
                     help="MCQ questions to generate per collection (default: 4)")
     ap.add_argument("--max-collections", type=int, default=0,
@@ -257,8 +255,6 @@ def main() -> None:
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    client = _get_client()
 
     collections = sorted(d for d in qtmd_path.iterdir() if d.is_dir())
     if args.max_collections > 0:
@@ -283,8 +279,7 @@ def main() -> None:
                 stats["skipped_resume"] += 1
             return
         try:
-            pairs = process_collection(col_dir, client, args.model,
-                                       args.n_per_collection)
+            pairs = process_collection(col_dir, args.model, args.n_per_collection)
             with write_lock:
                 stats["processed"] += 1
                 if not pairs:
