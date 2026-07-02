@@ -17,9 +17,19 @@ merged-model/
 data/sources/gemma4/gemma4-merged/
 data/sources/gemma4/gemma4-text-only/
 
-# Nested git repos (external datasets — re-downloadable)
+# Nested git repos inside gemma4 source (external datasets with their own git history)
+# The assembled JSONLs (merged_sharegpt.jsonl, hf_dataset/train.jsonl) are tracked instead.
+data/sources/gemma4/KNF-Methods-QnA/
+data/sources/gemma4/Natural-Farming-Real-QandA-Conversations-Q1-2024-Update/
+data/sources/gemma4/syntheticdata-distiset-farming-chemistry/
+data/sources/gemma4/Semisynthetic_Data_Natural_Farming_Fundamentals/
 data/sources/gemma4/datasets_for_rag/CollegeOfAgricultureAndForestry_Agricultural_Crop_Dataset/
 data/sources/gemma4/datasets_for_rag/CROP-dataset/
+data/sources/gemma4/datasets_for_rag/SemiSynthetic_Crop_Requirements/
+data/sources/gemma4/datasets_for_rag/SemiSynthetic_Composting_Knowledge_For_Agriculture/
+data/sources/gemma4/datasets_for_rag/Natural_Farming_Recipes_Datachunks/
+data/sources/gemma4/datasets_for_rag/SemiSynthetic_Data_For_Regenerative_Farming_Agriculture/
+data/sources/gemma4/datasets_for_rag/SemiSynthetic_Locally_Growing_Plants_by_Region/
 
 # Unsloth JIT cache (auto-regenerated)
 unsloth_compiled_cache/
