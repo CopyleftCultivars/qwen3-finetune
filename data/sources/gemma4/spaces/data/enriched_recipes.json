@@ -1,0 +1,694 @@
+[
+  {
+    "recipe_abbrev": "FAA",
+    "recipe_name": "Fish Amino Acid (FAA)",
+    "primary_nutrient": "N",
+    "npk_provided": {
+      "N": "high",
+      "P": "trace",
+      "K": "low"
+    },
+    "suggested_bioaccumulators": [
+      "Fish (blue-back species)",
+      "Comfrey leaf",
+      "Nettle leaf"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:500-1:1000",
+      "soil_drench": "1:500",
+      "IMO_activator": "1:1000"
+    },
+    "ingredients": [
+      "Fish pieces",
+      "Jaggery/Brown sugar",
+      "IMO-3",
+      "Mosquito net",
+      "Rubber band / thread",
+      "Clay pot / plastic jar / glass jar"
+    ],
+    "steps": [
+      "Cut fish into pieces and put in a clay pot or plastic jar.",
+      "Add Jaggery of an equal amount (1:1 weight ratio). Fill the jar up to 2/3 of its volume.",
+      "Cover the opening of jar with a mosquito net. The meat will ferment in 7 to 10 days.",
+      "In the presence of fat on the surface of the solution, put 2 to 3 teaspoons of IMO-3 to dissolve the fat.",
+      "Extract the solution and use the liquid to crops."
+    ],
+    "uses": [
+      "FAA is rich with nitrogen, good for soil and foliage.",
+      "Increases yield and improves taste and fragrance for leafy vegetables.",
+      "Activate microorganisms in IMO or mixed compost by diluting FAA with water in a 1:1000 ratio.",
+      "Effective against mites and the greenhouse whitefly when diluted with water and sprayed."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/chos-global-natural-farming.md:67",
+        "score": 91,
+        "text": "| d. Oriental Herbal Nutrient (OHN)                                | 34       |\n| e. Fish Amino Acid (FAA)                                         | 38       |\n| f. Lactic Acid Bacteria (LAB)                                    | 41       |\n| g. Water-Soluble Potassium (WP)                                  | 45       |"
+      },
+      {
+        "source": "qmd://Agroecology/livestock-production-and-management-agriexam-com.md:19",
+        "score": 50,
+        "text": "Though the cattle wealth is quite abundant in terms of population the production from these animals is very poor viz., 987 kgs per lactation whereas the world average is 2038 kgs per lactation. The main reasons for this shortcoming is the abundant population of nondescript cows, chronic shortage of feed and fodder, poor nutritive value of the available feed and fodder, low fertility rates, destruction of grazing land, increasing human population and competition between animals and man for th..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "IMO",
+    "recipe_name": "Collection of IMOs from Native Soil",
+    "primary_nutrient": "soil_biology",
+    "npk_provided": {
+      "N": "low",
+      "P": "low",
+      "K": "low"
+    },
+    "suggested_bioaccumulators": [
+      "Forest floor material",
+      "Bamboo grove soil",
+      "Oak grove soil"
+    ],
+    "dilution_ratio": {
+      "soil_application": "broadcast directly after IMO-4 stage"
+    },
+    "ingredients": [
+      "Wooden box",
+      "Hard-cooked rice",
+      "Porous Paper (paper Towel)",
+      "Rubber band / Thread",
+      "Container Box / Basket made out of Bamboo",
+      "Jaggery / Brown sugar",
+      "Glass jar / Clay pot"
+    ],
+    "steps": [
+      "A wooden box of Length 12 inches x Width 8 inches Height 4 inches is made with ½ an inch thickness wood.",
+      "Fill the wooden box with steamed rice. Its moisture content will attract the indigenous microorganisms living in the local soil.",
+      "Cover the wooden box with white plain paper and use a rubber band or thread to hold the paper to the box.",
+      "Mark an area 12 inches x 8 inches in the soil."
+    ],
+    "uses": [
+      "Collecting aerobic indigenous microorganisms from the local soil."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Regenerative_Agriculture/global-soil-biodiversity-atlas.md:24",
+        "score": 88,
+        "text": "The abundance of microorganisms varies with the size of soil aggregates, and is directly related to the specific environmental conditions of each size. Bacterial biomass is often higher in clay- and silt-sized aggregates, especially in fine soil fractions (<20 µm ), where it can reach levels that are 30-80 % higher than in macroaggregates, due to more stable environmental conditions. Aerobic (life in the presence of oxygen) bacteria dominate macroaggregates, as oxygen concentration is higher..."
+      },
+      {
+        "source": "qmd://Organic_Farming/chos-global-natural-farming.md:3",
+        "score": 56,
+        "text": "**Collecting IMOs:** Indigenous Microorganisms can be collected in many ways and in many places. They can be collected from surrounding hills and mountains. It is also possible, to a certain extent, to collect specific types of microorganisms.\n\n![](_page_26_Picture_8.jpeg)"
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "IMO-3",
+    "recipe_name": "Preparation of IMO-3",
+    "primary_nutrient": "soil_biology",
+    "npk_provided": {
+      "N": "moderate",
+      "P": "moderate",
+      "K": "moderate"
+    },
+    "suggested_bioaccumulators": [
+      "Rice bran",
+      "Rice flour",
+      "Paddy straw"
+    ],
+    "dilution_ratio": {
+      "soil_drench": "1:1000",
+      "compost_activator": "1:500"
+    },
+    "ingredients": [
+      "Water",
+      "Rice bran/flour",
+      "Paddy straw",
+      "IMO-2",
+      "All the NF inputs diluted in water in the ratio of 1:1000"
+    ],
+    "steps": [
+      "Dilute IMO-2 with water (1:1000) and mix with rice bran or flour. The moisture level of this mixture should be 65% - 70%.",
+      "For better results, use diluted NF inputs such as FP."
+    ],
+    "uses": [
+      "Enhancing soil fertility and health by introducing beneficial microorganisms."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/the-natural-way-of-farming.md:3",
+        "score": 88,
+        "text": "The deep penetration of grass roots into the earth loosens the soil. When the roots die, this adds to the humus, allowing soil microbes to proliferate and enrich the soil. Rainwater percolates through the soil and air is carried deep down, supporting earthworms, which eventually attract moles. Weeds and grasses are absolutely essential for a soil to remain organic and alive.\n\nWithout grasses growing over the surface of the ground, rainwater would wash away part of the topsoil each year. Even..."
+      },
+      {
+        "source": "qmd://Integrated_Farming_Systems/the-natural-way-of-farming.md:3",
+        "score": 50,
+        "text": "The deep penetration of grass roots into the earth loosens the soil. When the roots die, this adds to the humus, allowing soil microbes to proliferate and enrich the soil. Rainwater percolates through the soil and air is carried deep down, supporting earthworms, which eventually attract moles. Weeds and grasses are absolutely essential for a soil to remain organic and alive.\n\nWithout grasses growing over the surface of the ground, rainwater would wash away part of the topsoil each year. Even..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "FPJ",
+    "recipe_name": "Fermented Plant Juice (FPJ)",
+    "primary_nutrient": "N",
+    "npk_provided": {
+      "N": "high",
+      "P": "low",
+      "K": "moderate"
+    },
+    "suggested_bioaccumulators": [
+      "Urtica dioica (Nettle)",
+      "Symphytum officinale (Comfrey)",
+      "Trifolium repens (Clover)",
+      "Taraxacum officinale (Dandelion)"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:500",
+      "soil_drench": "1:200"
+    },
+    "ingredients": [
+      "Young shoots of plants",
+      "Brown sugar"
+    ],
+    "steps": [
+      "Collect the young shoots of plants early in the morning when the dew is still present.",
+      "Chop the shoots into small pieces.",
+      "Mix the chopped shoots with brown sugar in a 1:1 ratio by weight.",
+      "Place the mixture in a clay pot, plastic jar, or glass jar, leaving some space at the top.",
+      "Cover the opening of the jar with a breathable material like a cotton cloth and secure it with a rubber band or thread.",
+      "Allow the mixture to ferment in a cool, shaded place for about 7 days.",
+      "After fermentation, strain the liquid. This is your FPJ."
+    ],
+    "uses": [
+      "FPJ is used as a growth enhancer for plants.",
+      "It can be diluted with water (1:500 to 1:1000 ratio) and used as a foliar spray or soil drench.",
+      "Improves the general health and disease resistance of plants."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Natural_Fertilizers/knf-recipe-book-master-cho.md:10",
+        "score": 91,
+        "text": "- In dry weather, water the leaf moulds around the lunch box. Spray the\n  mixture of oriental herb nutrient (OHN, x1/1,000), fermented plant juice\n  of Japanese mugwort and dropwort (FPJ, x1/500), brown rice vinegar\n  (BRV, x1/500), and mineral A (x1/1,000) instead of water for better IMO"
+      },
+      {
+        "source": "qmd://Organic_Farming/chos-global-natural-farming.md:23",
+        "score": 56,
+        "text": "# **MAKING FERMENTED PLANT JUICE (FPJ)**\n\nFPJ is a fermented extract of a plant's sap and chlorophylls. It is a rich enzyme solution full of microorganisms such as lactic acid bacteria and yeast that invigorates plants and animals. FPJ is used for crop treatments."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "FFJ",
+    "recipe_name": "Fermented Fruit Juice (FFJ)",
+    "primary_nutrient": "K",
+    "npk_provided": {
+      "N": "trace",
+      "P": "moderate",
+      "K": "high"
+    },
+    "suggested_bioaccumulators": [
+      "Musa (Banana)",
+      "Solanum lycopersicum (Tomato)",
+      "Prunus persica (Peach)",
+      "Mangifera indica (Mango)"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:500",
+      "soil_drench": "1:500"
+    },
+    "ingredients": [
+      "Ripe fruits",
+      "Brown sugar"
+    ],
+    "steps": [
+      "Select ripe fruits, preferably those that are locally available and organic.",
+      "Chop the fruits into small pieces.",
+      "Mix the chopped fruits with brown sugar in a 1:1 ratio by weight.",
+      "Place the mixture in a clay pot, plastic jar, or glass jar, leaving some space at the top.",
+      "Cover the opening of the jar with a breathable material like a cotton cloth and secure it with a rubber band or thread.",
+      "Allow the mixture to ferment in a cool, shaded place for about 7 days.",
+      "After fermentation, strain the liquid. This is your FFJ."
+    ],
+    "uses": [
+      "FFJ is rich in phosphorus and potassium, making it an excellent fertilizer for the flowering and fruiting stages of plants.",
+      "It can be diluted with water (1:500 to 1:1000 ratio) and used as a foliar spray or soil drench.",
+      "Enhances the taste and quality of fruits and vegetables."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Natural_Fertilizers/handbook-of-plant-nutrition.md:32",
+        "score": 93,
+        "text": "no other values were available, some values were drawn from sources that did not cite original research (49). Generally, crops require a preplant application of phosphorus fertilizer in the case of annual crops or before the fruiting cycle begins in the case of perennial crops. Diagnosis of a phosphorus deficiency by tissue analysis for annual crops is often postmortem for the existing crop.\n\n#### **3.2.3 SOIL TESTING FOR PHOSPHORUS**"
+      },
+      {
+        "source": "qmd://Soil_Science_and_Microbiology/handbook-of-plant-nutrition.md:32",
+        "score": 56,
+        "text": "no other values were available, some values were drawn from sources that did not cite original research (49). Generally, crops require a preplant application of phosphorus fertilizer in the case of annual crops or before the fruiting cycle begins in the case of perennial crops. Diagnosis of a phosphorus deficiency by tissue analysis for annual crops is often postmortem for the existing crop.\n\n#### **3.2.3 SOIL TESTING FOR PHOSPHORUS**"
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "OHN",
+    "recipe_name": "Oriental Herbal Nutrient (OHN)",
+    "primary_nutrient": "micronutrients",
+    "npk_provided": {
+      "N": "trace",
+      "P": "trace",
+      "K": "trace"
+    },
+    "suggested_bioaccumulators": [
+      "Allium sativum (Garlic)",
+      "Zingiber officinale (Ginger)",
+      "Cinnamomum (Cinnamon)",
+      "Angelica archangelica"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:1000",
+      "soil_drench": "1:1000",
+      "pest_control": "1:500"
+    },
+    "ingredients": [
+      "Garlic",
+      "Ginger",
+      "Cinnamon",
+      "Angelica root",
+      "Licorice root",
+      "Brown sugar",
+      "Vodka or Soju (40% alcohol)"
+    ],
+    "steps": [
+      "Chop each ingredient finely and mix with brown sugar in a 1:1 ratio by weight.",
+      "Place each mixture in a separate jar, leaving some space at the top.",
+      "Add vodka or soju to each jar until the ingredients are fully submerged.",
+      "Cover the opening of the jar with a breathable material and secure it with a rubber band or thread.",
+      "Allow the mixtures to ferment in a cool, shaded place for about 15 days.",
+      "Combine the liquids from each jar in equal parts to create OHN.",
+      "Store the OHN in a cool, dark place."
+    ],
+    "uses": [
+      "OHN is used as a natural pesticide and disease control agent.",
+      "It enhances plant growth and immune system.",
+      "Dilute OHN with water in a 1:1000 ratio for use as a foliar spray or soil drench."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/chos-global-natural-farming.md:27",
+        "score": 93,
+        "text": "# **ORIENTAL HERBAL NUTRIENT (OHN)**\n\nThe oriental Herbal Nutrient (OHN )is a very important input in Natural Farming. It is made from herbs which are full of energy and function to increase plant robustness, to sterilize and keep plants warm. OHN revitalizes crops and activates their growth. It is made from popular oriental herbs such as *Angelica, Acutiloba,* Licorice and Cinnamon that are fermented, not boiled, to maintain the vigorous growth of crops."
+      },
+      {
+        "source": "qmd://Organic_Farming/herbs-handbook-of-herbs-and-spices-peter-2001.md:5",
+        "score": 50,
+        "text": "To sell organic spices, quality considerations are most important. Since no chemicals are used for fertilization, control of pest and diseases, elimination of weeds and growth acceleration, some buyers fear that the microbial population in the end products could be on the higher side than those prepared conventionally using these inputs. As there is no opportunity for the use of chemicals in crop production, the products should be absolutely free from their residues including pesticides and ..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "WCA",
+    "recipe_name": "Water-Soluble Calcium (WCA)",
+    "primary_nutrient": "Ca",
+    "npk_provided": {
+      "N": "none",
+      "P": "none",
+      "K": "none",
+      "Ca": "high"
+    },
+    "suggested_bioaccumulators": [
+      "Eggshell",
+      "Oyster shell",
+      "Limestone"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:1000",
+      "soil_drench": "1:1000"
+    },
+    "ingredients": [
+      "Eggshells",
+      "Vinegar"
+    ],
+    "steps": [
+      "Clean the eggshells and dry them in the sun.",
+      "Once dry, crush the eggshells into small pieces.",
+      "Place the crushed eggshells in a jar and add vinegar until the eggshells are fully submerged.",
+      "Cover the jar with a breathable material and secure it with a rubber band or thread.",
+      "Allow the mixture to sit in a cool, shaded place for about 7 days, or until the bubbling stops.",
+      "Strain the liquid. This is your WCA."
+    ],
+    "uses": [
+      "WCA is rich in calcium, which is essential for plant cell growth and structure.",
+      "It can be diluted with water (1:1000 ratio) and used as a foliar spray or soil drench.",
+      "Improves the quality and shelf life of fruits and vegetables."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/chos-global-natural-farming.md:48",
+        "score": 88,
+        "text": "- 4. Mackerel FAA is very effective in getting rid of mites and the green house whitefly (*Trialeurodes vaporariorum*). Dilute FAA with water and spray it on both sides of the leaf.\n- 5. Put the bones left over from creating FAA into the brown rice vinegar (BRV), which has a volume 10 times larger than the bones. The bones will decompose and produce good quality water-soluble calcium phosphate.\n\n**Note: It is not recommendable to use FAA during the period of reproductive growth, because it ma..."
+      },
+      {
+        "source": "qmd://Natural_Fertilizers/chos-global-natural-farming.md:48",
+        "score": 50,
+        "text": "- 4. Mackerel FAA is very effective in getting rid of mites and the green house whitefly (*Trialeurodes vaporariorum*). Dilute FAA with water and spray it on both sides of the leaf.\n- 5. Put the bones left over from creating FAA into the brown rice vinegar (BRV), which has a volume 10 times larger than the bones. The bones will decompose and produce good quality water-soluble calcium phosphate.\n\n**Note: It is not recommendable to use FAA during the period of reproductive growth, because it ma..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "WSP",
+    "recipe_name": "Water-Soluble Phosphorus (WSP)",
+    "primary_nutrient": "P",
+    "npk_provided": {
+      "N": "trace",
+      "P": "high",
+      "K": "low"
+    },
+    "suggested_bioaccumulators": [
+      "Fish bones",
+      "Animal bones"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:1000",
+      "soil_drench": "1:1000"
+    },
+    "ingredients": [
+      "Bones (fish bones or small animal bones)",
+      "Vinegar"
+    ],
+    "steps": [
+      "Clean the bones thoroughly and dry them in the sun.",
+      "Once dry, crush the bones into small pieces.",
+      "Place the crushed bones in a jar and add vinegar until the bones are fully submerged.",
+      "Cover the jar with a breathable material and secure it with a rubber band or thread.",
+      "Allow the mixture to sit in a cool, shaded place for about 10 days, or until the bubbling stops.",
+      "Strain the liquid. This is your WSP."
+    ],
+    "uses": [
+      "WSP is rich in phosphorus, which is essential for root development and fruiting.",
+      "It can be diluted with water (1:1000 ratio) and used as a foliar spray or soil drench.",
+      "Promotes flowering and fruiting in plants."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/weed-science.md:17",
+        "score": 88,
+        "text": "*Metabolism* Napropamide is rapidly metabolized in fruit trees and tomatoes to water-soluble metabolites, the major metabolites being hexose conjugates of 4-hydroxynapropamide.\n\n*Mechanism of Action* The exact mode of action of napropamide is not known. The growth of susceptible seedling roots is stopped without malformation almost immediately after exposure to the herbicide (Figure 12-8). The effect on roots is localized, as roots that are not in direct contact with the herbicide are not af..."
+      },
+      {
+        "source": "qmd://Organic_Farming/chos-global-natural-farming.md:1",
+        "score": 52,
+        "text": "ing the taste and fragrance of the fruit when it is used with water-soluble calcium phosphate, oriental herbal nutrient (OHN), fermented plant juice(FPJ) and sea-water.\n- 6. Use WS-Ca when the plants overgrow.\n- 7. Use WS-Ca when the initial growth of the crop is poor."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "LABS",
+    "recipe_name": "Lactic Acid Bacteria Serum (LABS)",
+    "primary_nutrient": "soil_biology",
+    "npk_provided": {
+      "N": "trace",
+      "P": "trace",
+      "K": "trace"
+    },
+    "suggested_bioaccumulators": [
+      "Rice wash water",
+      "Raw milk"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:1000",
+      "soil_drench": "1:1000",
+      "compost_activator": "1:500"
+    },
+    "ingredients": [
+      "Rice wash water",
+      "Milk (preferably raw)",
+      "Brown sugar"
+    ],
+    "steps": [
+      "Collect the water used for rinsing rice and let it sit until it becomes sour (1-2 days).",
+      "Mix the sour rice wash water with an equal amount of milk and let it sit for about a week in a cool, shaded place.",
+      "After a week, the mixture will separate into three layers. The middle layer is the LAB serum.",
+      "Carefully extract the LAB serum and mix it with an equal amount of brown sugar to preserve it.",
+      "Store the LABS in a cool, dark place."
+    ],
+    "uses": [
+      "LABS acts as a natural probiotic for the soil, improving soil health and fertility.",
+      "It can be diluted with water (1:1000 ratio) and used as a foliar spray or soil drench.",
+      "Helps in composting and odor control."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Natural_Fertilizers/knf-recipe-book-master-cho.md:29",
+        "score": 93,
+        "text": "- 3 Pour milk in the big jar. The ideal ratio of milk and rice water is 10:1.\n- 4 Since milk has more nutrients than rice-washed water, the lactic acid bacteria grow vigorously. In 5~7 days at 23~25°C, starch, protein, and fat float on the surface (called cheese) and light yellow liquid (LAB serum) remains below the cheese.\n- 5 When LAB are produced after 7 days, remove the cheese, which is separated from LAB. If the cheese is left as is, the cheese melts and undergoes a secondary reaction. T..."
+      },
+      {
+        "source": "qmd://Natural_Fertilizers/10-1007-978-981-32-9824-8.md:6",
+        "score": 54,
+        "text": "- Schlaeppi K, Dombrowski N, Oter RG, van Themaat EVL, Schulze-Lefert P (2014) Quantitative divergence of the bacterial root microbiota in Arabidopsis thaliana relatives. Proc Natl Acad Sci 111(2):585–592\n- Schmidt H, Eickhorst T (2013) Spatio-temporal variability of microbial abundance and community structure in the puddled layer of a paddy soil cultivated with wetland rice (Oryza sativa L.). Appl Soil Ecol 72:93–102\n- Souza RC, Mendes IC, Reis-Junior FB, Carvalho FM, Nogueira MA, Vasconcelo..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "BRV",
+    "recipe_name": "Brown Rice Vinegar (BRV)",
+    "primary_nutrient": "pH_buffer",
+    "npk_provided": {
+      "N": "trace",
+      "P": "trace",
+      "K": "trace"
+    },
+    "suggested_bioaccumulators": [
+      "Brown rice"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:1000",
+      "soil_drench": "1:1000"
+    },
+    "ingredients": [
+      "Brown rice",
+      "Water",
+      "Sugar"
+    ],
+    "steps": [
+      "Cook the brown rice and let it cool.",
+      "Mix the cooked rice with sugar and water in a jar.",
+      "Cover the jar with a breathable material and secure it with a rubber band or thread.",
+      "Allow the mixture to ferment in a cool, shaded place for about 4 weeks.",
+      "After fermentation, strain the liquid. This is your BRV."
+    ],
+    "uses": [
+      "BRV is used to enhance the microbial activity in the soil.",
+      "It can be diluted with water (1:1000 ratio) and used as a foliar spray or soil drench.",
+      "Helps in breaking down organic matter into nutrients that plants can absorb."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/natural-farming-poster.md:35",
+        "score": 92,
+        "text": "BRV/ARV – Brown Rice Vinegar/ Apple Rive Vinegar, great carrier and acid reducer.\n\n# Making Fermented Extracts"
+      },
+      {
+        "source": "qmd://Soil_Science_and_Microbiology/soil-microbiology-ecology-biochemistry.md:5",
+        "score": 50,
+        "text": "Typically, the individual mineral particles in surface soils are coated and glued together with colloidal organic matter and encrusted with inorganic cements forming spatial clusters within the matrix known as aggregates or peds. In 1982, two Australian soil scientists, Drs. Judy Tisdall and Malcolm Oades, presented a conceptual model of the aggregated, hierarchical nature of the soil system and described the linkages between the architecture of the soil habitat and the role of microbial act..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "SES",
+    "recipe_name": "Seed/Seedling Treatment (SES)",
+    "primary_nutrient": "mixed",
+    "npk_provided": {
+      "N": "moderate",
+      "P": "moderate",
+      "K": "moderate"
+    },
+    "suggested_bioaccumulators": [
+      "FPJ",
+      "FFJ",
+      "OHN",
+      "LABS",
+      "BRV"
+    ],
+    "dilution_ratio": {
+      "seed_soak": "1:1000"
+    },
+    "ingredients": [
+      "FPJ",
+      "FFJ",
+      "OHN",
+      "LABS",
+      "BRV",
+      "Water"
+    ],
+    "steps": [
+      "Mix FPJ, FFJ, OHN, LABS, and BRV in equal parts.",
+      "Dilute the mixture with water in a 1:1000 ratio.",
+      "Soak seeds or dip seedlings in the solution for about an hour before planting."
+    ],
+    "uses": [
+      "SES is used to enhance seed germination and seedling vigor.",
+      "It provides essential nutrients and beneficial microorganisms to the seeds/seedlings.",
+      "Helps in early root development and disease resistance."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/the-natural-way-of-farming-the-theory-practice-of-green-philosophy-masanobu-fukuoka.md:7",
+        "score": 90,
+        "text": "4. Natural Farming for a New Age, 128\n\nAt the Vanguard of Modern Farming, 128"
+      },
+      {
+        "source": "qmd://Organic_Farming/the-natural-way-of-farming.md:7",
+        "score": 52,
+        "text": "4. Natural Farming for a New Age, 128\n\nAt the Vanguard of Modern Farming, 128"
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "FMC",
+    "recipe_name": "Fermented Mixed Compost (FMC)",
+    "primary_nutrient": "mixed",
+    "npk_provided": {
+      "N": "high",
+      "P": "moderate",
+      "K": "moderate"
+    },
+    "suggested_bioaccumulators": [
+      "Kitchen scraps",
+      "Garden waste",
+      "Animal manure"
+    ],
+    "dilution_ratio": {
+      "soil_amendment": "top dress or incorporate into soil"
+    },
+    "ingredients": [
+      "Various organic materials (kitchen scraps, garden waste, animal manure)",
+      "FPJ",
+      "FFJ",
+      "OHN",
+      "LABS",
+      "BRV"
+    ],
+    "steps": [
+      "Layer the organic materials in a compost bin or pile.",
+      "Sprinkle each layer with a mixture of FPJ, FFJ, OHN, LABS, and BRV.",
+      "Cover the compost pile with a tarp or similar material to retain moisture and heat.",
+      "Turn the pile every 2 weeks and add more of the mixture if needed.",
+      "Compost is ready when it has turned into dark, crumbly soil."
+    ],
+    "uses": [
+      "FMC is rich in nutrients and beneficial microorganisms.",
+      "It can be used as a top dressing for plants or mixed into the soil to improve fertility.",
+      "Helps in suppressing plant diseases and pests."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Natural_Fertilizers/knf-recipe-book-master-cho.md:1",
+        "score": 92,
+        "text": "# Cho's Natural Farming: Recipes and Instructions for Use\n\nJu-Young Cho"
+      },
+      {
+        "source": "qmd://Organic_Farming/jadam-organic-farming-the-way-to-ultra-low-cost-agriculture.md:27",
+        "score": 50,
+        "text": "**Youngsang Cho** was born in 1965 in Hwaseong, Gyeonggi province, Korea. He graduated from Suwon Highschool and Aju University (chemistry), and completed master's degree in horiculture at Chungnam University. Ater compleing his military service at the 706 Special Forces, he started organic farming and raised animals himself from 1991 in Asan, Chungnam province. He went on to establish \"Jadam Organic Farming\" and started to promote this farming system through books and website (www.jadam.kr)..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "AIA",
+    "recipe_name": "Aromatic Insect Attractants (AIA)",
+    "primary_nutrient": "none",
+    "npk_provided": {
+      "N": "none",
+      "P": "none",
+      "K": "none"
+    },
+    "suggested_bioaccumulators": [
+      "Aromatic plants",
+      "Citrus peel"
+    ],
+    "dilution_ratio": {
+      "trap": "use undiluted in field traps"
+    },
+    "ingredients": [
+      "Specific aromatic plants or fruits",
+      "Sugar",
+      "Water",
+      "Yeast"
+    ],
+    "steps": [
+      "Extract juice from the aromatic plants or fruits.",
+      "Mix the juice with sugar, water, and yeast in a jar.",
+      "Cover the jar with a breathable material and secure it with a rubber band or thread.",
+      "Allow the mixture to ferment in a cool, shaded place for about 7 days.",
+      "Place the jar in the garden to attract and trap harmful insects."
+    ],
+    "uses": [
+      "AIA is used to attract and trap harmful insects away from crops.",
+      "It can reduce the need for chemical pesticides.",
+      "Helps in maintaining a balanced ecosystem in the garden."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Organic_Farming/jadam-organic-farming-the-way-to-ultra-low-cost-agriculture.md:27",
+        "score": 88,
+        "text": "**Youngsang Cho** was born in 1965 in Hwaseong, Gyeonggi province, Korea. He graduated from Suwon Highschool and Aju University (chemistry), and completed master's degree in horiculture at Chungnam University. Ater compleing his military service at the 706 Special Forces, he started organic farming and raised animals himself from 1991 in Asan, Chungnam province. He went on to establish \"Jadam Organic Farming\" and started to promote this farming system through books and website (www.jadam.kr)..."
+      },
+      {
+        "source": "qmd://Organic_Farming/natural-farming-poster.md:31",
+        "score": 56,
+        "text": "- Dr. Cho and his Korean Family for their promotion of Korean Natural Farming (KNF).\n- Chris Trump for all his contributions to being the American voice of KNF. He has a great YouTube video series on KNF methods.\n- The cannabis community who promotes natural farming practices and clean/ quality medicine for medical marijuana patients. Instagram is a wonderful outlet. @the.nature.farm @mugwert @jerrybucket @lightwarrior509 and @microbe.alchemist have been personal inspirations of mine. Many a..."
+      }
+    ]
+  },
+  {
+    "recipe_abbrev": "Wildcrafted",
+    "recipe_name": "Fermented Wildcrafted Plant Fertilizer",
+    "primary_nutrient": "variable",
+    "npk_provided": {
+      "N": "variable",
+      "P": "variable",
+      "K": "variable"
+    },
+    "suggested_bioaccumulators": [
+      "Varies — select based on target nutrient"
+    ],
+    "dilution_ratio": {
+      "foliar": "1:10",
+      "soil_drench": "1:10"
+    },
+    "ingredients": [
+      "Wildcrafted plants (to be selected based on desired nutrient levels)",
+      "LAB (Lactic Acid Bacteria) serum",
+      "IMO4 (Indigenous Microorganisms, if available)",
+      "Brown sugar or molasses (optional, for faster fermentation)",
+      "Water (non-chlorinated)"
+    ],
+    "steps": [
+      "Collect and finely chop or grind the selected wildcrafted plants.",
+      "If using, mix brown sugar or molasses with the chopped plants to initiate fermentation.",
+      "Add LAB serum to the mixture. If IMO4 is available, it can be added at this stage to introduce a diverse range of beneficial microorganisms.",
+      "Add enough non-chlorinated water to the mixture to create a slurry.",
+      "Place the mixture in a fermentation container. Ensure the container is large enough to allow for expansion and gas release.",
+      "Cover the container with a breathable cloth to allow air exchange while preventing contaminants.",
+      "Let the mixture ferment in a cool, dark place for 7-14 days. Check periodically and stir if necessary.",
+      "After fermentation, the mixture can be diluted with water (1 part fertilizer to 10 parts water) and applied directly to the soil or used as a foliar spray.",
+      "Store any unused portion in a cool, dark place. Ensure the container is sealed to prevent contamination."
+    ],
+    "uses": [
+      "The selection of wildcrafted plants should be based on their known nutrient profiles and the specific needs of the crops being fertilized.",
+      "LAB and IMO4 serve to accelerate the breakdown of plant material, making nutrients more readily available to plants and enhancing soil microbiology.",
+      "Adjust the ratio of ingredients based on the volume of fertilizer needed and the concentration of nutrients desired.",
+      "Can be used to fulfill the nutritional needs of crops, and as a sustainable replacement for conventional fertilizers."
+    ],
+    "qmd_passages": [
+      {
+        "source": "qmd://Permaculture/permaculture-design-course-william-ozier.md",
+        "score": 88,
+        "text": "be modified to produce fertilizer (this is why Timothy McVeigh was able to buy fertilizer and blow up a building with it), assembly lines that produced tanks could be retooled to produce combines and heavy machinery, chemical weapons were modified to become herbicides and pesticides. Such a massive shift in food production was financially viable because much of the infrastructure was already in place and paid for by the war generation who helped by doing such things as recycling metal and ru..."
+      },
+      {
+        "source": "qmd://Natural_Fertilizers/knf-recipe-book-master-cho.md:51",
+        "score": 50,
+        "text": "temperature cannot be well maintained, so it may take more time for fermentation and cultivation. Be careful to maintain the temperature. During fermentation, the temperature rises above 40°C inside the jar, and the consistency of the IMO becomes like gruel. This process takes over 7 days. In the spring and fall, it is beneficial to stir the jar in the early morning. The product of this process is called foundation stock, or IMO #2"
+      }
+    ]
+  }
+]

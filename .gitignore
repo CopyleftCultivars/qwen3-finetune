@@ -1,10 +1,36 @@
+# Python runtime
 __pycache__/
 *.pyc
 *.pyo
-data/
+.venv/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Model weights and merged outputs (large binaries, not training data)
+*.safetensors
+*.bin
+*.gguf
+*.ggml
+*.pt
 outputs/
 merged-model/
+data/sources/gemma4/gemma4-merged/
+data/sources/gemma4/gemma4-text-only/
+
+# Nested git repos (external datasets — re-downloadable)
+data/sources/gemma4/datasets_for_rag/CollegeOfAgricultureAndForestry_Agricultural_Crop_Dataset/
+data/sources/gemma4/datasets_for_rag/CROP-dataset/
+
+# Unsloth JIT cache (auto-regenerated)
+unsloth_compiled_cache/
+data/sources/gemma4/unsloth_compiled_cache/
+
+# Archives (extracted content is tracked instead)
 *.zip
 *.7z
-unsloth_compiled_cache/
+*.tar.gz
+
+# Runtime / credentials
+.env
+*.local
 wandb/
