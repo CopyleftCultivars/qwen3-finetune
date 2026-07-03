@@ -12,6 +12,9 @@ Non-MCQ pairs (NF conversations) pass through unchanged.
 Uses `claude -p` subprocess so no API key or .env needed — Claude Code OAuth
 credentials are used automatically.
 
+Shutdown: Ctrl+C kills all in-flight claude subprocesses cleanly; no orphaned
+processes remain after exit.
+
 Resume behavior:
   - Successfully processed pairs are written with "_src_idx" field.
   - Failed MCQ pairs are NOT written (so --resume retries them).
@@ -23,15 +26,19 @@ Usage:
         --output data/sources/mcq_with_rationale.jsonl \\
         [--model haiku] \\
         [--max-workers 6] \\
+        [--api-concurrency 2] \\
         [--resume]
 """
 
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import logging
+import os
 import re
+import signal
 import subprocess
 import sys
 import threading
@@ -70,31 +77,107 @@ Correct answer: {letter}. {correct_text}
 
 Write only the rationale, no preamble:"""
 
-_RETRY_DELAYS = [2, 5, 15]
+_RETRY_DELAYS = [5, 30, 90]
+_RATE_LIMIT_KEYWORDS = frozenset(["rate limit", "too many", "overloaded", "429", "529"])
+
+# Global registry of active Popen objects so the shutdown handler can kill them.
+_active_procs: set[subprocess.Popen] = set()
+_proc_lock = threading.Lock()
 
 
-def _call_claude(prompt: str, model: str, timeout: int = 90) -> str:
-    """Call claude -p subprocess and return the result text."""
+def _register_shutdown() -> None:
+    """Register SIGINT/SIGTERM handlers that kill all active claude subprocesses."""
+    def _handler(signum: int, frame: object) -> None:
+        log.warning(
+            "Signal %d received — terminating %d active claude subprocess(es)",
+            signum, len(_active_procs),
+        )
+        with _proc_lock:
+            for proc in list(_active_procs):
+                with contextlib.suppress(ProcessLookupError, OSError):
+                    os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+        sys.exit(130)
+
+    signal.signal(signal.SIGINT, _handler)
+    signal.signal(signal.SIGTERM, _handler)
+
+
+def _call_claude(
+    prompt: str,
+    model: str,
+    api_sem: threading.Semaphore,
+    timeout: int = 90,
+) -> str:
+    """Call claude -p in a tracked subprocess and return the result text.
+
+    Each call acquires api_sem so the number of concurrent API requests is
+    capped independently of the thread pool size. Uses start_new_session=True
+    so the process gets its own process group — the shutdown handler can kill
+    it via killpg even after the parent thread returns.
+    """
     full_prompt = f"{_SYSTEM}\n\n{prompt}"
-    for attempt, delay in enumerate([0] + _RETRY_DELAYS):
-        if delay:
+    last_exc: Exception = RuntimeError("No attempts made")
+
+    for attempt in range(len(_RETRY_DELAYS) + 1):
+        if attempt > 0:
+            delay = _RETRY_DELAYS[attempt - 1]
+            log.info("Retry %d — waiting %ds before next attempt", attempt, delay)
             time.sleep(delay)
-        try:
-            result = subprocess.run(
+
+        with api_sem:
+            proc = subprocess.Popen(
                 ["claude", "-p", "--model", model, "--tools", "",
                  "--output-format", "json", full_prompt],
-                check=True,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                timeout=timeout,
+                start_new_session=True,
             )
-            return json.loads(result.stdout)["result"].strip()
-        except (subprocess.CalledProcessError, subprocess.TimeoutExpired,
-                json.JSONDecodeError, KeyError) as exc:
-            if attempt == len(_RETRY_DELAYS):
-                raise
-            log.warning("Claude call failed (attempt %d): %s — retrying", attempt + 1, exc)
-    raise RuntimeError("All retries exhausted")
+            with _proc_lock:
+                _active_procs.add(proc)
+
+            try:
+                stdout, stderr = proc.communicate(timeout=timeout)
+            except subprocess.TimeoutExpired:
+                with contextlib.suppress(ProcessLookupError, OSError):
+                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                proc.wait()
+                with _proc_lock:
+                    _active_procs.discard(proc)
+                last_exc = TimeoutError(f"claude -p timed out after {timeout}s")
+                log.warning("Timeout on attempt %d", attempt + 1)
+                continue
+            else:
+                with _proc_lock:
+                    _active_procs.discard(proc)
+
+            if proc.returncode != 0:
+                err_text = (stderr or stdout).strip()
+                last_exc = subprocess.CalledProcessError(
+                    proc.returncode, "claude", stdout, stderr
+                )
+                if any(kw in err_text.lower() for kw in _RATE_LIMIT_KEYWORDS):
+                    log.warning(
+                        "Rate limit on attempt %d: %s", attempt + 1, err_text[:120]
+                    )
+                else:
+                    log.warning(
+                        "claude -p error (attempt %d, rc=%d): %s",
+                        attempt + 1, proc.returncode, err_text[:120],
+                    )
+                continue
+
+            try:
+                return json.loads(stdout)["result"].strip()
+            except (json.JSONDecodeError, KeyError) as exc:
+                last_exc = exc
+                log.warning(
+                    "Parse error on attempt %d: %s | stdout: %s",
+                    attempt + 1, exc, stdout[:120],
+                )
+                continue
+
+    raise last_exc
 
 
 def _parse_mcq(pair: dict) -> dict | None:
@@ -116,7 +199,7 @@ def _parse_mcq(pair: dict) -> dict | None:
     }
 
 
-def _generate_rationale(parsed: dict, model: str) -> str:
+def _generate_rationale(parsed: dict, model: str, api_sem: threading.Semaphore) -> str:
     prompt = _RATIONALE_PROMPT.format(
         question=parsed["question"],
         opt_a=parsed["options"]["A"],
@@ -126,7 +209,7 @@ def _generate_rationale(parsed: dict, model: str) -> str:
         letter=parsed["letter"],
         correct_text=parsed["correct_text"],
     )
-    return _call_claude(prompt, model)
+    return _call_claude(prompt, model, api_sem)
 
 
 def _load_done(output_path: Path) -> set[int]:
@@ -157,10 +240,14 @@ def main() -> None:
     ap.add_argument("--model", default="haiku",
                     help="Claude model alias for claude -p (default: haiku)")
     ap.add_argument("--max-workers", type=int, default=6,
-                    help="Parallel claude -p subprocesses (default: 6)")
+                    help="Thread pool size (default: 6)")
+    ap.add_argument("--api-concurrency", type=int, default=1,
+                    help="Max concurrent claude -p API calls (default: 1, sequential)")
     ap.add_argument("--resume", action="store_true",
                     help="Skip items already successfully written to output file")
     args = ap.parse_args()
+
+    _register_shutdown()
 
     input_path = Path(args.input)
     output_path = Path(args.output)
@@ -175,6 +262,7 @@ def main() -> None:
         done_indices = _load_done(output_path)
         log.info("Resuming: %d already done", len(done_indices))
 
+    api_sem = threading.Semaphore(args.api_concurrency)
     write_lock = threading.Lock()
     stats = {"mcq": 0, "conv": 0, "errors": 0, "done": 0}
 
@@ -186,14 +274,13 @@ def main() -> None:
             return
         parsed = _parse_mcq(pair)
         if parsed is None:
-            # Conversation pair — pass through with _src_idx for resume tracking
             result = {**pair, "_src_idx": idx}
             with write_lock:
                 stats["conv"] += 1
                 out_fh.write(json.dumps(result, ensure_ascii=False) + "\n")
             return
         try:
-            rationale = _generate_rationale(parsed, args.model)
+            rationale = _generate_rationale(parsed, args.model, api_sem)
             new_output = f"<think>\n{rationale}\n</think>\n{parsed['letter']}"
             result = {"instruction": pair["instruction"], "output": new_output,
                       "_src_idx": idx}
@@ -209,7 +296,6 @@ def main() -> None:
             log.warning("Error on pair %d: %s — will retry on --resume", idx, exc)
             with write_lock:
                 stats["errors"] += 1
-            # Do NOT write failed pair — omitting _src_idx means --resume will retry it
 
     with ThreadPoolExecutor(max_workers=args.max_workers) as pool:
         futures = {pool.submit(process, i, p): i for i, p in enumerate(pairs)}
@@ -223,7 +309,7 @@ def main() -> None:
 
     total = stats["mcq"] + stats["conv"]
     log.info(
-        "Done. MCQ with rationale: %d | Conversations: %d | Errors: %d | Total written: %d → %s",
+        "Done. MCQ upgraded: %d | Conversations: %d | Errors: %d | Written: %d → %s",
         stats["mcq"], stats["conv"], stats["errors"], total, output_path,
     )
     print(f"\nMCQ pairs upgraded: {stats['mcq']}")
