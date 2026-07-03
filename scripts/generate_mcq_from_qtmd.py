@@ -11,12 +11,16 @@ Cannabis-only collections (no NF agricultural content) are skipped.
 Uses `claude -p` subprocess so no API key or .env needed — Claude Code OAuth
 credentials are used automatically.
 
+Shutdown: Ctrl+C kills all in-flight claude subprocesses cleanly; no orphaned
+processes remain after exit.
+
 Usage:
     python scripts/generate_mcq_from_qtmd.py \\
         --qtmd-dir [LOCAL_PATH] \\
         --output data/sources/qtmd_mcq_generated.jsonl \\
         [--model haiku] \\
         [--max-workers 4] \\
+        [--api-concurrency 1] \\
         [--max-collections 0] \\
         [--resume]
 """
@@ -24,9 +28,12 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import logging
+import os
 import re
+import signal
 import subprocess
 import sys
 import threading
@@ -86,31 +93,100 @@ Text:
 JSON array:"""
 
 _OPTION_LETTERS = ("A", "B", "C", "D")
-_RETRY_DELAYS = [2, 5, 15]
+_RETRY_DELAYS = [5, 30, 90]
+_RATE_LIMIT_KEYWORDS = frozenset(["rate limit", "too many", "overloaded", "429", "529"])
+
+_active_procs: set[subprocess.Popen] = set()
+_proc_lock = threading.Lock()
 
 
-def _call_claude(prompt: str, model: str, timeout: int = 120) -> str:
-    """Call claude -p subprocess and return the result text."""
+def _register_shutdown() -> None:
+    """Register SIGINT/SIGTERM handlers that kill all active claude subprocesses."""
+    def _handler(signum: int, frame: object) -> None:
+        log.warning(
+            "Signal %d received — terminating %d active claude subprocess(es)",
+            signum, len(_active_procs),
+        )
+        with _proc_lock:
+            for proc in list(_active_procs):
+                with contextlib.suppress(ProcessLookupError, OSError):
+                    os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+        sys.exit(130)
+
+    signal.signal(signal.SIGINT, _handler)
+    signal.signal(signal.SIGTERM, _handler)
+
+
+def _call_claude(
+    prompt: str,
+    model: str,
+    api_sem: threading.Semaphore,
+    timeout: int = 120,
+) -> str:
+    """Call claude -p in a tracked subprocess and return the result text."""
     full_prompt = f"{_SYSTEM}\n\n{prompt}"
-    for attempt, delay in enumerate([0] + _RETRY_DELAYS):
-        if delay:
+    last_exc: Exception = RuntimeError("No attempts made")
+
+    for attempt in range(len(_RETRY_DELAYS) + 1):
+        if attempt > 0:
+            delay = _RETRY_DELAYS[attempt - 1]
+            log.info("Retry %d — waiting %ds before next attempt", attempt, delay)
             time.sleep(delay)
-        try:
-            result = subprocess.run(
+
+        with api_sem:
+            proc = subprocess.Popen(
                 ["claude", "-p", "--model", model, "--tools", "",
                  "--output-format", "json", full_prompt],
-                check=True,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                timeout=timeout,
+                start_new_session=True,
             )
-            return json.loads(result.stdout)["result"].strip()
-        except (subprocess.CalledProcessError, subprocess.TimeoutExpired,
-                json.JSONDecodeError, KeyError) as exc:
-            if attempt == len(_RETRY_DELAYS):
-                raise
-            log.warning("Claude call failed (attempt %d): %s — retrying", attempt + 1, exc)
-    raise RuntimeError("All retries exhausted")
+            with _proc_lock:
+                _active_procs.add(proc)
+
+            try:
+                stdout, stderr = proc.communicate(timeout=timeout)
+            except subprocess.TimeoutExpired:
+                with contextlib.suppress(ProcessLookupError, OSError):
+                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                proc.wait()
+                with _proc_lock:
+                    _active_procs.discard(proc)
+                last_exc = TimeoutError(f"claude -p timed out after {timeout}s")
+                log.warning("Timeout on attempt %d", attempt + 1)
+                continue
+            else:
+                with _proc_lock:
+                    _active_procs.discard(proc)
+
+            if proc.returncode != 0:
+                err_text = (stderr or stdout).strip()
+                last_exc = subprocess.CalledProcessError(
+                    proc.returncode, "claude", stdout, stderr
+                )
+                if any(kw in err_text.lower() for kw in _RATE_LIMIT_KEYWORDS):
+                    log.warning(
+                        "Rate limit on attempt %d: %s", attempt + 1, err_text[:120]
+                    )
+                else:
+                    log.warning(
+                        "claude -p error (attempt %d, rc=%d): %s",
+                        attempt + 1, proc.returncode, err_text[:120],
+                    )
+                continue
+
+            try:
+                return json.loads(stdout)["result"].strip()
+            except (json.JSONDecodeError, KeyError) as exc:
+                last_exc = exc
+                log.warning(
+                    "Parse error on attempt %d: %s | stdout: %s",
+                    attempt + 1, exc, stdout[:120],
+                )
+                continue
+
+    raise last_exc
 
 
 def _read_collection_text(collection_dir: Path, max_chars: int = 3000) -> str | None:
@@ -151,9 +227,9 @@ def _is_nf_relevant(text: str) -> bool:
     return nf_hits >= 3 or (nf_hits > 0 and nf_hits > cannabis_hits)
 
 
-def _generate_mcq(text: str, n: int, model: str) -> list[dict]:
+def _generate_mcq(text: str, n: int, model: str, api_sem: threading.Semaphore) -> list[dict]:
     prompt = _MCQ_PROMPT.format(n=n, text=text)
-    raw = _call_claude(prompt, model)
+    raw = _call_claude(prompt, model, api_sem)
     json_match = re.search(r"\[.*\]", raw, re.DOTALL)
     if not json_match:
         raise ValueError(f"No JSON array in response: {raw[:200]}")
@@ -172,12 +248,12 @@ def _validate_and_convert(item: dict, source_collection: str) -> dict | None:
     if letter not in _OPTION_LETTERS:
         return None
     question = str(item["question"]).strip()
-    opts = {l: str(item[l]).strip() for l in _OPTION_LETTERS}
+    opts = {ltr: str(item[ltr]).strip() for ltr in _OPTION_LETTERS}
     rationale = str(item["rationale"]).strip()
     if not question or not rationale or any(not v for v in opts.values()):
         return None
 
-    options_block = "\n".join(f"{l}. {opts[l]}" for l in _OPTION_LETTERS)
+    options_block = "\n".join(f"{ltr}. {opts[ltr]}" for ltr in _OPTION_LETTERS)
     instruction = f"{question}\n\n{options_block}"
     output = f"<think>\n{rationale}\n</think>\n{letter}"
 
@@ -210,6 +286,7 @@ def process_collection(
     collection_dir: Path,
     model: str,
     n_per_collection: int,
+    api_sem: threading.Semaphore,
 ) -> list[dict]:
     """Process one QTMD collection; return list of training pairs (may be empty)."""
     text = _read_collection_text(collection_dir)
@@ -217,7 +294,7 @@ def process_collection(
         return []
     if not _is_nf_relevant(text):
         return []
-    items = _generate_mcq(text, n_per_collection, model)
+    items = _generate_mcq(text, n_per_collection, model, api_sem)
     pairs: list[dict] = []
     for item in items:
         converted = _validate_and_convert(item, collection_dir.name)
@@ -239,7 +316,9 @@ def main() -> None:
     ap.add_argument("--model", default="haiku",
                     help="Claude model alias for claude -p (default: haiku)")
     ap.add_argument("--max-workers", type=int, default=4,
-                    help="Parallel claude -p subprocesses (default: 4)")
+                    help="Thread pool size (default: 4)")
+    ap.add_argument("--api-concurrency", type=int, default=1,
+                    help="Max concurrent claude -p API calls (default: 1, sequential)")
     ap.add_argument("--n-per-collection", type=int, default=4,
                     help="MCQ questions to generate per collection (default: 4)")
     ap.add_argument("--max-collections", type=int, default=0,
@@ -247,6 +326,8 @@ def main() -> None:
     ap.add_argument("--resume", action="store_true",
                     help="Skip collections already written to output")
     args = ap.parse_args()
+
+    _register_shutdown()
 
     qtmd_path = Path(args.qtmd_dir)
     if not qtmd_path.is_dir():
@@ -266,6 +347,7 @@ def main() -> None:
         done_collections = _load_done_collections(output_path)
         log.info("Resuming: %d collections already done", len(done_collections))
 
+    api_sem = threading.Semaphore(args.api_concurrency)
     write_lock = threading.Lock()
     stats = {"processed": 0, "skipped_irrelevant": 0, "skipped_resume": 0,
              "pairs_written": 0, "errors": 0}
@@ -279,7 +361,7 @@ def main() -> None:
                 stats["skipped_resume"] += 1
             return
         try:
-            pairs = process_collection(col_dir, args.model, args.n_per_collection)
+            pairs = process_collection(col_dir, args.model, args.n_per_collection, api_sem)
             with write_lock:
                 stats["processed"] += 1
                 if not pairs:
