@@ -7,10 +7,20 @@
 Output: data/train.jsonl and data/val.jsonl in {"instruction", "output"} format
 compatible with qwen3-finetune/train.py.
 
+*** CONTAMINATED SOURCE WARNING (see MCQ_DIAGNOSTIC_PLAN.md, 2026-07-09) ***
+The original usage example for --mcq pointed directly at
+benchmark-eval-workspace/benchmark_combined.jsonl — the eval benchmark itself. Running this
+script that way trains the model on 100% of the eval set (each question expanded into 5
+variants via cyclic option shifts), which is why it must never be repeated: --mcq must point
+at an MCQ source that has been verified to have zero question-text overlap with
+benchmark_combined.jsonl. This script now refuses to run against a --mcq path whose filename
+matches known benchmark filenames (see _refuse_benchmark_mcq below); this is a filename-based
+safety net, not a substitute for an actual dedup check against the real benchmark question set.
+
 Usage:
     python qwen3-finetune/prepare_dataset.py \\
         --conversations [LOCAL_PATH] \\
-        --mcq [LOCAL_PATH] \\
+        --mcq <path to a verified non-benchmark-overlapping MCQ source> \\
         --output-dir qwen3-finetune/data \\
         --split 0.9 --seed 42
 """
@@ -212,6 +222,34 @@ def split_and_write(
 
 
 # ---------------------------------------------------------------------------
+# Contamination guard — see MCQ_DIAGNOSTIC_PLAN.md
+# ---------------------------------------------------------------------------
+
+_KNOWN_BENCHMARK_FILENAMES = frozenset({
+    "benchmark_combined.jsonl",
+    "comprehensive_agri_benchmark.jsonl",
+})
+
+
+def _refuse_benchmark_mcq(mcq_path: Path, parser: argparse.ArgumentParser) -> None:
+    """Refuse to build training data directly from a known eval-benchmark file.
+
+    Filename match only — not a substitute for an actual question-text dedup check
+    against benchmark_combined.jsonl. This exists because the original --mcq usage
+    example pointed straight at the eval benchmark, training the model on 100% of
+    the questions it was later scored against. See MCQ_DIAGNOSTIC_PLAN.md.
+    """
+    if mcq_path.name in _KNOWN_BENCHMARK_FILENAMES:
+        parser.error(
+            f"--mcq points at '{mcq_path.name}', a known eval-benchmark file. "
+            "Training on the eval benchmark contaminates every downstream accuracy "
+            "number. See MCQ_DIAGNOSTIC_PLAN.md for the redo plan. If this file "
+            "genuinely has zero overlap with benchmark_combined.jsonl, rename it "
+            "to something else to bypass this filename check."
+        )
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -269,6 +307,7 @@ def main() -> None:
         mcq_path = Path(args.mcq)
         if not mcq_path.exists():
             parser.error(f"MCQ file not found: {mcq_path}")
+        _refuse_benchmark_mcq(mcq_path, parser)
         print(f"Loading MCQ benchmark from {mcq_path} ...", file=sys.stderr)
         mcq_pairs = list(_load_mcq(mcq_path))
         print(f"  Loaded {len(mcq_pairs)} pairs ({len(mcq_pairs)//5} questions × 5 variants)", file=sys.stderr)

@@ -20,6 +20,13 @@ Resume behavior:
   - Failed MCQ pairs are NOT written (so --resume retries them).
   - Conversation pass-through pairs are written with "_src_idx" immediately.
 
+*** CONTAMINATED DEFAULT INPUT WARNING (see MCQ_DIAGNOSTIC_PLAN.md, 2026-07-09) ***
+The default --input (data/train.jsonl) is 100% derived from benchmark_combined.jsonl (the
+eval benchmark) — prepare_dataset.py built it by loading the benchmark directly as an MCQ
+source. This script itself doesn't reference the benchmark, but it inherits the contamination
+from its input. Point --input at a clean, non-benchmark-derived MCQ source once one exists
+(Phase 3 of the redo plan).
+
 Usage:
     python scripts/add_rationale.py \\
         --input data/train.jsonl \\
