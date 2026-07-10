@@ -3,8 +3,8 @@
 
 Three source streams:
   1. finetune-gemma4 NF conversations (ShareGPT → instruction/output)
-  2. MCQ pairs with genuine CoT rationale (output of scripts/add_rationale.py)
-  3. QTMD-generated MCQ pairs (output of scripts/generate_mcq_from_qtmd.py)
+  2. repaired MCQ pairs with CoT rationale (output of scripts/repair_mcq_rationales.py)
+  3. QMD-generated MCQ pairs (output of scripts/generate_mcq_from_qmd.py)
      — cyclic shifts applied here, with 2x weight on D-position shift
 
 Optionally filters any source through LLM judge verdicts (judge_verdict="keep").
@@ -15,11 +15,21 @@ Stage B findings driving this v3 design:
   - D marginal 16.9% (target 25%): heavier D-position cyclic weight
   - Lower LR intended for train.py (--lr 5e-5 vs prior 1e-4)
 
+*** CONTAMINATED SOURCE WARNING (see MCQ_DIAGNOSTIC_PLAN.md, 2026-07-09) ***
+The default --mcq-rationale path below (data/sources/mcq_with_rationale.repaired.jsonl) is
+100% derived from benchmark_combined.jsonl (the eval benchmark) — it was built by
+scripts/repair_mcq_rationales.py from data/train.jsonl, which prepare_dataset.py built by
+loading benchmark_combined.jsonl directly as its --mcq source. Every v3 checkpoint trained
+with this default was trained on ~99.9% of the eval benchmark. Do not use this default until
+a clean (non-benchmark-derived, deduped) replacement exists — see MCQ_DIAGNOSTIC_PLAN.md
+Phase 3. Source stream 3 (QMD-generated MCQs) carries the same risk transitively: both it and
+the original benchmark draw from [LOCAL_PATH]
+
 Usage:
     python prepare_dataset_v3.py \\
         --conversations data/sources/gemma4/hf_dataset/train.jsonl \\
-        --mcq-rationale data/sources/mcq_with_rationale.jsonl \\
-        --qtmd-mcq data/sources/qtmd_mcq_generated.jsonl \\
+        --mcq-rationale <path to a verified non-benchmark-overlapping MCQ+rationale source> \\
+        --qmd-mcq data/sources/qmd_mcq_generated.jsonl \\
         [--judged-filter data/sources/mcq_with_rationale_judged.jsonl] \\
         [--output-dir data] \\
         [--split 0.9] [--seed 42]
@@ -125,7 +135,7 @@ def _load_mcq_with_rationale(path: Path) -> Generator[dict[str, str], None, None
 
 
 # ---------------------------------------------------------------------------
-# Source 3 — QTMD-generated MCQ (from generate_mcq_from_qtmd.py)
+# Source 3 — QMD-generated MCQ (from generate_mcq_from_qmd.py)
 # Apply cyclic shifts here with heavier D-position weight.
 # ---------------------------------------------------------------------------
 
@@ -133,7 +143,7 @@ def _cyclic_shift_pair(
     pair: dict,
     shift: int,
 ) -> dict | None:
-    """Apply cyclic option shift to a QTMD MCQ pair.
+    """Apply cyclic option shift to a QMD MCQ pair.
 
     Parses instruction for question+options, rotates options by `shift`,
     updates the answer letter, keeps rationale content (which explains the
@@ -169,13 +179,13 @@ def _cyclic_shift_pair(
     return {
         "instruction": f"{question}\n\n{options_block}",
         "output": new_output,
-        "_source": pair.get("_source", "qtmd_mcq"),
+        "_source": pair.get("_source", "qmd_mcq"),
         "_source_collection": pair.get("source_collection", ""),
     }
 
 
-def _load_qtmd_mcq(path: Path) -> Generator[dict[str, str], None, None]:
-    """Load QTMD MCQ pairs and emit cyclic-shifted variants with D-position 2x."""
+def _load_qmd_mcq(path: Path) -> Generator[dict[str, str], None, None]:
+    """Load QMD MCQ pairs and emit cyclic-shifted variants with D-position 2x."""
     with open(path, encoding="utf-8") as fh:
         for lineno, raw in enumerate(fh, start=1):
             raw = raw.strip()
@@ -305,6 +315,34 @@ def split_and_write(
 
 
 # ---------------------------------------------------------------------------
+# Contamination guard — see MCQ_DIAGNOSTIC_PLAN.md
+# ---------------------------------------------------------------------------
+
+_KNOWN_CONTAMINATED_MCQ_FILENAMES = frozenset({
+    "benchmark_combined.jsonl",
+    "comprehensive_agri_benchmark.jsonl",
+    "mcq_with_rationale.jsonl",
+    "mcq_with_rationale.repaired.jsonl",
+    "mcq_with_rationale.repaired.pre_cleanup_backup.jsonl",
+})
+
+
+def _refuse_contaminated_mcq(path: Path, ap: argparse.ArgumentParser) -> None:
+    """Refuse known-contaminated MCQ sources. Filename match only — not a substitute
+    for an actual question-text dedup check against benchmark_combined.jsonl.
+    See MCQ_DIAGNOSTIC_PLAN.md.
+    """
+    if path.name in _KNOWN_CONTAMINATED_MCQ_FILENAMES:
+        ap.error(
+            f"'{path.name}' is a known benchmark-contaminated MCQ source (99.9-100% "
+            "question-text overlap with benchmark_combined.jsonl — see "
+            "MCQ_DIAGNOSTIC_PLAN.md). Build a clean replacement (Phase 3) before "
+            "training. If this file genuinely has zero overlap, rename it to bypass "
+            "this filename check."
+        )
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -315,10 +353,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     ap.add_argument("--conversations", metavar="PATH",
                     help="gemma4 ShareGPT JSONL (hf_dataset/train.jsonl)")
-    ap.add_argument("--mcq-rationale", metavar="PATH",
-                    help="MCQ pairs with rationale (data/sources/mcq_with_rationale.jsonl)")
-    ap.add_argument("--qtmd-mcq", metavar="PATH",
-                    help="QTMD-generated MCQ (data/sources/qtmd_mcq_generated.jsonl)")
+    ap.add_argument(
+        "--mcq-rationale",
+        metavar="PATH",
+        default=None,
+        help=(
+            "MCQ pairs with rationale, verified to have zero question-text overlap "
+            "with benchmark_combined.jsonl. No default — see MCQ_DIAGNOSTIC_PLAN.md "
+            "Phase 3; the old default (data/sources/mcq_with_rationale.repaired.jsonl) "
+            "is 99.9% derived from the eval benchmark and must not be used."
+        ),
+    )
+    ap.add_argument("--qmd-mcq", metavar="PATH",
+                    help="QMD-generated MCQ (data/sources/qmd_mcq_generated.jsonl)")
     ap.add_argument("--judged-filter", metavar="PATH", default=None,
                     help="Judged JSONL; only keep judge_verdict='keep' instructions")
     ap.add_argument("--output-dir", default="data", metavar="DIR")
@@ -335,8 +382,8 @@ def main() -> None:
     ap = build_parser()
     args = ap.parse_args()
 
-    if not any([args.conversations, args.mcq_rationale, args.qtmd_mcq]):
-        ap.error("At least one of --conversations, --mcq-rationale, or --qtmd-mcq is required")
+    if not any([args.conversations, args.mcq_rationale, args.qmd_mcq]):
+        ap.error("At least one of --conversations, --mcq-rationale, or --qmd-mcq is required")
     if not 0.0 < args.split < 1.0:
         ap.error("--split must be between 0 and 1 (exclusive)")
 
@@ -357,19 +404,20 @@ def main() -> None:
         path = Path(args.mcq_rationale)
         if not path.exists():
             ap.error(f"MCQ rationale file not found: {path}")
+        _refuse_contaminated_mcq(path, ap)
         print(f"Loading MCQ+rationale pairs from {path} ...", file=sys.stderr)
         pairs = list(_load_mcq_with_rationale(path))
         source_counts["mcq_rationale"] = len(pairs)
         all_pairs.extend(pairs)
         print(f"  → {len(pairs)} pairs", file=sys.stderr)
 
-    if args.qtmd_mcq:
-        path = Path(args.qtmd_mcq)
+    if args.qmd_mcq:
+        path = Path(args.qmd_mcq)
         if not path.exists():
-            ap.error(f"QTMD MCQ file not found: {path}")
-        print(f"Loading QTMD MCQ from {path} (with cyclic shifts) ...", file=sys.stderr)
-        pairs = list(_load_qtmd_mcq(path))
-        source_counts["qtmd_mcq"] = len(pairs)
+            ap.error(f"QMD MCQ file not found: {path}")
+        print(f"Loading QMD MCQ from {path} (with cyclic shifts) ...", file=sys.stderr)
+        pairs = list(_load_qmd_mcq(path))
+        source_counts["qmd_mcq"] = len(pairs)
         all_pairs.extend(pairs)
         print(
             f"  → {len(pairs)} pairs "
