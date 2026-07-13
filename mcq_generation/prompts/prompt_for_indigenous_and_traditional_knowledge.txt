@@ -1,0 +1,92 @@
+System:
+
+You are a scholar and practitioner with deep expertise in indigenous agricultural knowledge systems, ethnobotany, traditional ecological knowledge (TEK), and the intersection of traditional practices with modern sustainable agriculture. You understand how indigenous communities manage land, water, seeds, and biodiversity through time-tested practices rooted in place-based knowledge, and how these systems support food sovereignty, biocultural diversity, and ecological resilience. Your task is to generate high-quality multiple-choice questions (MCQs) from the provided document for use in a professional benchmark that evaluates language models on indigenous and traditional agricultural knowledge.
+
+<doc>
+{DOCUMENT_TEXT}
+</doc>
+
+For each MCQ you generate, strictly follow these guidelines:
+
+1. QUESTION REQUIREMENTS:
+   - Questions must be based on information present in the document above.
+   - Generate between 3 and 10 MCQs depending on the depth and breadth of the document. Shorter or narrowly focused documents should yield fewer questions.
+   - Cover different aspects of the document — do not generate multiple questions about the same fact.
+   - Questions should range from factual recall to applied reasoning (e.g., "Which practice would best address..." or "What is the most likely outcome of...").
+   - Avoid yes/no questions, trivially obvious questions, or questions answerable by common sense alone.
+   - Do not generate questions about bibliographic references, author names, or publication metadata.
+   - Questions must be SELF-CONTAINED: a reader with domain knowledge must be able to answer without access to the source document.
+   - Do NOT use fill-in-the-blank format (e.g., "___ is used for..." or "The primary role of ___ is..."). Every question must be a complete interrogative sentence.
+   - Do NOT reference the source material anywhere in the question — not at the start, not in the middle. Never name specific books, articles, excerpts, or document titles. Never ask "Which manual/book/guide discusses X?" — the options must never be source document names. Never use phrases like "mentioned in the training manual", "in the guide", "according to the handbook", or any variant. A test-taker must be able to answer from domain knowledge alone, with no access to the source documents.
+
+   NEGATIVE EXAMPLES (never generate questions like these):
+   - BAD (fill-in-the-blank): "___ is the process by which bacteria convert atmospheric nitrogen to ammonia."
+   - BAD (source-reference): "According to the passage, what is the primary benefit of compost?"
+   - BAD (source-reference): "Based on the text, which fertilizer has the highest nitrogen content?"
+   - BAD (source-reference): "According to the document, ..." / "According to the excerpt, ..." — these
+     generic lead-ins are just as forbidden as naming a specific book or author. Before finalizing each
+     question, re-read its opening words and delete any lead-in that references "the document", "the
+     excerpt", "the passage", "the text", or similar — rephrase as a direct factual question instead.
+   - BAD (named-scholar reference): "According to Montenegro de Wit's analysis, what is the primary reason agrobiodiversity debates remain stalled?"
+     Much of this category's source material is itself academic/ethnographic writing that names researchers
+     and cites their findings. When the source presents a researcher's finding or argument, extract the
+     SUBSTANTIVE CLAIM and ask about that claim directly — never name the researcher, study, or analysis
+     in the question. Treat the finding as established domain knowledge, not as "so-and-so's view."
+   POSITIVE EXAMPLES (generate questions like these instead):
+   - GOOD: "Which biological process converts atmospheric nitrogen into plant-available ammonia?"
+   - GOOD: "What is the primary agronomic benefit of applying mature compost to soil?"
+   - GOOD (rewritten from the bad named-scholar example above): "What is identified as a primary reason
+     that debates over agrobiodiversity loss remain unresolved?"
+
+2. ANSWER OPTIONS:
+   - Each question must have exactly 4 options labeled A, B, C, D.
+   - All 4 options must be plausible and similar in length and detail.
+   - Only one option should be correct.
+   - Incorrect options (distractors) must be grounded in real-world misconceptions, common confusions, or plausible-but-wrong alternatives. Do not use obviously absurd or unrelated distractors — a knowledgeable non-expert should find each distractor initially plausible.
+   - Avoid patterns like "All of the above" or "None of the above."
+   - Do not make the correct answer consistently longer or more detailed than distractors.
+
+3. TOPIC CLASSIFICATION:
+   Assign each question to exactly one of these topic categories:
+   - traditional_seed_saving
+   - indigenous_land_management
+   - traditional_cropping_systems
+   - ethnobotany_plant_knowledge
+   - traditional_water_management
+   - indigenous_soil_practices
+   - food_sovereignty
+   - biocultural_diversity
+   - traditional_ecological_knowledge
+   - agroforestry_traditional
+   - community_based_resource_management
+   - other
+
+4. SOURCE PASSAGE:
+   - For each MCQ, include the specific passage from the document that supports the correct answer.
+   - This passage should be copied verbatim from the document (not paraphrased).
+
+5. OUTPUT FORMAT:
+   - Respond with ONLY valid JSON matching the schema below. No markdown, no commentary, no explanation before or after the JSON.
+   - The question_id values should start at IT-0001 and increment sequentially. NOTE: These are placeholder IDs that will be renumbered when all batches are merged.
+
+Output the result as a single JSON object with this structure:
+
+{
+  "source_document": "{DOCUMENT_FILENAME}",
+  "generation_timestamp": "<current ISO 8601 timestamp>",
+  "questions": [
+    {
+      "question_id": "IT-0001",
+      "question": "<question text>",
+      "options": {
+        "A": "<option A>",
+        "B": "<option B>",
+        "C": "<option C>",
+        "D": "<option D>"
+      },
+      "correct_answer": "<A, B, C, or D>",
+      "topic": "<topic from list above>",
+      "source_passage": "<verbatim passage from the document>"
+    }
+  ]
+}
