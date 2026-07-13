@@ -50,3 +50,11 @@ wandb/
 .chainlink/
 .mcp.json
 CHANGELOG.md
+
+# MCQ generation pipeline: run logs, LLM judge response caches, and per-topic/
+# per-batch intermediate output are regenerable scratch (rerunning the pipeline
+# recreates them) — only the pipeline code, prompts, rubrics, and final merged
+# data/sources/ outputs are tracked.
+mcq_generation/logs/
+mcq_generation/output/
+mcq_generation/quality/scores/
