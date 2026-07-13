@@ -101,36 +101,113 @@ loud warnings so they can't be silently reused as training inputs. Scripts get d
 warnings; `prepare_dataset.py` additionally gets a runtime guard that refuses to run against a
 `--mcq` path matching known benchmark filenames.
 
-**Phase 1 — Rebuild a clean baseline (v2-clean): conversations only.** Run
-`prepare_dataset.py` (or a v3-style equivalent) with **only** the `finetune-gemma4` conversation
-source — no MCQ data of any kind. Train and merge. This is the first trustworthy checkpoint:
-its benchmark accuracy is a fair (if likely low) measurement, since nothing it was trained on
-touches `benchmark_combined.jsonl`.
+**Phase 1 — ✅ DONE (2026-07-10). Rebuild a clean baseline (v2-clean): conversations only.**
+Ran `prepare_dataset.py` with **only** `data/sources/gemma4/hf_dataset/train.jsonl`
+(expanded 2865 → 3998 conversations first, see below) — no MCQ data of any kind. 3,669
+pairs (3,302 train / 367 val), verified 0% overlap with `benchmark_combined.jsonl`. Trained
+26:33 (default hyperparameters), merged to `outputs/merged-model-v2-clean` (1137MB).
 
-**Phase 2 — Evaluate v2-clean.** Run the full Stage A/B diagnostic suite against v2-clean on
-`benchmark_combined.jsonl`. These numbers are now trustworthy — first real baseline for this
-project.
+**Phase 2 — ✅ DONE (2026-07-10). Evaluate v2-clean.** Full Stage A/B suite run against the
+full 1603-question benchmark. Full writeup with reasoning: `summary.md`. Headline numbers:
 
-**Phase 3 — Build a genuinely clean MCQ training source.** Two options, not mutually exclusive:
-  - (a) Identify which `qtmd_workspace/markdown_corpus` collections/documents
-    `benchmark-workspace/generate_mcqs_rag.py` actually drew from to build
-    `benchmark_combined.jsonl`, and exclude those collections from any MCQ generation source.
-  - (b) Generate MCQs from any source (QMD-derived or otherwise), then mechanically dedupe by
-    question-text (and near-duplicate/embedding similarity, not just exact match) against
-    `benchmark_combined.jsonl` before using them for training. Treat this as mandatory going
-    forward, not optional — the exact-match check alone would have caught this contamination
-    on day one.
+| Metric | Value |
+|---|---|
+| Generation accuracy | 42.55% (682/1603) |
+| Logprob accuracy | 31.8% (509/1603) |
+| Letter bias | 77.2% of logprob top-choices were 'A' (biased_letter errors: 55.2%) |
+| Logit lens (wrong split) | median first-correct layer 28/27 (never), 26/50 never-correct |
+| Linear probes (finetuned peak) | 25.8% at layer 24 — *below* base model's 30.7% at layer 17 |
 
-**Phase 4 — Rebuild v3-clean.** Gemma4 conversations + the clean MCQ source from Phase 3. Still
-**no QMD stream** — matches the original v3 intent, deferred until a solid non-QMD finetune
-exists.
+First trustworthy numbers this project has produced. Key finding: v2-clean's dominant
+failure mode is **lack of MCQ-format exposure entirely** (severe letter bias, near-chance
+linear decodability), not "present-not-surfaced" — the diagnosis that drove the original
+(contaminated) v2→v3 rationale-quality fix doesn't describe what v2-clean actually needs.
+Phase 3/4 should prioritize simply *having* balanced MCQ training data.
+
+**Phase 3 — Build a genuinely clean MCQ training source.** As of 2026-07-10, `qmd` is
+working again (a Node ABI mismatch from an `npm i` update was fixed via
+`npm rebuild better-sqlite3` in the `@tobilu/qmd` package directory — no revert needed).
+Its indexed collections are organized by the *same 9 topics* as the benchmark categories:
+
+| Collection | Files |
+|---|---:|
+| Permaculture | 53 |
+| Organic_Farming | 110 |
+| Natural_Fertilizers | 143 |
+| Regenerative_Agriculture | 59 |
+| Agroecology | 69 |
+| Soil_Science_and_Microbiology | 115 |
+| Sustainable_Water_Management | 65 |
+| Integrated_Farming_Systems | 56 |
+| Indigenous_and_Traditional_Knowledge | 73 |
+
+Confirmed directly, not just inferred: `qmd collection show Permaculture` resolves to
+`[LOCAL_PATH]` — these collections
+live *inside* `benchmark-workspace`, the project that built the benchmark. This is not "same
+corpus family," it's almost certainly the exact source documents the benchmark questions were
+written from. The contamination problem was never "QMD-derived content is forbidden" — it was
+"the literal eval file was fed into training." Generating fresh MCQs from these source
+documents is fine; duplicating benchmark *questions* is not. Given the source-document overlap
+is now confirmed high, the dedup step (below) is essential, not a nice-to-have.
+
+**Reuse the benchmark's own generation rigor, don't reinvent a simpler pipeline.**
+`benchmark-workspace/generate_mcqs_rag.py` + `quality/` already implement a real quality
+system: per-topic QMD retrieval → LLM generation → 5-dimension LLM judge scoring against
+per-category rubrics (`quality/rubrics/`) → composite-score keep/review/reject → regeneration
+loop for failing topics (up to 3 rounds, `REGENERATION_PIPELINE.md`) → generate→critique→correct
+self-refinement for borderline items (`quality/self_refine.py`, MCQG-SRefine method, Yao et al.
+NAACL 2025) → final packaging. Training data deserves the same quality bar as eval data, not a
+cheaper ad-hoc generator. `generate_mcqs_rag.py` already has fuzzy dedup infrastructure
+(`_load_existing_stems`/`_is_duplicate`, `difflib.SequenceMatcher` fuzzy match) built to avoid
+regenerating duplicates within a category's own regen loop — the plan is to reuse that same
+mechanism, pointed at `benchmark_combined.jsonl`'s question stems as an *additional* forbidden
+set (on top of the category's own accepted/rejected stems), so nothing generated for training
+can fuzzy-match an eval question.
+
+Concrete plan:
+  - **3a. Fresh QMD-generated MCQs.** Run the existing rigor pipeline (`generate_mcqs_rag.py`
+    + `quality/*`) pointed at each `qmd://<Category>/` collection, generating new questions
+    distinct from what's already in the benchmark — with the dedup set extended to include
+    `benchmark_combined.jsonl`'s question stems, not just the category's own existing items.
+  - **3b. Conversation-derived MCQs (new source, not in the original 6-phase plan).** Also
+    generate MCQs *from* `data/sources/gemma4/hf_dataset/train.jsonl` (the trusted,
+    already-vetted conversation content used for v2-clean) — same judge/refine rigor. This
+    source has zero benchmark-corpus overlap risk by construction (it isn't derived from the
+    QMD corpus the benchmark was built from), and reinforces facts the model is already
+    learning conversationally, in multiple-choice form — directly targeting v2-clean's actual
+    failure mode (MCQ-format unfamiliarity), not just adding more raw facts.
+  - Mechanical dedup against `benchmark_combined.jsonl` (exact question-text match, minimum
+    bar) applies to *both* 3a and 3b before anything is used for training.
+
+**Design principle carried over from v2/v3 and reconfirmed:** the deployed model needs to
+answer bare MCQ questions correctly (benchmark eval shape — no system prompt) *and* follow the
+Natural Farming Fertilizer Assistant persona during normal conversational use (system-prompt-
+wrapped). This is already how the pipeline works — `_load_mcq()`/MCQ training pairs are bare
+instruction/output with no system-prompt wrapper, matching eval format, while conversation
+pairs retain their system-prompt handshake turn where present. Keep it that way; don't
+accidentally wrap MCQ training pairs in the persona system prompt, which would mismatch the
+eval format and reintroduce a version of the format-mismatch problem Stage A/B already flagged.
+
+**Phase 4 — Rebuild v3-clean.** Gemma4 conversations (3a) + the clean MCQ sources from Phase 3
+(3a fresh-generated + 3b conversation-derived). This *does* include a QMD-sourced stream now
+(unlike the original Phase 4 draft, which deferred all QMD use to Phase 6) — the original
+"defer QMD" reasoning was really "defer benchmark-corpus risk," and that's now handled by the
+dedup step instead of a blanket QMD ban. Phase 6 below is superseded/folded into this phase.
 
 **Phase 5 — Evaluate v3-clean, compare fairly to v2-clean.** Same Stage A/B suite. This is the
 first trustworthy v2→v3-style comparison.
 
-**Phase 6 (future, gated on Phase 5 looking solid) — Add QMD-generated MCQs.** Only after
-Phase 4/5 produces a checkpoint judged solid. Any QMD-generated MCQ must pass the dedup check
-from Phase 3(b) before inclusion.
+**Phase 6 — superseded (2026-07-10), folded into Phase 3/4.** Originally: "add QMD-generated
+MCQs only after a solid non-QMD baseline exists." Revised understanding: QMD-sourced content
+was never the actual risk (it's the same class of natural-farming material the benchmark
+itself represents) — the risk was training on the literal benchmark file, which the dedup
+step in Phase 3 handles directly. No reason to gate QMD-derived generation behind a separate
+checkpoint anymore; it's part of Phase 3/4 now.
+
+**Future, out of scope until the current plan (Phases 1-5) is complete: tool-calling.** The
+model doesn't currently have tool-calling capability, and evaluating/training for it would
+need its own separate benchmark (distinct from the MCQ benchmark this plan is about). Not
+started — revisit once v3-clean's limits are actually known.
 
 The existing `scripts/TODO_mcq_rationale_audit.md` (auditing refusal-style rationales in
 `mcq_with_rationale.repaired.jsonl`) is superseded by this plan — that file is being rebuilt
