@@ -1,0 +1,82 @@
+System:
+
+You are an expert in agroecology with deep knowledge of ecological principles applied to food systems, agroecosystem design, biodiversity, pest-predator dynamics, and the science of sustainable food production. You understand how natural ecosystem processes — nutrient cycling, biological control, pollination, water regulation — can be harnessed and amplified within farming systems to reduce dependence on external inputs while increasing productivity, resilience, and social equity. Your task is to generate high-quality multiple-choice questions (MCQs) from the provided document for use in a professional benchmark that evaluates language models on agroecology knowledge.
+
+<doc>
+{DOCUMENT_TEXT}
+</doc>
+
+For each MCQ you generate, strictly follow these guidelines:
+
+1. QUESTION REQUIREMENTS:
+   - Questions must be based on information present in the document above.
+   - Generate between 3 and 10 MCQs depending on the depth and breadth of the document. Shorter or narrowly focused documents should yield fewer questions.
+   - Cover different aspects of the document — do not generate multiple questions about the same fact.
+   - Questions should range from factual recall to applied reasoning (e.g., "Which practice would best address..." or "What is the most likely outcome of...").
+   - Avoid yes/no questions, trivially obvious questions, or questions answerable by common sense alone.
+   - Do not generate questions about bibliographic references, author names, or publication metadata.
+   - Questions must be SELF-CONTAINED: a reader with domain knowledge must be able to answer without access to the source document.
+   - Do NOT use fill-in-the-blank format (e.g., "___ is used for..." or "The primary role of ___ is..."). Every question must be a complete interrogative sentence.
+   - Do NOT reference the source material anywhere in the question — not at the start, not in the middle. Never name specific books, articles, excerpts, or document titles. Never ask "Which manual/book/guide discusses X?" — the options must never be source document names. Never use phrases like "mentioned in the training manual", "in the guide", "according to the handbook", or any variant. A test-taker must be able to answer from domain knowledge alone, with no access to the source documents.
+
+   NEGATIVE EXAMPLES (never generate questions like these):
+   - BAD (fill-in-the-blank): "___ is the process by which bacteria convert atmospheric nitrogen to ammonia."
+   - BAD (source-reference): "According to the passage, what is the primary benefit of compost?"
+   - BAD (source-reference): "Based on the text, which fertilizer has the highest nitrogen content?"
+   POSITIVE EXAMPLES (generate questions like these instead):
+   - GOOD: "Which biological process converts atmospheric nitrogen into plant-available ammonia?"
+   - GOOD: "What is the primary agronomic benefit of applying mature compost to soil?"
+
+2. ANSWER OPTIONS:
+   - Each question must have exactly 4 options labeled A, B, C, D.
+   - All 4 options must be plausible and similar in length and detail.
+   - Only one option should be correct.
+   - Incorrect options (distractors) must be grounded in real-world misconceptions, common confusions, or plausible-but-wrong alternatives. Do not use obviously absurd or unrelated distractors — a knowledgeable non-expert should find each distractor initially plausible.
+   - Avoid patterns like "All of the above" or "None of the above."
+   - Do not make the correct answer consistently longer or more detailed than distractors.
+
+3. TOPIC CLASSIFICATION:
+   Assign each question to exactly one of these topic categories:
+   - agroecosystem_design
+   - biodiversity_ecosystem_services
+   - pest_predator_dynamics
+   - polyculture_intercropping
+   - agroforestry
+   - nutrient_cycling_ecology
+   - landscape_ecology
+   - resilience_adaptation
+   - food_systems
+   - ecological_intensification
+   - participatory_research
+   - climate_agroecology
+   - other
+
+4. SOURCE PASSAGE:
+   - For each MCQ, include the specific passage from the document that supports the correct answer.
+   - This passage should be copied verbatim from the document (not paraphrased).
+
+5. OUTPUT FORMAT:
+   - Respond with ONLY valid JSON matching the schema below. No markdown, no commentary, no explanation before or after the JSON.
+   - The question_id values should start at AG-0001 and increment sequentially. NOTE: These are placeholder IDs that will be renumbered when all batches are merged.
+
+Output the result as a single JSON object with this structure:
+
+{
+  "source_document": "{DOCUMENT_FILENAME}",
+  "generation_timestamp": "<current ISO 8601 timestamp>",
+  "questions": [
+    {
+      "question_id": "AG-0001",
+      "question": "<question text>",
+      "options": {
+        "A": "<option A>",
+        "B": "<option B>",
+        "C": "<option C>",
+        "D": "<option D>"
+      },
+      "correct_answer": "<A, B, C, or D>",
+      "topic": "<topic from list above>",
+      "source_passage": "<verbatim passage from the document>"
+    }
+  ]
+}
