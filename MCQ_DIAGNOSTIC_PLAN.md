@@ -194,8 +194,18 @@ eval format and reintroduce a version of the format-mismatch problem Stage A/B a
 "defer QMD" reasoning was really "defer benchmark-corpus risk," and that's now handled by the
 dedup step instead of a blanket QMD ban. Phase 6 below is superseded/folded into this phase.
 
-**Phase 5 — Evaluate v3-clean, compare fairly to v2-clean.** Same Stage A/B suite. This is the
-first trustworthy v2→v3-style comparison.
+**Phase 5 — ✅ DONE (2026-07-13). Evaluate v3-clean, compare fairly to v2-clean.** Same
+Stage A/B suite (calibration, logit lens, linear probes — full 1603-question benchmark;
+`selection_bias.py` skipped for both checkpoints, matching v2-clean's actual eval scope,
+see chainlink #13 for a dedicated follow-up). Full write-up: `summary_v3clean.md`.
+Headline: generation accuracy 42.55% (v2-clean) → **73.0%** (v3-clean), +30.5pp,
+confirming the Phase 2 diagnosis that lack of MCQ-format exposure was v2-clean's dominant
+failure mode. Letter bias reshaped rather than eliminated under the forced-empty-think
+probe (A-win 77.2%→54.6%; `biased_letter` errors 55.2%→0% but `confident_wrong` 0%→43.0%).
+Linear-probe knowledge-prediction gap essentially closed (−0.131→−0.006), and logit lens
+shows a present-but-barely-not-surfaced pattern on the wrong split (median first-correct
+layer 23/27) rather than v2-clean's knowledge-absent verdict. This is the first
+trustworthy v2→v3-style comparison this project has produced.
 
 **Phase 6 — superseded (2026-07-10), folded into Phase 3/4.** Originally: "add QMD-generated
 MCQs only after a solid non-QMD baseline exists." Revised understanding: QMD-sourced content
