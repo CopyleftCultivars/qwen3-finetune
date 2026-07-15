@@ -1,0 +1,21 @@
+{
+  "algorithm": "sha256",
+  "entries": {
+    "autoresearch/levers.md": {
+      "kind": "file",
+      "note": "lever spec finetune.py must not silently drift from",
+      "sha256": "fc27e9dd59e9a9a3999432c9c77c05bf91beebc027cfbe5dc6271b26c303ef2a"
+    },
+    "data/val.jsonl": {
+      "kind": "file",
+      "note": "dev-split proxy, not yet a sealed C3/C4 test set",
+      "sha256": "f044176dba4957c91de51efa4a52958632daeb81671ae888d4c3b1213e144d57"
+    },
+    "data/val_v3.jsonl": {
+      "kind": "file",
+      "note": "dev-split proxy, not yet a sealed C3/C4 test set",
+      "sha256": "2f63df7f7495a87bf1971b82d635e303432a380251b1e935310b6859a96df39f"
+    }
+  },
+  "generated_at": "2026-07-15T03:08:53+00:00"
+}
