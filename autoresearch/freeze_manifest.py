@@ -50,6 +50,10 @@ FROZEN_PATHS = [
         "eval_freeform/grader_anchors.jsonl",
         "free-form rubric grader anchor set",
     ),
+    FrozenPath(
+        "autoresearch/objective_weights.json",
+        "frozen primary objective weights; not tuned or learned by the loop",
+    ),
     # TODO #23: add sealed MCQ test set once C3/C4 exists.
 ]
 
