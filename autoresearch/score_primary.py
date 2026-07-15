@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -31,6 +32,7 @@ def load_json(path: Path) -> dict[str, Any]:
 def validate_weights(weights: dict[str, Any], path: Path) -> None:
     required = (
         "formula",
+        "mcq_metric",
         "mcq_gold_ll_weight",
         "freeform_ref_ll_weight",
         "objective_direction",
@@ -137,6 +139,24 @@ def weighted_rubric_percent(path: Path) -> float:
     return 100.0 * sum(routine_scores) / len(routine_scores)
 
 
+def mcq_metric_value(mcq: dict[str, Any], metric: str) -> float:
+    summary = mcq.get("summary", {})
+    if metric in summary:
+        return float(summary[metric])
+    if metric == "mean_option_set_gold_logprob":
+        per_item = mcq.get("per_item", [])
+        if not per_item:
+            raise ValueError("MCQ result missing per_item rows for option-set fallback")
+        values = []
+        for row in per_item:
+            if "option_set_gold_logprob" in row:
+                values.append(float(row["option_set_gold_logprob"]))
+            else:
+                values.append(math.log(float(row["gold_probability"])))
+        return sum(values) / len(values)
+    raise KeyError(f"MCQ summary missing configured metric {metric!r}")
+
+
 def build_result(
     weights: dict[str, Any],
     mcq_result_path: Path,
@@ -148,7 +168,8 @@ def build_result(
     mcq_summary = mcq.get("summary", {})
     freeform_summary = freeform.get("summary", {})
 
-    mcq_ll = float(mcq_summary["mean_gold_logprob"])
+    mcq_metric = str(weights["mcq_metric"])
+    mcq_ll = mcq_metric_value(mcq, mcq_metric)
     freeform_ll = float(freeform_summary["mean_reference_logprob_per_token"])
     mcq_weight = float(weights["mcq_gold_ll_weight"])
     freeform_weight = float(weights["freeform_ref_ll_weight"])
@@ -171,11 +192,12 @@ def build_result(
             "formula": weights["formula"],
             "score": primary,
             "components": {
-                "mcq_mean_gold_logprob": {
+                f"mcq_{mcq_metric}": {
                     "value": mcq_ll,
                     "weight": mcq_weight,
                     "contribution": mcq_weight * mcq_ll,
                     "source": mcq_result_path.as_posix(),
+                    "metric": mcq_metric,
                 },
                 "freeform_mean_reference_logprob_per_token": {
                     "value": freeform_ll,
@@ -247,9 +269,9 @@ def main(argv: list[str] | None = None) -> int:
     weights = load_json(weights_path)
     validate_weights(weights, weights_path)
 
-    # Frozen equal weights are a neutral starting prior, not a tuned choice. Both
-    # components remain raw log-likelihoods so #35 can validate whether this
-    # literal objective is sane before the accept/revert gate ever climbs it.
+    # Frozen equal weights are a neutral starting prior, not a tuned choice. The
+    # MCQ component is option-set-normalized so rare full-vocabulary collapse at
+    # the letter position cannot dominate the arithmetic mean.
     mcq_result_path = ensure_mcq_result(args)
     freeform_result_path = ensure_freeform_result(args)
     if args.dry_run and (not mcq_result_path.exists() or not freeform_result_path.exists()):

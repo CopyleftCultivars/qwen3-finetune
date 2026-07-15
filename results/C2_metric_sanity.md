@@ -116,3 +116,28 @@ Flag for #23: do not let C3/C4 climb this frozen objective until the real free-f
 ref-LL component is run and the raw-MCQ-LL design issue is resolved. Candidate fixes
 remain the ones already noted on #23: option-set-normalized MCQ LL, a robust aggregate,
 or a different frozen weighting/normalization after explicit human approval.
+
+## Follow-up: #49 Partial Objective Fix
+
+A follow-up change updates the frozen MCQ component from raw full-vocabulary
+gold-token LL to option-set-normalized gold-token LL:
+
+```text
+mcq_metric = mean_option_set_gold_logprob
+primary = 0.5 * mcq_mean_option_set_gold_logprob + 0.5 * freeform_mean_reference_logprob_per_token
+```
+
+Existing MCQ artifacts already contain per-item four-letter probabilities, so the new
+combiner can compute the normalized aggregate from those historical outputs.
+
+With the same deterministic mock free-form refLL file held constant for both models,
+the smoke primary now ranks in the intended direction:
+
+| model | MCQ option-set mean gold logprob | smoke primary with held-constant mock free-form |
+| --- | ---: | ---: |
+| v3-clean | -3.0205043064 | -2.8926873242 |
+| v2-clean | -3.8423283268 | -3.3035993344 |
+
+This resolves the MCQ raw-LL pathology but does **not** close #35 or #49. A real #35
+rerun still needs actual free-form refLL on both models with `torch`/`transformers` and
+the real merged model weight files present.
