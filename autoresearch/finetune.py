@@ -76,6 +76,8 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
         argv.extend(["--conversation-ratio", str(args.conversation_ratio)])
     if args.target_permutation_ids:
         argv.extend(["--target-permutation-ids", args.target_permutation_ids])
+    if args.synth_item_count is not None:
+        argv.extend(["--synth-item-count", str(args.synth_item_count)])
     return argv
 
 
@@ -227,7 +229,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--synth-item-count",
         type=int,
         default=None,
-        help="Accepted search knob stub; data generation scaling is not wired yet",
+        help="Cap/subsample raw QMD MCQ records before cyclic shift expansion",
     )
 
     # Pass-through model/merge controls; not search dimensions.
@@ -290,11 +292,8 @@ def parse_args(argv: list[str] | None = None) -> tuple[argparse.Namespace, argpa
 def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> None:
     if not args.run_name:
         parser.error("--run-name is required unless provided by --config")
-    if args.synth_item_count is not None:
-        parser.error(
-            "--synth-item-count is accepted but not yet wired; "
-            "QMD data-generation scaling lands in a later subissue"
-        )
+    if args.synth_item_count is not None and args.synth_item_count < 1:
+        parser.error("--synth-item-count must be >= 1")
     if not 0.0 < args.split < 1.0:
         parser.error("--split must be between 0 and 1 (exclusive)")
     if args.conversation_ratio is not None and not 0.0 < args.conversation_ratio < 1.0:
