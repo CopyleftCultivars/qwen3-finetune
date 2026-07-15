@@ -44,7 +44,7 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 | Gold-letter balance | **SETTLED CONSTANT** | Keep exactly balanced (25/25/25/25). Do not reintroduce imbalance. | Pre-v3 diagnostic: biased_letter error bucket 55.2%→0%, marginal entropy 1.009→1.683/2.0 bits after balancing (`summary_v3clean.md`). v3-clean's actual letter distribution is exact 25/25/25/25 (commit `85019a9`). | `_SHIFT_WEIGHTS` in `prepare_dataset_v3.py` already enforces this; keep as-is |
 | Re-introducing letter bias | **FORBIDDEN** | Any lever move that skews the letter marginal away from ~25% each must be rejected by the bias guardrail (`diagnostics/selection_bias.py`, C4). | Same as above | guardrail, not a knob |
 | Answer-position shuffle / per-question consistency augmentation | **SEARCH DIMENSION — highest-confidence target** | Increase multi-permutation coverage, but **targeted, not blanket**: B3 diagnostic 3 sized the augmentation-worthwhile subset to 321 items (20.0% of the benchmark — the `near_miss`+`toss_up` buckets), not the full 94.7% flip-any-fraction the old headline number implied. The dominant failure mode (74.7% `mostly_wrong`) won't be fixed by shuffling alone. | `../benchmark-eval-workspace/results/position_spread_breakdown.json` — exact `augmentation_seed_set` (321 question IDs) ready to consume | New flag on `prepare_dataset_v3.py`, e.g. `--extra-permute-ids PATH` reading the seed-set question IDs and generating additional cyclic-shift variants (beyond the uniform `_SHIFT_WEIGHTS` already applied) targeted at just those items |
-| General replay ratio (farming-conversational : MCQ mix) | SEARCH DIMENSION | **Non-monotone — do not assume more MCQ (or more conversational) is better.** Currently *not a controlled ratio at all*: v3-clean's mix (4409 conversation pairs : 311×~5 MCQ-with-shifts pairs, before dedup) is just "whatever's in the two source files," not a designed parameter. CROP's own replay-ratio result was non-monotone (Table 2: +CROP 0.676→+CQIA+CROP 0.709 overall but Difficult −0.075) — expect the same risk here. | `PHASE_2.6_2.7_4_PLAN.md` CROP citation; `85019a9` commit for current emergent ratio | Needs a new knob in `prepare_dataset_v3.py` — a `--conversation-ratio` / subsampling parameter; currently the mix ratio is not controllable at all |
+| General replay ratio (farming-conversational : MCQ mix) | SEARCH DIMENSION — **knob now exists** (chainlink #26) | **Non-monotone — do not assume more MCQ (or more conversational) is better.** v3-clean's mix (4409 conversation pairs : 311×~5 MCQ-with-shifts pairs, before dedup) was just "whatever's in the two source files," not a designed choice. CROP's own replay-ratio result was non-monotone (Table 2: +CROP 0.676→+CQIA+CROP 0.709 overall but Difficult −0.075) — expect the same risk here. | `PHASE_2.6_2.7_4_PLAN.md` CROP citation; `85019a9` commit for the prior emergent ratio; verified against real data at ratio=0.5 and 0.97 (both branches, letter balance held) | `--conversation-ratio F` in `prepare_dataset_v3.py` (subsample-only — never upsamples/duplicates; MCQ-side subsampling stratified by answer letter to preserve the balance invariant). `None` (default) = old uncontrolled behavior, unchanged. |
 | Chat template / prompt variants | PENDING-UNLOCK | Can't be scored without the free-form eval axis (2.6) as a second signal — MCQ accuracy alone can't distinguish "better prompt" from noise at this granularity. | — | — |
 | SFT target format (`"B"` vs `"Answer: B"` vs sentence) | SEARCH DIMENSION | v3-clean hardcodes bare-letter output (`<think>...\n</think>\n{letter}`). Untested alternatives. Diagnostic 1's finding (peak knowledge probe 37.1% vs 75.2% generation, confident-wrong-dominated errors) suggests the model already commits confidently to a format — worth testing whether a more verbose target format changes what surfaces, but this is speculative, not diagnostic-backed. | `_cyclic_shift_pair`'s hardcoded `new_output = f"<think>\n{rationale}\n</think>\n{new_letter}"` | Needs a new flag on `prepare_dataset_v3.py` output formatting |
 | MCQ-vs-cloze items | PENDING-UNLOCK | No cloze format exists in any data-generation script yet; would need new item authoring before it's even testable. | — | — |
@@ -88,10 +88,9 @@ expected. Packing needs an implementation change before it's searchable at all.
 most specific priors. Two settled facts anchor it — keep gold-letter balance exact
 (SETTLED CONSTANT / FORBIDDEN to undo), and the position-invariance augmentation lever
 is now sized and seeded concretely (321 items, not "shuffle everything"). The
-general-replay-ratio lever is currently *not even a knob* — `prepare_dataset_v3.py` has
-no ratio control, just concatenation of whatever source files are passed — building that
-knob is a prerequisite for searching it, and CROP's non-monotone result means don't
-default to "more is better" once it exists.
+general-replay-ratio lever now has a real knob (`--conversation-ratio`, chainlink #26) —
+CROP's non-monotone result still means don't default to "more is better" when it's
+first searched.
 
 **Tier 3 (reasoning) and CROP-derived:** uniformly PENDING-UNLOCK behind Phase 2.6's
 free-form eval axis, with one exception worth flagging early: diagnostic 1's negative
@@ -104,7 +103,8 @@ point rather than searching blind across all 9 categories at once.
 
 ## Open engineering gaps this table surfaces (for C1/C2, not this issue)
 
-- `prepare_dataset_v3.py` needs a conversation:MCQ ratio knob (currently uncontrolled).
+- ~~`prepare_dataset_v3.py` needs a conversation:MCQ ratio knob~~ — done, chainlink #26
+  (`--conversation-ratio`).
 - `prepare_dataset_v3.py` needs a targeted-permutation flag consuming the 321-item
   augmentation seed set, distinct from the existing uniform `_SHIFT_WEIGHTS`.
 - `train.py` needs flags for: LR schedule type, warmup ratio, LoRA dropout, LoRA target

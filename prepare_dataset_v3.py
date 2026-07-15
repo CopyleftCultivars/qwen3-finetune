@@ -281,6 +281,85 @@ def _letter_distribution(pairs: list[dict[str, str]]) -> dict[str, int]:
     return dist
 
 
+# ---------------------------------------------------------------------------
+# Replay-ratio control (conversation : MCQ mix) — chainlink #26
+# ---------------------------------------------------------------------------
+
+def _stratified_subsample_by_letter(
+    mcq_pairs: list[dict[str, str]],
+    target_n: int,
+    seed: int,
+) -> list[dict[str, str]]:
+    """Subsample MCQ pairs down to target_n, preserving the answer-letter distribution.
+
+    Splits by answer letter first so the existing balance guarantee (see
+    _SHIFT_WEIGHTS / gold-letter-balance SETTLED CONSTANT in autoresearch/levers.md)
+    survives any ratio setting, instead of drifting under plain random sampling.
+    """
+    if target_n >= len(mcq_pairs):
+        return mcq_pairs
+
+    rng = random.Random(seed)
+    by_letter: dict[str, list[dict]] = {l: [] for l in _OPTION_LETTERS}
+    unmatched: list[dict] = []
+    for pair in mcq_pairs:
+        am = _ANSWER_LETTER.search(pair["output"])
+        (by_letter[am.group(1)] if am else unmatched).append(pair)
+    for bucket in by_letter.values():
+        rng.shuffle(bucket)
+
+    per_letter = target_n // 4
+    remainder = target_n - per_letter * 4
+    result: list[dict] = []
+    for i, letter in enumerate(_OPTION_LETTERS):
+        take = per_letter + (1 if i < remainder else 0)
+        result.extend(by_letter[letter][:take])
+    rng.shuffle(result)
+    return result
+
+
+def apply_conversation_ratio(
+    conv_pairs: list[dict[str, str]],
+    mcq_pairs: list[dict[str, str]],
+    ratio: float,
+    seed: int,
+) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    """Subsample the larger pool so conversation:MCQ counts hit `ratio` (conv fraction).
+
+    Subsample-only, by design: never upsamples/duplicates either pool. Duplicating the
+    MCQ pool (currently only 311 raw questions before shift-expansion) risks
+    memorization; subsampling the larger pool avoids that at the cost of discarding
+    some data. If `ratio` can't be reached without upsampling one side (i.e. even
+    fully keeping the smaller side and maximally trimming the larger side still
+    overshoots or undershoots), the closer side is left at its natural size and the
+    other is trimmed as far as it can go.
+    """
+    if not 0.0 < ratio < 1.0:
+        raise ValueError(f"conversation ratio must be in (0, 1), got {ratio}")
+    n_conv, n_mcq = len(conv_pairs), len(mcq_pairs)
+    if n_conv == 0 or n_mcq == 0:
+        return conv_pairs, mcq_pairs
+
+    # Target conv count if the full MCQ pool is kept: conv' / (conv' + n_mcq) == ratio.
+    target_conv = round(ratio / (1 - ratio) * n_mcq)
+    if target_conv <= n_conv:
+        conv_pairs = rng_sample(conv_pairs, target_conv, seed)
+        return conv_pairs, mcq_pairs
+
+    # Conversation pool is too small to hit the ratio even keeping all of it —
+    # trim the MCQ pool instead, keeping the full conversation pool.
+    target_mcq = round((1 - ratio) / ratio * n_conv)
+    mcq_pairs = _stratified_subsample_by_letter(mcq_pairs, min(target_mcq, n_mcq), seed)
+    return conv_pairs, mcq_pairs
+
+
+def rng_sample(pairs: list[dict[str, str]], n: int, seed: int) -> list[dict[str, str]]:
+    rng = random.Random(seed)
+    if n >= len(pairs):
+        return pairs
+    return rng.sample(pairs, n)
+
+
 def split_and_write(
     pairs: list[dict[str, str]],
     output_dir: Path,
@@ -368,6 +447,19 @@ def build_parser() -> argparse.ArgumentParser:
                     help="QMD-generated MCQ (data/sources/qmd_mcq_generated.jsonl)")
     ap.add_argument("--judged-filter", metavar="PATH", default=None,
                     help="Judged JSONL; only keep judge_verdict='keep' instructions")
+    ap.add_argument(
+        "--conversation-ratio",
+        type=float,
+        default=None,
+        metavar="F",
+        help=(
+            "Target fraction of the combined conversation+MCQ pool that is "
+            "conversation pairs, in (0, 1). Subsample-only (never upsamples/"
+            "duplicates either pool); MCQ-side subsampling is stratified by "
+            "answer letter to preserve the balance invariant. Default: no ratio "
+            "control (current behavior — whatever the source files contain)."
+        ),
+    )
     ap.add_argument("--output-dir", default="data", metavar="DIR")
     ap.add_argument("--split", type=float, default=0.9, metavar="F")
     ap.add_argument("--min-output-chars", type=int, default=10)
@@ -386,19 +478,21 @@ def main() -> None:
         ap.error("At least one of --conversations, --mcq-rationale, or --qmd-mcq is required")
     if not 0.0 < args.split < 1.0:
         ap.error("--split must be between 0 and 1 (exclusive)")
+    if args.conversation_ratio is not None and not 0.0 < args.conversation_ratio < 1.0:
+        ap.error("--conversation-ratio must be between 0 and 1 (exclusive)")
 
-    all_pairs: list[dict[str, str]] = []
     source_counts: dict[str, int] = {}
+    conv_pairs: list[dict[str, str]] = []
+    mcq_pairs: list[dict[str, str]] = []
 
     if args.conversations:
         path = Path(args.conversations)
         if not path.exists():
             ap.error(f"Conversations file not found: {path}")
         print(f"Loading conversations from {path} ...", file=sys.stderr)
-        pairs = list(_load_conversations(path))
-        source_counts["gemma4_conversations"] = len(pairs)
-        all_pairs.extend(pairs)
-        print(f"  → {len(pairs)} pairs", file=sys.stderr)
+        conv_pairs = list(_load_conversations(path))
+        source_counts["gemma4_conversations"] = len(conv_pairs)
+        print(f"  → {len(conv_pairs)} pairs", file=sys.stderr)
 
     if args.mcq_rationale:
         path = Path(args.mcq_rationale)
@@ -408,7 +502,7 @@ def main() -> None:
         print(f"Loading MCQ+rationale pairs from {path} ...", file=sys.stderr)
         pairs = list(_load_mcq_with_rationale(path))
         source_counts["mcq_rationale"] = len(pairs)
-        all_pairs.extend(pairs)
+        mcq_pairs.extend(pairs)
         print(f"  → {len(pairs)} pairs", file=sys.stderr)
 
     if args.qmd_mcq:
@@ -418,13 +512,27 @@ def main() -> None:
         print(f"Loading QMD MCQ from {path} (with cyclic shifts) ...", file=sys.stderr)
         pairs = list(_load_qmd_mcq(path))
         source_counts["qmd_mcq"] = len(pairs)
-        all_pairs.extend(pairs)
+        mcq_pairs.extend(pairs)
         print(
             f"  → {len(pairs)} pairs "
             f"(shift weights {_SHIFT_WEIGHTS}, D-pos 2x)",
             file=sys.stderr,
         )
 
+    if args.conversation_ratio is not None and conv_pairs and mcq_pairs:
+        n_conv_before, n_mcq_before = len(conv_pairs), len(mcq_pairs)
+        conv_pairs, mcq_pairs = apply_conversation_ratio(
+            conv_pairs, mcq_pairs, args.conversation_ratio, args.seed
+        )
+        print(
+            f"\nApplied --conversation-ratio {args.conversation_ratio}: "
+            f"conversations {n_conv_before} → {len(conv_pairs)}, "
+            f"MCQ {n_mcq_before} → {len(mcq_pairs)} "
+            f"(subsample-only, letter-balance preserved on the MCQ side)",
+            file=sys.stderr,
+        )
+
+    all_pairs: list[dict[str, str]] = conv_pairs + mcq_pairs
     print(f"\nTotal before filtering: {len(all_pairs)}", file=sys.stderr)
 
     keep_hashes: set[str] | None = None
