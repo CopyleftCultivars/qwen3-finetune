@@ -24,16 +24,21 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 
 | Lever | Status | Direction / prior | Evidence | Knob |
 |---|---|---|---|---|
-| Learning rate (peak) | SEARCH DIMENSION | Untested below default. v3-clean used `train.py`'s default (2e-4 peak, confirmed via `trainer_state.json` max observed LR 1.9999e-4) — the "5e-5" figure in `prepare_dataset_v3.py`'s docstring was aspirational and **was never actually applied**. Try lower LR next; no evidence yet either way. | `--lr` (float), range 2e-5–2e-4, currently exists in `train.py` |
-| LR schedule | SEARCH DIMENSION | Cosine w/ 5% warmup used for v3-clean, untested vs linear/constant. No diagnostic evidence yet. | hardcoded `lr_scheduler_type="cosine"` / `warmup_ratio=0.05` in `build_training_args` — needs to become a flag |
-| Epochs / early-stop | SEARCH DIMENSION | v3-clean ran fixed 6 epochs, no eval-based early stop (`eval_strategy="no"`). Untested whether fewer epochs avoids overfitting to the small (4400-pair) train set. | `--epochs` exists; early-stopping needs new implementation (currently no eval loop during training at all) |
-| Batch size / grad-accum | SEARCH DIMENSION | v3-clean used batch=4, grad-accum=4 (effective 16). Untested. Low priority — unlikely to be the dominant lever given diagnostic 1's negative-headroom finding (see prose below). | `--batch-size`, `--grad-accum` exist in `train.py` |
-| LoRA rank r / alpha | SEARCH DIMENSION | v3-clean used r=32, alpha=64 (2x ratio). Untested at other ranks. | `--lora-r`, `--lora-alpha` exist |
-| LoRA dropout | SEARCH DIMENSION | Fixed at 0 for v3-clean. Untested — could help given the small dataset (4400 pairs) is a mild overfitting risk. | hardcoded `lora_dropout=0` in `load_model_with_lora` — needs a flag |
-| LoRA target modules | SEARCH DIMENSION | v3-clean uses the full 7-module list (attn q/k/v/o + mlp gate/up/down). Untested narrower sets (e.g. attn-only). | hardcoded list in `load_model_with_lora` — needs a flag (e.g. `--lora-target-modules attn\|mlp\|all`) |
-| LoRA vs full finetune | SETTLED CONSTANT | Use LoRA. Phase 4's stated compute budget (~5–20 min/run at 0.6B+LoRA → 30–100 experiments/night) assumes LoRA; full finetuning changes the compute-budget tier entirely and isn't compatible with the nightly-loop design. | n/a — not exposed as a knob |
-| Weight decay | SEARCH DIMENSION | Fixed 0.01 for v3-clean. Untested. Low priority. | hardcoded `weight_decay=0.01` — needs a flag |
-| Seq-len / packing | SEARCH DIMENSION (packing needs implementation first) | `max_seq_len` exists as a flag (2048, unused headroom since MCQ pairs are short). Packing is **not implemented at all** in `build_dataset` — this is a build-before-search item, not just a knob. | `--max-seq-len` exists; packing needs new code in `train.py`'s `build_dataset` |
+| Learning rate (peak) | SEARCH DIMENSION | Untested below default. v3-clean used `train.py`'s default (2e-4 peak); the "5e-5" figure in `prepare_dataset_v3.py`'s docstring was aspirational and **was never actually applied**. Try lower LR next; no evidence yet either way. | `trainer_state.json` max observed LR 1.9999e-4 | `--lr` |
+| LR schedule | SEARCH DIMENSION | Cosine used for v3-clean, untested vs linear/constant. No diagnostic evidence yet. | v3-clean used `lr_scheduler_type="cosine"` | `--lr-scheduler {cosine,linear,constant}` |
+| Warmup ratio | SEARCH DIMENSION | 5% warmup used for v3-clean. Untested independently from scheduler type. | v3-clean used `warmup_ratio=0.05` | `--warmup-ratio` |
+| Epochs | SEARCH DIMENSION | v3-clean ran fixed 6 epochs. Untested whether fewer epochs avoids overfitting to the small train set. | v3-clean `trainer_state.json` max_steps over 6 epochs | `--epochs` |
+| Early-stop patience | SEARCH DIMENSION | v3-clean had no eval-based early stop. Now wired through eval-loss with epoch-aligned evaluation when enabled. | prior `train.py` used `eval_strategy="no"` | `--early-stop-patience` |
+| Batch size | SEARCH DIMENSION | v3-clean used per-device batch=4. Untested. Low priority — unlikely to be the dominant lever given diagnostic 1's negative-headroom finding (see prose below). | v3-clean training args | `--batch-size` |
+| Gradient accumulation | SEARCH DIMENSION | v3-clean used grad-accum=4 (effective 16 with batch=4). Untested. | v3-clean training args | `--grad-accum` |
+| LoRA rank r | SEARCH DIMENSION | v3-clean used r=32. Untested at other ranks. | `adapter_config.json` | `--lora-r` |
+| LoRA alpha | SEARCH DIMENSION | v3-clean used alpha=64 (2x rank). Untested independently from rank. | `adapter_config.json` | `--lora-alpha` |
+| LoRA dropout | SEARCH DIMENSION | Fixed at 0 for v3-clean. Untested — could help given the small dataset (4400 pairs) is a mild overfitting risk. | `adapter_config.json` / prior hardcoded `lora_dropout=0` | `--lora-dropout` |
+| LoRA target modules | SEARCH DIMENSION | v3-clean uses the full 7-module list (attn q/k/v/o + mlp gate/up/down). Untested narrower sets (e.g. attn-only). | `adapter_config.json` | `--target-modules` |
+| LoRA vs full finetune | SETTLED CONSTANT | Use LoRA. Phase 4's stated compute budget (~5–20 min/run at 0.6B+LoRA → 30–100 experiments/night) assumes LoRA; full finetuning changes the compute-budget tier entirely and isn't compatible with the nightly-loop design. | n/a | not exposed |
+| Weight decay | SEARCH DIMENSION | Fixed 0.01 for v3-clean. Untested. Low priority. | v3-clean training args / prior hardcoded `weight_decay=0.01` | `--weight-decay` |
+| Seq-len | SEARCH DIMENSION | `max_seq_len=2048` used for v3-clean, with likely unused headroom since MCQ pairs are short. | v3-clean training invocation | `--max-seq-len` |
+| Packing | SEARCH DIMENSION | Packing was absent in v3-clean and is now wired to TRL SFTConfig/dataset construction. Untested whether packed short examples improve throughput or learning. | prior `build_dataset` tokenized each pair independently | `--packing` |
 
 ---
 
@@ -43,14 +48,14 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 |---|---|---|---|---|
 | Gold-letter balance | **SETTLED CONSTANT** | Keep exactly balanced (25/25/25/25). Do not reintroduce imbalance. | Pre-v3 diagnostic: biased_letter error bucket 55.2%→0%, marginal entropy 1.009→1.683/2.0 bits after balancing (`summary_v3clean.md`). v3-clean's actual letter distribution is exact 25/25/25/25 (commit `85019a9`). | `_SHIFT_WEIGHTS` in `prepare_dataset_v3.py` already enforces this; keep as-is |
 | Re-introducing letter bias | **FORBIDDEN** | Any lever move that skews the letter marginal away from ~25% each must be rejected by the bias guardrail (`diagnostics/selection_bias.py`, C4). | Same as above | guardrail, not a knob |
-| Answer-position shuffle / per-question consistency augmentation | **SEARCH DIMENSION — highest-confidence target** | Increase multi-permutation coverage, but **targeted, not blanket**: B3 diagnostic 3 sized the augmentation-worthwhile subset to 321 items (20.0% of the benchmark — the `near_miss`+`toss_up` buckets), not the full 94.7% flip-any-fraction the old headline number implied. The dominant failure mode (74.7% `mostly_wrong`) won't be fixed by shuffling alone. | `../benchmark-eval-workspace/results/position_spread_breakdown.json` — exact `augmentation_seed_set` (321 question IDs) ready to consume | New flag on `prepare_dataset_v3.py`, e.g. `--extra-permute-ids PATH` reading the seed-set question IDs and generating additional cyclic-shift variants (beyond the uniform `_SHIFT_WEIGHTS` already applied) targeted at just those items |
+| Answer-position shuffle / per-question consistency augmentation | **SEARCH DIMENSION — highest-confidence target** | Increase multi-permutation coverage, but **targeted, not blanket**: B3 diagnostic 3 sized the augmentation-worthwhile subset to 321 items (20.0% of the benchmark — the `near_miss`+`toss_up` buckets), not the full 94.7% flip-any-fraction the old headline number implied. The dominant failure mode (74.7% `mostly_wrong`) won't be fixed by shuffling alone. Current caveat: the diagnostic seed set is keyed by benchmark IDs, while current QMD records use `_source_question_id` training IDs, so zero-overlap inputs warn rather than silently no-op. | `../benchmark-eval-workspace/results/position_spread_breakdown.json` — exact `augmentation_seed_set` (321 question IDs) ready to consume | `--target-permutation-ids` |
 | General replay ratio (farming-conversational : MCQ mix) | SEARCH DIMENSION — **knob now exists** (chainlink #26) | **Non-monotone — do not assume more MCQ (or more conversational) is better.** v3-clean's mix (4409 conversation pairs : 311×~5 MCQ-with-shifts pairs, before dedup) was just "whatever's in the two source files," not a designed choice. CROP's own replay-ratio result was non-monotone (Table 2: +CROP 0.676→+CQIA+CROP 0.709 overall but Difficult −0.075) — expect the same risk here. | `PHASE_2.6_2.7_4_PLAN.md` CROP citation; `85019a9` commit for the prior emergent ratio; verified against real data at ratio=0.5 and 0.97 (both branches, letter balance held) | `--conversation-ratio F` in `prepare_dataset_v3.py` (subsample-only — never upsamples/duplicates; MCQ-side subsampling stratified by answer letter to preserve the balance invariant). `None` (default) = old uncontrolled behavior, unchanged. |
 | Chat template / prompt variants | PENDING-UNLOCK | Can't be scored without the free-form eval axis (2.6) as a second signal — MCQ accuracy alone can't distinguish "better prompt" from noise at this granularity. | — | — |
-| SFT target format (`"B"` vs `"Answer: B"` vs sentence) | SEARCH DIMENSION | v3-clean hardcodes bare-letter output (`<think>...\n</think>\n{letter}`). Untested alternatives. Diagnostic 1's finding (peak knowledge probe 37.1% vs 75.2% generation, confident-wrong-dominated errors) suggests the model already commits confidently to a format — worth testing whether a more verbose target format changes what surfaces, but this is speculative, not diagnostic-backed. | `_cyclic_shift_pair`'s hardcoded `new_output = f"<think>\n{rationale}\n</think>\n{new_letter}"` | Needs a new flag on `prepare_dataset_v3.py` output formatting |
+| SFT target format (`"B"` vs `"Answer: B"` vs sentence) | SEARCH DIMENSION | v3-clean hardcodes bare-letter output (`<think>...\n</think>\n{letter}`). Untested alternatives. Diagnostic 1's finding (peak knowledge probe 37.1% vs 75.2% generation, confident-wrong-dominated errors) suggests the model already commits confidently to a format — worth testing whether a more verbose target format changes what surfaces, but this is speculative, not diagnostic-backed. | `_cyclic_shift_pair` output format | `--sft-format {bare-letter,answer-prefix,sentence}` |
 | MCQ-vs-cloze items | PENDING-UNLOCK | No cloze format exists in any data-generation script yet; would need new item authoring before it's even testable. | — | — |
 | Distractor quality | **OUT OF SCOPE for `finetune.py`** | This is a data-*authoring*-time property owned by `scripts/generate_mcq_from_qmd.py` + the judge pipeline, not a training-time knob. Not part of the autoresearch loop's search surface. | — | — |
 | Curriculum order | PENDING-UNLOCK | No difficulty signal exists on any training item (`difficulty` field in benchmark data is uniformly `"unknown"`). Can't order by difficulty until one is computed. | checked `qwen3-0_6b-v3-clean_results.json` per-question `difficulty` field | — |
-| Synth-item (QMD MCQ) count | SEARCH DIMENSION | v3-clean used all 311 available QMD-generated questions. Untested whether more synthetic items help or just adds more of the same distribution (diagnostic 1 argues data quantity has *some* ceiling, but doesn't rule out more coverage helping). | `85019a9` — 311 raw → ~1555 with shift weighting | `data/sources/qmd_mcq_all_phase3.jsonl` size is currently the ceiling; would need a `generate_mcq_from_qmd.py` re-run at scale, not a `prepare_dataset_v3.py` flag |
+| Synth-item (QMD MCQ) count | SEARCH DIMENSION | v3-clean used all 311 available QMD-generated questions. The live harness can vary downward by deterministic subsampling of the existing pool; increasing above the current ceiling still requires an offline `generate_mcq_from_qmd.py` re-run. | `85019a9` — 311 raw → ~1555 with shift weighting | `--synth-item-count` |
 
 ---
 
@@ -105,9 +110,14 @@ point rather than searching blind across all 9 categories at once.
 
 - ~~`prepare_dataset_v3.py` needs a conversation:MCQ ratio knob~~ — done, chainlink #26
   (`--conversation-ratio`).
-- `prepare_dataset_v3.py` needs a targeted-permutation flag consuming the 321-item
-  augmentation seed set, distinct from the existing uniform `_SHIFT_WEIGHTS`.
-- `train.py` needs flags for: LR schedule type, warmup ratio, LoRA dropout, LoRA target
-  module set, weight decay, and sequence packing (packing needs new code, not just a flag).
-- `train.py` has no eval loop during training (`eval_strategy="no"`) — early-stopping as
-  a lever needs that wired up first.
+- ~~`prepare_dataset_v3.py` needs a targeted-permutation flag consuming the 321-item
+  augmentation seed set~~ — done as `--target-permutation-ids`; current QMD source IDs do
+  not overlap the benchmark seed IDs, so the implementation warns on zero-overlap input.
+- ~~`prepare_dataset_v3.py` needs an SFT target-format knob~~ — done as `--sft-format`.
+- ~~`prepare_dataset_v3.py` needs a synthetic-item-count knob~~ — done as
+  `--synth-item-count`, implemented honestly as a deterministic cap/subsample of the
+  existing QMD pool; increasing above the current pool still requires offline generation.
+- ~~`train.py` needs flags for LR schedule type, warmup ratio, LoRA dropout, LoRA target
+  module set, weight decay, and sequence packing~~ — done.
+- ~~`train.py` has no eval loop during training (`eval_strategy="no"`)~~ — early-stopping
+  now enables epoch-aligned eval and `EarlyStoppingCallback`.

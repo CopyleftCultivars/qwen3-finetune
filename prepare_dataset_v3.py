@@ -232,10 +232,13 @@ def _load_qmd_mcq(
     sft_format: str = "bare-letter",
     target_permutation_ids: set[str] | None = None,
     target_permutation_multiplier: int = 2,
+    synth_item_count: int | None = None,
+    seed: int = 42,
 ) -> Generator[dict[str, str], None, None]:
     """Load QMD MCQ pairs and emit cyclic-shifted variants with D-position 2x."""
     matched_target_ids: set[str] = set()
     qmd_ids_seen: set[str] = set()
+    records: list[dict] = []
 
     with open(path, encoding="utf-8") as fh:
         for lineno, raw in enumerate(fh, start=1):
@@ -248,26 +251,41 @@ def _load_qmd_mcq(
                 raise ValueError(f"{path}:{lineno}: invalid JSON: {exc}") from exc
             if "instruction" not in rec or "output" not in rec:
                 continue
+            records.append(rec)
 
-            question_id = _qmd_question_id(rec)
-            if question_id is not None:
-                qmd_ids_seen.add(question_id)
-            is_target_permutation = (
-                target_permutation_ids is not None
-                and question_id in target_permutation_ids
+    if synth_item_count is not None:
+        if synth_item_count > len(records):
+            raise ValueError(
+                f"--synth-item-count {synth_item_count} exceeds available QMD "
+                f"records ({len(records)}); this flag subsamples the existing pool "
+                "and does not generate new items"
             )
-            if is_target_permutation and question_id is not None:
-                matched_target_ids.add(question_id)
+        if synth_item_count < len(records):
+            rng = random.Random(seed)
+            selected = sorted(rng.sample(range(len(records)), synth_item_count))
+            records = [records[i] for i in selected]
 
-            for shift, weight in enumerate(_SHIFT_WEIGHTS):
-                shifted = _cyclic_shift_pair(rec, shift, sft_format=sft_format)
-                if shifted is None:
-                    continue
-                effective_weight = weight
-                if is_target_permutation:
-                    effective_weight *= target_permutation_multiplier
-                for _ in range(effective_weight):
-                    yield shifted
+    for rec in records:
+
+        question_id = _qmd_question_id(rec)
+        if question_id is not None:
+            qmd_ids_seen.add(question_id)
+        is_target_permutation = (
+            target_permutation_ids is not None
+            and question_id in target_permutation_ids
+        )
+        if is_target_permutation and question_id is not None:
+            matched_target_ids.add(question_id)
+
+        for shift, weight in enumerate(_SHIFT_WEIGHTS):
+            shifted = _cyclic_shift_pair(rec, shift, sft_format=sft_format)
+            if shifted is None:
+                continue
+            effective_weight = weight
+            if is_target_permutation:
+                effective_weight *= target_permutation_multiplier
+            for _ in range(effective_weight):
+                yield shifted
 
     if target_permutation_ids is not None:
         print(
@@ -553,6 +571,16 @@ def build_parser() -> argparse.ArgumentParser:
             "--target-permutation-ids (default: 2)"
         ),
     )
+    ap.add_argument(
+        "--synth-item-count",
+        type=int,
+        default=None,
+        metavar="N",
+        help=(
+            "Deterministically subsample N raw QMD MCQ records before cyclic "
+            "shift expansion. Default: use the full existing QMD pool."
+        ),
+    )
     ap.add_argument("--judged-filter", metavar="PATH", default=None,
                     help="Judged JSONL; only keep judge_verdict='keep' instructions")
     ap.add_argument(
@@ -590,6 +618,8 @@ def main() -> None:
         ap.error("--conversation-ratio must be between 0 and 1 (exclusive)")
     if args.target_permutation_multiplier < 1:
         ap.error("--target-permutation-multiplier must be >= 1")
+    if args.synth_item_count is not None and args.synth_item_count < 1:
+        ap.error("--synth-item-count must be >= 1")
 
     source_counts: dict[str, int] = {}
     conv_pairs: list[dict[str, str]] = []
@@ -635,17 +665,28 @@ def main() -> None:
         if not path.exists():
             ap.error(f"QMD MCQ file not found: {path}")
         print(f"Loading QMD MCQ from {path} (with cyclic shifts) ...", file=sys.stderr)
-        pairs = list(_load_qmd_mcq(
-            path,
-            sft_format=args.sft_format,
-            target_permutation_ids=target_permutation_ids,
-            target_permutation_multiplier=args.target_permutation_multiplier,
-        ))
+        try:
+            pairs = list(_load_qmd_mcq(
+                path,
+                sft_format=args.sft_format,
+                target_permutation_ids=target_permutation_ids,
+                target_permutation_multiplier=args.target_permutation_multiplier,
+                synth_item_count=args.synth_item_count,
+                seed=args.seed,
+            ))
+        except ValueError as exc:
+            ap.error(str(exc))
         source_counts["qmd_mcq"] = len(pairs)
         mcq_pairs.extend(pairs)
+        synth_note = (
+            f", raw QMD cap {args.synth_item_count}"
+            if args.synth_item_count is not None
+            else ""
+        )
         print(
             f"  → {len(pairs)} pairs "
-            f"(shift weights {_SHIFT_WEIGHTS}, D-pos 2x, SFT format {args.sft_format})",
+            f"(shift weights {_SHIFT_WEIGHTS}, D-pos 2x, "
+            f"SFT format {args.sft_format}{synth_note})",
             file=sys.stderr,
         )
 
