@@ -234,6 +234,7 @@ def _load_qmd_mcq(
     target_permutation_multiplier: int = 2,
     synth_item_count: int | None = None,
     seed: int = 42,
+    excluded_source_docs: set[str] | None = None,
 ) -> Generator[dict[str, str], None, None]:
     """Load QMD MCQ pairs and emit cyclic-shifted variants with D-position 2x."""
     matched_target_ids: set[str] = set()
@@ -250,6 +251,8 @@ def _load_qmd_mcq(
             except json.JSONDecodeError as exc:
                 raise ValueError(f"{path}:{lineno}: invalid JSON: {exc}") from exc
             if "instruction" not in rec or "output" not in rec:
+                continue
+            if excluded_source_docs and _qmd_source_doc(rec) in excluded_source_docs:
                 continue
             records.append(rec)
 
@@ -304,6 +307,24 @@ def _load_qmd_mcq(
                 "extra weighted coverage for this input.",
                 file=sys.stderr,
             )
+
+
+def _qmd_source_doc(rec: dict) -> str | None:
+    """Return source document metadata when a QMD record carries it."""
+    for key in ("source_doc", "source_path", "doc_path", "_source_doc", "_source_path"):
+        value = rec.get(key)
+        if isinstance(value, str) and value:
+            return value
+    return None
+
+
+def _load_freeform_source_exclusions(path: Path) -> set[str]:
+    """Load eval_freeform/source_doc_exclusions.json."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    source_docs = payload.get("source_docs")
+    if not isinstance(source_docs, list) or not all(isinstance(v, str) for v in source_docs):
+        raise ValueError(f"{path}: expected source_docs list of strings")
+    return set(source_docs)
 
 
 # ---------------------------------------------------------------------------
@@ -581,6 +602,15 @@ def build_parser() -> argparse.ArgumentParser:
             "shift expansion. Default: use the full existing QMD pool."
         ),
     )
+    ap.add_argument(
+        "--freeform-source-exclusions",
+        metavar="PATH",
+        default=None,
+        help=(
+            "JSON source_doc exclusion list emitted by eval_freeform/check_contamination.py. "
+            "QMD records carrying matching source_doc/source_path metadata are skipped."
+        ),
+    )
     ap.add_argument("--judged-filter", metavar="PATH", default=None,
                     help="Judged JSONL; only keep judge_verdict='keep' instructions")
     ap.add_argument(
@@ -625,6 +655,7 @@ def main() -> None:
     conv_pairs: list[dict[str, str]] = []
     mcq_pairs: list[dict[str, str]] = []
     target_permutation_ids: set[str] | None = None
+    freeform_source_exclusions: set[str] | None = None
 
     if args.target_permutation_ids:
         seed_path = Path(args.target_permutation_ids)
@@ -637,6 +668,20 @@ def main() -> None:
         print(
             f"Loaded {len(target_permutation_ids)} target-permutation seed IDs "
             f"from {seed_path}",
+            file=sys.stderr,
+        )
+
+    if args.freeform_source_exclusions:
+        exclusion_path = Path(args.freeform_source_exclusions)
+        if not exclusion_path.exists():
+            ap.error(f"Free-form source exclusions file not found: {exclusion_path}")
+        try:
+            freeform_source_exclusions = _load_freeform_source_exclusions(exclusion_path)
+        except ValueError as exc:
+            ap.error(str(exc))
+        print(
+            f"Loaded {len(freeform_source_exclusions)} free-form source_doc exclusions "
+            f"from {exclusion_path}",
             file=sys.stderr,
         )
 
@@ -673,6 +718,7 @@ def main() -> None:
                 target_permutation_multiplier=args.target_permutation_multiplier,
                 synth_item_count=args.synth_item_count,
                 seed=args.seed,
+                excluded_source_docs=freeform_source_exclusions,
             ))
         except ValueError as exc:
             ap.error(str(exc))
