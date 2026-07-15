@@ -1,0 +1,1216 @@
+{
+  "evidence": "User reviewed the linked corpus slices/draft shard files and confirmed \"great that looks good\" in chat on 2026-07-15.",
+  "item_count": 150,
+  "items": [
+    {
+      "id": "mhf_diverse_001",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Strawberries Growing and Selection Guide/Strawberries Growing and Selection Guide.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_002",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Disease Control in Vegetables/Disease Control in Vegetables.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_003",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/The Living Soil/The Living Soil.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_004",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Improving Garden Soil Fertility/Improving Garden Soil Fertility.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_005",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Planting Blueberries in Home Gardens (SP284-D)/Planting Blueberries in Home Gardens (SP284-D).md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_006",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Diseases of Leafy Crucifer Vegetables (collards, kale, mustard, turnips)/Vegetables. Diseases of Leafy Crucifer Vegetables (collards, kale, mustard, turnips).md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_007",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Greenhouse Tomatos Growers Glossary/Greenhouse Tomatos Growers Glossary.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_008",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Great Garden Formulas/Great Garden Formulas.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_009",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beginners Guide to Growing Weed/Beginners Guide to Growing Weed.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_010",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Role of Soil Enzymes/Role of Soil Enzymes.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_011",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Container Vegetable Gardening/Vegetables. Container Vegetable Gardening.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_012",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Trees From Seed/Growing Trees From Seed.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_013",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Herbs. Growing Herbs at Home/Herbs. Growing Herbs at Home.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_014",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Hot Composting Made Simple/Hot Composting Made Simple.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_015",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Tomato Wilt Problems (SP370-C)/Tomato Wilt Problems (SP370-C).md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_016",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Flowers. Rose Care and Planting/Flowers. Rose Care and Planting.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_017",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Phosphorous Fertilizers for Organic Farming/Phosphorous Fertilizers for Organic Farming.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_018",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Green Manures/Green Manures.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_019",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Trace Minerals/Trace Minerals.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_020",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizers and Their Use/Fertilizers and Their Use.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_021",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Marijuana Garden Saver The Complete guide to Sick Plants pH and Pest troubles/Marijuana Garden Saver The Complete guide to Sick Plants pH and Pest troubles.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_022",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/5Hyperspectral Imaging With Machine_Learning to Differentiate Cultivars,_Growth Stages, Flowers, and Leaves_of Industrial Hemp/5Hyperspectral Imaging With Machine_Learning to Differentiate Cultivars,_Growth Stages, Flowers, and Leaves_of Industrial Hemp.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_023",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/study_of_hemp/study_of_hemp.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_024",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/PRINCIPLES OF SEED TECHNOLOGY/PRINCIPLES OF SEED TECHNOLOGY.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_025",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Making a Water Garden/Making a Water Garden.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_026",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Understanding & Applying Chelated Fertilizers Effectively Based On Soil pH/Understanding & Applying Chelated Fertilizers Effectively Based On Soil pH.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_027",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Sweet Corn in Home Gardens/Growing Sweet Corn in Home Gardens.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_028",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Hemp_The_New_American_Industrial_Revolut/Hemp_The_New_American_Industrial_Revolut.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_029",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Understanding Cultivar-Specificity & Soil Determinants Of The Cannabis Microbiome/Understanding Cultivar-Specificity & Soil Determinants Of The Cannabis Microbiome.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_030",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Biochar From Different Biowaste/Biochar From Different Biowaste.md",
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "diag_diverse_001",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Rhubarb in Home Gardens/Rhubarb in Home Gardens.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_002",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Growing Broccoli, Cauliflower, and Cabbage/Vegetables. Growing Broccoli, Cauliflower, and Cabbage.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_003",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Fundamentals of Organic Agriculture/Organic. Fundamentals of Organic Agriculture.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_004",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Celery in the Garden/Celery in the Garden.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_005",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing Landscape Trees and Shrubs. Tutorial/Fertilizing Landscape Trees and Shrubs. Tutorial.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_006",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Strawberries/Growing Strawberries.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_007",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Renovating Strawberries in the Home Garden/Renovating Strawberries in the Home Garden.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_008",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Phytochemical activity and role of botanical pesticides in pest_management for sustainable agricultural crop production/Phytochemical activity and role of botanical pesticides in pest_management for sustainable agricultural crop production.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_009",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Curing Compost - Shaffer/Curing Compost - Shaffer.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_010",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Plant the Right Tree in the Right Place/Plant the Right Tree in the Right Place.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_011",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beginner_s Guide to Growing Marijuana/Beginner_s Guide to Growing Marijuana.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_012",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Disease and Insect Control in Home Fruit Plantings/Disease and Insect Control in Home Fruit Plantings.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_013",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Successful Gardening/Successful Gardening.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_014",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Gaia_s Garden - A Guide to Home-Scale Permaculture/Gaia_s Garden - A Guide to Home-Scale Permaculture.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_015",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Enzymes and Soil Fertility/Enzymes and Soil Fertility.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_016",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Actively Aerated Compost Teas - North Shore Organics/Actively Aerated Compost Teas - North Shore Organics.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_017",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pruning Tips for Marijuana Plants-2pg/Pruning Tips for Marijuana Plants-2pg.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_018",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growth and yield response of fibre hemp cultivars (Cannabis sativa L.) under different N-levels in Eastern Cape Province of South Africa/Growth and yield response of fibre hemp cultivars (Cannabis sativa L.) under different N-levels in Eastern Cape Province of South Africa.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_019",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Pumpkins and Winter Squash/Growing Pumpkins and Winter Squash.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_020",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Greenhouses. Building a Greenhouse Foundation/Greenhouses. Building a Greenhouse Foundation.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_021",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vermicomposting - Revive Your Soil & Reduce Your Environmental Impact/Vermicomposting - Revive Your Soil & Reduce Your Environmental Impact.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_022",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/The Role of Root Exudates In Rhizosphere Interactions With Plants & Other Organisms/The Role of Root Exudates In Rhizosphere Interactions With Plants & Other Organisms.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_023",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Rain Barrel Water Harvest Guide/Rain Barrel Water Harvest Guide.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_024",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Allelochemicals and Signaling Chemicals in Plants/Allelochemicals and Signaling Chemicals in Plants.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_025",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Diseases of Shade and Ornamental Trees/Diseases of Shade and Ornamental Trees.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_026",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Mushroom Compost/Mushroom Compost.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_027",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Evergreen Trees for Screens and Hedges in the Landscape/Evergreen Trees for Screens and Hedges in the Landscape.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_028",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic acids in the rhizosphere/Organic acids in the rhizosphere.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_029",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Comparison of Coir & Peat Mediums/Comparison of Coir & Peat Mediums.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_030",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Hemp Russet Mite extra info/Hemp Russet Mite extra info.md",
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "expl_diverse_001",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Improving Garden Soils with Organic Matter/Improving Garden Soils with Organic Matter.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_002",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pumpkins in the Garden/Pumpkins in the Garden.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_003",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pumpkins. Growing Cucumbers, Melons, Squash, Pumpkins and Gourds/Pumpkins. Growing Cucumbers, Melons, Squash, Pumpkins and Gourds.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_004",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Tomatoes/Growing Tomatoes.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_005",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Organic Vegetable Gardening/Organic. Organic Vegetable Gardening.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_006",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Growing Tomatoes in the Home Garden/Vegetables. Growing Tomatoes in the Home Garden.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_007",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Vegetables in Home Gardens/Growing Vegetables in Home Gardens.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_008",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Asparagus Production/Vegetables. Asparagus Production.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_009",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Onions in the Garden/Onions in the Garden.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_010",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Insect Pest Management For Organic Crops/Organic. Insect Pest Management For Organic Crops.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_011",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Participatory plant breeding and organic  agriculture A synergistic model for organic  variety development in the United States/Participatory plant breeding and organic  agriculture A synergistic model for organic  variety development in the United States.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_012",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/How to Grow & Prepare Tomatoes/How to Grow & Prepare Tomatoes.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_013",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Tree Planting Procedure for Small, Bare Root Seedlings/Tree Planting Procedure for Small, Bare Root Seedlings.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_014",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Home Gardeners Guide - Purdue/Home Gardeners Guide - Purdue.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_015",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Thinning Tree Fruit (SP307-E)/Thinning Tree Fruit (SP307-E).md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_016",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Greenhouse Tomato Handbook/Greenhouse Tomato Handbook.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_017",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Vegetable Transplants for Home Gardens/Growing Vegetable Transplants for Home Gardens.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_018",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Giant Pumpkins In The Home Garden/Growing Giant Pumpkins In The Home Garden.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_019",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic Directory (Notes)/Organic Directory (Notes).md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_020",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Drip Irrigation/Drip Irrigation.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_021",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/#4Marijuana Horticulture The Indoor-Outdoor Medical Grower/#4Marijuana Horticulture The Indoor-Outdoor Medical Grower.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_022",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Blackberries and Raspberries/Blackberries and Raspberries.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_023",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic Vegetable Gardening/Organic Vegetable Gardening.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_024",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Microplastics in agriculture \u2013 a_potential novel mechanism_for the delivery of human_pathogens onto crops/Microplastics in agriculture \u2013 a_potential novel mechanism_for the delivery of human_pathogens onto crops.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_025",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Induction of Systemic Resistance in Plants by Biochar/Induction of Systemic Resistance in Plants by Biochar.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_026",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing Shade and Ornamental Trees and Shrubs/Fertilizing Shade and Ornamental Trees and Shrubs.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_027",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Hobby Greenhouses in Tennessee/Hobby Greenhouses in Tennessee.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_028",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Effect Of Vermicompost, Vermiwash & Application Time on Soil Micronutrients/Effect Of Vermicompost, Vermiwash & Application Time on Soil Micronutrients.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_029",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Undertanding Soil Microbes & Nutrient Recycling/Undertanding Soil Microbes & Nutrient Recycling.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_030",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Marijuana BUDS for Less See More Buds/Marijuana BUDS for Less See More Buds.md",
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "cons_diverse_001",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Non-Chemical Methods for Controlling Diseases in the Home Landscape and Garden/Non-Chemical Methods for Controlling Diseases in the Home Landscape and Garden.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_002",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic -  Organic Vegetable Gardening - Yet Another/Organic -  Organic Vegetable Gardening - Yet Another.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_003",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fruit. Home Fruit Planting Guide/Fruit. Home Fruit Planting Guide.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_004",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables -  The Fall Vegetable Garden/Vegetables -  The Fall Vegetable Garden.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_005",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables - Asparagus Culture in the Home Garden/Vegetables - Asparagus Culture in the Home Garden.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_006",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fruit Tree Management Timetable/Fruit Tree Management Timetable.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_007",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Home Gardener_s Guide/Home Gardener_s Guide.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_008",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Growing Vegetables at Home. Questions and Answers/Vegetables. Growing Vegetables at Home. Questions and Answers.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_009",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Managing Phosphorus for Crop _Production/Managing Phosphorus for Crop _Production.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_010",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Transplanting Trees/Transplanting Trees.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_011",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Raised Bed Gardening/Raised Bed Gardening.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_012",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pizza Garden/Pizza Garden.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_013",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/schaffner paper/schaffner paper.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_014",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing Trees and Shrubs FAQ/Fertilizing Trees and Shrubs FAQ.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_015",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing & Liming Fruit Trees/Fertilizing & Liming Fruit Trees.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_016",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Free Mulch - How To Make It & Where To Get More/Free Mulch - How To Make It & Where To Get More.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_017",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/crop biodiversity crisis/crop biodiversity crisis.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_018",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Plant Nutrition for Greenhouses/Plant Nutrition for Greenhouses.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_019",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Propagation of Fruit and Nuts by Seed/Propagation of Fruit and Nuts by Seed.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_020",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Tree planting. Planning/Tree planting. Planning.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_021",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Texas Rainwater Harvesting Manual (3rd edition)/Texas Rainwater Harvesting Manual (3rd edition).md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_022",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/fpls-11-01012/fpls-11-01012.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_023",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Christian R. Vogl - Comparing Hemp Seed Yields/Christian R. Vogl - Comparing Hemp Seed Yields.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_024",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Terrariums/Terrariums.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_025",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Mesophyllic Fertilizer & Soil Culturing/Mesophyllic Fertilizer & Soil Culturing.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_026",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/effective sowing date Thai hemp/effective sowing date Thai hemp.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_027",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/European hemp industry Cultivation, processing and product lines/European hemp industry Cultivation, processing and product lines.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_028",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growth & Reproduction Of E. Fetida In Different Media/Growth & Reproduction Of E. Fetida In Different Media.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_029",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Homemade Plant Fertilizers Revised/Homemade Plant Fertilizers Revised.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_030",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Epsom salts/Epsom salts.md",
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "quant_diverse_001",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Soil Quality in Organic Agricultural Systems/Organic. Soil Quality in Organic Agricultural Systems.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_002",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Peas in the Garden/Peas in the Garden.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_003",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Mulching Your Trees and Landscapes (SP617)/Mulching Your Trees and Landscapes (SP617).md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_004",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Weed Management for Organic Farmers/Organic. Weed Management for Organic Farmers.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_005",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Tree Planting - Establishment and Care/Tree Planting - Establishment and Care.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_006",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Planning the Vegetable Garden/Planning the Vegetable Garden.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_007",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Peanuts in the Garden/Peanuts in the Garden.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_008",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Vegetables From Seed/Growing Vegetables From Seed.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_009",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Collecting and Storing Seeds/Collecting and Storing Seeds.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_010",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Control Vegetable Pests Organically/Organic. Control Vegetable Pests Organically.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_011",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Growing Asparagus in the Home Garden/Vegetables. Growing Asparagus in the Home Garden.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_012",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beneficial Indigenous Microorganisms & Bionutrients In Natural Farming/Beneficial Indigenous Microorganisms & Bionutrients In Natural Farming.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_013",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Trees for Poorly Drained Soils in the Landscape (SP533)/Trees for Poorly Drained Soils in the Landscape (SP533).md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_014",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Salsa Garden/Salsa Garden.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_015",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/sustainable agriculture - organic farming/sustainable agriculture - organic farming.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_016",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Manure Comparison/Manure Comparison.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_017",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Compost Tea Making - Marc Remillard/Compost Tea Making - Marc Remillard.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_018",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Handbook of Plant Nutrition/Handbook of Plant Nutrition.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_019",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Greenhouses. Locating the Greenhouse/Greenhouses. Locating the Greenhouse.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_020",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing Landscape Trees/Fertilizing Landscape Trees.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_021",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/organicInsecticides - acres/organicInsecticides - acres.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_022",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/HomeOrchardPestControl/HomeOrchardPestControl.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_023",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/rethinking biochar/rethinking biochar.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_024",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Impact of Bio Char on Organic Contaminants/Impact of Bio Char on Organic Contaminants.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_025",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pruning Raspberries and Blackberries in Home Gardens/Pruning Raspberries and Blackberries in Home Gardens.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_026",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beginners Guide Growing Marijuana Walkthrough - WidowMaker/Beginners Guide Growing Marijuana Walkthrough - WidowMaker.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_027",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fungus Gnats/Fungus Gnats.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_028",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/(Springer) Growing Food (2006)/(Springer) Growing Food (2006).md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_029",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Robert C Clarke - Marijuana Botany - An Advanced Study/Robert C Clarke - Marijuana Botany - An Advanced Study.md",
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_030",
+      "reviewed": true,
+      "reviewed_at": "2026-07-15T16:21:46-05:00",
+      "reviewed_by": "workspace_user",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Moss Removal & Lawn Care/Moss Removal & Lawn Care.md",
+      "type": "quantitative"
+    }
+  ],
+  "review_type": "literal_human_review",
+  "reviewed_at": "2026-07-15T16:21:46-05:00",
+  "reviewed_by": "workspace_user",
+  "type_counts": {
+    "constraint_satisfaction": 30,
+    "diagnostic_reasoning": 30,
+    "free_form_explanation": 30,
+    "multi_hop_factual": 30,
+    "quantitative": 30
+  }
+}
