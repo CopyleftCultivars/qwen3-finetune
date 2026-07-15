@@ -234,6 +234,7 @@ def main(argv: list[str] | None = None) -> int:
                 "gold": gold,
                 "gold_logprob": logprobs[gold],
                 "gold_probability": probs[gold],
+                "option_set_gold_logprob": math.log(probs[gold]),
                 "top_letter": top_letter,
                 "top_logprob": logprobs[top_letter],
                 "correct_by_argmax": top_letter == gold,
@@ -243,6 +244,7 @@ def main(argv: list[str] | None = None) -> int:
 
     total = len(per_item)
     mean_gold_ll = sum(row["gold_logprob"] for row in per_item) / total
+    mean_option_gold_ll = sum(row["option_set_gold_logprob"] for row in per_item) / total
     summary = {
         "model": args.model,
         "dataset": args.dataset,
@@ -251,6 +253,8 @@ def main(argv: list[str] | None = None) -> int:
         "skipped_non_mcq_rows": len(skipped),
         "mean_gold_logprob": mean_gold_ll,
         "mean_gold_nll": -mean_gold_ll,
+        "mean_option_set_gold_logprob": mean_option_gold_ll,
+        "mean_option_set_gold_nll": -mean_option_gold_ll,
         "argmax_accuracy": sum(1 for row in per_item if row["correct_by_argmax"]) / total,
         "full_precision": args.full_precision,
         "device": args.device,
@@ -272,6 +276,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"skipped_non_mcq_rows={len(skipped)}")
     print(f"mean_gold_logprob={mean_gold_ll:.8f}")
     print(f"mean_gold_nll={-mean_gold_ll:.8f}")
+    print(f"mean_option_set_gold_logprob={mean_option_gold_ll:.8f}")
+    print(f"mean_option_set_gold_nll={-mean_option_gold_ll:.8f}")
     print(f"argmax_accuracy={summary['argmax_accuracy']:.4f}")
     return 0
 

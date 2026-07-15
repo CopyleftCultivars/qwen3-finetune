@@ -9,7 +9,7 @@
     "autoresearch/objective_weights.json": {
       "kind": "file",
       "note": "frozen primary objective weights; not tuned or learned by the loop",
-      "sha256": "baf2bfa70f8d4579a82ecf5cf01cb0d1c2ca392a5a02ba3f9db1f9f48cd5a14a"
+      "sha256": "ce42b654014570040330e29453ec603cb16f640e9c9d58ee66681d8f19d7e790"
     },
     "data/val.jsonl": {
       "kind": "file",
@@ -47,5 +47,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-15T21:40:30+00:00"
+  "generated_at": "2026-07-15T21:47:46+00:00"
 }
