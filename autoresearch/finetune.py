@@ -19,6 +19,9 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
+
+import yaml
 
 
 DEFAULT_CONVERSATIONS = "data/sources/gemma4/hf_dataset/train.jsonl"
@@ -34,12 +37,12 @@ def _run(argv: list[str], dry_run: bool) -> None:
     subprocess.run(argv, check=True)
 
 
-def _dataset_suffix(run_name: str) -> str:
-    return f"_{run_name}"
+def _dataset_suffix(args: argparse.Namespace) -> str:
+    return args.dataset_suffix or f"_{args.run_name}"
 
 
 def _dataset_paths(args: argparse.Namespace) -> tuple[Path, Path]:
-    suffix = _dataset_suffix(args.run_name)
+    suffix = _dataset_suffix(args)
     output_dir = Path(args.dataset_output_dir)
     return output_dir / f"train{suffix}.jsonl", output_dir / f"val{suffix}.jsonl"
 
@@ -51,7 +54,7 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
         "--output-dir",
         args.dataset_output_dir,
         "--suffix",
-        _dataset_suffix(args.run_name),
+        _dataset_suffix(args),
         "--split",
         str(args.split),
         "--seed",
@@ -155,12 +158,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     # Bookkeeping / control.
-    parser.add_argument("--run-name", required=True, help="Run suffix for output paths")
+    parser.add_argument("--run-name", default=None, help="Run suffix for output paths")
     parser.add_argument(
         "--config",
         default=None,
         metavar="PATH",
-        help="YAML config path; not implemented until chainlink #31",
+        help="YAML config path",
     )
     parser.add_argument(
         "--dry-run",
@@ -169,6 +172,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--output-root", default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--dataset-output-dir", default=DEFAULT_DATASET_OUTPUT_DIR)
+    parser.add_argument(
+        "--dataset-suffix",
+        default=None,
+        help="Suffix for prepared train/val JSONL files; defaults to _<run-name>",
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--split", type=float, default=0.9)
     parser.add_argument("--min-output-chars", type=int, default=10)
@@ -201,7 +209,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--weight-decay", type=float, default=0.01)
     parser.add_argument("--max-seq-len", type=int, default=2048)
-    parser.add_argument("--packing", action="store_true")
+    parser.add_argument(
+        "--packing",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+    )
 
     # SEARCH DIMENSION: Tier 2 data/format knobs.
     parser.add_argument("--conversation-ratio", type=float, default=None)
@@ -226,15 +238,58 @@ def build_parser() -> argparse.ArgumentParser:
         choices=("float16", "fp16", "bfloat16", "bf16", "float32", "fp32"),
         default="float16",
     )
-    parser.add_argument("--force-peft", action="store_true")
-    parser.add_argument("--wandb", action="store_true")
-    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--force-peft", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--wandb", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument("--resume", action=argparse.BooleanOptionalAction, default=False)
     return parser
 
 
+def _load_config_defaults(
+    config_path: Path,
+    parser: argparse.ArgumentParser,
+) -> dict[str, Any]:
+    with open(config_path, encoding="utf-8") as fh:
+        data = yaml.safe_load(fh)
+    if data is None:
+        data = {}
+    if not isinstance(data, dict):
+        parser.error(f"{config_path}: expected a flat YAML key:value map")
+
+    schema_version = data.get("schema_version")
+    if schema_version != 1:
+        parser.error(f"{config_path}: schema_version must be 1")
+
+    allowed = {
+        action.dest
+        for action in parser._actions
+        if action.dest not in {"help", "config"}
+    }
+    config_keys = set(data) - {"schema_version"}
+    unknown = sorted(config_keys - allowed)
+    if unknown:
+        parser.error(
+            f"{config_path}: unknown config key(s): {', '.join(unknown)}"
+        )
+
+    return {key: data[key] for key in config_keys}
+
+
+def parse_args(argv: list[str] | None = None) -> tuple[argparse.Namespace, argparse.ArgumentParser]:
+    parser = build_parser()
+    config_parser = argparse.ArgumentParser(add_help=False)
+    config_parser.add_argument("--config", default=None)
+    config_args, _ = config_parser.parse_known_args(argv)
+    if config_args.config:
+        parser.set_defaults(
+            **_load_config_defaults(Path(config_args.config), parser)
+        )
+    args = parser.parse_args(argv)
+    return args, parser
+
+
 def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> None:
-    if args.config is not None:
-        parser.error("--config is not yet implemented; see chainlink #31")
+    if not args.run_name:
+        parser.error("--run-name is required unless provided by --config")
     if args.synth_item_count is not None:
         parser.error(
             "--synth-item-count is accepted but not yet wired; "
@@ -247,8 +302,7 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
 
 
 def main() -> None:
-    parser = build_parser()
-    args = parser.parse_args()
+    args, parser = parse_args()
     validate_args(args, parser)
 
     # Security boundary: checksum gate must be the first subprocess.
