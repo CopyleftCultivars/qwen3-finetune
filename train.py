@@ -36,17 +36,17 @@ from __future__ import annotations
 import os
 os.environ["UNSLOTH_RETURN_LOGITS"] = "1"  # must be set before unsloth import
 
-from unsloth import FastLanguageModel  # must be FIRST
-
 import argparse  # noqa: E402
+import inspect  # noqa: E402
 import json  # noqa: E402
 import sys  # noqa: E402
 from pathlib import Path  # noqa: E402
-from typing import Optional  # noqa: E402
+from typing import Any, Optional  # noqa: E402
 
-import torch  # noqa: E402
-from datasets import Dataset  # noqa: E402
-from trl import SFTConfig, SFTTrainer  # noqa: E402
+if not any(arg in ("-h", "--help") for arg in sys.argv[1:]):
+    from unsloth import FastLanguageModel  # must be FIRST before downstream training deps
+else:
+    FastLanguageModel = None
 
 
 
@@ -57,6 +57,16 @@ from trl import SFTConfig, SFTTrainer  # noqa: E402
 CHAT_TEMPLATE = (
     "<|im_start|>user\n{instruction}<|im_end|>\n"
     "<|im_start|>assistant\n{output}<|im_end|>"
+)
+
+DEFAULT_TARGET_MODULES = (
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj",
 )
 
 
@@ -83,8 +93,16 @@ def build_dataset(
     pairs: list[dict[str, str]],
     tokenizer,
     max_seq_len: int,
+    packing: bool = False,
 ) -> Dataset:
-    """Format pairs as ChatML strings, tokenize, and return a HuggingFace Dataset."""
+    """Format pairs as ChatML strings and return a HuggingFace Dataset.
+
+    The default path preserves the original behavior: each example is tokenized
+    independently with truncation to max_seq_len. When packing is enabled, return
+    raw text and let TRL SFTTrainer perform its built-in packing.
+    """
+    from datasets import Dataset
+
     texts = [
         CHAT_TEMPLATE.format(
             instruction=p["instruction"].strip(),
@@ -92,6 +110,10 @@ def build_dataset(
         )
         for p in pairs
     ]
+
+    raw_ds = Dataset.from_dict({"text": texts})
+    if packing:
+        return raw_ds
 
     def tokenize(batch: dict) -> dict:
         return tokenizer(
@@ -101,7 +123,6 @@ def build_dataset(
             padding=False,
         )
 
-    raw_ds = Dataset.from_dict({"text": texts})
     tokenized = raw_ds.map(tokenize, batched=True, remove_columns=["text"])
     return tokenized
 
@@ -110,13 +131,28 @@ def build_dataset(
 # Model loading
 # ---------------------------------------------------------------------------
 
+def parse_target_modules(raw: str) -> list[str]:
+    modules = [module.strip() for module in raw.split(",") if module.strip()]
+    if not modules:
+        raise argparse.ArgumentTypeError("--target-modules must contain at least one module")
+    return modules
+
+
 def load_model_with_lora(
     model_name: str,
     max_seq_len: int,
     lora_r: int,
     lora_alpha: int,
+    lora_dropout: float = 0.0,
+    target_modules: Optional[list[str]] = None,
 ) -> tuple:
     """Load Qwen3-0.6B in 4-bit and attach LoRA adapters."""
+    if target_modules is None:
+        target_modules = list(DEFAULT_TARGET_MODULES)
+
+    if FastLanguageModel is None:
+        raise RuntimeError("Unsloth is required for training")
+
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=model_name,
         max_seq_length=max_seq_len,
@@ -128,16 +164,8 @@ def load_model_with_lora(
         model,
         r=lora_r,
         lora_alpha=lora_alpha,
-        target_modules=[
-            "q_proj",
-            "k_proj",
-            "v_proj",
-            "o_proj",
-            "gate_proj",
-            "up_proj",
-            "down_proj",
-        ],
-        lora_dropout=0,
+        target_modules=target_modules,
+        lora_dropout=lora_dropout,
         bias="none",
         use_gradient_checkpointing="unsloth",
         random_state=42,
@@ -172,27 +200,62 @@ def build_training_args(
     batch_size: int,
     grad_accum: int,
     use_wandb: bool,
-) -> SFTConfig:
+    lr_scheduler: str = "cosine",
+    warmup_ratio: float = 0.05,
+    weight_decay: float = 0.01,
+    early_stop_patience: Optional[int] = None,
+    packing: bool = False,
+    max_seq_len: Optional[int] = None,
+):
+    import torch
+    from trl import SFTConfig
+
     report_to = "wandb" if use_wandb else "none"
-    return SFTConfig(
+    kwargs: dict[str, Any] = dict(
         output_dir=str(output_dir),
         num_train_epochs=epochs,
         per_device_train_batch_size=batch_size,
         gradient_accumulation_steps=grad_accum,
-        warmup_ratio=0.05,
+        warmup_ratio=warmup_ratio,
         learning_rate=lr,
         fp16=not torch.cuda.is_bf16_supported(),
         bf16=torch.cuda.is_bf16_supported(),
         logging_steps=10,
         save_strategy="epoch",
-        eval_strategy="no",
+        eval_strategy="epoch" if early_stop_patience is not None else "no",
         optim="adamw_8bit",
-        lr_scheduler_type="cosine",
-        weight_decay=0.01,
+        lr_scheduler_type=lr_scheduler,
+        weight_decay=weight_decay,
         seed=42,
         report_to=report_to,
         run_name="qwen3-0.6b-nf-qlora",
     )
+
+    if early_stop_patience is not None:
+        kwargs.update(
+            load_best_model_at_end=True,
+            metric_for_best_model="eval_loss",
+            greater_is_better=False,
+        )
+
+    signature = inspect.signature(SFTConfig)
+    parameters = signature.parameters
+    accepts_kwargs = any(
+        parameter.kind is inspect.Parameter.VAR_KEYWORD
+        for parameter in parameters.values()
+    )
+    if "packing" in parameters or accepts_kwargs:
+        kwargs["packing"] = packing
+    elif packing:
+        raise RuntimeError("Installed TRL SFTConfig does not support packing=True")
+
+    if packing and max_seq_len is not None:
+        if "max_length" in parameters:
+            kwargs["max_length"] = max_seq_len
+        elif "max_seq_length" in parameters:
+            kwargs["max_seq_length"] = max_seq_len
+
+    return SFTConfig(**kwargs)
 
 
 # ---------------------------------------------------------------------------
@@ -241,6 +304,24 @@ def build_parser() -> argparse.ArgumentParser:
         help="Peak learning rate (default: 2e-4)",
     )
     parser.add_argument(
+        "--lr-scheduler",
+        choices=("cosine", "linear", "constant"),
+        default="cosine",
+        help="Learning-rate scheduler (default: cosine)",
+    )
+    parser.add_argument(
+        "--warmup-ratio",
+        type=float,
+        default=0.05,
+        help="Warmup ratio (default: 0.05)",
+    )
+    parser.add_argument(
+        "--weight-decay",
+        type=float,
+        default=0.01,
+        help="Weight decay (default: 0.01)",
+    )
+    parser.add_argument(
         "--batch-size",
         type=int,
         default=4,
@@ -265,10 +346,37 @@ def build_parser() -> argparse.ArgumentParser:
         help="LoRA alpha (default: 64)",
     )
     parser.add_argument(
+        "--lora-dropout",
+        type=float,
+        default=0.0,
+        help="LoRA dropout (default: 0)",
+    )
+    parser.add_argument(
+        "--target-modules",
+        type=parse_target_modules,
+        default=",".join(DEFAULT_TARGET_MODULES),
+        help=(
+            "Comma-separated LoRA target modules "
+            f"(default: {','.join(DEFAULT_TARGET_MODULES)})"
+        ),
+    )
+    parser.add_argument(
         "--max-seq-len",
         type=int,
         default=2048,
         help="Maximum sequence length in tokens (default: 2048)",
+    )
+    parser.add_argument(
+        "--early-stop-patience",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Enable eval-loss early stopping with N epochs patience (default: disabled)",
+    )
+    parser.add_argument(
+        "--packing",
+        action="store_true",
+        help="Enable TRL SFTTrainer sequence packing (default: disabled)",
     )
     parser.add_argument(
         "--resume",
@@ -286,6 +394,10 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
+
+    import torch
+    from transformers import EarlyStoppingCallback
+    from trl import SFTTrainer
 
     train_path = Path(args.train_data)
     val_path = Path(args.val_data)
@@ -315,12 +427,14 @@ def main() -> None:
         max_seq_len=args.max_seq_len,
         lora_r=args.lora_r,
         lora_alpha=args.lora_alpha,
+        lora_dropout=args.lora_dropout,
+        target_modules=args.target_modules,
     )
 
     # ── Build HuggingFace datasets ─────────────────────────────────────────
     print("Tokenizing datasets ...", file=sys.stderr)
-    train_ds = build_dataset(train_pairs, tokenizer, args.max_seq_len)
-    val_ds = build_dataset(val_pairs, tokenizer, args.max_seq_len)
+    train_ds = build_dataset(train_pairs, tokenizer, args.max_seq_len, packing=args.packing)
+    val_ds = build_dataset(val_pairs, tokenizer, args.max_seq_len, packing=args.packing)
 
     # ── Configure training ─────────────────────────────────────────────────
     training_args = build_training_args(
@@ -330,17 +444,30 @@ def main() -> None:
         batch_size=args.batch_size,
         grad_accum=args.grad_accum,
         use_wandb=args.wandb,
+        lr_scheduler=args.lr_scheduler,
+        warmup_ratio=args.warmup_ratio,
+        weight_decay=args.weight_decay,
+        early_stop_patience=args.early_stop_patience,
+        packing=args.packing,
+        max_seq_len=args.max_seq_len,
     )
 
     tokenizer.eos_token = "<|im_end|>"
     tokenizer.eos_token_id = tokenizer.convert_tokens_to_ids("<|im_end|>")
+
+    callbacks = []
+    if args.early_stop_patience is not None:
+        callbacks.append(
+            EarlyStoppingCallback(early_stopping_patience=args.early_stop_patience)
+        )
 
     trainer = SFTTrainer(
         model=model,
         processing_class=tokenizer,
         train_dataset=train_ds,
         eval_dataset=val_ds,
-        args=training_args
+        args=training_args,
+        callbacks=callbacks,
     )
 
     # ── Train ──────────────────────────────────────────────────────────────
