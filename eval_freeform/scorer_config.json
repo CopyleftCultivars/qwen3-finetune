@@ -1,0 +1,13 @@
+{
+  "anchor_drift_threshold": 0.1,
+  "anchor_path": "eval_freeform/grader_anchors.jsonl",
+  "anchor_report_path": "results/freeform_rubric_anchor_report.json",
+  "audit_model": "anthropic/claude-sonnet-4-5",
+  "divergence_alarm": "If score_refll improves while score_rubric falls, investigate reference-surface learning before accepting the run.",
+  "format": "eval_freeform_scorer_config_v1",
+  "grader_version_policy": "Changing routine_model or audit_model invalidates historical rubric scores.",
+  "refll_prompt_template": "question_reference_answer_prefix_v1",
+  "routine_model": "anthropic/claude-haiku-4-5",
+  "rubric_output_schema": "per_point_boolean_verdicts_v1",
+  "temperature": 0.0
+}
