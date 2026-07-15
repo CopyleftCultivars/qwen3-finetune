@@ -142,6 +142,7 @@ def _load_mcq_with_rationale(path: Path) -> Generator[dict[str, str], None, None
 def _cyclic_shift_pair(
     pair: dict,
     shift: int,
+    sft_format: str = "bare-letter",
 ) -> dict | None:
     """Apply cyclic option shift to a QMD MCQ pair.
 
@@ -174,7 +175,7 @@ def _cyclic_shift_pair(
 
     think_m = _THINK_CONTENT.search(pair["output"])
     rationale = think_m.group(1).strip() if think_m else ""
-    new_output = f"<think>\n{rationale}\n</think>\n{new_letter}"
+    new_output = _format_sft_output(rationale, new_letter, sft_format)
 
     return {
         "instruction": f"{question}\n\n{options_block}",
@@ -184,8 +185,58 @@ def _cyclic_shift_pair(
     }
 
 
-def _load_qmd_mcq(path: Path) -> Generator[dict[str, str], None, None]:
+def _format_sft_output(rationale: str, answer_letter: str, sft_format: str) -> str:
+    prefix = f"<think>\n{rationale}\n</think>\n"
+    if sft_format == "bare-letter":
+        return f"{prefix}{answer_letter}"
+    if sft_format == "answer-prefix":
+        return f"{prefix}Answer: {answer_letter}"
+    if sft_format == "sentence":
+        return f"{prefix}The answer is {answer_letter}."
+    raise ValueError(f"unknown SFT format: {sft_format}")
+
+
+def _qmd_question_id(rec: dict) -> str | None:
+    """Return the best available QMD question ID.
+
+    The diagnostic augmentation seed set is keyed by benchmark question_id
+    (for example, AG-0047). Current QMD-generated records do not carry that
+    field; they carry _source_question_id values in a separate training ID
+    namespace (for example, AG-TRAIN-0027). We support both so compatible
+    future QMD sources work, but callers should treat a zero-overlap warning as
+    a real scoping issue rather than assuming the flag had an effect.
+    """
+    value = rec.get("question_id", rec.get("_source_question_id"))
+    return str(value) if value is not None else None
+
+
+def _load_target_permutation_ids(path: Path) -> set[str]:
+    with open(path, encoding="utf-8") as fh:
+        data = json.load(fh)
+    seed_items = data.get("augmentation_seed_set")
+    if not isinstance(seed_items, list):
+        raise ValueError(f"{path}: expected augmentation_seed_set list")
+
+    ids: set[str] = set()
+    for index, item in enumerate(seed_items):
+        if not isinstance(item, dict) or "question_id" not in item:
+            raise ValueError(
+                f"{path}: augmentation_seed_set[{index}] must contain question_id"
+            )
+        ids.add(str(item["question_id"]))
+    return ids
+
+
+def _load_qmd_mcq(
+    path: Path,
+    sft_format: str = "bare-letter",
+    target_permutation_ids: set[str] | None = None,
+    target_permutation_multiplier: int = 2,
+) -> Generator[dict[str, str], None, None]:
     """Load QMD MCQ pairs and emit cyclic-shifted variants with D-position 2x."""
+    matched_target_ids: set[str] = set()
+    qmd_ids_seen: set[str] = set()
+
     with open(path, encoding="utf-8") as fh:
         for lineno, raw in enumerate(fh, start=1):
             raw = raw.strip()
@@ -198,12 +249,43 @@ def _load_qmd_mcq(path: Path) -> Generator[dict[str, str], None, None]:
             if "instruction" not in rec or "output" not in rec:
                 continue
 
+            question_id = _qmd_question_id(rec)
+            if question_id is not None:
+                qmd_ids_seen.add(question_id)
+            is_target_permutation = (
+                target_permutation_ids is not None
+                and question_id in target_permutation_ids
+            )
+            if is_target_permutation and question_id is not None:
+                matched_target_ids.add(question_id)
+
             for shift, weight in enumerate(_SHIFT_WEIGHTS):
-                shifted = _cyclic_shift_pair(rec, shift)
+                shifted = _cyclic_shift_pair(rec, shift, sft_format=sft_format)
                 if shifted is None:
                     continue
-                for _ in range(weight):
+                effective_weight = weight
+                if is_target_permutation:
+                    effective_weight *= target_permutation_multiplier
+                for _ in range(effective_weight):
                     yield shifted
+
+    if target_permutation_ids is not None:
+        print(
+            f"  Target-permutation seed overlap: {len(matched_target_ids)} / "
+            f"{len(target_permutation_ids)} seed IDs matched QMD IDs",
+            file=sys.stderr,
+        )
+        if not matched_target_ids:
+            qmd_sample = ", ".join(sorted(qmd_ids_seen)[:5]) if qmd_ids_seen else "none"
+            seed_sample = ", ".join(sorted(target_permutation_ids)[:5])
+            print(
+                "  WARNING: --target-permutation-ids had zero overlap with QMD IDs. "
+                "Current diagnostics are keyed by benchmark question_id values "
+                f"(sample: {seed_sample}), while this QMD source uses IDs like "
+                f"{qmd_sample}. The flag was applied literally but did not add "
+                "extra weighted coverage for this input.",
+                file=sys.stderr,
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -440,11 +522,37 @@ def build_parser() -> argparse.ArgumentParser:
             "MCQ pairs with rationale, verified to have zero question-text overlap "
             "with benchmark_combined.jsonl. No default — see MCQ_DIAGNOSTIC_PLAN.md "
             "Phase 3; the old default (data/sources/mcq_with_rationale.repaired.jsonl) "
-            "is 99.9% derived from the eval benchmark and must not be used."
+            "is 99.9%% derived from the eval benchmark and must not be used."
         ),
     )
     ap.add_argument("--qmd-mcq", metavar="PATH",
                     help="QMD-generated MCQ (data/sources/qmd_mcq_generated.jsonl)")
+    ap.add_argument(
+        "--sft-format",
+        choices=("bare-letter", "answer-prefix", "sentence"),
+        default="bare-letter",
+        help="QMD MCQ target format (default: bare-letter)",
+    )
+    ap.add_argument(
+        "--target-permutation-ids",
+        metavar="PATH",
+        default=None,
+        help=(
+            "JSON report containing augmentation_seed_set question_id objects. "
+            "Matching QMD question IDs receive extra cyclic-shift weighting. "
+            "Default: disabled."
+        ),
+    )
+    ap.add_argument(
+        "--target-permutation-multiplier",
+        type=int,
+        default=2,
+        metavar="N",
+        help=(
+            "Extra multiplier for QMD records whose question ID appears in "
+            "--target-permutation-ids (default: 2)"
+        ),
+    )
     ap.add_argument("--judged-filter", metavar="PATH", default=None,
                     help="Judged JSONL; only keep judge_verdict='keep' instructions")
     ap.add_argument(
@@ -480,10 +588,27 @@ def main() -> None:
         ap.error("--split must be between 0 and 1 (exclusive)")
     if args.conversation_ratio is not None and not 0.0 < args.conversation_ratio < 1.0:
         ap.error("--conversation-ratio must be between 0 and 1 (exclusive)")
+    if args.target_permutation_multiplier < 1:
+        ap.error("--target-permutation-multiplier must be >= 1")
 
     source_counts: dict[str, int] = {}
     conv_pairs: list[dict[str, str]] = []
     mcq_pairs: list[dict[str, str]] = []
+    target_permutation_ids: set[str] | None = None
+
+    if args.target_permutation_ids:
+        seed_path = Path(args.target_permutation_ids)
+        if not seed_path.exists():
+            ap.error(f"Target permutation IDs file not found: {seed_path}")
+        try:
+            target_permutation_ids = _load_target_permutation_ids(seed_path)
+        except ValueError as exc:
+            ap.error(str(exc))
+        print(
+            f"Loaded {len(target_permutation_ids)} target-permutation seed IDs "
+            f"from {seed_path}",
+            file=sys.stderr,
+        )
 
     if args.conversations:
         path = Path(args.conversations)
@@ -510,12 +635,17 @@ def main() -> None:
         if not path.exists():
             ap.error(f"QMD MCQ file not found: {path}")
         print(f"Loading QMD MCQ from {path} (with cyclic shifts) ...", file=sys.stderr)
-        pairs = list(_load_qmd_mcq(path))
+        pairs = list(_load_qmd_mcq(
+            path,
+            sft_format=args.sft_format,
+            target_permutation_ids=target_permutation_ids,
+            target_permutation_multiplier=args.target_permutation_multiplier,
+        ))
         source_counts["qmd_mcq"] = len(pairs)
         mcq_pairs.extend(pairs)
         print(
             f"  → {len(pairs)} pairs "
-            f"(shift weights {_SHIFT_WEIGHTS}, D-pos 2x)",
+            f"(shift weights {_SHIFT_WEIGHTS}, D-pos 2x, SFT format {args.sft_format})",
             file=sys.stderr,
         )
 
