@@ -30,8 +30,27 @@ FROZEN_PATHS = [
         "autoresearch/levers.md",  # C1 initial: lever spec finetune.py must not silently drift from
         "lever spec finetune.py must not silently drift from",
     ),
-    # TODO #23: add sealed test set once C3/C4 exists.
-    # TODO #16: add rubric/grader prompt once 2.6 lands.
+    FrozenPath(
+        "eval_freeform/dev.jsonl",
+        "free-form dev split, loop-visible but fixed",
+    ),
+    FrozenPath(
+        "eval_freeform/test.jsonl",
+        "sealed free-form test split; grade exactly once at final evaluation",
+    ),
+    FrozenPath(
+        "eval_freeform/split_manifest.json",
+        "free-form dev/test split ids including sealed test ids",
+    ),
+    FrozenPath(
+        "eval_freeform/scorer_config.json",
+        "pinned free-form scorer model/version/config",
+    ),
+    FrozenPath(
+        "eval_freeform/grader_anchors.jsonl",
+        "free-form rubric grader anchor set",
+    ),
+    # TODO #23: add sealed MCQ test set once C3/C4 exists.
 ]
 
 ALGORITHM = "sha256"

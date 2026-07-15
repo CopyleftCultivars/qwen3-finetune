@@ -15,7 +15,32 @@
       "kind": "file",
       "note": "dev-split proxy, not yet a sealed C3/C4 test set",
       "sha256": "2f63df7f7495a87bf1971b82d635e303432a380251b1e935310b6859a96df39f"
+    },
+    "eval_freeform/dev.jsonl": {
+      "kind": "file",
+      "note": "free-form dev split, loop-visible but fixed",
+      "sha256": "07e3df37ef5310f0c8fe689ecbac59ded8b0172ccb03520cde7c6054baea26bd"
+    },
+    "eval_freeform/grader_anchors.jsonl": {
+      "kind": "file",
+      "note": "free-form rubric grader anchor set",
+      "sha256": "e1685b2abea4a6271cd8c5c591e2b1854cf13bc75ba14193b11028b8871a37d5"
+    },
+    "eval_freeform/scorer_config.json": {
+      "kind": "file",
+      "note": "pinned free-form scorer model/version/config",
+      "sha256": "a2cf4d3c8930df48867e85a77ff84cd811ada939d6565ceaf46a0bfbdd9011dc"
+    },
+    "eval_freeform/split_manifest.json": {
+      "kind": "file",
+      "note": "free-form dev/test split ids including sealed test ids",
+      "sha256": "59123ede2b5df25f39fb501ce90142da733c3a89922101584bc9f57b5a3d9a9a"
+    },
+    "eval_freeform/test.jsonl": {
+      "kind": "file",
+      "note": "sealed free-form test split; grade exactly once at final evaluation",
+      "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-15T03:23:42+00:00"
+  "generated_at": "2026-07-15T21:31:21+00:00"
 }
