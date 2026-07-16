@@ -16,7 +16,10 @@ diagnostic / same-lineage proxy after chat-template scoring and calibration. Cro
 approach quality sanity must come from generation accuracy and/or the rubric guard, not
 from raw v2-vs-v3 ref-LL.
 
-Status: **BLOCKED / failed acceptance, do not close #23 or start #24 from this result.**
+Latest status after the #53 rerun: **PASS under the revised C2 criterion.** The C3-
+climbable primary is MCQ option-set LL only and ranks v3-clean above v2-clean. Chat-
+template free-form ref-LL still ranks v2-clean above v3-clean, so it is removed from
+the primary and kept only as a labelled diagnostic / same-lineage proxy candidate.
 
 ## Objective Under Test
 
@@ -276,3 +279,121 @@ and anchors are. C1's freeze does not currently cover the scorer code itself.
 3. Add the scorer code to the frozen manifest once its prompt shape is settled.
 
 Sealed test set (`eval_freeform/test.jsonl`, 60 items) was **not** touched by this rerun.
+
+---
+
+# Rerun: 2026-07-16 after #50/#51/#52
+
+Status: **PASS for #35 under the revised objective policy.**
+
+Environment caveat: this workspace exposes no CUDA device (`torch.cuda.is_available()`
+is false), so the real rerun used `conda run -n qwen3-diagnostics` with `--device cpu`.
+The scorer path is otherwise the same transformer path (`mock_model=false`), and output
+JSON records the device, prompt mode, and chat-template metadata.
+
+## Commands run
+
+```text
+conda run -n qwen3-diagnostics python eval_freeform/score_refll.py \
+  --model outputs/merged-model-v3-clean \
+  --input eval_freeform/dev.jsonl \
+  --output results/freeform_refll_v3-clean.json \
+  --device cpu
+
+conda run -n qwen3-diagnostics python eval_freeform/score_refll.py \
+  --model outputs/merged-model-v2-clean \
+  --input eval_freeform/dev.jsonl \
+  --output results/freeform_refll_v2-clean.json \
+  --device cpu
+
+python autoresearch/score_primary.py \
+  --mcq-result results/mcq_gold_ll_v3_clean.json \
+  --freeform-result results/freeform_refll_v3-clean.json \
+  --output results/primary_objective_v3_clean.json
+
+python autoresearch/score_primary.py \
+  --mcq-result results/mcq_gold_ll_v2_clean.json \
+  --freeform-result results/freeform_refll_v2-clean.json \
+  --output results/primary_objective_v2_clean.json
+```
+
+No sealed free-form test file was read; both ref-LL commands used
+`eval_freeform/dev.jsonl`.
+
+## Cross-approach sanity: C3-climbable primary
+
+The active policy is `autoresearch_primary_objective_policy_v2`:
+
+```text
+primary = 1.0 * mcq_mean_option_set_gold_logprob
+freeform_ref_ll_weight = 0.0
+cross_model_refll_comparison = invalid_unless_same_prompt_lineage
+```
+
+| model | MCQ option-set LL | revised primary | MCQ argmax accuracy |
+| --- | ---: | ---: | ---: |
+| v3-clean | -3.0205043064 | **-3.0205043064** | 0.2920353982 |
+| v2-clean | -3.8423283268 | **-3.8423283268** | 0.1769911504 |
+
+The revised climbable objective ranks v3-clean above v2-clean, matching the intended
+direction and no longer rewarding base-prose/legacy behavior.
+
+Paired MCQ option-set LL stats over 113 shared MCQ question IDs, delta = v3 - v2:
+
+| statistic | value |
+| --- | ---: |
+| mean delta | +0.8218240204 |
+| sample SD | 3.9852244097 |
+| SE | 0.3748983767 |
+| z | 2.1921247766 |
+| bootstrap SD (20k resamples, seed 20260716) | 0.3723124711 |
+| bootstrap q05 / q50 / q95 | +0.2020290353 / +0.8238781185 / +1.4242727335 |
+| P(opposite sign or zero) | 0.01585 |
+| items where v3 > v2 | 69 / 113 |
+
+## Same-lineage proxy sanity: chat-template ref-LL diagnostic
+
+The #50 scorer fix was active in both output JSON files:
+
+| model | prompt mode | chat template used | mean reference logprob/token |
+| --- | --- | --- | ---: |
+| v3-clean | `chat_assistant_reference_v1` | true | -5.1820120413 |
+| v2-clean | `chat_assistant_reference_v1` | true | -4.6051304144 |
+
+The sign still does **not** flip after applying the chat template. Under #51 policy,
+this activates the removal path: ref-LL is not part of the primary objective and must
+not be used as a v2-vs-v3 quality comparator. It remains only a labelled diagnostic
+that can be reconsidered later for same-lineage v3-family variants sharing prompt
+template, training interface, and answer surface.
+
+Paired free-form ref-LL stats over 90 dev items, delta = v3 - v2:
+
+| statistic | value |
+| --- | ---: |
+| mean delta | -0.5959684902 |
+| sample SD | 0.3797283865 |
+| SE | 0.0400268865 |
+| z | -14.8892043074 |
+| bootstrap SD (20k resamples, seed 20260716) | 0.0399187416 |
+| bootstrap q05 / q50 / q95 | -0.6618057119 / -0.5956070820 / -0.5311297867 |
+| P(v3 better than v2) | 0.0000 |
+| items where v3 > v2 | 1 / 90 |
+
+## Guardrail status
+
+Rubric grading was not run in this pass because API budget was not explicitly approved.
+That does not block the revised #35 sanity result: the high-frequency climbable metric
+is MCQ option-set LL, while rubric remains the hard periodic Goodhart guard for #24/C3.
+
+## Conclusion
+
+#35 passes under the revised criterion:
+
+1. The metric C3 will actually climb is MCQ option-set LL only.
+2. That metric ranks v3-clean above v2-clean with paired SE/variance reported above.
+3. Ref-LL no longer participates in accept/revert decisions and is explicitly labelled
+   invalid for cross-approach comparison unless the same-lineage condition is met.
+4. The sealed free-form test split was not read.
+
+This resolves the #49 scorer/objective semantics blocker for C2 and unblocks the next
+gate/guardrail work, subject to keeping rubric as the periodic quality guard.
