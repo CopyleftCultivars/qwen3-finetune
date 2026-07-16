@@ -165,8 +165,17 @@ Close #6 (Phase 4 rebuild done) and epic #1 (all subphases done). Open a new epi
    search-dimension row maps 1:1 to a `finetune.py` param; no lever left unclassified except
    explicit PENDING-UNLOCK ones; the B3 settling diagnostics have run and their numbers are
    filled into the priors.
-3. **Continuous metric sanity:** MCQ gold-token-LL + free-form ref-LL rank v3-clean > v2-clean
-   (same direction as accuracy) with visibly lower run-to-run variance than accuracy.
+3. **Continuous metric sanity (REVISED 2026-07-16 — see `results/C2_metric_sanity.md` and
+   `AUTORESEARCH_INFRASTRUCTURE_REMAINING_PLAN.md`):** The MCQ option-set gold-token-LL term must
+   rank v3-clean > v2-clean (same direction as accuracy) with visibly lower run-to-run variance
+   than accuracy. **Free-form ref-LL is NOT a valid cross-approach comparator** and must not be
+   used to rank v3-clean vs v2-clean: v2/v3 are different prompt/training surfaces, and teacher-
+   forced reference-answer LL rewards base-like prose continuation over v3's chat-template +
+   `<think>` conditioning (v2-clean scores −4.370 vs v3-clean −4.993 on dev, backwards from the
+   73.0% vs 42.55% generation-accuracy ground truth). Treat ref-LL as an **intra-lineage proxy
+   only** — valid for comparing v3-lineage loop variants that share prompt/template conventions,
+   never as an a-priori cross-model quality metric. Cross-approach quality sanity is established by
+   generation accuracy and/or the rubric grader, not ref-LL.
 4. **Gate/security dry run:** known-good change accepts; noise/no-op reverts; editing any frozen
    file aborts via checksum. One full loop iteration writes a journal row (change, diff, metrics,
    decision, rationale) with reproducible artifacts. Journal/grep confirms sealed test untouched.

@@ -1,0 +1,51 @@
+{
+  "format": "autoresearch_primary_objective_result_v1",
+  "inputs": {
+    "freeform_refll_result": "results/freeform_refll_v2-clean.json",
+    "mcq_result": "results/mcq_gold_ll_v2_clean.json",
+    "rubric_result": null
+  },
+  "objective_direction": "maximize",
+  "primary": {
+    "components": {
+      "freeform_mean_reference_logprob_per_token": {
+        "contribution": -2.1852075609336983,
+        "source": "results/freeform_refll_v2-clean.json",
+        "value": -4.370415121867397,
+        "weight": 0.5
+      },
+      "mcq_mean_option_set_gold_logprob": {
+        "contribution": -1.9211641633901466,
+        "metric": "mean_option_set_gold_logprob",
+        "source": "results/mcq_gold_ll_v2_clean.json",
+        "value": -3.8423283267802932,
+        "weight": 0.5
+      }
+    },
+    "formula": "primary = 0.5 * mcq_mean_option_set_gold_logprob + 0.5 * freeform_mean_reference_logprob_per_token",
+    "label": "primary_continuous_objective",
+    "score": -4.106371724323845
+  },
+  "secondary_reported_only": {
+    "freeform_rubric_percent": null,
+    "label": "reported_only_not_used_for_accept_revert",
+    "mcq_argmax_accuracy": 0.17699115044247787
+  },
+  "weights_config": {
+    "component_units": {
+      "freeform_ref_ll": "mean teacher-forced reference-answer logprob per reference token on eval_freeform/dev.jsonl",
+      "mcq_gold_ll": "mean option-set-normalized gold answer-letter logprob per MCQ item on data/val_v3.jsonl"
+    },
+    "format": "autoresearch_primary_objective_weights_v1",
+    "formula": "primary = 0.5 * mcq_mean_option_set_gold_logprob + 0.5 * freeform_mean_reference_logprob_per_token",
+    "freeform_ref_ll_weight": 0.5,
+    "mcq_gold_ll_weight": 0.5,
+    "mcq_metric": "mean_option_set_gold_logprob",
+    "objective_direction": "maximize",
+    "rationale": "Equal weighting is a frozen neutral starting prior for Phase 4: MCQ option-set-normalized gold-token LL and free-form reference LL each get one vote, with no tuning against dev results. The MCQ term is normalized over the four answer letters to avoid rare full-vocabulary letter-position collapse dominating the mean. #35 must still run the full real primary objective before this score is used by the accept/revert gate.",
+    "secondary_metrics_reported_only": [
+      "mcq_argmax_accuracy",
+      "freeform_rubric_percent"
+    ]
+  }
+}
