@@ -1,0 +1,32 @@
+{
+  "bias_guard": {
+    "max_abs_letter_frequency_deviation": 0.1,
+    "reference_distribution": {
+      "A": 0.25,
+      "B": 0.25,
+      "C": 0.25,
+      "D": 0.25
+    }
+  },
+  "compute_budget": {
+    "max_minutes_per_iteration": 20.0
+  },
+  "forgetting_guard": {
+    "max_relative_drop_percent": 5.0
+  },
+  "format": "autoresearch_gate_config_v1",
+  "grader_anchor_guard": {
+    "max_abs_drift": 0.1,
+    "on_fire": "pause"
+  },
+  "primary_gate": {
+    "min_delta_standard_errors": 2.0,
+    "standard_error": 0.3748983767
+  },
+  "rubric_guard": {
+    "max_drop_percent_points": 5.0
+  },
+  "sealed_test_guard": {
+    "on_touched": "reject"
+  }
+}
