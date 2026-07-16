@@ -70,6 +70,14 @@ FROZEN_PATHS = [
         "autoresearch/objective_weights.json",
         "frozen primary objective policy; not tuned or learned by the loop",
     ),
+    FrozenPath(
+        "autoresearch/gate_config.json",
+        "frozen accept/reject guardrail thresholds and compute budget",
+    ),
+    FrozenPath(
+        "autoresearch/gate.py",
+        "frozen accept/reject/pause gate code",
+    ),
     # TODO #23: add sealed MCQ test set once C3/C4 exists.
 ]
 

@@ -1,6 +1,16 @@
 {
   "algorithm": "sha256",
   "entries": {
+    "autoresearch/gate.py": {
+      "kind": "file",
+      "note": "frozen accept/reject/pause gate code",
+      "sha256": "58774f0f6a05b01e8048804cd03dd1a91eeae1c7188fa15f43dad1b053454323"
+    },
+    "autoresearch/gate_config.json": {
+      "kind": "file",
+      "note": "frozen accept/reject guardrail thresholds and compute budget",
+      "sha256": "66023eaa23679c371b87936133a1865da67544eed23eba4f3bde508b47e15417"
+    },
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
@@ -67,5 +77,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-16T16:41:00+00:00"
+  "generated_at": "2026-07-16T16:50:10+00:00"
 }
