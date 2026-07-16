@@ -1,0 +1,16 @@
+{
+  "baseline_primary": -3.8423283267802937,
+  "candidate_primary": -3.020504306414363,
+  "decision": "accept",
+  "format": "autoresearch_gate_decision_v1",
+  "primary_delta": 0.8218240203659306,
+  "primary_delta_standard_errors": 2.19212477685271,
+  "primary_delta_threshold": 0.7497967534,
+  "primary_standard_error": 0.3748983767,
+  "reasons": {
+    "metric": [],
+    "pause_guardrails": [],
+    "reject_guardrails": []
+  },
+  "recommended_action": "keep_candidate"
+}

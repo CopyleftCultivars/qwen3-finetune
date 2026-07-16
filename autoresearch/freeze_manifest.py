@@ -78,6 +78,10 @@ FROZEN_PATHS = [
         "autoresearch/gate.py",
         "frozen accept/reject/pause gate code",
     ),
+    FrozenPath(
+        "autoresearch/run_loop.py",
+        "frozen one-iteration loop orchestrator code",
+    ),
     # TODO #23: add sealed MCQ test set once C3/C4 exists.
 ]
 
