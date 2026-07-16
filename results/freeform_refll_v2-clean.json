@@ -1,0 +1,917 @@
+{
+  "per_item": [
+    {
+      "id": "mhf_diverse_001",
+      "mean_logprob": -5.097096920013428,
+      "mean_nll": 5.097096920013428,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Strawberries Growing and Selection Guide/Strawberries Growing and Selection Guide.md",
+      "token_count": 102,
+      "total_logprob": -519.9038858413696,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_009",
+      "mean_logprob": -5.334898471832275,
+      "mean_nll": 5.334898471832275,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beginners Guide to Growing Weed/Beginners Guide to Growing Weed.md",
+      "token_count": 100,
+      "total_logprob": -533.4898471832275,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_010",
+      "mean_logprob": -4.977755546569824,
+      "mean_nll": 4.977755546569824,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Role of Soil Enzymes/Role of Soil Enzymes.md",
+      "token_count": 104,
+      "total_logprob": -517.6865768432617,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_012",
+      "mean_logprob": -5.212642192840576,
+      "mean_nll": 5.212642192840576,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Trees From Seed/Growing Trees From Seed.md",
+      "token_count": 98,
+      "total_logprob": -510.83893489837646,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_013",
+      "mean_logprob": -5.262984752655029,
+      "mean_nll": 5.262984752655029,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Herbs. Growing Herbs at Home/Herbs. Growing Herbs at Home.md",
+      "token_count": 102,
+      "total_logprob": -536.824444770813,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_014",
+      "mean_logprob": -4.705044746398926,
+      "mean_nll": 4.705044746398926,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Hot Composting Made Simple/Hot Composting Made Simple.md",
+      "token_count": 104,
+      "total_logprob": -489.3246536254883,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_016",
+      "mean_logprob": -5.1107940673828125,
+      "mean_nll": 5.1107940673828125,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Flowers. Rose Care and Planting/Flowers. Rose Care and Planting.md",
+      "token_count": 101,
+      "total_logprob": -516.1902008056641,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_017",
+      "mean_logprob": -4.696364402770996,
+      "mean_nll": 4.696364402770996,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Phosphorous Fertilizers for Organic Farming/Phosphorous Fertilizers for Organic Farming.md",
+      "token_count": 108,
+      "total_logprob": -507.2073554992676,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_018",
+      "mean_logprob": -4.727859973907471,
+      "mean_nll": 4.727859973907471,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Green Manures/Green Manures.md",
+      "token_count": 102,
+      "total_logprob": -482.241717338562,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_019",
+      "mean_logprob": -5.0763936042785645,
+      "mean_nll": 5.0763936042785645,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Trace Minerals/Trace Minerals.md",
+      "token_count": 100,
+      "total_logprob": -507.63936042785645,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_021",
+      "mean_logprob": -5.080033302307129,
+      "mean_nll": 5.080033302307129,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Marijuana Garden Saver The Complete guide to Sick Plants pH and Pest troubles/Marijuana Garden Saver The Complete guide to Sick Plants pH and Pest troubles.md",
+      "token_count": 102,
+      "total_logprob": -518.1633968353271,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_022",
+      "mean_logprob": -5.014758586883545,
+      "mean_nll": 5.014758586883545,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/5Hyperspectral Imaging With Machine_Learning to Differentiate Cultivars,_Growth Stages, Flowers, and Leaves_of Industrial Hemp/5Hyperspectral Imaging With Machine_Learning to Differentiate Cultivars,_Growth Stages, Flowers, and Leaves_of Industrial Hemp.md",
+      "token_count": 104,
+      "total_logprob": -521.5348930358887,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_023",
+      "mean_logprob": -5.105156421661377,
+      "mean_nll": 5.105156421661377,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/study_of_hemp/study_of_hemp.md",
+      "token_count": 100,
+      "total_logprob": -510.5156421661377,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_024",
+      "mean_logprob": -5.052456855773926,
+      "mean_nll": 5.052456855773926,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/PRINCIPLES OF SEED TECHNOLOGY/PRINCIPLES OF SEED TECHNOLOGY.md",
+      "token_count": 104,
+      "total_logprob": -525.4555130004883,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_025",
+      "mean_logprob": -5.20023775100708,
+      "mean_nll": 5.20023775100708,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Making a Water Garden/Making a Water Garden.md",
+      "token_count": 99,
+      "total_logprob": -514.8235373497009,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_027",
+      "mean_logprob": -5.214677810668945,
+      "mean_nll": 5.214677810668945,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Sweet Corn in Home Gardens/Growing Sweet Corn in Home Gardens.md",
+      "token_count": 100,
+      "total_logprob": -521.4677810668945,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_028",
+      "mean_logprob": -5.24193000793457,
+      "mean_nll": 5.24193000793457,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Hemp_The_New_American_Industrial_Revolut/Hemp_The_New_American_Industrial_Revolut.md",
+      "token_count": 102,
+      "total_logprob": -534.6768608093262,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "mhf_diverse_030",
+      "mean_logprob": -4.734218597412109,
+      "mean_nll": 4.734218597412109,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Biochar From Different Biowaste/Biochar From Different Biowaste.md",
+      "token_count": 105,
+      "total_logprob": -497.0929527282715,
+      "type": "multi_hop_factual"
+    },
+    {
+      "id": "diag_diverse_003",
+      "mean_logprob": -4.824683666229248,
+      "mean_nll": 4.824683666229248,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Fundamentals of Organic Agriculture/Organic. Fundamentals of Organic Agriculture.md",
+      "token_count": 117,
+      "total_logprob": -564.487988948822,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_007",
+      "mean_logprob": -4.8640570640563965,
+      "mean_nll": 4.8640570640563965,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Renovating Strawberries in the Home Garden/Renovating Strawberries in the Home Garden.md",
+      "token_count": 115,
+      "total_logprob": -559.3665623664856,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_008",
+      "mean_logprob": -4.659782409667969,
+      "mean_nll": 4.659782409667969,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Phytochemical activity and role of botanical pesticides in pest_management for sustainable agricultural crop production/Phytochemical activity and role of botanical pesticides in pest_management for sustainable agricultural crop production.md",
+      "token_count": 114,
+      "total_logprob": -531.2151947021484,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_009",
+      "mean_logprob": -4.7286763191223145,
+      "mean_nll": 4.7286763191223145,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Curing Compost - Shaffer/Curing Compost - Shaffer.md",
+      "token_count": 116,
+      "total_logprob": -548.5264530181885,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_011",
+      "mean_logprob": -5.051677703857422,
+      "mean_nll": 5.051677703857422,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beginner_s Guide to Growing Marijuana/Beginner_s Guide to Growing Marijuana.md",
+      "token_count": 111,
+      "total_logprob": -560.7362251281738,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_012",
+      "mean_logprob": -4.752331256866455,
+      "mean_nll": 4.752331256866455,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Disease and Insect Control in Home Fruit Plantings/Disease and Insect Control in Home Fruit Plantings.md",
+      "token_count": 113,
+      "total_logprob": -537.0134320259094,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_013",
+      "mean_logprob": -4.961155891418457,
+      "mean_nll": 4.961155891418457,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Successful Gardening/Successful Gardening.md",
+      "token_count": 112,
+      "total_logprob": -555.6494598388672,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_015",
+      "mean_logprob": -4.719076633453369,
+      "mean_nll": 4.719076633453369,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Enzymes and Soil Fertility/Enzymes and Soil Fertility.md",
+      "token_count": 116,
+      "total_logprob": -547.4128894805908,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_016",
+      "mean_logprob": -4.537147521972656,
+      "mean_nll": 4.537147521972656,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Actively Aerated Compost Teas - North Shore Organics/Actively Aerated Compost Teas - North Shore Organics.md",
+      "token_count": 118,
+      "total_logprob": -535.3834075927734,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_017",
+      "mean_logprob": -4.858595848083496,
+      "mean_nll": 4.858595848083496,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pruning Tips for Marijuana Plants-2pg/Pruning Tips for Marijuana Plants-2pg.md",
+      "token_count": 114,
+      "total_logprob": -553.8799266815186,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_020",
+      "mean_logprob": -5.150354385375977,
+      "mean_nll": 5.150354385375977,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Greenhouses. Building a Greenhouse Foundation/Greenhouses. Building a Greenhouse Foundation.md",
+      "token_count": 115,
+      "total_logprob": -592.2907543182373,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_021",
+      "mean_logprob": -4.819589138031006,
+      "mean_nll": 4.819589138031006,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vermicomposting - Revive Your Soil & Reduce Your Environmental Impact/Vermicomposting - Revive Your Soil & Reduce Your Environmental Impact.md",
+      "token_count": 117,
+      "total_logprob": -563.8919291496277,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_022",
+      "mean_logprob": -4.712924957275391,
+      "mean_nll": 4.712924957275391,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/The Role of Root Exudates In Rhizosphere Interactions With Plants & Other Organisms/The Role of Root Exudates In Rhizosphere Interactions With Plants & Other Organisms.md",
+      "token_count": 117,
+      "total_logprob": -551.4122200012207,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_023",
+      "mean_logprob": -5.0978240966796875,
+      "mean_nll": 5.0978240966796875,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Rain Barrel Water Harvest Guide/Rain Barrel Water Harvest Guide.md",
+      "token_count": 112,
+      "total_logprob": -570.956298828125,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_024",
+      "mean_logprob": -4.530055046081543,
+      "mean_nll": 4.530055046081543,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Allelochemicals and Signaling Chemicals in Plants/Allelochemicals and Signaling Chemicals in Plants.md",
+      "token_count": 118,
+      "total_logprob": -534.5464954376221,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_025",
+      "mean_logprob": -4.626683235168457,
+      "mean_nll": 4.626683235168457,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Diseases of Shade and Ornamental Trees/Diseases of Shade and Ornamental Trees.md",
+      "token_count": 113,
+      "total_logprob": -522.8152055740356,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_028",
+      "mean_logprob": -4.733539581298828,
+      "mean_nll": 4.733539581298828,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic acids in the rhizosphere/Organic acids in the rhizosphere.md",
+      "token_count": 117,
+      "total_logprob": -553.8241310119629,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "diag_diverse_029",
+      "mean_logprob": -4.865631103515625,
+      "mean_nll": 4.865631103515625,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Comparison of Coir & Peat Mediums/Comparison of Coir & Peat Mediums.md",
+      "token_count": 116,
+      "total_logprob": -564.4132080078125,
+      "type": "diagnostic_reasoning"
+    },
+    {
+      "id": "expl_diverse_001",
+      "mean_logprob": -4.276519775390625,
+      "mean_nll": 4.276519775390625,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Improving Garden Soils with Organic Matter/Improving Garden Soils with Organic Matter.md",
+      "token_count": 115,
+      "total_logprob": -491.7997741699219,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_003",
+      "mean_logprob": -4.258793830871582,
+      "mean_nll": 4.258793830871582,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pumpkins. Growing Cucumbers, Melons, Squash, Pumpkins and Gourds/Pumpkins. Growing Cucumbers, Melons, Squash, Pumpkins and Gourds.md",
+      "token_count": 118,
+      "total_logprob": -502.5376720428467,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_006",
+      "mean_logprob": -4.1920485496521,
+      "mean_nll": 4.1920485496521,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Growing Tomatoes in the Home Garden/Vegetables. Growing Tomatoes in the Home Garden.md",
+      "token_count": 110,
+      "total_logprob": -461.12534046173096,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_007",
+      "mean_logprob": -4.309246063232422,
+      "mean_nll": 4.309246063232422,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Growing Vegetables in Home Gardens/Growing Vegetables in Home Gardens.md",
+      "token_count": 113,
+      "total_logprob": -486.9448051452637,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_008",
+      "mean_logprob": -4.321474075317383,
+      "mean_nll": 4.321474075317383,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Asparagus Production/Vegetables. Asparagus Production.md",
+      "token_count": 110,
+      "total_logprob": -475.3621482849121,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_010",
+      "mean_logprob": -4.244446754455566,
+      "mean_nll": 4.244446754455566,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Insect Pest Management For Organic Crops/Organic. Insect Pest Management For Organic Crops.md",
+      "token_count": 112,
+      "total_logprob": -475.37803649902344,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_011",
+      "mean_logprob": -4.31610107421875,
+      "mean_nll": 4.31610107421875,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Participatory plant breeding and organic  agriculture A synergistic model for organic  variety development in the United States/Participatory plant breeding and organic  agriculture A synergistic model for organic  variety development in the United States.md",
+      "token_count": 116,
+      "total_logprob": -500.667724609375,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_013",
+      "mean_logprob": -4.658907890319824,
+      "mean_nll": 4.658907890319824,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Tree Planting Procedure for Small, Bare Root Seedlings/Tree Planting Procedure for Small, Bare Root Seedlings.md",
+      "token_count": 111,
+      "total_logprob": -517.1387758255005,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_014",
+      "mean_logprob": -4.1791582107543945,
+      "mean_nll": 4.1791582107543945,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Home Gardeners Guide - Purdue/Home Gardeners Guide - Purdue.md",
+      "token_count": 111,
+      "total_logprob": -463.8865613937378,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_015",
+      "mean_logprob": -4.492775917053223,
+      "mean_nll": 4.492775917053223,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Thinning Tree Fruit (SP307-E)/Thinning Tree Fruit (SP307-E).md",
+      "token_count": 114,
+      "total_logprob": -512.1764545440674,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_016",
+      "mean_logprob": -4.421579837799072,
+      "mean_nll": 4.421579837799072,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Greenhouse Tomato Handbook/Greenhouse Tomato Handbook.md",
+      "token_count": 112,
+      "total_logprob": -495.2169418334961,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_021",
+      "mean_logprob": -4.318087100982666,
+      "mean_nll": 4.318087100982666,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/#4Marijuana Horticulture The Indoor-Outdoor Medical Grower/#4Marijuana Horticulture The Indoor-Outdoor Medical Grower.md",
+      "token_count": 115,
+      "total_logprob": -496.5800166130066,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_022",
+      "mean_logprob": -4.600211143493652,
+      "mean_nll": 4.600211143493652,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Blackberries and Raspberries/Blackberries and Raspberries.md",
+      "token_count": 114,
+      "total_logprob": -524.4240703582764,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_023",
+      "mean_logprob": -4.34876012802124,
+      "mean_nll": 4.34876012802124,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic Vegetable Gardening/Organic Vegetable Gardening.md",
+      "token_count": 114,
+      "total_logprob": -495.7586545944214,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_024",
+      "mean_logprob": -4.383853435516357,
+      "mean_nll": 4.383853435516357,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Microplastics in agriculture \u2013 a_potential novel mechanism_for the delivery of human_pathogens onto crops/Microplastics in agriculture \u2013 a_potential novel mechanism_for the delivery of human_pathogens onto crops.md",
+      "token_count": 114,
+      "total_logprob": -499.75929164886475,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_025",
+      "mean_logprob": -4.165714740753174,
+      "mean_nll": 4.165714740753174,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Induction of Systemic Resistance in Plants by Biochar/Induction of Systemic Resistance in Plants by Biochar.md",
+      "token_count": 115,
+      "total_logprob": -479.057195186615,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_026",
+      "mean_logprob": -4.448439598083496,
+      "mean_nll": 4.448439598083496,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing Shade and Ornamental Trees and Shrubs/Fertilizing Shade and Ornamental Trees and Shrubs.md",
+      "token_count": 116,
+      "total_logprob": -516.0189933776855,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "expl_diverse_029",
+      "mean_logprob": -4.321917533874512,
+      "mean_nll": 4.321917533874512,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Undertanding Soil Microbes & Nutrient Recycling/Undertanding Soil Microbes & Nutrient Recycling.md",
+      "token_count": 116,
+      "total_logprob": -501.34243392944336,
+      "type": "free_form_explanation"
+    },
+    {
+      "id": "cons_diverse_006",
+      "mean_logprob": -4.505199909210205,
+      "mean_nll": 4.505199909210205,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fruit Tree Management Timetable/Fruit Tree Management Timetable.md",
+      "token_count": 140,
+      "total_logprob": -630.7279872894287,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_008",
+      "mean_logprob": -4.508769989013672,
+      "mean_nll": 4.508769989013672,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Growing Vegetables at Home. Questions and Answers/Vegetables. Growing Vegetables at Home. Questions and Answers.md",
+      "token_count": 136,
+      "total_logprob": -613.1927185058594,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_009",
+      "mean_logprob": -4.116877555847168,
+      "mean_nll": 4.116877555847168,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Managing Phosphorus for Crop _Production/Managing Phosphorus for Crop _Production.md",
+      "token_count": 139,
+      "total_logprob": -572.2459802627563,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_010",
+      "mean_logprob": -4.195201873779297,
+      "mean_nll": 4.195201873779297,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Transplanting Trees/Transplanting Trees.md",
+      "token_count": 136,
+      "total_logprob": -570.5474548339844,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_012",
+      "mean_logprob": -4.305532455444336,
+      "mean_nll": 4.305532455444336,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pizza Garden/Pizza Garden.md",
+      "token_count": 135,
+      "total_logprob": -581.2468814849854,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_013",
+      "mean_logprob": -4.251821517944336,
+      "mean_nll": 4.251821517944336,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/schaffner paper/schaffner paper.md",
+      "token_count": 138,
+      "total_logprob": -586.7513694763184,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_014",
+      "mean_logprob": -4.17434549331665,
+      "mean_nll": 4.17434549331665,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing Trees and Shrubs FAQ/Fertilizing Trees and Shrubs FAQ.md",
+      "token_count": 142,
+      "total_logprob": -592.7570600509644,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_015",
+      "mean_logprob": -4.335452556610107,
+      "mean_nll": 4.335452556610107,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Fertilizing & Liming Fruit Trees/Fertilizing & Liming Fruit Trees.md",
+      "token_count": 142,
+      "total_logprob": -615.6342630386353,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_016",
+      "mean_logprob": -4.224258899688721,
+      "mean_nll": 4.224258899688721,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Free Mulch - How To Make It & Where To Get More/Free Mulch - How To Make It & Where To Get More.md",
+      "token_count": 139,
+      "total_logprob": -587.1719870567322,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_019",
+      "mean_logprob": -4.477126121520996,
+      "mean_nll": 4.477126121520996,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Propagation of Fruit and Nuts by Seed/Propagation of Fruit and Nuts by Seed.md",
+      "token_count": 138,
+      "total_logprob": -617.8434047698975,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_020",
+      "mean_logprob": -4.439012050628662,
+      "mean_nll": 4.439012050628662,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Tree planting. Planning/Tree planting. Planning.md",
+      "token_count": 135,
+      "total_logprob": -599.2666268348694,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_022",
+      "mean_logprob": -4.195404052734375,
+      "mean_nll": 4.195404052734375,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/fpls-11-01012/fpls-11-01012.md",
+      "token_count": 136,
+      "total_logprob": -570.574951171875,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_023",
+      "mean_logprob": -4.333014488220215,
+      "mean_nll": 4.333014488220215,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Christian R. Vogl - Comparing Hemp Seed Yields/Christian R. Vogl - Comparing Hemp Seed Yields.md",
+      "token_count": 138,
+      "total_logprob": -597.9559993743896,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_024",
+      "mean_logprob": -4.360304355621338,
+      "mean_nll": 4.360304355621338,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Terrariums/Terrariums.md",
+      "token_count": 137,
+      "total_logprob": -597.3616967201233,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_025",
+      "mean_logprob": -4.233497142791748,
+      "mean_nll": 4.233497142791748,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Mesophyllic Fertilizer & Soil Culturing/Mesophyllic Fertilizer & Soil Culturing.md",
+      "token_count": 145,
+      "total_logprob": -613.8570857048035,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_026",
+      "mean_logprob": -4.308207988739014,
+      "mean_nll": 4.308207988739014,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/effective sowing date Thai hemp/effective sowing date Thai hemp.md",
+      "token_count": 139,
+      "total_logprob": -598.8409104347229,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_027",
+      "mean_logprob": -4.148984432220459,
+      "mean_nll": 4.148984432220459,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/European hemp industry Cultivation, processing and product lines/European hemp industry Cultivation, processing and product lines.md",
+      "token_count": 139,
+      "total_logprob": -576.7088360786438,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "cons_diverse_030",
+      "mean_logprob": -4.186398983001709,
+      "mean_nll": 4.186398983001709,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Epsom salts/Epsom salts.md",
+      "token_count": 138,
+      "total_logprob": -577.7230596542358,
+      "type": "constraint_satisfaction"
+    },
+    {
+      "id": "quant_diverse_001",
+      "mean_logprob": -2.377587080001831,
+      "mean_nll": 2.377587080001831,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Soil Quality in Organic Agricultural Systems/Organic. Soil Quality in Organic Agricultural Systems.md",
+      "token_count": 96,
+      "total_logprob": -228.24835968017578,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_002",
+      "mean_logprob": -3.6963300704956055,
+      "mean_nll": 3.6963300704956055,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Peas in the Garden/Peas in the Garden.md",
+      "token_count": 72,
+      "total_logprob": -266.1357650756836,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_003",
+      "mean_logprob": -2.3947529792785645,
+      "mean_nll": 2.3947529792785645,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Mulching Your Trees and Landscapes (SP617)/Mulching Your Trees and Landscapes (SP617).md",
+      "token_count": 81,
+      "total_logprob": -193.97499132156372,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_004",
+      "mean_logprob": -3.18624210357666,
+      "mean_nll": 3.18624210357666,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Organic. Weed Management for Organic Farmers/Organic. Weed Management for Organic Farmers.md",
+      "token_count": 63,
+      "total_logprob": -200.7332525253296,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_005",
+      "mean_logprob": -3.1127500534057617,
+      "mean_nll": 3.1127500534057617,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Tree Planting - Establishment and Care/Tree Planting - Establishment and Care.md",
+      "token_count": 62,
+      "total_logprob": -192.99050331115723,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_007",
+      "mean_logprob": -2.3479294776916504,
+      "mean_nll": 2.3479294776916504,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Peanuts in the Garden/Peanuts in the Garden.md",
+      "token_count": 99,
+      "total_logprob": -232.4450182914734,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_009",
+      "mean_logprob": -2.3551056385040283,
+      "mean_nll": 2.3551056385040283,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Collecting and Storing Seeds/Collecting and Storing Seeds.md",
+      "token_count": 81,
+      "total_logprob": -190.7635567188263,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_011",
+      "mean_logprob": -3.043346405029297,
+      "mean_nll": 3.043346405029297,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Vegetables. Growing Asparagus in the Home Garden/Vegetables. Growing Asparagus in the Home Garden.md",
+      "token_count": 64,
+      "total_logprob": -194.774169921875,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_012",
+      "mean_logprob": -3.9124515056610107,
+      "mean_nll": 3.9124515056610107,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beneficial Indigenous Microorganisms & Bionutrients In Natural Farming/Beneficial Indigenous Microorganisms & Bionutrients In Natural Farming.md",
+      "token_count": 76,
+      "total_logprob": -297.3463144302368,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_014",
+      "mean_logprob": -3.5863890647888184,
+      "mean_nll": 3.5863890647888184,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Salsa Garden/Salsa Garden.md",
+      "token_count": 73,
+      "total_logprob": -261.80640172958374,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_016",
+      "mean_logprob": -3.370303153991699,
+      "mean_nll": 3.370303153991699,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Manure Comparison/Manure Comparison.md",
+      "token_count": 63,
+      "total_logprob": -212.32909870147705,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_017",
+      "mean_logprob": -2.877978801727295,
+      "mean_nll": 2.877978801727295,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Compost Tea Making - Marc Remillard/Compost Tea Making - Marc Remillard.md",
+      "token_count": 64,
+      "total_logprob": -184.19064331054688,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_018",
+      "mean_logprob": -3.567277193069458,
+      "mean_nll": 3.567277193069458,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Handbook of Plant Nutrition/Handbook of Plant Nutrition.md",
+      "token_count": 76,
+      "total_logprob": -271.1130666732788,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_021",
+      "mean_logprob": -2.293174982070923,
+      "mean_nll": 2.293174982070923,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/organicInsecticides - acres/organicInsecticides - acres.md",
+      "token_count": 82,
+      "total_logprob": -188.04034852981567,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_022",
+      "mean_logprob": -3.3671271800994873,
+      "mean_nll": 3.3671271800994873,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/HomeOrchardPestControl/HomeOrchardPestControl.md",
+      "token_count": 63,
+      "total_logprob": -212.1290123462677,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_025",
+      "mean_logprob": -2.593587636947632,
+      "mean_nll": 2.593587636947632,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Pruning Raspberries and Blackberries in Home Gardens/Pruning Raspberries and Blackberries in Home Gardens.md",
+      "token_count": 99,
+      "total_logprob": -256.76517605781555,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_026",
+      "mean_logprob": -3.398719549179077,
+      "mean_nll": 3.398719549179077,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Beginners Guide Growing Marijuana Walkthrough - WidowMaker/Beginners Guide Growing Marijuana Walkthrough - WidowMaker.md",
+      "token_count": 75,
+      "total_logprob": -254.9039661884308,
+      "type": "quantitative"
+    },
+    {
+      "id": "quant_diverse_029",
+      "mean_logprob": -2.7894630432128906,
+      "mean_nll": 2.7894630432128906,
+      "prompt_template": "question_reference_answer_prefix_v1",
+      "source_doc": "../qtmd_workspace/markdown_corpus/Robert C Clarke - Marijuana Botany - An Advanced Study/Robert C Clarke - Marijuana Botany - An Advanced Study.md",
+      "token_count": 64,
+      "total_logprob": -178.525634765625,
+      "type": "quantitative"
+    }
+  ],
+  "summary": {
+    "deterministic": true,
+    "device": "cuda",
+    "draft_only_non_reportable": false,
+    "input": "eval_freeform/dev.jsonl",
+    "mean_reference_logprob_per_token": -4.370415121867397,
+    "mean_reference_nll_per_token": 4.370415121867397,
+    "model": "outputs/merged-model-v2-clean",
+    "model_mode": "transformers",
+    "scored_items": 90,
+    "total_logprob": -42825.69777917862,
+    "total_reference_tokens": 9799
+  }
+}

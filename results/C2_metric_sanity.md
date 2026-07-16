@@ -141,3 +141,125 @@ the smoke primary now ranks in the intended direction:
 This resolves the MCQ raw-LL pathology but does **not** close #35 or #49. A real #35
 rerun still needs actual free-form refLL on both models with `torch`/`transformers` and
 the real merged model weight files present.
+
+---
+
+# Rerun: 2026-07-16 (real free-form component)
+
+Status: **STILL BLOCKED, new root cause.** The primary now ranks v3 > v2, but only by
+accident of two large opposing components, and the free-form component is confidently
+mis-signed because the scorer does not apply the models' chat template.
+
+## The 2026-07-15 environment blocker was spurious
+
+Both blocking claims above were environment artifacts, not facts about the repo:
+
+| 2026-07-15 claim | Verified 2026-07-16 |
+| --- | --- |
+| `ModuleNotFoundError: No module named 'torch'` | `qwen3-diagnostics` env has torch 2.6.0+cu124, transformers 4.57.6 |
+| "no obvious `*.safetensors` or `*.bin` weight files" | both merged models have `model.safetensors`, 1.2 GB each |
+
+The original run used an env without torch. Per repo convention, all diagnostics and
+autoresearch eval must run under `conda run -n qwen3-diagnostics`. The real scorer runs
+fine there (`mock_model=False`), on an RTX 4070 Ti.
+
+## Real free-form ref-LL (90 dev items, 9,799 reference tokens, identical tokenization)
+
+```text
+conda run -n qwen3-diagnostics python eval_freeform/score_refll.py \
+  --model outputs/merged-model-{v3,v2}-clean --input eval_freeform/dev.jsonl \
+  --output results/freeform_refll_{v3,v2}-clean.json --device cuda
+```
+
+| model | mean reference logprob / token |
+| --- | ---: |
+| v3-clean | -4.9926148700 |
+| v2-clean | -4.3704151200 |
+
+**The free-form axis ranks v2-clean above v3-clean** — the opposite of ground truth
+(v3-clean 73.0% vs v2-clean 42.55% generation accuracy).
+
+Paired over all 90 items, delta = v3 - v2:
+
+| statistic | value |
+| --- | ---: |
+| mean per-item delta | -0.6369166600 |
+| sample SD | 0.4271940400 |
+| SE | 0.0450302100 |
+| z | -14.1442090000 |
+| bootstrap SD (20k resamples, seed 20260716) | 0.0452141500 |
+| bootstrap q05 / q50 / q95 | -0.7117784200 / -0.6367938600 / -0.5629117400 |
+| P(v3 better than v2) | 0.0000 |
+| items where v3 > v2 | **1 / 90 (1.1%)** |
+
+Every item type favors v2, worst on the two reasoning-heaviest types:
+
+| type | n | mean delta | v3 wins |
+| --- | ---: | ---: | ---: |
+| multi_hop_factual | 18 | -1.108591 | 0/18 |
+| diagnostic_reasoning | 18 | -1.061469 | 0/18 |
+| free_form_explanation | 18 | -0.425460 | 0/18 |
+| quantitative | 18 | -0.392061 | 0/18 |
+| constraint_satisfaction | 18 | -0.197002 | 1/18 |
+
+## The primary passes, but for the wrong reason
+
+| model | MCQ option-set LL | free-form ref-LL | **primary** |
+| --- | ---: | ---: | ---: |
+| v3-clean | -3.0205043100 | -4.9926148700 | **-4.0065595900** |
+| v2-clean | -3.8423283300 | -4.3704151200 | **-4.1063717300** |
+
+```text
+margin (v3 - v2)         = +0.0998121300
+  mcq component delta    = +0.4109120100  (favors v3)
+  freeform component delta = -0.3110998800  (favors v2)
+```
+
+The intended ranking survives only because the MCQ term outweighs the free-form term.
+The Goodhart guard is not guarding — it is actively pulling toward the worse model.
+
+## Root cause: score_refll.py never applies the chat template
+
+`eval_freeform/score_refll.py::real_model_score` scores a bare prompt:
+
+```python
+PROMPT_TEMPLATE = "Question:\n{question}\n\nReference answer:\n"
+prompt = PROMPT_TEMPLATE.format(question=row["question"])
+prompt_ids = tokenizer(prompt, return_tensors="pt", add_special_tokens=False)...
+```
+
+There is no `apply_chat_template` call anywhere in the file, and
+`add_special_tokens=False` strips the rest. Both merged models ship a
+`chat_template.jinja` (Qwen3 `<|im_start|>`/`<|im_end|>` + `<think>`), and v3-clean was
+SFT'd hard onto that template with `<think>...\n</think>\n{letter}` bare-letter targets.
+
+So this scorer measures **how close a model still is to base prose-continuation
+behavior**, which anti-correlates with exactly the MCQ-format conditioning that makes
+v3-clean better. v2-clean scores higher because it is *less* finetuned, not because it
+knows more. The compounding-over-tokens pattern (worst on the longest, most reasoning-
+heavy items) is consistent with a format/OOD mismatch rather than a knowledge gap.
+
+This is a scorer defect, not a v3-clean regression.
+
+## Consequence for C3/C4
+
+Do **not** let the accept/revert gate climb this objective. As measured, the free-form
+term rewards *undoing* finetuning, and a loop would discover that within a night.
+
+Note also that `score_refll.py`, `score_rubric.py`, `score_primary.py`, and
+`score_mcq_ll.py` are **not** in `frozen_manifest.json` — only their configs, splits,
+and anchors are. C1's freeze does not currently cover the scorer code itself.
+
+## Candidate fixes (need human decision, all touch a frozen-adjacent surface)
+
+1. Apply each model's chat template in `score_refll.py` so the reference answer is
+   scored as an assistant turn (add `--chat-template/--no-chat-template`, pin the choice
+   in `scorer_config.json`). Most likely correct; changes all historical refLL numbers.
+2. Adjudicate with the rubric grader (`score_rubric.py`) on the same 90 dev items. If
+   v3 wins on rubric while losing on ref-LL, that confirms ref-LL is the broken proxy —
+   the inverse of A3's stated "LL-up-while-rubric-down = surface-learning alarm". Costs
+   OpenRouter/Haiku calls.
+3. Add the scorer code to the frozen manifest once its prompt shape is settled.
+
+Sealed test set (`eval_freeform/test.jsonl`, 60 items) was **not** touched by this rerun.
+
