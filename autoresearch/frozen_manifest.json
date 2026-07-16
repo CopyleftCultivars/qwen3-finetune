@@ -21,6 +21,11 @@
       "note": "frozen primary objective policy; not tuned or learned by the loop",
       "sha256": "480daa7f28529de17c12db8156d4425315d86f2ec4dcfe3bc434467b7e70f76a"
     },
+    "autoresearch/run_loop.py": {
+      "kind": "file",
+      "note": "frozen one-iteration loop orchestrator code",
+      "sha256": "341f54ccb18a5ef336a241b4a765b137634a002969e0c536f3099a3b0ecd7b68"
+    },
     "autoresearch/score_mcq_ll.py": {
       "kind": "file",
       "note": "frozen MCQ option-set log-likelihood scorer code",
@@ -77,5 +82,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-16T16:50:10+00:00"
+  "generated_at": "2026-07-16T16:53:24+00:00"
 }
