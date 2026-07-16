@@ -31,11 +31,16 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def validate_weights(weights: dict[str, Any], path: Path) -> None:
     required = (
+        "cross_model_refll_comparison",
+        "first_c3_climbable_objective",
         "formula",
+        "freeform_ref_ll_role",
         "mcq_metric",
+        "mcq_gold_ll_role",
         "mcq_gold_ll_weight",
         "freeform_ref_ll_weight",
         "objective_direction",
+        "primary_quality_guard",
     )
     for key in required:
         if key not in weights:
@@ -45,6 +50,11 @@ def validate_weights(weights: dict[str, Any], path: Path) -> None:
             raise ValueError(f"{path}: {key} must be numeric")
     if weights["objective_direction"] != "maximize":
         raise ValueError(f"{path}: objective_direction must be 'maximize'")
+    if weights["cross_model_refll_comparison"] != "invalid_unless_same_prompt_lineage":
+        raise ValueError(
+            f"{path}: cross_model_refll_comparison must be "
+            "'invalid_unless_same_prompt_lineage'"
+        )
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -101,9 +111,11 @@ def ensure_mcq_result(args: argparse.Namespace) -> Path:
     return output
 
 
-def ensure_freeform_result(args: argparse.Namespace) -> Path:
+def ensure_freeform_result(args: argparse.Namespace, *, required: bool) -> Path | None:
     if args.freeform_result:
         return Path(args.freeform_result)
+    if not required and not args.run_freeform_diagnostic:
+        return None
 
     model = require_model("freeform", args.freeform_model, args.model)
     output = Path(args.freeform_output)
@@ -160,58 +172,129 @@ def mcq_metric_value(mcq: dict[str, Any], metric: str) -> float:
 def build_result(
     weights: dict[str, Any],
     mcq_result_path: Path,
-    freeform_result_path: Path,
+    freeform_result_path: Path | None,
     rubric_result_path: Path | None,
 ) -> dict[str, Any]:
     mcq = load_json(mcq_result_path)
-    freeform = load_json(freeform_result_path)
     mcq_summary = mcq.get("summary", {})
-    freeform_summary = freeform.get("summary", {})
 
     mcq_metric = str(weights["mcq_metric"])
     mcq_ll = mcq_metric_value(mcq, mcq_metric)
-    freeform_ll = float(freeform_summary["mean_reference_logprob_per_token"])
     mcq_weight = float(weights["mcq_gold_ll_weight"])
     freeform_weight = float(weights["freeform_ref_ll_weight"])
-    primary = mcq_weight * mcq_ll + freeform_weight * freeform_ll
+    primary = mcq_weight * mcq_ll
+    primary_components: dict[str, Any] = {
+        f"mcq_{mcq_metric}": {
+            "value": mcq_ll,
+            "weight": mcq_weight,
+            "contribution": mcq_weight * mcq_ll,
+            "source": mcq_result_path.as_posix(),
+            "metric": mcq_metric,
+            "role": weights["mcq_gold_ll_role"],
+        }
+    }
+
+    freeform_summary: dict[str, Any] = {}
+    freeform_ll: float | None = None
+    if freeform_result_path is not None:
+        freeform = load_json(freeform_result_path)
+        freeform_summary = freeform.get("summary", {})
+        freeform_ll = float(freeform_summary["mean_reference_logprob_per_token"])
+        if freeform_weight != 0.0:
+            primary += freeform_weight * freeform_ll
+            primary_components["freeform_mean_reference_logprob_per_token"] = {
+                "value": freeform_ll,
+                "weight": freeform_weight,
+                "contribution": freeform_weight * freeform_ll,
+                "source": freeform_result_path.as_posix(),
+                "role": "primary_component_requires_same_lineage_calibration",
+            }
+    elif freeform_weight != 0.0:
+        raise ValueError("freeform_ref_ll_weight is non-zero but no freeform ref-LL result was provided")
+
+    freeform_policy = weights.get("freeform_ref_ll_policy", {})
+    freeform_diagnostic: dict[str, Any] = {
+        "role": weights["freeform_ref_ll_role"],
+        "primary_weight": freeform_weight,
+        "status": "not_run",
+        "source": None,
+        "value": None,
+        "prompt_mode": None,
+        "chat_template_used": None,
+        "cross_model_refll_comparison": weights["cross_model_refll_comparison"],
+        "same_lineage_requirement": freeform_policy.get("same_lineage_requirement"),
+        "interpretation": "not_a_cross_approach_quality_signal",
+    }
+    if freeform_result_path is not None:
+        freeform_diagnostic.update(
+            {
+                "status": "reported_only_not_used_for_accept_revert"
+                if freeform_weight == 0.0
+                else "primary_component",
+                "source": freeform_result_path.as_posix(),
+                "value": freeform_ll,
+                "prompt_mode": freeform_summary.get("prompt_mode"),
+                "chat_template_used": freeform_summary.get("chat_template_used"),
+                "refll_chat_template_enable_thinking": freeform_summary.get(
+                    "refll_chat_template_enable_thinking"
+                ),
+                "legacy_non_gating": freeform_summary.get("legacy_non_gating"),
+            }
+        )
 
     secondary: dict[str, Any] = {
         "label": "reported_only_not_used_for_accept_revert",
         "mcq_argmax_accuracy": mcq_summary.get("argmax_accuracy"),
         "freeform_rubric_percent": None,
+        "freeform_refll_diagnostic": freeform_ll,
+    }
+    guardrails: dict[str, Any] = {
+        "freeform_rubric": {
+            "role": weights["primary_quality_guard"],
+            "status": "not_provided",
+            "value_percent": None,
+            "source": None,
+        }
     }
     if rubric_result_path is not None:
-        secondary["freeform_rubric_percent"] = weighted_rubric_percent(rubric_result_path)
+        rubric_percent = weighted_rubric_percent(rubric_result_path)
+        secondary["freeform_rubric_percent"] = rubric_percent
         secondary["freeform_rubric_result"] = rubric_result_path.as_posix()
+        guardrails["freeform_rubric"].update(
+            {
+                "status": "provided_hard_periodic_guard",
+                "value_percent": rubric_percent,
+                "source": rubric_result_path.as_posix(),
+            }
+        )
 
     return {
-        "format": "autoresearch_primary_objective_result_v1",
+        "format": "autoresearch_primary_objective_result_v2",
         "objective_direction": "maximize",
+        "objective_policy": {
+            "first_c3_climbable_objective": weights["first_c3_climbable_objective"],
+            "formula": weights["formula"],
+            "cross_model_refll_comparison": weights["cross_model_refll_comparison"],
+            "freeform_ref_ll_policy": freeform_policy,
+            "primary_quality_guard": weights["primary_quality_guard"],
+        },
         "primary": {
             "label": "primary_continuous_objective",
             "formula": weights["formula"],
             "score": primary,
-            "components": {
-                f"mcq_{mcq_metric}": {
-                    "value": mcq_ll,
-                    "weight": mcq_weight,
-                    "contribution": mcq_weight * mcq_ll,
-                    "source": mcq_result_path.as_posix(),
-                    "metric": mcq_metric,
-                },
-                "freeform_mean_reference_logprob_per_token": {
-                    "value": freeform_ll,
-                    "weight": freeform_weight,
-                    "contribution": freeform_weight * freeform_ll,
-                    "source": freeform_result_path.as_posix(),
-                },
-            },
+            "components": primary_components,
+        },
+        "guardrails": guardrails,
+        "diagnostics_reported_only": {
+            "freeform_refll": freeform_diagnostic,
         },
         "secondary_reported_only": secondary,
         "weights_config": weights,
         "inputs": {
             "mcq_result": mcq_result_path.as_posix(),
-            "freeform_refll_result": freeform_result_path.as_posix(),
+            "freeform_refll_result": freeform_result_path.as_posix()
+            if freeform_result_path is not None
+            else None,
             "rubric_result": rubric_result_path.as_posix() if rubric_result_path else None,
         },
     }
@@ -254,6 +337,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--freeform-device", default="cuda")
     parser.add_argument("--freeform-limit", type=int, default=None)
     parser.add_argument("--mock-freeform-model", action="store_true")
+    parser.add_argument(
+        "--run-freeform-diagnostic",
+        action="store_true",
+        help="Run score_refll.py as an optional reported-only diagnostic when ref-LL is not primary.",
+    )
 
     parser.add_argument(
         "--rubric-result",
@@ -269,13 +357,22 @@ def main(argv: list[str] | None = None) -> int:
     weights = load_json(weights_path)
     validate_weights(weights, weights_path)
 
-    # Frozen equal weights are a neutral starting prior, not a tuned choice. The
-    # MCQ component is option-set-normalized so rare full-vocabulary collapse at
-    # the letter position cannot dominate the arithmetic mean.
+    # The first C3 climbable primary is MCQ option-set LL only. Ref-LL is
+    # optional/report-only unless the frozen policy explicitly gives it
+    # non-zero weight after same-lineage calibration.
     mcq_result_path = ensure_mcq_result(args)
-    freeform_result_path = ensure_freeform_result(args)
-    if args.dry_run and (not mcq_result_path.exists() or not freeform_result_path.exists()):
+    freeform_required = float(weights["freeform_ref_ll_weight"]) != 0.0
+    freeform_result_path = ensure_freeform_result(args, required=freeform_required)
+    if args.dry_run and (
+        not mcq_result_path.exists()
+        or (
+            freeform_required
+            and (freeform_result_path is None or not freeform_result_path.exists())
+        )
+    ):
         return 0
+    if args.dry_run and freeform_result_path is not None and not freeform_result_path.exists():
+        freeform_result_path = None
     rubric_result_path = Path(args.rubric_result) if args.rubric_result else None
     result = build_result(weights, mcq_result_path, freeform_result_path, rubric_result_path)
 
@@ -291,6 +388,10 @@ def main(argv: list[str] | None = None) -> int:
             f"weight={component['weight']:.6f} "
             f"contribution={component['contribution']:.8f}"
         )
+    refll = result["diagnostics_reported_only"]["freeform_refll"]
+    print(f"freeform_refll_status={refll['status']}")
+    print(f"freeform_refll_role={refll['role']}")
+    print(f"cross_model_refll_comparison={refll['cross_model_refll_comparison']}")
     print("secondary_metrics=reported_only_not_used_for_accept_revert")
     print(f"mcq_argmax_accuracy={result['secondary_reported_only']['mcq_argmax_accuracy']}")
     print(f"freeform_rubric_percent={result['secondary_reported_only']['freeform_rubric_percent']}")

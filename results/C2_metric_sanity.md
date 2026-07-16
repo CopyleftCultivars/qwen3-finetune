@@ -2,6 +2,20 @@
 
 Date: 2026-07-15
 
+Policy update, 2026-07-16 (#51): `autoresearch/objective_weights.json` now uses
+`autoresearch_primary_objective_policy_v2`. The first C3 climbable primary is **MCQ
+option-set LL only**:
+
+```text
+primary = 1.0 * mcq_mean_option_set_gold_logprob
+```
+
+Free-form ref-LL is **not** a cross-approach comparator and is excluded from the first
+C3 primary (`freeform_ref_ll_weight = 0.0`). It may be reported only as a labelled
+diagnostic / same-lineage proxy after chat-template scoring and calibration. Cross-
+approach quality sanity must come from generation accuracy and/or the rubric guard, not
+from raw v2-vs-v3 ref-LL.
+
 Status: **BLOCKED / failed acceptance, do not close #23 or start #24 from this result.**
 
 ## Objective Under Test
@@ -262,4 +276,3 @@ and anchors are. C1's freeze does not currently cover the scorer code itself.
 3. Add the scorer code to the frozen manifest once its prompt shape is settled.
 
 Sealed test set (`eval_freeform/test.jsonl`, 60 items) was **not** touched by this rerun.
-
