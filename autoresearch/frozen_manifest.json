@@ -8,8 +8,18 @@
     },
     "autoresearch/objective_weights.json": {
       "kind": "file",
-      "note": "frozen primary objective weights; not tuned or learned by the loop",
-      "sha256": "ce42b654014570040330e29453ec603cb16f640e9c9d58ee66681d8f19d7e790"
+      "note": "frozen primary objective policy; not tuned or learned by the loop",
+      "sha256": "480daa7f28529de17c12db8156d4425315d86f2ec4dcfe3bc434467b7e70f76a"
+    },
+    "autoresearch/score_mcq_ll.py": {
+      "kind": "file",
+      "note": "frozen MCQ option-set log-likelihood scorer code",
+      "sha256": "0865d43ec2649eaff6cc45a25cfce7c891ce04315f55274104c38d16b8e41d27"
+    },
+    "autoresearch/score_primary.py": {
+      "kind": "file",
+      "note": "frozen primary objective combiner code",
+      "sha256": "ac999cd91647226a5313bba859c384e54f5c86817e86cc12345e55e334ff00d5"
     },
     "data/val.jsonl": {
       "kind": "file",
@@ -31,10 +41,20 @@
       "note": "free-form rubric grader anchor set",
       "sha256": "e1685b2abea4a6271cd8c5c591e2b1854cf13bc75ba14193b11028b8871a37d5"
     },
+    "eval_freeform/score_refll.py": {
+      "kind": "file",
+      "note": "frozen free-form reference log-likelihood scorer code",
+      "sha256": "9ec2a8fdf5338dac92d3f213013ac3051efda53d92c7d5db66f1b55e43bf549c"
+    },
+    "eval_freeform/score_rubric.py": {
+      "kind": "file",
+      "note": "frozen free-form rubric scorer code",
+      "sha256": "914e8069ca0b6dfad59cb4b35b324174ba56aae6aba0af12a9e7f7cd79523cca"
+    },
     "eval_freeform/scorer_config.json": {
       "kind": "file",
       "note": "pinned free-form scorer model/version/config",
-      "sha256": "a2cf4d3c8930df48867e85a77ff84cd811ada939d6565ceaf46a0bfbdd9011dc"
+      "sha256": "74a9101089d5341624f0e8c9588ba7c509ed48629e8948d05595846356366b38"
     },
     "eval_freeform/split_manifest.json": {
       "kind": "file",
@@ -47,5 +67,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-15T21:47:46+00:00"
+  "generated_at": "2026-07-16T16:41:00+00:00"
 }

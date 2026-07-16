@@ -47,12 +47,28 @@ FROZEN_PATHS = [
         "pinned free-form scorer model/version/config",
     ),
     FrozenPath(
+        "eval_freeform/score_refll.py",
+        "frozen free-form reference log-likelihood scorer code",
+    ),
+    FrozenPath(
+        "eval_freeform/score_rubric.py",
+        "frozen free-form rubric scorer code",
+    ),
+    FrozenPath(
         "eval_freeform/grader_anchors.jsonl",
         "free-form rubric grader anchor set",
     ),
     FrozenPath(
+        "autoresearch/score_primary.py",
+        "frozen primary objective combiner code",
+    ),
+    FrozenPath(
+        "autoresearch/score_mcq_ll.py",
+        "frozen MCQ option-set log-likelihood scorer code",
+    ),
+    FrozenPath(
         "autoresearch/objective_weights.json",
-        "frozen primary objective weights; not tuned or learned by the loop",
+        "frozen primary objective policy; not tuned or learned by the loop",
     ),
     # TODO #23: add sealed MCQ test set once C3/C4 exists.
 ]
