@@ -17,7 +17,11 @@ from pathlib import Path
 from typing import Any
 
 
-PROMPT_TEMPLATE = """\
+DEFAULT_CONFIG = "eval_freeform/scorer_config.json"
+CHAT_ASSISTANT_REFERENCE_MODE = "chat_assistant_reference_v1"
+LEGACY_BARE_REFERENCE_PREFIX_MODE = "legacy_bare_reference_prefix_v1"
+SUPPORTED_PROMPT_MODES = (CHAT_ASSISTANT_REFERENCE_MODE, LEGACY_BARE_REFERENCE_PREFIX_MODE)
+LEGACY_PROMPT_TEMPLATE = """\
 Question:
 {question}
 
@@ -45,8 +49,76 @@ def validate_item(row: dict[str, Any]) -> None:
             raise ValueError(f"line {row.get('_line_number')}: missing required key {key!r}")
 
 
+def load_config(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        raise FileNotFoundError(f"scorer config not found: {path}")
+    config = json.loads(path.read_text(encoding="utf-8"))
+    prompt_mode = config.get("refll_prompt_mode")
+    if prompt_mode not in SUPPORTED_PROMPT_MODES:
+        raise ValueError(
+            f"{path}: refll_prompt_mode must be one of {SUPPORTED_PROMPT_MODES}, got {prompt_mode!r}"
+        )
+    return config
+
+
 def stable_tokenize(text: str) -> list[str]:
     return re.findall(r"\S+", text)
+
+
+def chat_template_fingerprint(tokenizer: Any) -> str | None:
+    template = getattr(tokenizer, "chat_template", None)
+    if template is None:
+        return None
+    if not isinstance(template, str):
+        template = json.dumps(template, sort_keys=True)
+    return hashlib.sha256(template.encode("utf-8")).hexdigest()
+
+
+def apply_chat_prompt(tokenizer: Any, question: str, enable_thinking: bool) -> str:
+    messages = [{"role": "user", "content": question}]
+    try:
+        return tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+            enable_thinking=enable_thinking,
+        )
+    except TypeError as exc:
+        raise TypeError(
+            "tokenizer.apply_chat_template did not accept the pinned enable_thinking argument; "
+            "use a tokenizer/chat template that supports the configured Qwen chat surface"
+        ) from exc
+
+
+def prompt_metadata(
+    *,
+    prompt_mode: str,
+    enable_thinking: bool | None,
+    tokenizer: Any | None = None,
+) -> dict[str, Any]:
+    if prompt_mode == CHAT_ASSISTANT_REFERENCE_MODE:
+        metadata: dict[str, Any] = {
+            "prompt_mode": CHAT_ASSISTANT_REFERENCE_MODE,
+            "prompt_template": CHAT_ASSISTANT_REFERENCE_MODE,
+            "chat_template_used": True,
+            "chat_template_source": "tokenizer.apply_chat_template",
+            "refll_chat_template_enable_thinking": enable_thinking,
+            "legacy_non_gating": False,
+        }
+        if tokenizer is not None:
+            metadata["chat_template_sha256"] = chat_template_fingerprint(tokenizer)
+        return metadata
+    if prompt_mode == LEGACY_BARE_REFERENCE_PREFIX_MODE:
+        return {
+            "prompt_mode": LEGACY_BARE_REFERENCE_PREFIX_MODE,
+            "prompt_template": LEGACY_BARE_REFERENCE_PREFIX_MODE,
+            "chat_template_used": False,
+            "chat_template_source": None,
+            "refll_chat_template_enable_thinking": None,
+            "legacy_non_gating": True,
+            "legacy_policy": "historical_reproduction_only_not_for_gates",
+        }
+    raise ValueError(f"unsupported prompt mode: {prompt_mode!r}")
 
 
 def mock_score(row: dict[str, Any], model: str) -> dict[str, Any]:
@@ -67,7 +139,53 @@ def mock_score(row: dict[str, Any], model: str) -> dict[str, Any]:
     }
 
 
-def real_model_score(rows: list[dict[str, Any]], model_path: str, device: str) -> list[dict[str, Any]]:
+def build_model_inputs(
+    tokenizer: Any,
+    row: dict[str, Any],
+    prompt_mode: str,
+    enable_thinking: bool,
+    device: str,
+) -> tuple[Any, Any, dict[str, Any]]:
+    import torch
+
+    reference = row["reference_answer"]
+    if prompt_mode == CHAT_ASSISTANT_REFERENCE_MODE:
+        prompt = apply_chat_prompt(tokenizer, row["question"], enable_thinking)
+        prompt_ids = tokenizer(prompt, return_tensors="pt", add_special_tokens=False).input_ids
+        target_ids = tokenizer(reference, return_tensors="pt", add_special_tokens=False).input_ids
+        if target_ids.shape[1] == 0:
+            raise ValueError(f"item {row['id']}: reference answer produced no target tokens")
+        full_ids = torch.cat([prompt_ids, target_ids], dim=1).to(device)
+        prompt_ids = prompt_ids.to(device)
+        return prompt_ids, full_ids, prompt_metadata(
+            prompt_mode=prompt_mode,
+            enable_thinking=enable_thinking,
+            tokenizer=tokenizer,
+        )
+
+    if prompt_mode == LEGACY_BARE_REFERENCE_PREFIX_MODE:
+        prompt = LEGACY_PROMPT_TEMPLATE.format(question=row["question"])
+        prompt_ids = tokenizer(prompt, return_tensors="pt", add_special_tokens=False).input_ids.to(device)
+        full_ids = tokenizer(prompt + reference, return_tensors="pt", add_special_tokens=False).input_ids.to(device)
+        if full_ids.shape[1] <= prompt_ids.shape[1]:
+            raise ValueError(f"item {row['id']}: reference answer produced no target tokens")
+        return prompt_ids, full_ids, prompt_metadata(
+            prompt_mode=prompt_mode,
+            enable_thinking=None,
+            tokenizer=tokenizer,
+        )
+
+    raise ValueError(f"unsupported prompt mode: {prompt_mode!r}")
+
+
+def real_model_score(
+    rows: list[dict[str, Any]],
+    model_path: str,
+    device: str,
+    *,
+    prompt_mode: str,
+    enable_thinking: bool,
+) -> list[dict[str, Any]]:
     try:
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -91,12 +209,13 @@ def real_model_score(rows: list[dict[str, Any]], model_path: str, device: str) -
     results: list[dict[str, Any]] = []
     with torch.no_grad():
         for row in rows:
-            prompt = PROMPT_TEMPLATE.format(question=row["question"])
-            reference = row["reference_answer"]
-            prompt_ids = tokenizer(prompt, return_tensors="pt", add_special_tokens=False).input_ids.to(device)
-            full_ids = tokenizer(prompt + reference, return_tensors="pt", add_special_tokens=False).input_ids.to(device)
-            if full_ids.shape[1] <= prompt_ids.shape[1]:
-                raise ValueError(f"item {row['id']}: reference answer produced no target tokens")
+            prompt_ids, full_ids, metadata = build_model_inputs(
+                tokenizer,
+                row,
+                prompt_mode,
+                enable_thinking,
+                device,
+            )
 
             labels = full_ids.clone()
             labels[:, : prompt_ids.shape[1]] = -100
@@ -112,7 +231,9 @@ def real_model_score(rows: list[dict[str, Any]], model_path: str, device: str) -
                     "total_logprob": -total_nll,
                     "mean_logprob": -total_nll / target_count,
                     "mean_nll": total_nll / target_count,
-                    "prompt_template": "question_reference_answer_prefix_v1",
+                    "prompt_token_count": int(prompt_ids.shape[1]),
+                    "target_token_count": target_count,
+                    **metadata,
                 }
             )
     return results
@@ -138,16 +259,28 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", required=True, help="Model path/name, or mock model label with --mock-model")
     parser.add_argument("--input", required=True, help="Free-form item JSONL")
     parser.add_argument("--output", required=True, help="Output JSON")
+    parser.add_argument("--config", default=DEFAULT_CONFIG, help="Pinned scorer config JSON")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--mock-model", action="store_true", help="No torch/transformers; deterministic smoke scorer")
     parser.add_argument("--draft-only", action="store_true", help="Mark output as draft-only/non-reportable")
+    parser.add_argument(
+        "--prompt-mode",
+        choices=SUPPORTED_PROMPT_MODES,
+        default=None,
+        help="Override config refll_prompt_mode; use legacy mode only for historical reproduction",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     random.seed(0)
+
+    config_path = Path(args.config)
+    config = load_config(config_path)
+    prompt_mode = args.prompt_mode or str(config["refll_prompt_mode"])
+    enable_thinking = bool(config.get("refll_chat_template_enable_thinking", False))
 
     rows = load_jsonl(Path(args.input), args.limit)
     if not rows:
@@ -164,21 +297,41 @@ def main(argv: list[str] | None = None) -> int:
                     "id": row["id"],
                     "type": row.get("type"),
                     "source_doc": row.get("source_doc"),
-                    "prompt_template": "mock_question_reference_answer_prefix_v1",
+                    "prompt_token_count": None,
+                    "target_token_count": score["token_count"],
+                    **prompt_metadata(
+                        prompt_mode=prompt_mode,
+                        enable_thinking=enable_thinking if prompt_mode == CHAT_ASSISTANT_REFERENCE_MODE else None,
+                    ),
                     **score,
                 }
             )
     else:
-        per_item = real_model_score(rows, args.model, args.device)
+        per_item = real_model_score(
+            rows,
+            args.model,
+            args.device,
+            prompt_mode=prompt_mode,
+            enable_thinking=enable_thinking,
+        )
 
     result = {
         "summary": {
             "model": args.model,
             "model_mode": "mock" if args.mock_model else "transformers",
             "input": args.input,
+            "scorer_config": config_path.as_posix(),
+            "scorer_config_format": config.get("format"),
             "device": args.device,
             "draft_only_non_reportable": args.draft_only,
             "deterministic": True,
+            "prompt_mode": prompt_mode,
+            "prompt_mode_source": "cli_override" if args.prompt_mode else "scorer_config",
+            "chat_template_used": prompt_mode == CHAT_ASSISTANT_REFERENCE_MODE,
+            "refll_chat_template_enable_thinking": (
+                enable_thinking if prompt_mode == CHAT_ASSISTANT_REFERENCE_MODE else None
+            ),
+            "legacy_non_gating": prompt_mode == LEGACY_BARE_REFERENCE_PREFIX_MODE,
             **aggregate(per_item),
         },
         "per_item": per_item,
@@ -192,6 +345,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"scored_items={result['summary']['scored_items']}")
     print(f"total_reference_tokens={result['summary']['total_reference_tokens']}")
     print(f"mean_reference_logprob_per_token={result['summary']['mean_reference_logprob_per_token']:.8f}")
+    print(f"prompt_mode={prompt_mode}")
+    print(f"chat_template_used={result['summary']['chat_template_used']}")
     print(f"mock_model={args.mock_model}")
     print(f"draft_only_non_reportable={args.draft_only}")
     return 0
