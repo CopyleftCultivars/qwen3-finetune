@@ -6,7 +6,10 @@
   "divergence_alarm": "If score_refll improves while score_rubric falls, investigate reference-surface learning before accepting the run.",
   "format": "eval_freeform_scorer_config_v1",
   "grader_version_policy": "Changing routine_model or audit_model invalidates historical rubric scores.",
-  "refll_prompt_template": "question_reference_answer_prefix_v1",
+  "refll_chat_template_enable_thinking": false,
+  "refll_legacy_prompt_mode_policy": "legacy_bare_reference_prefix_v1 is for historical reproduction only and must not be used by gates.",
+  "refll_prompt_mode": "chat_assistant_reference_v1",
+  "refll_prompt_template": "chat_assistant_reference_v1",
   "routine_model": "anthropic/claude-haiku-4-5",
   "rubric_output_schema": "per_point_boolean_verdicts_v1",
   "temperature": 0.0
