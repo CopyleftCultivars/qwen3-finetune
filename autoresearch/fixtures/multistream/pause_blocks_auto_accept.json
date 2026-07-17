@@ -1,0 +1,141 @@
+{
+  "accepted_stream_id": null,
+  "baseline_run_name": "v3-clean",
+  "batch_id": "fixture-pause_blocks_auto_accept",
+  "batch_outcome": "paused",
+  "format": "autoresearch_journal_batch_v1",
+  "sealed_test_audit": {
+    "forbidden_paths": [
+      "eval_freeform/test.jsonl"
+    ],
+    "hits": [],
+    "passed": true
+  },
+  "streams": [
+    {
+      "commands": {
+        "finetune": "python autoresearch/finetune.py --config autoresearch/configs/smoke-test.yaml --run-name ms-perm-a --dry-run",
+        "gate": "python autoresearch/gate.py --baseline results/primary_objective_v3_clean.json --candidate results/primary_ms-perm-a.json --guardrails results/guardrails_ms-perm-a.json --output results/gate_ms-perm-a.json"
+      },
+      "config_path": "autoresearch/configs/smoke-test.yaml",
+      "final_outcome": "paused",
+      "gate_decision": {
+        "baseline_primary": -1.3,
+        "candidate_primary": -0.5202032466000001,
+        "decision": "accept",
+        "format": "autoresearch_gate_decision_v1",
+        "primary_delta": 0.7797967534,
+        "primary_delta_standard_errors": 2.0800216855140095,
+        "primary_delta_threshold": 0.7497967534,
+        "primary_standard_error": 0.3748983767,
+        "reasons": {
+          "metric": [],
+          "pause_guardrails": [],
+          "reject_guardrails": []
+        },
+        "recommended_action": "keep_candidate"
+      },
+      "guardrails": {
+        "bias": {
+          "letter_distribution": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          }
+        },
+        "compute": {
+          "elapsed_minutes": 10.0
+        },
+        "forgetting": {
+          "baseline_score": 0.8,
+          "candidate_score": 0.79
+        },
+        "grader_anchor": {
+          "max_abs_drift": 0.02
+        },
+        "rubric": {
+          "baseline_percent": 85.0,
+          "candidate_percent": 83.0
+        },
+        "sealed_test_access": {
+          "touched": false
+        }
+      },
+      "hypothesis": "Targeted permutation augmentation on position_unstable categories (34 dev items; cites results/jspace_category_summary.json) raises the primary metric",
+      "lever_tier": "tier2",
+      "metrics": {
+        "baseline_primary": -1.3,
+        "candidate_primary": -0.5202032466000001,
+        "primary_delta": 0.7797967534
+      },
+      "rank_in_batch": 2,
+      "run_name": "ms-perm-a",
+      "stream_id": "s1"
+    },
+    {
+      "commands": {
+        "finetune": "python autoresearch/finetune.py --config autoresearch/configs/smoke-test.yaml --run-name ms-surf-b --dry-run",
+        "gate": "python autoresearch/gate.py --baseline results/primary_objective_v3_clean.json --candidate results/primary_ms-surf-b.json --guardrails results/guardrails_ms-surf-b.json --output results/gate_ms-surf-b.json"
+      },
+      "config_path": "autoresearch/configs/smoke-test.yaml",
+      "final_outcome": "paused",
+      "gate_decision": {
+        "baseline_primary": -1.3,
+        "candidate_primary": -0.5002032466,
+        "decision": "pause",
+        "format": "autoresearch_gate_decision_v1",
+        "primary_delta": 0.7997967534,
+        "primary_delta_standard_errors": 2.133369475856682,
+        "primary_delta_threshold": 0.7497967534,
+        "primary_standard_error": 0.3748983767,
+        "reasons": {
+          "metric": [],
+          "pause_guardrails": [
+            "grader_anchor_drift_exceeded drift=0.5000 limit=0.1000"
+          ],
+          "reject_guardrails": []
+        },
+        "recommended_action": "pause_for_human"
+      },
+      "guardrails": {
+        "bias": {
+          "letter_distribution": {
+            "A": 0.25,
+            "B": 0.25,
+            "C": 0.25,
+            "D": 0.25
+          }
+        },
+        "compute": {
+          "elapsed_minutes": 10.0
+        },
+        "forgetting": {
+          "baseline_score": 0.8,
+          "candidate_score": 0.79
+        },
+        "grader_anchor": {
+          "max_abs_drift": 0.5
+        },
+        "rubric": {
+          "baseline_percent": 85.0,
+          "candidate_percent": 83.0
+        },
+        "sealed_test_access": {
+          "touched": false
+        }
+      },
+      "hypothesis": "answer-prefix SFT format surfaces present_unsurfaced knowledge in natural_fertilizers (7/10 dev items; cites results/jspace_item_signals.jsonl) raising the primary metric",
+      "lever_tier": "tier2",
+      "metrics": {
+        "baseline_primary": -1.3,
+        "candidate_primary": -0.5002032466,
+        "primary_delta": 0.7997967534
+      },
+      "rank_in_batch": 1,
+      "run_name": "ms-surf-b",
+      "stream_id": "s2"
+    }
+  ],
+  "timestamp_utc": "2026-07-17T00:00:00+00:00"
+}
