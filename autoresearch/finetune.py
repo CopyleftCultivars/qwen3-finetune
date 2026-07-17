@@ -16,6 +16,8 @@ Default data-source choice for this skeleton:
 from __future__ import annotations
 
 import argparse
+import json
+import random
 import subprocess
 import sys
 from pathlib import Path
@@ -28,6 +30,31 @@ DEFAULT_CONVERSATIONS = "data/sources/gemma4/hf_dataset/train.jsonl"
 DEFAULT_QMD_MCQ = "data/sources/qmd_mcq_all_phase3.jsonl"
 DEFAULT_DATASET_OUTPUT_DIR = "data"
 DEFAULT_OUTPUT_ROOT = "outputs"
+
+# J-space routing hooks (chainlink #58). Buckets must match the frozen
+# jspace_config.json surface; the prefix map covers every _source_question_id
+# prefix in the QMD MCQ pool (verified 311/311).
+JSPACE_BUCKETS = (
+    "robust",
+    "absent",
+    "late_weak",
+    "present_unsurfaced",
+    "format_sensitive",
+    "position_unstable",
+)
+JSPACE_ID_PREFIX_CATEGORIES = {
+    "AG": "agroecology",
+    "CONV": "conversations",
+    "IFS": "integrated_farming_systems",
+    "ITK": "indigenous_and_traditional_knowledge",
+    "NF": "natural_fertilizers",
+    "OF": "organic_farming",
+    "PC": "permaculture",
+    "RA": "regenerative_agriculture",
+    "SS": "soil_science_and_microbiology",
+    "SWM": "sustainable_water_management",
+}
+SEALED_PATH_FRAGMENTS = ("eval_freeform/test.jsonl",)
 
 
 def _run(argv: list[str], dry_run: bool) -> None:
@@ -153,6 +180,125 @@ def _merge_argv(args: argparse.Namespace) -> list[str]:
     return argv
 
 
+def _jspace_category(record: dict[str, Any]) -> str:
+    prefix = str(record.get("_source_question_id", "")).split("-")[0]
+    return JSPACE_ID_PREFIX_CATEGORIES.get(prefix, "unknown")
+
+
+def _jspace_select(args: argparse.Namespace) -> Path:
+    """Filter the raw QMD MCQ source by J-space bucket/category evidence.
+
+    Returns the path of the filtered source file to hand to
+    prepare_dataset_v3.py. Letter balance is unaffected: it is enforced
+    downstream by cyclic-shift expansion, exactly as with --synth-item-count.
+    """
+    signals_path = Path(args.jspace_signals)
+    for fragment in SEALED_PATH_FRAGMENTS:
+        if fragment in signals_path.as_posix():
+            raise SystemExit(f"refusing to read sealed test path: {signals_path}")
+    signals = [
+        json.loads(line)
+        for line in signals_path.open(encoding="utf-8")
+        if line.strip()
+    ]
+
+    buckets = args.jspace_bucket.split(",") if args.jspace_bucket else []
+    if args.jspace_category:
+        target_categories = sorted(set(args.jspace_category.split(",")))
+    else:
+        target_categories = sorted(
+            {
+                row["category"]
+                for row in signals
+                if row["bucket"] in buckets and row["category"] != "unknown"
+            }
+        )
+    evidence_counts: dict[str, dict[str, int]] = {}
+    for row in signals:
+        if row["category"] in target_categories and (
+            not buckets or row["bucket"] in buckets
+        ):
+            per_cat = evidence_counts.setdefault(row["category"], {})
+            per_cat[row["bucket"]] = per_cat.get(row["bucket"], 0) + 1
+
+    source_path = Path(args.qmd_mcq)
+    records = [
+        json.loads(line)
+        for line in source_path.open(encoding="utf-8")
+        if line.strip()
+    ]
+    targeted_ids = sorted(
+        str(r["_source_question_id"])
+        for r in records
+        if _jspace_category(r) in target_categories
+    )
+
+    capped_ids = targeted_ids
+    if args.jspace_max_items is not None and len(targeted_ids) > args.jspace_max_items:
+        capped_ids = sorted(
+            random.Random(args.seed).sample(targeted_ids, args.jspace_max_items)
+        )
+
+    if args.jspace_action == "include":
+        kept_ids = set(capped_ids)
+    elif args.jspace_action == "exclude":
+        kept_ids = {
+            str(r["_source_question_id"])
+            for r in records
+            if _jspace_category(r) not in target_categories
+        }
+    else:  # cap: keep everything except targeted overflow beyond the cap
+        dropped = set(targeted_ids) - set(capped_ids)
+        kept_ids = {
+            str(r["_source_question_id"]) for r in records
+        } - dropped
+    kept = [r for r in records if str(r["_source_question_id"]) in kept_ids]
+
+    suffix = _dataset_suffix(args)
+    filtered_path = Path(args.dataset_output_dir) / f"qmd_mcq_jspace{suffix}.jsonl"
+    with filtered_path.open("w", encoding="utf-8") as handle:
+        for record in kept:
+            handle.write(json.dumps(record, sort_keys=True) + "\n")
+
+    kept_by_category: dict[str, int] = {}
+    for record in kept:
+        category = _jspace_category(record)
+        kept_by_category[category] = kept_by_category.get(category, 0) + 1
+    artifact = {
+        "jspace_signals": signals_path.as_posix(),
+        "action": args.jspace_action,
+        "buckets": buckets,
+        "target_categories": target_categories,
+        "signal_evidence_counts": evidence_counts,
+        "seed": args.seed,
+        "source": source_path.as_posix(),
+        "source_records": len(records),
+        "targeted_records": len(targeted_ids),
+        "kept_records": len(kept),
+        "kept_by_category": dict(sorted(kept_by_category.items())),
+        "kept_targeted_ids": sorted(kept_ids & set(targeted_ids)),
+        "dropped_ids": sorted(
+            {str(r["_source_question_id"]) for r in records} - kept_ids
+        ),
+        "filtered_qmd_path": filtered_path.as_posix(),
+    }
+    artifact_path = Path(args.output_root) / f"jspace-selection-{args.run_name}.json"
+    artifact_path.parent.mkdir(parents=True, exist_ok=True)
+    with artifact_path.open("w", encoding="utf-8") as handle:
+        json.dump(artifact, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+
+    print(
+        f"jspace selection: action={args.jspace_action} buckets={buckets or 'n/a'} "
+        f"categories={target_categories}"
+    )
+    print(
+        f"jspace selection: kept {len(kept)}/{len(records)} QMD records "
+        f"({len(targeted_ids)} targeted); artifact {artifact_path.as_posix()}"
+    )
+    return filtered_path
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Checksum-gated autoresearch fine-tune harness.",
@@ -232,6 +378,37 @@ def build_parser() -> argparse.ArgumentParser:
         help="Cap/subsample raw QMD MCQ records before cyclic shift expansion",
     )
 
+    # Tier 3 J-space routing hooks (chainlink #58). Opt-in and narrow:
+    # baseline behavior is unchanged unless --jspace-signals is passed.
+    parser.add_argument(
+        "--jspace-signals",
+        default=None,
+        metavar="PATH",
+        help="J-space item-signals JSONL (results/jspace_item_signals.jsonl)",
+    )
+    parser.add_argument(
+        "--jspace-bucket",
+        default=None,
+        help="Comma-separated J-space buckets whose evidence picks target categories",
+    )
+    parser.add_argument(
+        "--jspace-category",
+        default=None,
+        help="Comma-separated category override; defaults to categories with bucket evidence",
+    )
+    parser.add_argument(
+        "--jspace-max-items",
+        type=int,
+        default=None,
+        help="Cap on targeted QMD records (seeded deterministic subsample)",
+    )
+    parser.add_argument(
+        "--jspace-action",
+        choices=("include", "exclude", "cap"),
+        default="include",
+        help="include: keep only targeted records; exclude: drop them; cap: subsample them",
+    )
+
     # Pass-through model/merge controls; not search dimensions.
     parser.add_argument("--model", default="unsloth/Qwen3-0.6B")
     parser.add_argument("--merge-base", default="Qwen/Qwen3-0.6B")
@@ -299,6 +476,28 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
     if args.conversation_ratio is not None and not 0.0 < args.conversation_ratio < 1.0:
         parser.error("--conversation-ratio must be between 0 and 1 (exclusive)")
 
+    jspace_dependents = (
+        args.jspace_bucket,
+        args.jspace_category,
+        args.jspace_max_items,
+    )
+    if args.jspace_signals is None:
+        if any(value is not None for value in jspace_dependents):
+            parser.error("--jspace-* flags require --jspace-signals")
+    else:
+        if args.jspace_bucket:
+            unknown = sorted(set(args.jspace_bucket.split(",")) - set(JSPACE_BUCKETS))
+            if unknown:
+                parser.error(f"unknown --jspace-bucket value(s): {', '.join(unknown)}")
+        if not args.jspace_bucket and not args.jspace_category:
+            parser.error(
+                "--jspace-signals requires --jspace-bucket and/or --jspace-category"
+            )
+        if args.jspace_max_items is not None and args.jspace_max_items < 1:
+            parser.error("--jspace-max-items must be >= 1")
+        if args.jspace_action == "cap" and args.jspace_max_items is None:
+            parser.error("--jspace-action cap requires --jspace-max-items")
+
 
 def main() -> None:
     args, parser = parse_args()
@@ -309,6 +508,11 @@ def main() -> None:
         [sys.executable, "autoresearch/freeze_manifest.py", "check"],
         check=True,
     )
+
+    # J-space selection runs in dry-run too, so the exact selected ids and
+    # counts are visible before committing to a training run.
+    if args.jspace_signals is not None:
+        args.qmd_mcq = str(_jspace_select(args))
 
     commands = [_prepare_argv(args), _train_argv(args), _merge_argv(args)]
     if args.dry_run:
