@@ -218,9 +218,17 @@ def rank_streams(streams: list[dict[str, Any]]) -> dict[str, int | None]:
 def resolve_tournament(
     streams: list[dict[str, Any]],
     sealed_audit_passed: bool,
+    accept_policy: str = "best_passing",
 ) -> dict[str, Any]:
     """Compute batch_outcome, accepted_stream_id, rank and final_outcome per
-    stream from gate decisions alone, per the module-docstring semantics."""
+    stream from gate decisions alone, per the module-docstring semantics.
+
+    ``accept_policy``: ``best_passing`` (default) picks the gate-accepted
+    stream with the highest candidate primary; ``first_passing`` picks the
+    first gate-accepted stream in ``streams`` order. Sealed-audit and pause
+    handling are identical under both policies."""
+    if accept_policy not in ("best_passing", "first_passing"):
+        raise ValueError(f"unknown accept_policy: {accept_policy!r}")
     ranks = rank_streams(streams)
     decisions = {
         stream["stream_id"]: (stream.get("gate_decision") or {}).get("decision")
@@ -254,13 +262,20 @@ def resolve_tournament(
         accepted_stream_id = None
     else:
         batch_outcome = "accepted"
-        accepted_stream_id = min(
-            accepted_ids,
-            key=lambda sid: (
-                ranks[sid] if ranks[sid] is not None else float("inf"),
-                sid,
-            ),
-        )
+        if accept_policy == "first_passing":
+            accepted_stream_id = next(
+                stream["stream_id"]
+                for stream in streams
+                if outcomes[stream["stream_id"]] == "accepted"
+            )
+        else:
+            accepted_stream_id = min(
+                accepted_ids,
+                key=lambda sid: (
+                    ranks[sid] if ranks[sid] is not None else float("inf"),
+                    sid,
+                ),
+            )
         for stream_id in accepted_ids:
             if stream_id != accepted_stream_id:
                 outcomes[stream_id] = "defeated_in_tournament"

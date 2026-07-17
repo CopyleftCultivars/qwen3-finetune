@@ -15,6 +15,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import yaml
+
+import journal_batch
+
 
 DEFAULT_PROGRAM = "autoresearch/program.md"
 DEFAULT_JOURNAL = "autoresearch/journal.jsonl"
@@ -146,33 +150,318 @@ def build_gate_command(args: argparse.Namespace) -> list[str]:
     ]
 
 
+#: Single-mode arguments that argparse used to mark required=True. They stay
+#: required in single mode (enforced after parsing) but must be absent in
+#: batch mode, where stream spec files carry them per stream.
+SINGLE_MODE_REQUIRED = (
+    "run_name",
+    "hypothesis",
+    "lever_tier",
+    "prior",
+    "predicted_direction",
+    "candidate_edit",
+    "rationale",
+    "baseline_primary",
+    "candidate_primary",
+)
+
+STREAM_SPEC_REQUIRED = (
+    "run_name",
+    "hypothesis",
+    "lever_tier",
+    "prior",
+    "predicted_direction",
+    "candidate_edit",
+    "rationale",
+    "baseline_primary",
+    "candidate_primary",
+)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run one explicit autoresearch iteration and append a journal row.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("--run-name", required=True)
-    parser.add_argument("--hypothesis", required=True)
-    parser.add_argument("--lever-tier", required=True)
-    parser.add_argument("--prior", required=True)
-    parser.add_argument("--predicted-direction", required=True)
-    parser.add_argument("--candidate-edit", required=True)
-    parser.add_argument("--rationale", required=True)
+    parser.add_argument("--run-name", default=None)
+    parser.add_argument("--hypothesis", default=None)
+    parser.add_argument("--lever-tier", default=None)
+    parser.add_argument("--prior", default=None)
+    parser.add_argument("--predicted-direction", default=None)
+    parser.add_argument("--candidate-edit", default=None)
+    parser.add_argument("--rationale", default=None)
     parser.add_argument("--program", default=DEFAULT_PROGRAM)
     parser.add_argument("--journal", default=DEFAULT_JOURNAL)
     parser.add_argument("--finetune-config", default="autoresearch/configs/smoke-test.yaml")
     parser.add_argument("--finetune-dry-run", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--timeout-seconds", type=int, default=1200)
-    parser.add_argument("--baseline-primary", required=True)
-    parser.add_argument("--candidate-primary", required=True)
+    parser.add_argument("--baseline-primary", default=None)
+    parser.add_argument("--candidate-primary", default=None)
     parser.add_argument("--guardrails", default="results/autoresearch_guardrails_smoke.json")
     parser.add_argument("--write-passing-guardrails", action="store_true")
     parser.add_argument("--gate-output", default=DEFAULT_GATE_OUTPUT)
+
+    # Batch tournament mode (Phase 5 M2, chainlink #60). Loop-level
+    # multi-stream: sequential execution, at most one accepted stream.
+    parser.add_argument("--batch-id", default=None)
+    parser.add_argument(
+        "--stream-configs",
+        default=None,
+        help="Comma-separated per-stream YAML spec paths (batch mode)",
+    )
+    parser.add_argument("--max-streams", type=int, default=4)
+    parser.add_argument(
+        "--execution-mode",
+        choices=("sequential", "parallel"),
+        default="sequential",
+    )
+    parser.add_argument(
+        "--accept-policy",
+        choices=("best_passing", "first_passing"),
+        default="best_passing",
+    )
+    parser.add_argument(
+        "--journal-mode",
+        choices=("single", "batch"),
+        default="single",
+    )
+    parser.add_argument("--baseline-run-name", default="v3-clean")
     return parser
 
 
+def load_stream_spec(path: Path, args: argparse.Namespace) -> dict[str, Any]:
+    with path.open(encoding="utf-8") as handle:
+        data = yaml.safe_load(handle)
+    if not isinstance(data, dict):
+        raise SystemExit(f"{path}: expected a flat YAML map")
+    missing = [key for key in STREAM_SPEC_REQUIRED if not data.get(key)]
+    if missing:
+        raise SystemExit(f"{path}: missing stream key(s): {', '.join(missing)}")
+    run_name = str(data["run_name"])
+    spec = {key: str(data[key]) for key in STREAM_SPEC_REQUIRED}
+    spec.update(
+        {
+            "stream_id": str(data.get("stream_id") or path.stem),
+            "spec_path": path.as_posix(),
+            "finetune_config": str(data.get("finetune_config") or args.finetune_config),
+            "finetune_dry_run": bool(data.get("finetune_dry_run", True)),
+            "guardrails": str(
+                data.get("guardrails") or f"results/autoresearch_guardrails_{run_name}.json"
+            ),
+            "gate_output": str(
+                data.get("gate_output") or f"results/autoresearch_gate_{run_name}.json"
+            ),
+            "write_passing_guardrails": bool(data.get("write_passing_guardrails", False)),
+        }
+    )
+    return spec
+
+
+def run_stream(
+    spec: dict[str, Any],
+    args: argparse.Namespace,
+    root: Path,
+) -> tuple[dict[str, Any], list[str]]:
+    """Run manifest check, finetune, and gate for one stream.
+
+    Failures do not abort the batch: the stream is journaled as failed_run
+    (gate_decision null) and the tournament continues.
+    """
+    if spec["write_passing_guardrails"]:
+        default_passing_guardrails(root / spec["guardrails"])
+
+    commands: dict[str, str] = {}
+    audit_strings: list[str] = []
+    failure_stage = None
+    gate_result: dict[str, Any] | None = None
+
+    steps: list[tuple[str, list[str]]] = [
+        (
+            "manifest",
+            [sys.executable, "autoresearch/freeze_manifest.py", "check"],
+        ),
+        (
+            "finetune",
+            [
+                sys.executable,
+                "autoresearch/finetune.py",
+                "--config",
+                spec["finetune_config"],
+                "--run-name",
+                spec["run_name"],
+            ]
+            + (["--dry-run"] if spec["finetune_dry_run"] else []),
+        ),
+        (
+            "gate",
+            [
+                sys.executable,
+                "autoresearch/gate.py",
+                "--baseline",
+                spec["baseline_primary"],
+                "--candidate",
+                spec["candidate_primary"],
+                "--guardrails",
+                spec["guardrails"],
+                "--output",
+                spec["gate_output"],
+            ],
+        ),
+    ]
+    for stage, argv in steps:
+        result = run_command(argv, timeout_seconds=args.timeout_seconds, dry_run=False)
+        commands[stage] = result["command"]
+        audit_strings.extend([result["command"], result["stdout"], result["stderr"]])
+        if int(result["returncode"]) != 0:
+            failure_stage = stage
+            print(f"stream {spec['stream_id']}: {stage} failed -> failed_run")
+            break
+    else:
+        gate_result = load_json(root / spec["gate_output"])
+
+    metrics = {
+        "baseline_primary": gate_result.get("baseline_primary") if gate_result else None,
+        "candidate_primary": gate_result.get("candidate_primary") if gate_result else None,
+        "primary_delta": gate_result.get("primary_delta") if gate_result else None,
+    }
+    audit_strings.extend(
+        [
+            spec["hypothesis"],
+            spec["candidate_edit"],
+            spec["rationale"],
+            spec["baseline_primary"],
+            spec["candidate_primary"],
+            spec["guardrails"],
+            spec["gate_output"],
+            spec["finetune_config"],
+        ]
+    )
+    record = {
+        "stream_id": spec["stream_id"],
+        "run_name": spec["run_name"],
+        "hypothesis": spec["hypothesis"],
+        "lever_tier": spec["lever_tier"],
+        "prior": spec["prior"],
+        "predicted_direction": spec["predicted_direction"],
+        "candidate_edit": spec["candidate_edit"],
+        "rationale": spec["rationale"],
+        "spec_path": spec["spec_path"],
+        "config_path": spec["finetune_config"],
+        "finetune_dry_run": spec["finetune_dry_run"],
+        "commands": commands,
+        "metrics": metrics,
+        "guardrails": spec["guardrails"],
+        "gate_decision": gate_result,
+        "failure_stage": failure_stage,
+        "rank_in_batch": None,
+        "final_outcome": None,
+    }
+    return record, audit_strings
+
+
+def run_batch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
+    root = repo_root()
+    program_text = (root / args.program).read_text(encoding="utf-8")
+    levers_text = (root / "autoresearch/levers.md").read_text(encoding="utf-8")
+
+    if args.execution_mode == "parallel":
+        raise SystemExit(
+            "--execution-mode parallel is not implemented until chainlink #62; "
+            "use sequential"
+        )
+    spec_paths = [
+        Path(part.strip()) for part in args.stream_configs.split(",") if part.strip()
+    ]
+    if not spec_paths:
+        parser.error("--stream-configs is empty")
+    if len(spec_paths) > args.max_streams:
+        parser.error(
+            f"{len(spec_paths)} stream configs exceed --max-streams={args.max_streams}"
+        )
+    specs = [load_stream_spec(root / path, args) for path in spec_paths]
+    for field in ("stream_id", "run_name", "gate_output"):
+        values = [spec[field] for spec in specs]
+        if len(set(values)) != len(values):
+            raise SystemExit(f"stream {field} values collide across streams: {values}")
+
+    records: list[dict[str, Any]] = []
+    audit_inputs = [program_text, levers_text]
+    for spec in specs:
+        record, audit_strings = run_stream(spec, args, root)
+        records.append(record)
+        audit_inputs.extend(audit_strings)
+
+    sealed_audit = audit_sealed_paths(audit_inputs)
+    resolved = journal_batch.resolve_tournament(
+        records, sealed_audit["passed"], accept_policy=args.accept_policy
+    )
+    for record in records:
+        stream_id = record["stream_id"]
+        record["rank_in_batch"] = resolved["rank_in_batch"][stream_id]
+        record["final_outcome"] = resolved["final_outcome"][stream_id]
+
+    row = {
+        "format": journal_batch.BATCH_FORMAT,
+        "timestamp_utc": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat(),
+        "batch_id": args.batch_id,
+        "baseline_run_name": args.baseline_run_name,
+        "accept_policy": args.accept_policy,
+        "execution_mode": args.execution_mode,
+        "program": args.program,
+        "streams": records,
+        "accepted_stream_id": resolved["accepted_stream_id"],
+        "batch_outcome": resolved["batch_outcome"],
+        "sealed_test_audit": sealed_audit,
+    }
+    errors = journal_batch.validate_batch_row(row)
+    if errors:
+        raise SystemExit(f"internal error: batch row failed schema validation: {errors}")
+    append_journal(root / args.journal, row)
+
+    print(f"journal_appended={args.journal}")
+    print(f"batch_id={args.batch_id}")
+    print(f"batch_outcome={row['batch_outcome']}")
+    print(f"accepted_stream_id={row['accepted_stream_id']}")
+    for record in records:
+        print(
+            f"stream {record['stream_id']}: outcome={record['final_outcome']} "
+            f"rank={record['rank_in_batch']}"
+        )
+    print(f"sealed_test_audit_passed={sealed_audit['passed']}")
+    return 0 if sealed_audit["passed"] else 1
+
+
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+    parser = build_parser()
+    args = parser.parse_args(argv)
+
+    batch_requested = (
+        args.journal_mode == "batch"
+        or args.batch_id is not None
+        or args.stream_configs is not None
+    )
+    if batch_requested:
+        if args.journal_mode != "batch":
+            parser.error("batch flags require --journal-mode batch")
+        if args.batch_id is None or args.stream_configs is None:
+            parser.error("batch mode requires --batch-id and --stream-configs")
+        set_single = [
+            name
+            for name in SINGLE_MODE_REQUIRED
+            if getattr(args, name) is not None
+        ]
+        if set_single:
+            parser.error(
+                "single-stream flags are not valid in batch mode "
+                f"(set per stream in the spec files): {', '.join(set_single)}"
+            )
+        return run_batch(args, parser)
+
+    missing = [name for name in SINGLE_MODE_REQUIRED if getattr(args, name) is None]
+    if missing:
+        flags = ", ".join("--" + name.replace("_", "-") for name in missing)
+        parser.error(f"the following arguments are required: {flags}")
+
     root = repo_root()
     program_text = (root / args.program).read_text(encoding="utf-8")
     levers_text = (root / "autoresearch/levers.md").read_text(encoding="utf-8")
@@ -220,7 +509,7 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(f"sealed test path audit failed: {sealed_audit['hits']}")
 
     row = {
-        "timestamp_utc": dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat(),
+        "timestamp_utc": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat(),
         "run_name": args.run_name,
         "hypothesis": args.hypothesis,
         "lever_tier": args.lever_tier,
