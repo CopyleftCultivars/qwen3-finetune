@@ -1,0 +1,40 @@
+{
+  "policy": {
+    "role": "proposer_guidance_only",
+    "statement": "J-space is the Phase 5 active-loop diagnostic because it is cheap, item-level, and directly actionable. It is evidence for choosing a lever, never a primary objective, gate threshold, or score to optimize.",
+    "sealed_test_exclusion": "Sealed test paths (eval_freeform/test.jsonl) are never read for fitting, annotation, routing, or stream selection; jspace_annotator.py refuses them by denylist.",
+    "sae_deferral": "SAE is deferred, not deleted: it becomes relevant only after the loop plateaus, J-space signals are ambiguous, or a compatible low-cost Qwen3-0.6B SAE exists. SAE is not a first-pass autoresearch lever."
+  },
+  "prompt_mode": "chatml_empty_think",
+  "target_tokens": "answer_letters",
+  "lens_layers": "all_fitted",
+  "lens_max_seq_len": 1024,
+  "fit": {
+    "prompt_source": "data/train_v3.jsonl",
+    "prompt_count": 100,
+    "max_seq_len": 128,
+    "checkpoint_every": 10,
+    "dim_batch": 32
+  },
+  "thresholds": {
+    "robust_max_first_layer_frac": 0.7,
+    "robust_min_top1_frac_after_first": 0.8,
+    "weak_margin_nats": 1.0,
+    "late_layer_frac": 0.85,
+    "position_flip_min": 2,
+    "absent_rank_threshold": 20
+  },
+  "interventions": {
+    "robust": "do_not_target",
+    "absent": "add_category_data",
+    "late_weak": "add_rationale_targets",
+    "present_unsurfaced": "adjust_answer_surface",
+    "format_sensitive": "adjust_answer_surface",
+    "position_unstable": "targeted_permutation"
+  },
+  "priority_categories": [
+    "natural_fertilizers",
+    "sustainable_water_management",
+    "soil_science_and_microbiology"
+  ]
+}
