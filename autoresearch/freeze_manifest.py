@@ -82,6 +82,14 @@ FROZEN_PATHS = [
         "autoresearch/run_loop.py",
         "frozen one-iteration loop orchestrator code",
     ),
+    FrozenPath(
+        "autoresearch/jspace_annotator.py",
+        "frozen J-space diagnostic annotator code; proposer guidance only",
+    ),
+    FrozenPath(
+        "autoresearch/jspace_config.json",
+        "frozen J-space diagnostic surface; never an objective or gate input",
+    ),
     # TODO #23: add sealed MCQ test set once C3/C4 exists.
 ]
 
