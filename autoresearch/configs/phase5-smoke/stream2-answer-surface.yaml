@@ -1,0 +1,30 @@
+# Phase 5 smoke stream 2 (chainlink #63): family (d) J-space-guided
+# answer-surface. Dry-run: candidate primary = baseline, so the gate must reject.
+stream_id: surf-nf
+run_name: p5smoke-surface
+hypothesis: >-
+  An answer-prefix SFT target format surfaces mid-layer knowledge the final
+  head overrides: present_unsurfaced is the largest bucket (45/113, 39.8%) in
+  results/jspace_category_summary.json and dominates natural_fertilizers
+  (7/10 items, 0.10 accuracy). Falsified if the primary delta fails the frozen
+  2-SE gate.
+lever_tier: tier2
+prior: >-
+  Frozen jspace_config.json present_unsurfaced -> adjust_answer_surface mapping
+  plus the levers.md SFT target format row. Guardrail risk: rubric guard, since
+  a verbose answer surface could shift free-form style; acceptable because the
+  rubric drop threshold is frozen and enforced.
+predicted_direction: up
+candidate_edit: >-
+  config-only in this dry-run; the real run passes --sft-format answer-prefix
+  to finetune.py
+rationale: >-
+  Stream family (d); primary lever = SFT answer-surface format, distinct from
+  stream 1's permutation lever per program.md diversity rules.
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_objective_v3_clean.json
+guardrails: results/autoresearch_guardrails_p5smoke-surface.json
+write_passing_guardrails: true
+gate_output: results/autoresearch_gate_p5smoke-surface.json
+finetune_config: autoresearch/configs/smoke-test.yaml
+finetune_dry_run: true
