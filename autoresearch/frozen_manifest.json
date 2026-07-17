@@ -11,6 +11,16 @@
       "note": "frozen accept/reject guardrail thresholds and compute budget",
       "sha256": "66023eaa23679c371b87936133a1865da67544eed23eba4f3bde508b47e15417"
     },
+    "autoresearch/jspace_annotator.py": {
+      "kind": "file",
+      "note": "frozen J-space diagnostic annotator code; proposer guidance only",
+      "sha256": "248f221fe55cb57a4a2aee4c9c1d4969a6b389fb284831064b50fcdd57bfe44c"
+    },
+    "autoresearch/jspace_config.json": {
+      "kind": "file",
+      "note": "frozen J-space diagnostic surface; never an objective or gate input",
+      "sha256": "e3565611b52b9e49a50a83a683f3318f5602454a78c808d510ac002de327d46f"
+    },
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
@@ -82,5 +92,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-16T16:53:24+00:00"
+  "generated_at": "2026-07-17T12:53:34+00:00"
 }

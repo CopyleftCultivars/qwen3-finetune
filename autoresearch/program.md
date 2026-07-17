@@ -32,6 +32,20 @@ hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
 - Grader drift: pause for human review if anchor drift exceeds threshold.
 - Sealed tests: reject if any sealed test split is read.
 
+## J-space diagnostic and SAE policy (Phase 5)
+
+- J-space (Jacobian-lens) item signals are the active-loop diagnostic: cheap, item-level, and
+  directly actionable. They are proposer guidance for choosing a lever — never a primary
+  objective, gate threshold, or score to optimize.
+- The diagnostic surface is frozen: `autoresearch/jspace_annotator.py` +
+  `autoresearch/jspace_config.json` (manifest-guarded). Artifacts live at
+  `results/jspace_item_signals.jsonl` / `results/jspace_category_summary.json` and must be
+  regenerated whenever the champion model changes (the lens is model-specific).
+- SAE is deferred, not deleted: it becomes relevant only after the loop plateaus, J-space signals
+  become ambiguous, or a compatible low-cost Qwen3-0.6B SAE exists and can be used without slowing
+  the loop. SAE is not a first-pass autoresearch lever.
+- Sealed test splits are never read for lens fitting, annotation, routing, or stream selection.
+
 ## Diagnosis priors from `levers.md`
 
 - Tier 3 data/format levers are higher-ceiling than Tier 2, which are higher-ceiling than Tier 1
