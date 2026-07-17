@@ -8,6 +8,10 @@ direct read of the current `train.py` / `prepare_dataset_v3.py` parameter surfac
 the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 `adapter_config.json`.
 
+> Multi-stream note (Phase 5, #61): when proposing a tournament batch, each stream moves
+> exactly one lever row from this file, and no two streams may move the same row unless
+> the batch is a labelled micro-sweep. Full stream-diversity rules live in `program.md`.
+
 ## Status legend
 
 - **SETTLED CONSTANT** — diagnosis resolved it; not a search knob, but `finetune.py` must
