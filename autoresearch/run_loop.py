@@ -10,8 +10,10 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import shlex
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -252,8 +254,14 @@ def load_stream_spec(path: Path, args: argparse.Namespace) -> dict[str, Any]:
                 data.get("gate_output") or f"results/autoresearch_gate_{run_name}.json"
             ),
             "write_passing_guardrails": bool(data.get("write_passing_guardrails", False)),
+            "eval_commands": list(data.get("eval_commands") or []),
+            "guardrails_inject_compute": bool(
+                data.get("guardrails_inject_compute", False)
+            ),
         }
     )
+    if not all(isinstance(cmd, str) for cmd in spec["eval_commands"]):
+        raise SystemExit(f"{path}: eval_commands must be a list of command strings")
     return spec
 
 
@@ -270,6 +278,7 @@ def run_stream(
     if spec["write_passing_guardrails"]:
         default_passing_guardrails(root / spec["guardrails"])
 
+    stream_start = time.monotonic()
     commands: dict[str, str] = {}
     audit_strings: list[str] = []
     failure_stage = None
@@ -292,22 +301,10 @@ def run_stream(
             ]
             + (["--dry-run"] if spec["finetune_dry_run"] else []),
         ),
-        (
-            "gate",
-            [
-                sys.executable,
-                "autoresearch/gate.py",
-                "--baseline",
-                spec["baseline_primary"],
-                "--candidate",
-                spec["candidate_primary"],
-                "--guardrails",
-                spec["guardrails"],
-                "--output",
-                spec["gate_output"],
-            ],
-        ),
     ]
+    for index, command_text in enumerate(spec["eval_commands"]):
+        steps.append((f"eval_{index}", shlex.split(command_text)))
+
     for stage, argv in steps:
         result = run_command(argv, timeout_seconds=args.timeout_seconds, dry_run=False)
         commands[stage] = result["command"]
@@ -316,8 +313,42 @@ def run_stream(
             failure_stage = stage
             print(f"stream {spec['stream_id']}: {stage} failed -> failed_run")
             break
-    else:
-        gate_result = load_json(root / spec["gate_output"])
+
+    elapsed_minutes = round((time.monotonic() - stream_start) / 60.0, 2)
+    if failure_stage is None:
+        if spec["guardrails_inject_compute"]:
+            # The stream's real wall clock is known only to this orchestrator;
+            # inject it so the frozen compute guard judges actual elapsed time.
+            guardrails_path = root / spec["guardrails"]
+            payload = load_json(guardrails_path)
+            payload.setdefault("compute", {})["elapsed_minutes"] = elapsed_minutes
+            payload["compute"]["injected_by"] = "run_loop_batch_mode"
+            guardrails_path.write_text(
+                json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            )
+        gate_argv = [
+            sys.executable,
+            "autoresearch/gate.py",
+            "--baseline",
+            spec["baseline_primary"],
+            "--candidate",
+            spec["candidate_primary"],
+            "--guardrails",
+            spec["guardrails"],
+            "--output",
+            spec["gate_output"],
+        ]
+        result = run_command(
+            gate_argv, timeout_seconds=args.timeout_seconds, dry_run=False
+        )
+        commands["gate"] = result["command"]
+        audit_strings.extend([result["command"], result["stdout"], result["stderr"]])
+        if int(result["returncode"]) != 0:
+            failure_stage = "gate"
+            print(f"stream {spec['stream_id']}: gate failed -> failed_run")
+        else:
+            gate_result = load_json(root / spec["gate_output"])
+        elapsed_minutes = round((time.monotonic() - stream_start) / 60.0, 2)
 
     metrics = {
         "baseline_primary": gate_result.get("baseline_primary") if gate_result else None,
@@ -353,6 +384,7 @@ def run_stream(
         "guardrails": spec["guardrails"],
         "gate_decision": gate_result,
         "failure_stage": failure_stage,
+        "elapsed_minutes": elapsed_minutes,
         "rank_in_batch": None,
         "final_outcome": None,
     }

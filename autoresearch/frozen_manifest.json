@@ -34,7 +34,7 @@
     "autoresearch/run_loop.py": {
       "kind": "file",
       "note": "frozen one-iteration loop orchestrator code",
-      "sha256": "d2f7b5347fadb0d9e00f9b9e5aae0c42832d5f3a1433ac8fb36d341dccddc4b8"
+      "sha256": "b71901970b79d439609bbe21ed7d2daf2106c879744a12600c8410ec6999481f"
     },
     "autoresearch/score_mcq_ll.py": {
       "kind": "file",
@@ -92,5 +92,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-17T20:31:13+00:00"
+  "generated_at": "2026-07-17T20:42:54+00:00"
 }
