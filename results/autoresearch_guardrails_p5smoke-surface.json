@@ -1,0 +1,27 @@
+{
+  "bias": {
+    "letter_distribution": {
+      "A": 0.25,
+      "B": 0.25,
+      "C": 0.25,
+      "D": 0.25
+    }
+  },
+  "compute": {
+    "elapsed_minutes": 10.0
+  },
+  "forgetting": {
+    "baseline_score": 0.8,
+    "candidate_score": 0.79
+  },
+  "grader_anchor": {
+    "max_abs_drift": 0.02
+  },
+  "rubric": {
+    "baseline_percent": 85.0,
+    "candidate_percent": 83.0
+  },
+  "sealed_test_access": {
+    "touched": false
+  }
+}

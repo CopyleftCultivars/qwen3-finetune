@@ -1,0 +1,30 @@
+# Phase 5 smoke stream 1 (chainlink #63): family (a) Tier-2 position/order
+# augmentation. Dry-run: candidate primary = baseline, so the gate must reject.
+stream_id: perm-aug
+run_name: p5smoke-perm
+hypothesis: >-
+  Targeted option-order augmentation on position_unstable items raises the
+  option-set gold-LL primary: 34/113 scorable dev MCQs (30.1%) are
+  position_unstable per results/jspace_category_summary.json, with
+  sustainable_water_management worst (9/15). Falsified if the primary delta
+  fails the frozen 2-SE gate.
+lever_tier: tier2
+prior: >-
+  levers.md answer-position shuffle row (highest-confidence Tier-2 target) plus
+  the frozen jspace_config.json position_unstable -> targeted_permutation
+  mapping. Guardrail risk: bias guard, mitigated because shift weighting keeps
+  the letter marginal exactly balanced.
+predicted_direction: up
+candidate_edit: >-
+  config-only in this dry-run; the real run passes --target-permutation-ids
+  seeded from position_unstable item ids in results/jspace_item_signals.jsonl
+rationale: >-
+  Stream family (a); primary lever = permutation augmentation, distinct from
+  stream 2's answer-surface lever per program.md diversity rules.
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_objective_v3_clean.json
+guardrails: results/autoresearch_guardrails_p5smoke-perm.json
+write_passing_guardrails: true
+gate_output: results/autoresearch_gate_p5smoke-perm.json
+finetune_config: autoresearch/configs/smoke-test.yaml
+finetune_dry_run: true
