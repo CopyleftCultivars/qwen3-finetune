@@ -46,6 +46,23 @@ hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
   the loop. SAE is not a first-pass autoresearch lever.
 - Sealed test splits are never read for lens fitting, annotation, routing, or stream selection.
 
+### J-space routing rules for the proposer (Phase 5, #57)
+
+Bucket evidence routes which lever a proposal targets (mapping frozen in
+`jspace_config.json`):
+
+- `absent` → expand category/source data for that category.
+- `late_weak` → rationale targets (confirm on the free-form/rubric axis; MCQ can be blind).
+- `present_unsurfaced` → rationale or answer-surface experiments (`--sft-format`).
+- `format_sensitive` → format / chat-template experiments.
+- `position_unstable` → targeted permutation augmentation.
+- `robust` → do not target, except replay to protect against forgetting.
+
+Every J-space-guided hypothesis must cite: the artifact path
+(`results/jspace_item_signals.jsonl` or `results/jspace_category_summary.json`), the
+category and bucket driving it, and the expected primary-metric movement. J-space evidence
+picks the lever; the frozen primary objective and gate still decide acceptance.
+
 ## Diagnosis priors from `levers.md`
 
 - Tier 3 data/format levers are higher-ceiling than Tier 2, which are higher-ceiling than Tier 1

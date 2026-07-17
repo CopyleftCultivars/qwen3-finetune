@@ -59,13 +59,13 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 
 ---
 
-## Tier 3 — Reasoning (ALL PENDING-UNLOCK — free-form axis required, per plan)
+## Tier 3 — Reasoning (PENDING-UNLOCK except the J-space routing prior, promoted Phase 5 #57)
 
 | Lever | Status | Direction / prior (once unlocked) | Evidence |
 |---|---|---|---|
 | Rationale / CoT targets | PENDING-UNLOCK | **Caveat from B3, read before unlocking:** diagnostic 1's negative real-gen headroom (peak knowledge 37.1% vs 75.2% generation, `headroom=-0.381` on the full 1603Q benchmark) means this is *not* a guaranteed free win — whatever "unsurfaced" signal diagnostic 2 finds under a suppressed-reasoning prompt does not clearly persist once the model actually reasons. If/when unlocked, **aim first at Natural Fertilizers (65.3% acc), Sustainable Water Management (67.9%), Soil Science (68.9%)** — diagnostic 2's lowest-accuracy, majority-"unsurfaced" categories. Sustainable Water Mgmt is a distinct sub-case (signal arrives at layer 21/27 vs 1–3/27 elsewhere — late/weak, may need different treatment). | B3 diagnostics 1 & 2, full results in `../benchmark-eval-workspace/results/B3_diagnostic_summary.md` |
 | Reflection-data proportion | PENDING-UNLOCK | Unmeasurable without a free-form quality signal. | plan doc |
-| J-space-informed data selection | PENDING-UNLOCK | Unmeasurable without a free-form quality signal. | plan doc |
+| J-space-informed data selection | **ACTIVE ROUTING PRIOR** (promoted Phase 5, chainlink #57) | Use bucket evidence from `results/jspace_item_signals.jsonl` / `results/jspace_category_summary.json` to route which lever a proposal targets: `absent` → category/source data expansion; `late_weak` → rationale targets; `present_unsurfaced` → rationale or answer-surface experiments; `format_sensitive` → format/chat-template experiments; `position_unstable` → targeted permutation; `robust` → do not target except replay. Evidence for *choosing* a lever, never a score to optimize; regenerate artifacts whenever the champion changes (the lens is model-specific). Narrow selection knobs (`--jspace-*`) land with #58. | v3-clean dev baseline (113 scorable MCQ rows): present_unsurfaced 45, position_unstable 34, format_sensitive 12, late_weak 12, absent 10, robust 0; diagnostic surface frozen per #56 (`autoresearch/jspace_config.json`) |
 | Free-form score as weighted objective term | PENDING-UNLOCK | This lever *is* Phase 2.6 itself — it doesn't unlock, it gets built. | plan doc |
 
 ---
@@ -97,8 +97,11 @@ general-replay-ratio lever now has a real knob (`--conversation-ratio`, chainlin
 CROP's non-monotone result still means don't default to "more is better" when it's
 first searched.
 
-**Tier 3 (reasoning) and CROP-derived:** uniformly PENDING-UNLOCK behind Phase 2.6's
-free-form eval axis, with one exception worth flagging early: diagnostic 1's negative
+**Tier 3 (reasoning) and CROP-derived:** PENDING-UNLOCK behind Phase 2.6's
+free-form eval axis, except J-space-informed data selection, which is now an ACTIVE
+ROUTING PRIOR (Phase 5, #57): it steers which lever a proposal targets using the frozen
+J-space diagnostic surface, without itself being a measurable objective. One caveat worth
+flagging early: diagnostic 1's negative
 real-gen headroom is a soft warning against over-investing in CoT/rationale levers as
 an assumed win. When 2.6 lands and these unlock, diagnostic 2's category ranking
 (Natural Fertilizers → Sustainable Water Mgmt → Soil Science) gives a concrete starting
