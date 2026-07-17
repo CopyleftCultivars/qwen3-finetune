@@ -63,6 +63,38 @@ Every J-space-guided hypothesis must cite: the artifact path
 category and bucket driving it, and the expected primary-metric movement. J-space evidence
 picks the lever; the frozen primary objective and gate still decide acceptance.
 
+## Multi-stream batch proposals (Phase 5, #61)
+
+A batch is 2-4 candidate streams run through `run_loop.py --journal-mode batch`
+(sequential; at most one accepted stream; losers journaled). A batch must not be N
+copies of the same tweak.
+
+Every stream must state, in its spec/hypothesis:
+
+1. one falsifiable hypothesis (what result would refute it);
+2. one primary lever (a single `levers.md` row it moves);
+3. expected primary-metric movement;
+4. guardrail risk (which guardrail is most likely to fire and why that is acceptable);
+5. evidence source: a `levers.md` row, a J-space artifact path + bucket, or a prior
+   journal row.
+
+Diversity rules:
+
+- No two streams in a batch may change the same primary lever, unless the batch is an
+  explicit micro-sweep: `batch_id` prefixed `sweep-` and every hypothesis naming the
+  single swept lever.
+- The first allowed stream families are: (a) Tier-2 position/order augmentation;
+  (b) Tier-1 conservative hyperparameter (lower LR, fewer epochs, LoRA dropout);
+  (c) J-space-guided category-data expansion (`--jspace-*` selection flags);
+  (d) J-space-guided rationale/answer-surface (`--sft-format`, rationale targets once
+  a clean source exists — see chainlink #65).
+- A real (non-smoke) batch must include at least one non-hyperparameter stream.
+- Failed, rejected, and defeated streams must be interpreted in the next `program.md`
+  update or cited in later hypotheses — never silently re-proposed unchanged. Check the
+  journal for a stream's prior outcome before re-running its lever.
+- Batch mode changes nothing about acceptance: the frozen gate and objective thresholds
+  decide, and a guardrail pause blocks the whole batch from auto-accepting.
+
 ## Diagnosis priors from `levers.md`
 
 - Tier 3 data/format levers are higher-ceiling than Tier 2, which are higher-ceiling than Tier 1
