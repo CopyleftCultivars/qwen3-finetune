@@ -1,0 +1,46 @@
+# Tournament 2 (#68) stream spec 1: family (c) jdata lever at 4 epochs.
+stream_id: jdata4
+run_name: p5real2-jdata
+hypothesis: >-
+  The J-space absent-category include lever, which reached +0.687 primary
+  delta (92% of the 2-SE bar) at 2 epochs in batch phase5-real-1
+  (autoresearch/journal.jsonl row 3), clears the frozen gate at 4 epochs, and
+  the A-bias drift that rejected it (0.361 deviation vs 0.100 limit) shrinks
+  below the bias-guard limit as training consolidates. Falsified if the delta
+  stays under 0.7498 or the bias deviation stays over 0.100.
+lever_tier: tier3
+prior: >-
+  phase5-real-1 journal outcome (near-miss + undertraining-bias hypothesis)
+  plus the levers.md J-space-informed data selection row and frozen
+  jspace_config.json absent -> add_category_data mapping. Guardrail risk:
+  bias guard again — that is the explicit test; compute guard projected safe
+  (~17-18 min vs 20 limit from the 10.8-min 2-epoch stream).
+predicted_direction: up
+candidate_edit: >-
+  Same jdata lever as phase5-real-1 (--jspace-bucket absent --jspace-action
+  include, 218/311 QMD records) with epochs 2 -> 4.
+rationale: >-
+  Stream family (c); primary lever = J-space data selection, distinct from
+  stream 2's epochs-only control per program.md diversity rules; failed
+  phase5-real-1 streams interpreted here, not silently repeated.
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5real2-jdata.json
+guardrails: results/autoresearch_guardrails_p5real2-jdata.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5real2-jdata.json
+finetune_config: autoresearch/configs/phase5-real-2/p5r2-jdata4.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5real2-jdata
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5real2-jdata.json
+    --output results/primary_p5real2-jdata.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5real2-jdata.json
+    --output results/autoresearch_guardrails_p5real2-jdata.json
