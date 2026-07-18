@@ -41,6 +41,7 @@ def validate_config(config: dict[str, Any]) -> None:
         ("compute_budget", "max_minutes_per_iteration"),
         ("forgetting_guard", "max_relative_drop_percent"),
         ("bias_guard", "max_abs_letter_frequency_deviation"),
+        ("bias_guard", "max_deviation_increase_vs_baseline"),
         ("rubric_guard", "max_drop_percent_points"),
         ("grader_anchor_guard", "max_abs_drift"),
     ):
@@ -95,12 +96,38 @@ def guardrail_reasons(config: dict[str, Any], guardrails: dict[str, Any]) -> tup
     if bias is None:
         reject.append("missing_bias_guard")
     else:
-        observed = bias.get("letter_distribution", {})
         reference = config["bias_guard"]["reference_distribution"]
-        limit = float(config["bias_guard"]["max_abs_letter_frequency_deviation"])
-        max_abs = max(abs(float(observed.get(letter, 0.0)) - float(reference[letter])) for letter in reference)
-        if max_abs > limit:
-            reject.append(f"bias_drift_exceeded max_abs={max_abs:.4f} limit={limit:.4f}")
+
+        def deviation(distribution: dict[str, Any]) -> float:
+            return max(
+                abs(float(distribution.get(letter, 0.0)) - float(reference[letter]))
+                for letter in reference
+            )
+
+        observed_dev = deviation(bias.get("letter_distribution", {}))
+        absolute_pass = float(config["bias_guard"]["max_abs_letter_frequency_deviation"])
+        baseline_dist = bias.get("baseline_letter_distribution")
+        if observed_dev <= absolute_pass:
+            # Balanced enough in absolute terms: always acceptable.
+            pass
+        elif baseline_dist is not None:
+            # Relative rule (2026-07-18 policy): the guard exists to prevent
+            # REINTRODUCING letter bias, so a candidate may not sit further
+            # from uniform than the champion baseline plus a noise tolerance.
+            baseline_dev = deviation(baseline_dist)
+            allowed = baseline_dev + float(
+                config["bias_guard"]["max_deviation_increase_vs_baseline"]
+            )
+            if observed_dev > allowed:
+                reject.append(
+                    f"bias_reintroduced observed={observed_dev:.4f} "
+                    f"baseline={baseline_dev:.4f} allowed={allowed:.4f}"
+                )
+        else:
+            # No baseline marginals supplied: legacy absolute behavior.
+            reject.append(
+                f"bias_drift_exceeded max_abs={observed_dev:.4f} limit={absolute_pass:.4f}"
+            )
 
     rubric = guardrails.get("rubric")
     if rubric is None:
@@ -214,7 +241,7 @@ def run_self_test(config: dict[str, Any]) -> None:
             decide(
                 synthetic_primary(0.0),
                 synthetic_primary(threshold + 0.1),
-                {**passing_guardrails(), "compute": {"elapsed_minutes": 25.0}},
+                {**passing_guardrails(), "compute": {"elapsed_minutes": 30.0}},
                 config,
             ),
             "reject",
@@ -235,6 +262,38 @@ def run_self_test(config: dict[str, Any]) -> None:
                 synthetic_primary(0.0),
                 synthetic_primary(threshold + 0.1),
                 {**passing_guardrails(), "bias": {"letter_distribution": {"A": 0.50, "B": 0.20, "C": 0.15, "D": 0.15}}},
+                config,
+            ),
+            "reject",
+        ),
+        (
+            "bias_relative_improvement_accept",
+            decide(
+                synthetic_primary(0.0),
+                synthetic_primary(threshold + 0.1),
+                {
+                    **passing_guardrails(),
+                    "bias": {
+                        "letter_distribution": {"A": 0.45, "B": 0.15, "C": 0.25, "D": 0.15},
+                        "baseline_letter_distribution": {"A": 0.52, "B": 0.11, "C": 0.24, "D": 0.13},
+                    },
+                },
+                config,
+            ),
+            "accept",
+        ),
+        (
+            "bias_reintroduction_reject",
+            decide(
+                synthetic_primary(0.0),
+                synthetic_primary(threshold + 0.1),
+                {
+                    **passing_guardrails(),
+                    "bias": {
+                        "letter_distribution": {"A": 0.60, "B": 0.10, "C": 0.20, "D": 0.10},
+                        "baseline_letter_distribution": {"A": 0.40, "B": 0.20, "C": 0.20, "D": 0.20},
+                    },
+                },
                 config,
             ),
             "reject",

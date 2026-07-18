@@ -83,6 +83,10 @@ FROZEN_PATHS = [
         "frozen one-iteration loop orchestrator code",
     ),
     FrozenPath(
+        "autoresearch/build_guardrails.py",
+        "frozen guardrail-input assembly code feeding the gate",
+    ),
+    FrozenPath(
         "autoresearch/jspace_annotator.py",
         "frozen J-space diagnostic annotator code; proposer guidance only",
     ),

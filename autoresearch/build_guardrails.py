@@ -37,23 +37,30 @@ def main(argv: list[str] | None = None) -> int:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("--candidate-mcq", required=True, help="score_mcq_ll.py JSON")
+    parser.add_argument(
+        "--baseline-mcq",
+        required=True,
+        help="Champion score_mcq_ll.py JSON; enables the relative bias rule",
+    )
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
 
-    mcq = json.loads(Path(args.candidate_mcq).read_text(encoding="utf-8"))
-    per_item = mcq["per_item"]
-    counts = Counter(row["top_letter"] for row in per_item)
-    total = sum(counts.values())
-    if total == 0:
-        raise SystemExit(f"{args.candidate_mcq}: no per_item rows")
+    def letter_marginals(path: str) -> dict[str, float]:
+        mcq = json.loads(Path(path).read_text(encoding="utf-8"))
+        counts = Counter(row["top_letter"] for row in mcq["per_item"])
+        total = sum(counts.values())
+        if total == 0:
+            raise SystemExit(f"{path}: no per_item rows")
+        return {letter: counts.get(letter, 0) / total for letter in LETTERS}
+
+    candidate_dist = letter_marginals(args.candidate_mcq)
 
     payload = {
         "bias": {
-            "letter_distribution": {
-                letter: counts.get(letter, 0) / total for letter in LETTERS
-            },
+            "letter_distribution": candidate_dist,
+            "baseline_letter_distribution": letter_marginals(args.baseline_mcq),
             "source": args.candidate_mcq,
-            "n_items": total,
+            "baseline_source": args.baseline_mcq,
         },
         "compute": {
             "elapsed_minutes": 0.0,
@@ -69,6 +76,10 @@ def main(argv: list[str] | None = None) -> int:
     output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"wrote {args.output}")
     print(f"bias_marginals={json.dumps(payload['bias']['letter_distribution'], sort_keys=True)}")
+    print(
+        "baseline_bias_marginals="
+        + json.dumps(payload["bias"]["baseline_letter_distribution"], sort_keys=True)
+    )
     return 0
 
 

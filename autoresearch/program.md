@@ -26,7 +26,11 @@ hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
 
 ## Guardrails
 
-- Bias: reject answer-letter marginal drift away from uniform.
+- Bias (relative rule, human-directed 2026-07-18): the guard prevents *reintroducing*
+  letter bias. A candidate whose predicted-letter deviation from uniform is <=0.10 always
+  passes; otherwise it must not exceed the champion baseline's deviation plus a 0.05 noise
+  tolerance (~1.2 SE at n=113). Context: champion v3-clean itself measures 0.272 deviation
+  (A=0.522), so absolute-uniform gating rejected candidates that improved balance.
 - Forgetting: reject general/non-farming score drops beyond threshold.
 - Generation quality: reject free-form rubric drops beyond threshold.
 - Grader drift: pause for human review if anchor drift exceeds threshold.
