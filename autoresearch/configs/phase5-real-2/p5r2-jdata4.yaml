@@ -1,0 +1,37 @@
+schema_version: 1
+
+# Tournament 2 (#68), stream 1 finetune config: jdata lever rerun at 4 epochs.
+# Identical to phase5-real-1's p5r1-jdata.yaml except epochs 2 -> 4, testing
+# whether the near-miss lever clears the gate and the A-bias drift resolves
+# with more training (journal batch phase5-real-1 learnings).
+run_name: p5real2-jdata
+dataset_suffix: _p5r2a
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+
+jspace_signals: results/jspace_item_signals.jsonl
+jspace_bucket: absent
+jspace_action: include
+
+lr: 0.0002
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
