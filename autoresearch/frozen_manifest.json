@@ -4,7 +4,7 @@
     "autoresearch/build_guardrails.py": {
       "kind": "file",
       "note": "frozen guardrail-input assembly code feeding the gate",
-      "sha256": "ce06be39bf5082a988d0deb25111137e91e5bc54d08fa226a12cf546eff39bea"
+      "sha256": "fcc8be2cd6f6ded8e58440daeab23213fe039ff853413fb6275833e459fa3d56"
     },
     "autoresearch/gate.py": {
       "kind": "file",
@@ -15,6 +15,16 @@
       "kind": "file",
       "note": "frozen accept/reject guardrail thresholds and compute budget",
       "sha256": "466505b0ffbb7cfa517c529fd2ca48614742d522de388e5a6b48abb31d2d9fb7"
+    },
+    "autoresearch/general_knowledge_probe.jsonl": {
+      "kind": "file",
+      "note": "frozen non-farming forgetting-guard probe; must not be edited to game the guard",
+      "sha256": "aeebf2a410ec5b84e793cec433747d1f91fb6abcced101963e64c52c39151970"
+    },
+    "autoresearch/generate_freeform_candidates.py": {
+      "kind": "file",
+      "note": "frozen free-form candidate generation code feeding the rubric guard",
+      "sha256": "986d0c364c6840babdc68c5bb34c9146631af1e331610521d67a7f1becb6f6e9"
     },
     "autoresearch/jspace_annotator.py": {
       "kind": "file",
@@ -97,5 +107,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-18T21:15:40+00:00"
+  "generated_at": "2026-07-18T23:55:19+00:00"
 }

@@ -87,6 +87,14 @@ FROZEN_PATHS = [
         "frozen guardrail-input assembly code feeding the gate",
     ),
     FrozenPath(
+        "autoresearch/general_knowledge_probe.jsonl",
+        "frozen non-farming forgetting-guard probe; must not be edited to game the guard",
+    ),
+    FrozenPath(
+        "autoresearch/generate_freeform_candidates.py",
+        "frozen free-form candidate generation code feeding the rubric guard",
+    ),
+    FrozenPath(
         "autoresearch/jspace_annotator.py",
         "frozen J-space diagnostic annotator code; proposer guidance only",
     ),
