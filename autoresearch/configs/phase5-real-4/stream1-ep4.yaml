@@ -1,0 +1,46 @@
+# Tournament 4 (#71) stream spec 1: epochs-4 rerun under the #70 policy.
+# Micro-sweep batch (swept lever: epochs).
+stream_id: ep4
+run_name: p5real4-ep4
+hypothesis: >-
+  The epochs-4 full-mix operating point (journal row 4: +0.904 delta, 52.2%
+  dev argmax, bias deviation 0.175, 21.5 min) is repeatable, and under the
+  revised gate (#70: relative bias rule, 25-min budget) it passes all guards
+  — the loop's first legitimate accept. Falsified if the delta fails the
+  0.7498 bar, compute exceeds 25 min, or deviation exceeds the champion's
+  0.272 + 0.05 allowance.
+lever_tier: tier1
+prior: >-
+  levers.md Epochs row; journal rows 4-5 (epochs4 result; efficiency levers
+  falsified so plain batch-4/unpacked is the operating configuration); #70
+  policy change measured champion bias 0.272. Guardrail risk: none projected;
+  compute margin 3.5 min.
+predicted_direction: up
+candidate_edit: >-
+  v3-clean baseline mix and settings, epochs 6 -> 4 (the swept lever);
+  identical to phase5-real-2's epochs4 stream, rerun under revised policy.
+rationale: >-
+  Micro-sweep batch sweep-epochs-1 per program.md (batch_id prefixed sweep-,
+  both streams sweep the single epochs lever at different values).
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5real4-ep4.json
+guardrails: results/autoresearch_guardrails_p5real4-ep4.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5real4-ep4.json
+finetune_config: autoresearch/configs/phase5-real-4/p5r4-ep4.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5real4-ep4
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5real4-ep4.json
+    --output results/primary_p5real4-ep4.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5real4-ep4.json
+    --baseline-mcq results/mcq_gold_ll_v3_clean.json
+    --output results/autoresearch_guardrails_p5real4-ep4.json
