@@ -1,0 +1,38 @@
+{
+  "bias": {
+    "baseline_letter_distribution": {
+      "A": 0.5221238938053098,
+      "B": 0.10619469026548672,
+      "C": 0.23893805309734514,
+      "D": 0.13274336283185842
+    },
+    "baseline_source": "results/mcq_gold_ll_v3_clean.json",
+    "letter_distribution": {
+      "A": 0.4424778761061947,
+      "B": 0.10619469026548672,
+      "C": 0.3008849557522124,
+      "D": 0.1504424778761062
+    },
+    "source": "results/mcq_gold_ll_p5real4-ep4.json"
+  },
+  "compute": {
+    "elapsed_minutes": 21.54,
+    "injected_by": "run_loop_batch_mode",
+    "status_note": "overwritten_by_run_loop_guardrails_inject_compute"
+  },
+  "forgetting": {
+    "relative_drop_percent": 0.0,
+    "status_note": "carried_forward_periodic_guard_not_measured_this_batch"
+  },
+  "grader_anchor": {
+    "max_abs_drift": 0.0,
+    "status_note": "carried_forward_periodic_guard_not_measured_this_batch"
+  },
+  "rubric": {
+    "drop_percent_points": 0.0,
+    "status_note": "carried_forward_periodic_guard_not_measured_this_batch"
+  },
+  "sealed_test_access": {
+    "touched": false
+  }
+}
