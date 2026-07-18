@@ -1,0 +1,32 @@
+schema_version: 1
+
+# Tournament 3 (#69), stream 1 finetune config: batch_size 4 -> 8 (effective
+# 32 with grad_accum 4) as the efficiency lever, at the epochs-5 midpoint of
+# the journal-mapped curves (bias 0.387@2ep/0.175@4ep; delta +0.904@4ep/0@6ep).
+run_name: p5real3-batch8
+dataset_suffix: _p5r3a
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+
+lr: 0.0002
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 5
+early_stop_patience:
+batch_size: 8
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false

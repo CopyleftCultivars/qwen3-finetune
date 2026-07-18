@@ -1,0 +1,46 @@
+# Tournament 3 (#69) stream spec 2: family (b) efficiency lever packing=true,
+# pinned at the journal-validated epochs-4 operating point.
+stream_id: packing-4ep
+run_name: p5real3-packing
+hypothesis: >-
+  TRL sequence packing fits 4-epoch full-mix training well inside the 20-min
+  budget (~12 min projected) while preserving the +0.904 primary delta the
+  unpacked 4-epoch control achieved (journal row 4), and does not worsen the
+  0.175 bias deviation measured there. Falsified if the delta drops under
+  the 0.7498 bar, compute exceeds 20 min, or bias exceeds the 4-epoch
+  unpacked reference.
+lever_tier: tier1
+prior: >-
+  levers.md Packing row (SEARCH DIMENSION, wired but untested) plus journal
+  row 4 for the epochs-4 pin; batch directed by the human 2026-07-17 (test
+  option b before a/c). Guardrail risk: bias guard (expected ~0.175 at this
+  epoch count, over the 0.100 limit) — this stream measures whether packing
+  moves it; packed batching may alter short-example (MCQ) dynamics.
+predicted_direction: up
+candidate_edit: >-
+  packing false -> true with the journal-validated full mix; epochs pinned
+  at 4 (journal row 4).
+rationale: >-
+  Efficiency-calibration batch per program.md exception (human-directed);
+  stream levers differ: packing here, batch_size in stream 1.
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5real3-packing.json
+guardrails: results/autoresearch_guardrails_p5real3-packing.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5real3-packing.json
+finetune_config: autoresearch/configs/phase5-real-3/p5r3-packing4.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5real3-packing
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5real3-packing.json
+    --output results/primary_p5real3-packing.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5real3-packing.json
+    --output results/autoresearch_guardrails_p5real3-packing.json

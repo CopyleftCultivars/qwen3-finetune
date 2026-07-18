@@ -1,0 +1,46 @@
+# Tournament 3 (#69) stream spec 1: family (b) efficiency lever batch_size 8,
+# pinned at epochs 5 (midpoint of the journal-mapped bias and delta curves).
+stream_id: batch8-5ep
+run_name: p5real3-batch8
+hypothesis: >-
+  batch_size 8 (effective 32) fits 5-epoch full-mix training inside the
+  20-min budget (~17 min projected from 4.1 min/epoch at batch 4 with ~1.75x
+  throughput), and at 5 epochs the bias deviation crosses under the 0.100
+  limit (dose-response 0.387@2ep -> 0.175@4ep, journal rows 3-4) while the
+  primary delta retains enough of the +0.904@4ep gain to clear the 0.7498
+  bar (curve endpoint 0@6ep). Falsified if compute exceeds 20 min, bias
+  stays over 0.100, or the delta falls under the bar.
+lever_tier: tier1
+prior: >-
+  levers.md Batch size row (SEARCH DIMENSION, untested) plus journal rows
+  3-4 for the epoch pins; batch directed by the human 2026-07-17 (test
+  option b before a/c). Guardrail risk: bias guard at the 5-epoch midpoint
+  — deliberately probed; larger effective batch may also change dynamics.
+predicted_direction: up
+candidate_edit: >-
+  batch_size 4 -> 8 with the journal-validated full mix; epochs pinned at 5
+  interpolating validated endpoints (journal rows 3-4).
+rationale: >-
+  Efficiency-calibration batch per program.md exception (human-directed);
+  stream levers differ: batch_size here, packing in stream 2.
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5real3-batch8.json
+guardrails: results/autoresearch_guardrails_p5real3-batch8.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5real3-batch8.json
+finetune_config: autoresearch/configs/phase5-real-3/p5r3-batch8.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5real3-batch8
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5real3-batch8.json
+    --output results/primary_p5real3-batch8.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5real3-batch8.json
+    --output results/autoresearch_guardrails_p5real3-batch8.json

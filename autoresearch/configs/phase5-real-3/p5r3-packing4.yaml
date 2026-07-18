@@ -1,0 +1,32 @@
+schema_version: 1
+
+# Tournament 3 (#69), stream 2 finetune config: TRL sequence packing as the
+# efficiency lever, at the journal-validated epochs-4 operating point
+# (+0.904 primary delta, journal row 4 / batch phase5-real-2).
+run_name: p5real3-packing
+dataset_suffix: _p5r3b
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+
+lr: 0.0002
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: true
