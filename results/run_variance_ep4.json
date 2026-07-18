@@ -1,0 +1,58 @@
+{
+  "baseline_primary": -3.020504306414363,
+  "combined_single_run_se_paired": 0.198129,
+  "combined_single_run_threshold_2se": 0.396257,
+  "config": "autoresearch/configs/phase5-real-4/p5r4-ep4.yaml (identical, seed 42)",
+  "frozen_gate_se": 0.3748983767,
+  "frozen_gate_threshold_2se": 0.749797,
+  "mean_paired_item_se": 0.15162,
+  "n_runs": 5,
+  "notes": "paired_item_se is the SE of the mean per-item option-set gold-LL delta vs the champion on the same 113 dev items; the frozen gate SE (0.3749) came from the v2-vs-v3 cross-model comparison and overstates paired candidate-vs-champion noise.",
+  "per_run": {
+    "p5rv-r3": {
+      "n_items": 113,
+      "paired_item_sd": 1.58921,
+      "paired_item_se": 0.1495,
+      "primary_delta_vs_champion": 0.723072,
+      "source": "results/mcq_gold_ll_p5rv-r3.json"
+    },
+    "p5rv-r4": {
+      "n_items": 113,
+      "paired_item_sd": 1.54697,
+      "paired_item_se": 0.145527,
+      "primary_delta_vs_champion": 0.637955,
+      "source": "results/mcq_gold_ll_p5rv-r4.json"
+    },
+    "p5rv-r5": {
+      "n_items": 113,
+      "paired_item_sd": 1.499604,
+      "paired_item_se": 0.141071,
+      "primary_delta_vs_champion": 0.727659,
+      "source": "results/mcq_gold_ll_p5rv-r5.json"
+    },
+    "phase5-real-2/epochs4": {
+      "n_items": 113,
+      "paired_item_sd": 1.933658,
+      "paired_item_se": 0.181903,
+      "primary_delta_vs_champion": 0.903593,
+      "source": "results/mcq_gold_ll_p5real2-epochs.json"
+    },
+    "sweep-epochs-1/ep4": {
+      "n_items": 113,
+      "paired_item_sd": 1.489296,
+      "paired_item_se": 0.140101,
+      "primary_delta_vs_champion": 0.561956,
+      "source": "results/mcq_gold_ll_p5real4-ep4.json"
+    }
+  },
+  "run_deltas": [
+    0.903593,
+    0.561956,
+    0.723072,
+    0.637955,
+    0.727659
+  ],
+  "run_mean_delta": 0.710847,
+  "run_sd": 0.127539,
+  "run_se_of_mean": 0.057037
+}
