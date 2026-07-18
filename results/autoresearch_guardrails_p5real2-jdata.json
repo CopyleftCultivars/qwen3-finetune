@@ -1,0 +1,32 @@
+{
+  "bias": {
+    "letter_distribution": {
+      "A": 0.6017699115044248,
+      "B": 0.13274336283185842,
+      "C": 0.21238938053097345,
+      "D": 0.05309734513274336
+    },
+    "n_items": 113,
+    "source": "results/mcq_gold_ll_p5real2-jdata.json"
+  },
+  "compute": {
+    "elapsed_minutes": 20.65,
+    "injected_by": "run_loop_batch_mode",
+    "status_note": "overwritten_by_run_loop_guardrails_inject_compute"
+  },
+  "forgetting": {
+    "relative_drop_percent": 0.0,
+    "status_note": "carried_forward_periodic_guard_not_measured_this_batch"
+  },
+  "grader_anchor": {
+    "max_abs_drift": 0.0,
+    "status_note": "carried_forward_periodic_guard_not_measured_this_batch"
+  },
+  "rubric": {
+    "drop_percent_points": 0.0,
+    "status_note": "carried_forward_periodic_guard_not_measured_this_batch"
+  },
+  "sealed_test_access": {
+    "touched": false
+  }
+}
