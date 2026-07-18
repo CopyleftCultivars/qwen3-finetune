@@ -88,7 +88,12 @@ Diversity rules:
   (c) J-space-guided category-data expansion (`--jspace-*` selection flags);
   (d) J-space-guided rationale/answer-surface (`--sft-format`, rationale targets once
   a clean source exists — see chainlink #65).
-- A real (non-smoke) batch must include at least one non-hyperparameter stream.
+- The first real batch must include at least one non-hyperparameter stream (satisfied by
+  phase5-real-1). Later batches should too, except when the batch's stated purpose is
+  hyperparameter/efficiency calibration directed by the human — cite the directive in the
+  batch issue.
+- A batch may pin a journal-validated setting shared across its streams (cite the journal
+  row that validated it); the per-stream primary lever is what differs between streams.
 - Failed, rejected, and defeated streams must be interpreted in the next `program.md`
   update or cited in later hypotheses — never silently re-proposed unchanged. Check the
   journal for a stream's prior outcome before re-running its lever.
