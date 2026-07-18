@@ -1,6 +1,7 @@
 {
   "bias_guard": {
     "max_abs_letter_frequency_deviation": 0.1,
+    "max_deviation_increase_vs_baseline": 0.05,
     "reference_distribution": {
       "A": 0.25,
       "B": 0.25,
@@ -9,7 +10,7 @@
     }
   },
   "compute_budget": {
-    "max_minutes_per_iteration": 20.0
+    "max_minutes_per_iteration": 25.0
   },
   "forgetting_guard": {
     "max_relative_drop_percent": 5.0

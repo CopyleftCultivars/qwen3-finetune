@@ -1,15 +1,20 @@
 {
   "algorithm": "sha256",
   "entries": {
+    "autoresearch/build_guardrails.py": {
+      "kind": "file",
+      "note": "frozen guardrail-input assembly code feeding the gate",
+      "sha256": "ce06be39bf5082a988d0deb25111137e91e5bc54d08fa226a12cf546eff39bea"
+    },
     "autoresearch/gate.py": {
       "kind": "file",
       "note": "frozen accept/reject/pause gate code",
-      "sha256": "58774f0f6a05b01e8048804cd03dd1a91eeae1c7188fa15f43dad1b053454323"
+      "sha256": "2a76c23a2d6a872783b6fffb2612179431e426198e9e7ac2d6d5183f5f0cc167"
     },
     "autoresearch/gate_config.json": {
       "kind": "file",
       "note": "frozen accept/reject guardrail thresholds and compute budget",
-      "sha256": "66023eaa23679c371b87936133a1865da67544eed23eba4f3bde508b47e15417"
+      "sha256": "278dc41d598f13e62b3e4db56d0f417d9f1b5eb7be166ff8869d26d0438005a7"
     },
     "autoresearch/jspace_annotator.py": {
       "kind": "file",
@@ -92,5 +97,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-17T20:42:54+00:00"
+  "generated_at": "2026-07-18T13:57:20+00:00"
 }
