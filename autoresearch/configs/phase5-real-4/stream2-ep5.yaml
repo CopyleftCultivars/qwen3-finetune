@@ -1,0 +1,43 @@
+# Tournament 4 (#71) stream spec 2: epochs-5 probe.
+# Micro-sweep batch (swept lever: epochs).
+stream_id: ep5
+run_name: p5real4-ep5
+hypothesis: >-
+  At 5 epochs the primary delta lands between the 4-epoch (+0.904) and
+  6-epoch (0) endpoints while bias deviation moves from 0.175 toward the
+  champion's 0.272 (journal rows 4-5); the run is a deliberate borderline
+  compute probe (~25.5 min projected vs the 25-min limit). Falsified per
+  guard: delta under 0.7498, compute over 25 min, or deviation over 0.322.
+lever_tier: tier1
+prior: >-
+  levers.md Epochs row; journal rows 4-5 for the endpoint measurements; #70
+  policy change. Guardrail risk: compute guard, deliberately probed at the
+  new 25-min limit.
+predicted_direction: up
+candidate_edit: >-
+  v3-clean baseline mix and settings, epochs 6 -> 5 (the swept lever).
+rationale: >-
+  Micro-sweep batch sweep-epochs-1 per program.md (batch_id prefixed sweep-,
+  both streams sweep the single epochs lever at different values).
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5real4-ep5.json
+guardrails: results/autoresearch_guardrails_p5real4-ep5.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5real4-ep5.json
+finetune_config: autoresearch/configs/phase5-real-4/p5r4-ep5.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5real4-ep5
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5real4-ep5.json
+    --output results/primary_p5real4-ep5.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5real4-ep5.json
+    --baseline-mcq results/mcq_gold_ll_v3_clean.json
+    --output results/autoresearch_guardrails_p5real4-ep5.json
