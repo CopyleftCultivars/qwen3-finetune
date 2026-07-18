@@ -1,0 +1,45 @@
+# Certification run (#74): one-stream batch accept-epochs4-1.
+stream_id: ep4-cert
+run_name: p5accept-ep4
+hypothesis: >-
+  The epochs-4 lever's measured true effect (+0.711 +/- 0.057 over five
+  identical runs, results/run_variance_ep4.json) clears the corrected 2-SE
+  bar (0.40, #73) in a fresh independent training run while passing the
+  relative bias rule (prior runs: 0.175-0.21 deviation vs 0.322 allowed)
+  and the 25-min budget (prior runs: 21.5 min). Falsified by any guard
+  rejection; a sub-0.40 primary draw has ~0.7% probability under the
+  measured run distribution.
+lever_tier: tier1
+prior: >-
+  levers.md Epochs row; journal rows 4-7; run-variance campaign #72;
+  policy changes #70 and #73 (human-approved). Guardrail risk: none
+  projected; residual run-draw risk documented in the hypothesis.
+predicted_direction: up
+candidate_edit: >-
+  v3-clean baseline mix and settings, epochs 6 -> 4; sixth independent run
+  of the identical config, first under the corrected gate.
+rationale: >-
+  Single-stream certification batch; no tournament competitors by design —
+  the candidate was selected by the preceding sweep and variance campaign.
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5accept-ep4.json
+guardrails: results/autoresearch_guardrails_p5accept-ep4.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5accept-ep4.json
+finetune_config: autoresearch/configs/phase5-accept-1/p5a1-ep4.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5accept-ep4
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5accept-ep4.json
+    --output results/primary_p5accept-ep4.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5accept-ep4.json
+    --baseline-mcq results/mcq_gold_ll_v3_clean.json
+    --output results/autoresearch_guardrails_p5accept-ep4.json
