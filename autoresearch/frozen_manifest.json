@@ -4,7 +4,7 @@
     "autoresearch/build_guardrails.py": {
       "kind": "file",
       "note": "frozen guardrail-input assembly code feeding the gate",
-      "sha256": "fcc8be2cd6f6ded8e58440daeab23213fe039ff853413fb6275833e459fa3d56"
+      "sha256": "c3db754ba9059769cf173d9b6ed766b4728bd6d2ce497a77a49aad06bbae8d67"
     },
     "autoresearch/gate.py": {
       "kind": "file",
@@ -40,6 +40,11 @@
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
       "sha256": "dd2d53674102ec0753cf5be0bbe1ac057666b20e110002a161f5ae45a36f89b2"
+    },
+    "autoresearch/measure_periodic_guards.py": {
+      "kind": "file",
+      "note": "frozen rubric/grader-anchor measurement orchestrator feeding the gate",
+      "sha256": "fa34051a2c561d1ae438f96fe1069deccee9a1e015bb1c0298bc25c2a5fe18fd"
     },
     "autoresearch/objective_weights.json": {
       "kind": "file",
@@ -107,5 +112,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-19T00:22:34+00:00"
+  "generated_at": "2026-07-19T07:47:58+00:00"
 }

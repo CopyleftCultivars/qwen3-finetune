@@ -91,6 +91,10 @@ FROZEN_PATHS = [
         "frozen non-farming forgetting-guard probe; must not be edited to game the guard",
     ),
     FrozenPath(
+        "autoresearch/measure_periodic_guards.py",
+        "frozen rubric/grader-anchor measurement orchestrator feeding the gate",
+    ),
+    FrozenPath(
         "autoresearch/generate_freeform_candidates.py",
         "frozen free-form candidate generation code feeding the rubric guard",
     ),

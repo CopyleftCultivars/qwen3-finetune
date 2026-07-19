@@ -66,7 +66,10 @@ def conda_run(args: list[str]) -> list[str]:
     return ["conda", "run", "-n", CONDA_ENV, "python"] + args
 
 
-def generate(model: str, output: str, items_per_type: int) -> None:
+def generate(model: str, output: str, items_per_type: int, *, reuse: bool = False) -> None:
+    if reuse and Path(output).exists():
+        print(f"reusing cached generation: {output}", flush=True)
+        return
     run(
         conda_run(
             [
@@ -83,23 +86,28 @@ def generate(model: str, output: str, items_per_type: int) -> None:
     )
 
 
-def grade(input_path: str, output: str, anchor_report: str) -> dict[str, Any]:
-    run(
-        conda_run(
-            [
-                "eval_freeform/score_rubric.py",
-                "--input",
-                input_path,
-                "--output",
-                output,
-                "--anchor-report",
-                anchor_report,
-                "--audit-first",
-                "0",
-            ]
-        ),
-        label=f"grade:{output}",
-    )
+def grade(
+    input_path: str, output: str, anchor_report: str, *, reuse: bool = False
+) -> dict[str, Any]:
+    if not (reuse and Path(output).exists() and Path(anchor_report).exists()):
+        run(
+            conda_run(
+                [
+                    "eval_freeform/score_rubric.py",
+                    "--input",
+                    input_path,
+                    "--output",
+                    output,
+                    "--anchor-report",
+                    anchor_report,
+                    "--audit-first",
+                    "0",
+                ]
+            ),
+            label=f"grade:{output}",
+        )
+    elif reuse:
+        print(f"reusing cached grading: {output}", flush=True)
     rows = [json.loads(line) for line in Path(output).open(encoding="utf-8") if line.strip()]
     mean_score = sum(row["weighted_score"] for row in rows) / len(rows)
     return {
@@ -117,31 +125,49 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--baseline-model", required=True)
     parser.add_argument("--candidate-model", required=True)
     parser.add_argument("--label", required=True, help="Suffix for output filenames")
+    parser.add_argument(
+        "--baseline-label",
+        default=None,
+        help=(
+            "Suffix for baseline-side filenames; defaults to --label. Pass the "
+            "same value across streams in one tournament (same baseline model) "
+            "with --reuse-baseline so the baseline is only generated/graded once."
+        ),
+    )
+    parser.add_argument(
+        "--reuse-baseline",
+        action="store_true",
+        help="Reuse existing baseline generation/grading output if present",
+    )
     parser.add_argument("--items-per-type", type=int, default=6)
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
 
+    baseline_label = args.baseline_label or args.label
     Path("results").mkdir(exist_ok=True)
-    baseline_gen = f"results/freeform_candidates_baseline_{args.label}.jsonl"
+    baseline_gen = f"results/freeform_candidates_baseline_{baseline_label}.jsonl"
     candidate_gen = f"results/freeform_candidates_candidate_{args.label}.jsonl"
 
-    generate(args.baseline_model, baseline_gen, args.items_per_type)
+    generate(args.baseline_model, baseline_gen, args.items_per_type, reuse=args.reuse_baseline)
     generate(args.candidate_model, candidate_gen, args.items_per_type)
 
+    baseline_anchor_report = f"results/periodic_anchor_baseline_{baseline_label}.json"
+    candidate_anchor_report = f"results/periodic_anchor_candidate_{args.label}.json"
     baseline_rubric = grade(
         baseline_gen,
-        f"results/periodic_rubric_baseline_{args.label}.jsonl",
-        f"results/periodic_anchor_baseline_{args.label}.json",
+        f"results/periodic_rubric_baseline_{baseline_label}.jsonl",
+        baseline_anchor_report,
+        reuse=args.reuse_baseline,
     )
     candidate_rubric = grade(
         candidate_gen,
         f"results/periodic_rubric_candidate_{args.label}.jsonl",
-        f"results/periodic_anchor_candidate_{args.label}.json",
+        candidate_anchor_report,
     )
 
     anchor_reports = [
-        json.loads(Path(f"results/periodic_anchor_baseline_{args.label}.json").read_text()),
-        json.loads(Path(f"results/periodic_anchor_candidate_{args.label}.json").read_text()),
+        json.loads(Path(baseline_anchor_report).read_text()),
+        json.loads(Path(candidate_anchor_report).read_text()),
     ]
     max_abs_drift = max(
         abs(record["delta"])
@@ -154,6 +180,7 @@ def main(argv: list[str] | None = None) -> int:
 
     summary = {
         "label": args.label,
+        "baseline_label": baseline_label,
         "baseline_model": args.baseline_model,
         "candidate_model": args.candidate_model,
         "items_per_type": args.items_per_type,
@@ -167,10 +194,7 @@ def main(argv: list[str] | None = None) -> int:
         "grader_anchor": {
             "max_abs_drift": max_abs_drift,
             "total_drift_alerts": total_drift_alerts,
-            "reports": [
-                f"results/periodic_anchor_baseline_{args.label}.json",
-                f"results/periodic_anchor_candidate_{args.label}.json",
-            ],
+            "reports": [baseline_anchor_report, candidate_anchor_report],
         },
     }
     Path(args.output).write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")

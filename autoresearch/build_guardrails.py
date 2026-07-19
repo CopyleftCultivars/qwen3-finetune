@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble a gate-ready guardrails JSON for one candidate run.
 
-Phase 5 #64/#66. Real components computed here:
+Phase 5 #64/#66/#75. Real components computed here:
 
 - ``bias.letter_distribution`` — the candidate's predicted-letter marginals
   from a score_mcq_ll.py result (the FORBIDDEN letter-bias protection).
@@ -11,6 +11,11 @@ Phase 5 #64/#66. Real components computed here:
   frozen non-farming MCQ set, scored via the same frozen score_mcq_ll.py
   pipeline). Uses accuracy rather than log-likelihood because gate.py's
   ``relative_drop_percent`` requires a positive baseline.
+- ``rubric`` / ``grader_anchor`` — when ``--periodic-guards`` is passed (the
+  JSON written by ``measure_periodic_guards.py``), the real rubric drop and
+  grader-anchor drift, so a stream's accept/reject decision is final the
+  first time (chainlink #75) instead of needing a later out-of-band
+  reconciliation like #66's reversal of #74.
 - ``sealed_test_access.touched`` — false; run_loop's batch audit independently
   rejects the batch if any sealed path string appears anywhere.
 
@@ -18,11 +23,9 @@ Phase 5 #64/#66. Real components computed here:
 batch mode (``guardrails_inject_compute: true``), which is the only component
 that knows the stream's real wall clock.
 
-``rubric`` and ``grader_anchor`` remain carried-forward placeholders: both
-require ``eval_freeform/score_rubric.py``'s LLM judge, which needs
-``OPENROUTER_API_KEY``. That key is not configured for this project (chainlink
-#66 comment, 2026-07-18) — implementing them is blocked on either providing
-the key or a human decision to point the judge at a different backend.
+Without ``--periodic-guards``, ``rubric``/``grader_anchor`` remain
+carried-forward placeholders (pre-#75 behavior, kept for backward
+compatibility with specs that don't pass it).
 """
 
 from __future__ import annotations
@@ -34,9 +37,6 @@ from pathlib import Path
 
 LETTERS = ("A", "B", "C", "D")
 CARRIED = "carried_forward_periodic_guard_not_measured_this_batch"
-BLOCKED_NO_OPENROUTER_KEY = (
-    "blocked_on_missing_OPENROUTER_API_KEY_see_chainlink_66"
-)
 
 
 def relative_drop_percent(baseline: float, candidate: float) -> float:
@@ -69,6 +69,14 @@ def main(argv: list[str] | None = None) -> int:
         "--baseline-general-mcq",
         default=None,
         help="Same, for the champion; required together with --candidate-general-mcq",
+    )
+    parser.add_argument(
+        "--periodic-guards",
+        default=None,
+        help=(
+            "measure_periodic_guards.py JSON output; enables the real rubric "
+            "and grader_anchor guards instead of carried-forward placeholders"
+        ),
     )
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
@@ -106,6 +114,23 @@ def main(argv: list[str] | None = None) -> int:
     else:
         forgetting = {"relative_drop_percent": 0.0, "status_note": CARRIED}
 
+    if args.periodic_guards:
+        periodic = json.loads(Path(args.periodic_guards).read_text(encoding="utf-8"))
+        rubric = {
+            "baseline_percent": periodic["rubric"]["baseline_percent"],
+            "candidate_percent": periodic["rubric"]["candidate_percent"],
+            "drop_percent_points": periodic["rubric"]["drop_percent_points"],
+            "source": args.periodic_guards,
+        }
+        grader_anchor = {
+            "max_abs_drift": periodic["grader_anchor"]["max_abs_drift"],
+            "total_drift_alerts": periodic["grader_anchor"]["total_drift_alerts"],
+            "source": args.periodic_guards,
+        }
+    else:
+        rubric = {"drop_percent_points": 0.0, "status_note": CARRIED}
+        grader_anchor = {"max_abs_drift": 0.0, "status_note": CARRIED}
+
     payload = {
         "bias": {
             "letter_distribution": candidate_dist,
@@ -118,8 +143,8 @@ def main(argv: list[str] | None = None) -> int:
             "status_note": "overwritten_by_run_loop_guardrails_inject_compute",
         },
         "forgetting": forgetting,
-        "rubric": {"drop_percent_points": 0.0, "status_note": BLOCKED_NO_OPENROUTER_KEY},
-        "grader_anchor": {"max_abs_drift": 0.0, "status_note": BLOCKED_NO_OPENROUTER_KEY},
+        "rubric": rubric,
+        "grader_anchor": grader_anchor,
         "sealed_test_access": {"touched": False},
     }
     output = Path(args.output)
@@ -137,6 +162,9 @@ def main(argv: list[str] | None = None) -> int:
             f"(baseline_acc={forgetting['baseline_accuracy']:.4f} "
             f"candidate_acc={forgetting['candidate_accuracy']:.4f})"
         )
+    if args.periodic_guards:
+        print(f"rubric_drop_percent_points={rubric['drop_percent_points']:.4f}")
+        print(f"grader_anchor_max_abs_drift={grader_anchor['max_abs_drift']:.4f}")
     return 0
 
 
