@@ -89,7 +89,7 @@
     "eval_freeform/score_rubric.py": {
       "kind": "file",
       "note": "frozen free-form rubric scorer code",
-      "sha256": "914e8069ca0b6dfad59cb4b35b324174ba56aae6aba0af12a9e7f7cd79523cca"
+      "sha256": "a00616a53deea76de6aa48a0af2cdd13ae642c8ccd061ea62339cbd0f18cdf93"
     },
     "eval_freeform/scorer_config.json": {
       "kind": "file",
@@ -107,5 +107,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-18T23:55:19+00:00"
+  "generated_at": "2026-07-19T00:22:34+00:00"
 }

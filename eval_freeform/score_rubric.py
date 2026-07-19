@@ -28,6 +28,11 @@ log = logging.getLogger(__name__)
 
 DEFAULT_AUDIT_MODEL = "anthropic/claude-sonnet-4-5"
 DEFAULT_CONFIG = "eval_freeform/scorer_config.json"
+# judge_training_data._call_judge defaults to 256, sized for its own compact
+# 1-5 Likert-score JSON caller; a per-point verdict+justification response
+# (4-6 rubric points typical) needs much more headroom or the JSON gets
+# truncated before it closes.
+RUBRIC_JUDGE_MAX_TOKENS = 1536
 
 SYSTEM_PROMPT = """\
 You are a strict but fair agricultural free-form evaluation judge.
@@ -227,7 +232,7 @@ def call_grader(
         candidate_answer=candidate_answer,
         rubric_json=json.dumps(row["rubric"], ensure_ascii=False, indent=2),
     )
-    raw = _call_judge(SYSTEM_PROMPT, prompt, client, model)
+    raw = _call_judge(SYSTEM_PROMPT, prompt, client, model, max_tokens=RUBRIC_JUDGE_MAX_TOKENS)
     return parse_verdicts(raw, row["rubric"])
 
 

@@ -170,14 +170,14 @@ def _build_prompt(pair: dict) -> tuple[str, str]:
     )
 
 
-def _call_judge(system: str, prompt: str, client, model: str) -> str:
+def _call_judge(system: str, prompt: str, client, model: str, max_tokens: int = 256) -> str:
     for attempt, delay in enumerate([0] + _RETRY_DELAYS):
         if delay:
             time.sleep(delay)
         try:
             resp = client.chat.completions.create(
                 model=model,
-                max_tokens=256,
+                max_tokens=max_tokens,
                 temperature=0.0,
                 messages=[
                     {"role": "system", "content": system},
