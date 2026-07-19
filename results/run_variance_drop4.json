@@ -1,0 +1,21 @@
+{
+  "baseline_primary": -3.020504306414363,
+  "comparison_plain_ep4": {
+    "mean_delta": 0.710847,
+    "n_runs": 5,
+    "run_sd": 0.127538
+  },
+  "config": "autoresearch/configs/phase5-real-5/p5r5-drop4.yaml (epochs 4 + lora_dropout 0.05, seed 42)",
+  "gate_threshold": 0.4,
+  "mean_delta": 0.333719,
+  "n_runs": 4,
+  "run_deltas": {
+    "p5dv-r2": 0.344364,
+    "p5dv-r3": 0.307423,
+    "p5dv-r4": 0.341678,
+    "phase5-real-5/drop4": 0.34141
+  },
+  "run_sd": 0.017581,
+  "se_of_mean": 0.008791,
+  "verdict": "true effect ~0.33, clearly under the 0.40 bar; lever dead as acceptance candidate. Notable: run SD 7x tighter than plain epochs-4 \u2014 dropout strongly stabilizes training."
+}

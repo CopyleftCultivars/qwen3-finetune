@@ -1,0 +1,97 @@
+{
+  "diagnostics_reported_only": {
+    "freeform_refll": {
+      "chat_template_used": null,
+      "cross_model_refll_comparison": "invalid_unless_same_prompt_lineage",
+      "interpretation": "not_a_cross_approach_quality_signal",
+      "primary_weight": 0.0,
+      "prompt_mode": null,
+      "role": "optional_diagnostic_reported_only_not_accept_revert",
+      "same_lineage_requirement": "same_model_family_prompt_template_training_interface_and_answer_surface",
+      "source": null,
+      "status": "not_run",
+      "value": null
+    }
+  },
+  "format": "autoresearch_primary_objective_result_v2",
+  "guardrails": {
+    "freeform_rubric": {
+      "role": "freeform_rubric_percent_hard_periodic_goodhart_guard",
+      "source": null,
+      "status": "not_provided",
+      "value_percent": null
+    }
+  },
+  "inputs": {
+    "freeform_refll_result": null,
+    "mcq_result": "results/mcq_gold_ll_p5dv-r3.json",
+    "rubric_result": null
+  },
+  "objective_direction": "maximize",
+  "objective_policy": {
+    "cross_model_refll_comparison": "invalid_unless_same_prompt_lineage",
+    "first_c3_climbable_objective": "mcq_option_set_gold_ll_only",
+    "formula": "primary = 1.0 * mcq_mean_option_set_gold_logprob",
+    "freeform_ref_ll_policy": {
+      "cross_approach_quality_comparator": false,
+      "if_chat_template_rerun_is_mis_signed": "remove_from_primary_keep_only_labelled_diagnostic",
+      "if_chat_template_rerun_sign_flips": "eligible_only_as_calibrated_same_lineage_proxy_for_v3-family_variants_and_reported_only_until_calibrated",
+      "primary_role": "excluded_from_first_c3_primary",
+      "reporting_role": "optional_diagnostic_reported_only",
+      "same_lineage_requirement": "same_model_family_prompt_template_training_interface_and_answer_surface"
+    },
+    "primary_quality_guard": "freeform_rubric_percent_hard_periodic_goodhart_guard"
+  },
+  "primary": {
+    "components": {
+      "mcq_mean_option_set_gold_logprob": {
+        "contribution": -2.7130814140712616,
+        "metric": "mean_option_set_gold_logprob",
+        "role": "high_frequency_primary_accept_revert_signal",
+        "source": "results/mcq_gold_ll_p5dv-r3.json",
+        "value": -2.7130814140712616,
+        "weight": 1.0
+      }
+    },
+    "formula": "primary = 1.0 * mcq_mean_option_set_gold_logprob",
+    "label": "primary_continuous_objective",
+    "score": -2.7130814140712616
+  },
+  "secondary_reported_only": {
+    "freeform_refll_diagnostic": null,
+    "freeform_rubric_percent": null,
+    "label": "reported_only_not_used_for_accept_revert",
+    "mcq_argmax_accuracy": 0.3893805309734513
+  },
+  "weights_config": {
+    "component_units": {
+      "freeform_ref_ll": "optional diagnostic: mean teacher-forced reference-answer logprob per reference token on eval_freeform/dev.jsonl under eval_freeform/scorer_config.json prompt mode; same-lineage proxy only, never a cross-approach quality comparator",
+      "mcq_gold_ll": "mean option-set-normalized gold answer-letter logprob per MCQ item on data/val_v3.jsonl"
+    },
+    "cross_model_refll_comparison": "invalid_unless_same_prompt_lineage",
+    "first_c3_climbable_objective": "mcq_option_set_gold_ll_only",
+    "format": "autoresearch_primary_objective_policy_v2",
+    "formula": "primary = 1.0 * mcq_mean_option_set_gold_logprob",
+    "freeform_ref_ll_policy": {
+      "cross_approach_quality_comparator": false,
+      "if_chat_template_rerun_is_mis_signed": "remove_from_primary_keep_only_labelled_diagnostic",
+      "if_chat_template_rerun_sign_flips": "eligible_only_as_calibrated_same_lineage_proxy_for_v3-family_variants_and_reported_only_until_calibrated",
+      "primary_role": "excluded_from_first_c3_primary",
+      "reporting_role": "optional_diagnostic_reported_only",
+      "same_lineage_requirement": "same_model_family_prompt_template_training_interface_and_answer_surface"
+    },
+    "freeform_ref_ll_role": "optional_diagnostic_reported_only_not_accept_revert",
+    "freeform_ref_ll_weight": 0.0,
+    "mcq_gold_ll_role": "high_frequency_primary_accept_revert_signal",
+    "mcq_gold_ll_weight": 1.0,
+    "mcq_metric": "mean_option_set_gold_logprob",
+    "objective_direction": "maximize",
+    "primary_quality_guard": "freeform_rubric_percent_hard_periodic_goodhart_guard",
+    "rationale": "The first C3 loop must climb only MCQ option-set-normalized gold-token LL. Free-form ref-LL is not an apples-to-apples cross-approach comparator across v2/v3 prompt and training surfaces; it is excluded from the primary unless later calibrated on same-lineage v3-family variants. Cross-approach quality is guarded by generation accuracy and/or the free-form rubric, not by ref-LL.",
+    "secondary_metrics_reported_only": [
+      "mcq_argmax_accuracy",
+      "freeform_rubric_percent",
+      "freeform_ref_ll_diagnostic"
+    ]
+  }
+}
