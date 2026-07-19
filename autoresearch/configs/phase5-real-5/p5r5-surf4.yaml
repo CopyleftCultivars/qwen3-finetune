@@ -1,0 +1,35 @@
+schema_version: 1
+
+# Tournament 5 (#75), stream 1: epochs-4 + answer-prefix SFT format. New
+# combination testing whether the surface-format lever recovers free-form
+# (rubric) quality that plain epochs-4 alone lost (chainlink #66: 6.43pp
+# rubric drop), while keeping most of the epochs-4 primary gain.
+run_name: p5real5-surf4
+dataset_suffix: _p5r5a
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+
+sft_format: answer-prefix
+
+lr: 0.0002
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false

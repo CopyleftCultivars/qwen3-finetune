@@ -1,0 +1,65 @@
+# Tournament 5 (#75) stream spec 2: epochs-4 + LoRA dropout 0.05.
+# Full periodic guards measured BEFORE the gate decision (see stream 1).
+# Baseline free-form generation/grading reused from #66's campaign.
+stream_id: drop4
+run_name: p5real5-drop4
+hypothesis: >-
+  epochs-4 + LoRA dropout 0.05 keeps most of plain epochs-4's primary gain
+  while reducing the rubric drop (6.43pp, chainlink #66) below the 5.0pp
+  limit, because mild regularization may reduce whatever overfitting-like
+  effect drives the free-form quality regression. Falsified if rubric drop
+  still exceeds 5.0pp or the primary delta fails the 0.40 bar.
+lever_tier: tier1
+prior: >-
+  levers.md LoRA dropout row (SEARCH DIMENSION, fixed at 0 for v3-clean,
+  "untested -- could help given the small dataset is a mild overfitting
+  risk") plus the #66 finding that plain epochs-4 fails rubric. New
+  combination: dropout was never tested at any epoch count before.
+predicted_direction: up
+candidate_edit: >-
+  finetune.py config lora_dropout 0.0 -> 0.05 + epochs 6 -> 4 (two changes
+  combined deliberately, per #75's explicit suggestion to pair epochs-4 with
+  a regularization tweak rather than repeat a known-fail config).
+rationale: >-
+  Chainlink #75 process-fix tournament: rubric+grader_anchor measured before
+  the accept/reject decision, not after. Distinct primary lever combination
+  from stream 1 (answer-surface format) per program.md diversity rules.
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5real5-drop4.json
+guardrails: results/autoresearch_guardrails_p5real5-drop4.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5real5-drop4.json
+finetune_config: autoresearch/configs/phase5-real-5/p5r5-drop4.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5real5-drop4
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5real5-drop4.json
+    --output results/primary_p5real5-drop4.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p5real5-drop4
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p5real5-drop4.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-v3-clean
+    --candidate-model outputs/merged-model-p5real5-drop4
+    --label p5real5-drop4
+    --baseline-label p5accept-ep4
+    --reuse-baseline
+    --items-per-type 6
+    --output results/periodic_guards_p5real5-drop4.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5real5-drop4.json
+    --baseline-mcq results/mcq_gold_ll_v3_clean.json
+    --candidate-general-mcq results/general_knowledge_p5real5-drop4.json
+    --baseline-general-mcq results/general_knowledge_v3_clean.json
+    --periodic-guards results/periodic_guards_p5real5-drop4.json
+    --output results/autoresearch_guardrails_p5real5-drop4.json
