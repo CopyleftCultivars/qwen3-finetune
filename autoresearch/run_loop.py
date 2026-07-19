@@ -305,8 +305,11 @@ def run_stream(
     for index, command_text in enumerate(spec["eval_commands"]):
         steps.append((f"eval_{index}", shlex.split(command_text)))
 
+    stage_minutes: dict[str, float] = {}
     for stage, argv in steps:
+        stage_start = time.monotonic()
         result = run_command(argv, timeout_seconds=args.timeout_seconds, dry_run=False)
+        stage_minutes[stage] = round((time.monotonic() - stage_start) / 60.0, 2)
         commands[stage] = result["command"]
         audit_strings.extend([result["command"], result["stdout"], result["stderr"]])
         if int(result["returncode"]) != 0:
@@ -315,13 +318,18 @@ def run_stream(
             break
 
     elapsed_minutes = round((time.monotonic() - stream_start) / 60.0, 2)
+    train_minutes = stage_minutes.get("finetune")
     if failure_stage is None:
         if spec["guardrails_inject_compute"]:
-            # The stream's real wall clock is known only to this orchestrator;
-            # inject it so the frozen compute guard judges actual elapsed time.
+            # The compute guard's intent (program.md) is "do not let longer
+            # TRAINING masquerade as a discovery", so the finetune stage's
+            # wall clock is what the frozen guard judges (chainlink #76).
+            # Total stream cost (scoring + periodic-guard measurement) is
+            # recorded alongside for cost visibility, not gated.
             guardrails_path = root / spec["guardrails"]
             payload = load_json(guardrails_path)
-            payload.setdefault("compute", {})["elapsed_minutes"] = elapsed_minutes
+            payload.setdefault("compute", {})["elapsed_minutes"] = train_minutes
+            payload["compute"]["total_stream_minutes"] = elapsed_minutes
             payload["compute"]["injected_by"] = "run_loop_batch_mode"
             guardrails_path.write_text(
                 json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -385,6 +393,8 @@ def run_stream(
         "gate_decision": gate_result,
         "failure_stage": failure_stage,
         "elapsed_minutes": elapsed_minutes,
+        "train_minutes": train_minutes,
+        "stage_minutes": stage_minutes,
         "rank_in_batch": None,
         "final_outcome": None,
     }
