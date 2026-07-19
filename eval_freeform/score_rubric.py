@@ -34,6 +34,53 @@ DEFAULT_CONFIG = "eval_freeform/scorer_config.json"
 # truncated before it closes.
 RUBRIC_JUDGE_MAX_TOKENS = 1536
 
+# Optional codex-CLI judge backend (2026-07-19, user-directed): grades via
+# `codex exec` on the user's ChatGPT-account quota instead of metered
+# OpenRouter credits. Grader-version policy applies unchanged: switching
+# backend is a grader change, so historical Haiku-graded scores are not
+# comparable and baselines must be re-graded under the same backend.
+CODEX_JUDGE_MODEL = "gpt-5.6-luna"
+CODEX_JUDGE_EFFORT = "medium"
+_CODEX_RETRY_DELAYS = [2, 5, 15]
+
+
+def _call_judge_codex(system: str, prompt: str, model: str) -> str:
+    import subprocess
+    import tempfile
+    import time
+
+    full_prompt = f"{system}\n\n{prompt}"
+    for attempt, delay in enumerate([0] + _CODEX_RETRY_DELAYS):
+        if delay:
+            time.sleep(delay)
+        with tempfile.TemporaryDirectory(prefix="codex_judge_") as workdir:
+            out_path = Path(workdir) / "last_message.txt"
+            result = subprocess.run(
+                [
+                    "codex", "exec",
+                    "-C", workdir,
+                    "--skip-git-repo-check",
+                    "-s", "read-only",
+                    "-m", model,
+                    "-c", f'model_reasoning_effort="{CODEX_JUDGE_EFFORT}"',
+                    "-o", str(out_path),
+                    full_prompt,
+                ],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode == 0 and out_path.exists():
+                raw = out_path.read_text(encoding="utf-8").strip()
+                if raw:
+                    return raw
+        if attempt == len(_CODEX_RETRY_DELAYS):
+            raise RuntimeError(
+                f"codex judge failed after retries: rc={result.returncode} "
+                f"stderr_tail={result.stderr[-500:]}"
+            )
+        log.warning("codex judge error (attempt %d) — retrying", attempt + 1)
+    raise RuntimeError("codex judge: all retries exhausted")
+
 SYSTEM_PROMPT = """\
 You are a strict but fair agricultural free-form evaluation judge.
 Grade only whether the candidate answer satisfies each rubric point.
@@ -232,7 +279,12 @@ def call_grader(
         candidate_answer=candidate_answer,
         rubric_json=json.dumps(row["rubric"], ensure_ascii=False, indent=2),
     )
-    raw = _call_judge(SYSTEM_PROMPT, prompt, client, model, max_tokens=RUBRIC_JUDGE_MAX_TOKENS)
+    if str(model).startswith("codex/"):
+        raw = _call_judge_codex(SYSTEM_PROMPT, prompt, model.split("/", 1)[1])
+    else:
+        raw = _call_judge(
+            SYSTEM_PROMPT, prompt, client, model, max_tokens=RUBRIC_JUDGE_MAX_TOKENS
+        )
     return parse_verdicts(raw, row["rubric"])
 
 
@@ -351,6 +403,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--model", default=DEFAULT_MODEL, help="Routine OpenRouter grader model")
     parser.add_argument("--audit-model", default=DEFAULT_AUDIT_MODEL)
+    parser.add_argument(
+        "--judge-backend",
+        choices=("openrouter", "codex"),
+        default="openrouter",
+        help=(
+            "codex routes BOTH grader roles through `codex exec` "
+            f"({CODEX_JUDGE_MODEL} @ {CODEX_JUDGE_EFFORT}) on the ChatGPT-account "
+            "quota; a backend switch is a grader-version change (see config policy)"
+        ),
+    )
     parser.add_argument("--audit-first", type=int, default=0, help="Audit the first N rows with audit model")
     parser.add_argument("--openrouter-key", default=None)
     parser.add_argument("--max-workers", type=int, default=4)
@@ -389,7 +451,10 @@ def main(argv: list[str] | None = None) -> int:
         validate_item(row)
 
     client = None
-    if not args.mock_grader:
+    if args.judge_backend == "codex":
+        args.model = f"codex/{CODEX_JUDGE_MODEL}"
+        args.audit_model = f"codex/{CODEX_JUDGE_MODEL}"
+    elif not args.mock_grader:
         api_key = _load_api_key(args.openrouter_key)
         client, _ = _get_client(api_key, args.model)
 
