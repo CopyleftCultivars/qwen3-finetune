@@ -87,7 +87,12 @@ def generate(model: str, output: str, items_per_type: int, *, reuse: bool = Fals
 
 
 def grade(
-    input_path: str, output: str, anchor_report: str, *, reuse: bool = False
+    input_path: str,
+    output: str,
+    anchor_report: str,
+    *,
+    reuse: bool = False,
+    judge_backend: str = "openrouter",
 ) -> dict[str, Any]:
     if not (reuse and Path(output).exists() and Path(anchor_report).exists()):
         run(
@@ -102,6 +107,8 @@ def grade(
                     anchor_report,
                     "--audit-first",
                     "0",
+                    "--judge-backend",
+                    judge_backend,
                 ]
             ),
             label=f"grade:{output}",
@@ -140,6 +147,16 @@ def main(argv: list[str] | None = None) -> int:
         help="Reuse existing baseline generation/grading output if present",
     )
     parser.add_argument("--items-per-type", type=int, default=6)
+    parser.add_argument(
+        "--judge-backend",
+        choices=("openrouter", "codex"),
+        default="openrouter",
+        help=(
+            "Passed through to score_rubric.py. Switching backend is a "
+            "grader-version change: do NOT --reuse-baseline output graded "
+            "under a different backend"
+        ),
+    )
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
 
@@ -158,11 +175,13 @@ def main(argv: list[str] | None = None) -> int:
         f"results/periodic_rubric_baseline_{baseline_label}.jsonl",
         baseline_anchor_report,
         reuse=args.reuse_baseline,
+        judge_backend=args.judge_backend,
     )
     candidate_rubric = grade(
         candidate_gen,
         f"results/periodic_rubric_candidate_{args.label}.jsonl",
         candidate_anchor_report,
+        judge_backend=args.judge_backend,
     )
 
     anchor_reports = [
@@ -184,6 +203,7 @@ def main(argv: list[str] | None = None) -> int:
         "baseline_model": args.baseline_model,
         "candidate_model": args.candidate_model,
         "items_per_type": args.items_per_type,
+        "judge_backend": args.judge_backend,
         "rubric": {
             "baseline_percent": baseline_rubric["percent"],
             "candidate_percent": candidate_rubric["percent"],

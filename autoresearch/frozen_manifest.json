@@ -44,7 +44,7 @@
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
       "note": "frozen rubric/grader-anchor measurement orchestrator feeding the gate",
-      "sha256": "fa34051a2c561d1ae438f96fe1069deccee9a1e015bb1c0298bc25c2a5fe18fd"
+      "sha256": "66da07129e8a230f8330b1260e4838c15131c0ff06f5b78d2a9adad15192dc68"
     },
     "autoresearch/objective_weights.json": {
       "kind": "file",
@@ -94,7 +94,7 @@
     "eval_freeform/score_rubric.py": {
       "kind": "file",
       "note": "frozen free-form rubric scorer code",
-      "sha256": "a00616a53deea76de6aa48a0af2cdd13ae642c8ccd061ea62339cbd0f18cdf93"
+      "sha256": "1ec203860168d3e2c7d790b8d6817c37e10c2c987bf6b75c012a136af29da9e9"
     },
     "eval_freeform/scorer_config.json": {
       "kind": "file",
@@ -112,5 +112,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-19T13:08:38+00:00"
+  "generated_at": "2026-07-19T20:52:09+00:00"
 }
