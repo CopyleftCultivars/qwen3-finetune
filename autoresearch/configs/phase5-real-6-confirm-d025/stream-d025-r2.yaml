@@ -1,0 +1,60 @@
+# Dropout sweep (#78) stream spec 2: lora_dropout 0.025 at epochs 4.
+# Micro-sweep batch sweep-dropout-1; codex judge; baseline grading reused
+# from stream 1's codexv3-12 label (same backend, valid reuse).
+stream_id: d025-r2
+run_name: p5real6-d025-r2
+hypothesis: >-
+  At lora_dropout 0.025 the primary/rubric trade-off (endpoints per #77:
+  0 -> +0.711/rubric FAIL; 0.05 -> +0.334/rubric PASS) lands with primary
+  above 0.40 and rubric drop below 5.0pp. Together with stream 1 this maps
+  the interior of the dose-response curve. Falsified per guard as usual.
+lever_tier: tier1
+prior: >-
+  levers.md LoRA dropout row plus #77's bracketed dose-response. Guardrail
+  risk: compute (see stream 1).
+predicted_direction: up
+candidate_edit: >-
+  finetune.py config lora_dropout 0.0 -> 0.025; epochs pinned at 4.
+rationale: >-
+  Micro-sweep batch sweep-dropout-1 per program.md (batch_id prefixed
+  sweep-, both streams sweep the single lora_dropout lever).
+baseline_primary: results/primary_objective_v3_clean.json
+candidate_primary: results/primary_p5real6-d025-r2.json
+guardrails: results/autoresearch_guardrails_p5real6-d025-r2.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p5real6-d025-r2.json
+finetune_config: autoresearch/configs/phase5-real-6-confirm-d025/p5r6-d025-r2.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p5real6-d025-r2
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p5real6-d025-r2.json
+    --output results/primary_p5real6-d025-r2.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p5real6-d025-r2
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p5real6-d025-r2.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-v3-clean
+    --candidate-model outputs/merged-model-p5real6-d025-r2
+    --label p5real6-d025-r2
+    --baseline-label codexv3-12
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 12
+    --output results/periodic_guards_p5real6-d025-r2.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p5real6-d025-r2.json
+    --baseline-mcq results/mcq_gold_ll_v3_clean.json
+    --candidate-general-mcq results/general_knowledge_p5real6-d025-r2.json
+    --baseline-general-mcq results/general_knowledge_v3_clean.json
+    --periodic-guards results/periodic_guards_p5real6-d025-r2.json
+    --output results/autoresearch_guardrails_p5real6-d025-r2.json
