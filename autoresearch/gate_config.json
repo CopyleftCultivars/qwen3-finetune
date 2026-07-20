@@ -10,7 +10,7 @@
     }
   },
   "compute_budget": {
-    "max_minutes_per_iteration": 25.0
+    "max_minutes_per_iteration": 28.0
   },
   "forgetting_guard": {
     "max_relative_drop_percent": 5.0
