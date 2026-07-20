@@ -116,13 +116,39 @@ def grade(
     elif reuse:
         print(f"reusing cached grading: {output}", flush=True)
     rows = [json.loads(line) for line in Path(output).open(encoding="utf-8") if line.strip()]
+    grader_models = sorted({str(row.get("grader_model", "unknown")) for row in rows})
+    if reuse:
+        # Cached grading must come from the judge backend requested for this
+        # comparison (#79/#80): a codex grader_model is "codex/<model>", any
+        # other backend's is not.
+        for model in grader_models:
+            cached_is_codex = model.startswith("codex/")
+            if cached_is_codex != (judge_backend == "codex"):
+                _abort_grader_mismatch(
+                    f"cached grading {output} has grader_model={model} but "
+                    f"--judge-backend={judge_backend} was requested"
+                )
     mean_score = sum(row["weighted_score"] for row in rows) / len(rows)
     return {
         "output": output,
         "n_items": len(rows),
         "mean_weighted_score": mean_score,
         "percent": mean_score * 100.0,
+        "grader_models": grader_models,
     }
+
+
+def _abort_grader_mismatch(detail: str) -> None:
+    print(f"FAILED [grader-version] classification=grader_version_mismatch: {detail}", flush=True)
+    raise RuntimeError(
+        json.dumps(
+            {
+                "stage": "grader-version",
+                "failure_classification": "grader_version_mismatch",
+                "detail": detail,
+            }
+        )
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -184,6 +210,13 @@ def main(argv: list[str] | None = None) -> int:
         judge_backend=args.judge_backend,
     )
 
+    if baseline_rubric["grader_models"] != candidate_rubric["grader_models"]:
+        _abort_grader_mismatch(
+            f"baseline graded by {baseline_rubric['grader_models']} but "
+            f"candidate graded by {candidate_rubric['grader_models']}; the "
+            "rubric guard is a paired comparison and must be same-judge"
+        )
+
     anchor_reports = [
         json.loads(Path(baseline_anchor_report).read_text()),
         json.loads(Path(candidate_anchor_report).read_text()),
@@ -204,6 +237,7 @@ def main(argv: list[str] | None = None) -> int:
         "candidate_model": args.candidate_model,
         "items_per_type": args.items_per_type,
         "judge_backend": args.judge_backend,
+        "grader_models": baseline_rubric["grader_models"],
         "rubric": {
             "baseline_percent": baseline_rubric["percent"],
             "candidate_percent": candidate_rubric["percent"],
