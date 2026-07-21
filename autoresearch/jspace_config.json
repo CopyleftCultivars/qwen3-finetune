@@ -5,7 +5,7 @@
     "sealed_test_exclusion": "Sealed test paths (eval_freeform/test.jsonl) are never read for fitting, annotation, routing, or stream selection; jspace_annotator.py refuses them by denylist.",
     "sae_deferral": "SAE is deferred, not deleted: it becomes relevant only after the loop plateaus, J-space signals are ambiguous, or a compatible low-cost Qwen3-0.6B SAE exists. SAE is not a first-pass autoresearch lever."
   },
-  "model": "outputs/merged-model-p5real6-d025-r2",
+  "model": "outputs/merged-model-p6-lr5e5-r2",
   "prompt_mode": "chatml_empty_think",
   "target_tokens": "answer_letters",
   "lens_layers": "all_fitted",

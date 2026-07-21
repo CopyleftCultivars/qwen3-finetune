@@ -34,12 +34,12 @@
     "autoresearch/jspace_config.json": {
       "kind": "file",
       "note": "frozen J-space diagnostic surface; never an objective or gate input",
-      "sha256": "8c115ba3ea7acb8b45f25288c4d19a5e0b1774aec16cb071384a2976bd53e2e3"
+      "sha256": "5a2103acc2f7a759cbfa09316b2fd6b516ab12ed25fca89ff07b479b0c4b8939"
     },
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "660191e241a57abed70e14ab11b5a165c48c740bf298cfa26642de65c043df81"
+      "sha256": "f28d9a76fdf180b298142c11afecfaab577d8742946c6bec8a605942d9c79340"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -112,5 +112,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-21T04:15:29+00:00"
+  "generated_at": "2026-07-21T16:51:43+00:00"
 }
