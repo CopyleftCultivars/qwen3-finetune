@@ -1,110 +1,109 @@
 {
   "bucket_counts": {
-    "absent": 5,
-    "format_sensitive": 18,
-    "late_weak": 21,
-    "position_unstable": 35,
-    "present_unsurfaced": 32,
-    "robust": 2
+    "format_sensitive": 13,
+    "late_weak": 63,
+    "position_unstable": 20,
+    "present_unsurfaced": 11,
+    "robust": 6
   },
   "bucketed_fraction_of_scorable": 1.0,
   "bucketed_rows": 113,
   "by_category": {
     "agroecology": {
-      "accuracy": 0.5,
+      "accuracy": 1.0,
       "buckets": {
         "absent": 0,
-        "format_sensitive": 3,
-        "late_weak": 0,
-        "position_unstable": 1,
-        "present_unsurfaced": 0,
-        "robust": 0
-      },
-      "n_correct": 2,
-      "n_items": 4,
-      "priority": false
-    },
-    "conversations": {
-      "accuracy": 0.3438,
-      "buckets": {
-        "absent": 2,
-        "format_sensitive": 3,
-        "late_weak": 8,
-        "position_unstable": 11,
-        "present_unsurfaced": 8,
-        "robust": 0
-      },
-      "n_correct": 11,
-      "n_items": 32,
-      "priority": false
-    },
-    "indigenous_and_traditional_knowledge": {
-      "accuracy": 0.8,
-      "buckets": {
-        "absent": 0,
-        "format_sensitive": 1,
-        "late_weak": 2,
-        "position_unstable": 1,
+        "format_sensitive": 0,
+        "late_weak": 3,
+        "position_unstable": 0,
         "present_unsurfaced": 0,
         "robust": 1
       },
       "n_correct": 4,
+      "n_items": 4,
+      "priority": false
+    },
+    "conversations": {
+      "accuracy": 0.5,
+      "buckets": {
+        "absent": 0,
+        "format_sensitive": 6,
+        "late_weak": 12,
+        "position_unstable": 8,
+        "present_unsurfaced": 5,
+        "robust": 1
+      },
+      "n_correct": 16,
+      "n_items": 32,
+      "priority": false
+    },
+    "indigenous_and_traditional_knowledge": {
+      "accuracy": 1.0,
+      "buckets": {
+        "absent": 0,
+        "format_sensitive": 1,
+        "late_weak": 3,
+        "position_unstable": 0,
+        "present_unsurfaced": 0,
+        "robust": 1
+      },
+      "n_correct": 5,
       "n_items": 5,
       "priority": false
     },
     "integrated_farming_systems": {
-      "accuracy": 0.0,
+      "accuracy": 1.0,
       "buckets": {
         "absent": 0,
         "format_sensitive": 0,
-        "late_weak": 0,
-        "position_unstable": 1,
+        "late_weak": 1,
+        "position_unstable": 0,
         "present_unsurfaced": 0,
         "robust": 0
       },
-      "n_correct": 0,
+      "n_correct": 1,
       "n_items": 1,
       "priority": false
     },
     "natural_fertilizers": {
-      "accuracy": 0.2,
+      "accuracy": 0.6,
       "buckets": {
         "absent": 0,
         "format_sensitive": 2,
-        "late_weak": 0,
-        "position_unstable": 2,
-        "present_unsurfaced": 6,
+        "late_weak": 4,
+        "position_unstable": 3,
+        "present_unsurfaced": 1,
         "robust": 0
       },
-      "n_correct": 2,
+      "n_correct": 6,
       "n_items": 10,
       "priority": true
     },
     "organic_farming": {
-      "accuracy": 0.5,
+      "accuracy": 0.625,
       "buckets": {
-        "absent": 1,
+        "absent": 0,
         "format_sensitive": 0,
-        "late_weak": 1,
-        "position_unstable": 4,
+        "late_weak": 3,
+        "position_unstable": 2,
         "present_unsurfaced": 2,
-        "robust": 0
+        "robust": 1
       },
-      "n_correct": 4,
+      "n_correct": 5,
       "n_items": 8,
       "priority": false
     },
     "permaculture": {
-      "accuracy": 0.5,
+      "accuracy": 0.75,
       "buckets": {
         "absent": 0,
         "format_sensitive": 2,
-        "late_weak": 1,
-        "position_unstable": 2,
-        "present_unsurfaced": 3,
+        "late_weak": 4,
+        "position_unstable": 1,
+        "present_unsurfaced": 1,
         "robust": 0
       },
-      "n_correct": 4,
+      "n_correct": 6,
       "n_items": 8,
       "priority": false
     },
@@ -123,44 +122,44 @@
       "priority": false
     },
     "soil_science_and_microbiology": {
-      "accuracy": 0.55,
+      "accuracy": 0.8,
       "buckets": {
-        "absent": 2,
-        "format_sensitive": 5,
-        "late_weak": 5,
-        "position_unstable": 3,
-        "present_unsurfaced": 5,
-        "robust": 0
+        "absent": 0,
+        "format_sensitive": 0,
+        "late_weak": 16,
+        "position_unstable": 2,
+        "present_unsurfaced": 1,
+        "robust": 1
       },
-      "n_correct": 11,
+      "n_correct": 16,
       "n_items": 20,
       "priority": true
     },
     "sustainable_water_management": {
-      "accuracy": 0.4667,
+      "accuracy": 0.9333,
       "buckets": {
         "absent": 0,
-        "format_sensitive": 2,
-        "late_weak": 0,
-        "position_unstable": 6,
-        "present_unsurfaced": 6,
+        "format_sensitive": 1,
+        "late_weak": 11,
+        "position_unstable": 2,
+        "present_unsurfaced": 0,
         "robust": 1
       },
-      "n_correct": 7,
+      "n_correct": 14,
       "n_items": 15,
       "priority": true
     },
     "unknown": {
-      "accuracy": 0.375,
+      "accuracy": 0.875,
       "buckets": {
         "absent": 0,
-        "format_sensitive": 0,
-        "late_weak": 2,
-        "position_unstable": 4,
-        "present_unsurfaced": 2,
+        "format_sensitive": 1,
+        "late_weak": 4,
+        "position_unstable": 2,
+        "present_unsurfaced": 1,
         "robust": 0
       },
-      "n_correct": 3,
+      "n_correct": 7,
       "n_items": 8,
       "priority": false
     }
@@ -201,17 +200,16 @@
   },
   "dataset": "data/val_v3.jsonl",
   "intervention_counts": {
-    "add_category_data": 5,
-    "add_rationale_targets": 21,
-    "adjust_answer_surface": 50,
-    "do_not_target": 2,
-    "targeted_permutation": 35
+    "add_rationale_targets": 63,
+    "adjust_answer_surface": 24,
+    "do_not_target": 6,
+    "targeted_permutation": 20
   },
   "lens": {
     "lens_path": "results/jspace/jacobian_lens.pt",
-    "lens_sha256": "4570a349fbe992c4768d7ff54d24dcdc7ca44379a63eeb713ee1bd0805913f8b",
+    "lens_sha256": "89b0805dde73a5e70b22eac7b619648de5c61d85f87b2ad5d2bfbaf18dae4428",
     "max_seq_len": 128,
-    "model": "outputs/merged-model-p5real6-d025-r2",
+    "model": "outputs/merged-model-p6-lr5e5-r2",
     "n_prompts": 100,
     "prompt_count": 100,
     "prompt_count_requested": 100,
@@ -246,48 +244,48 @@
       26
     ]
   },
-  "model": "outputs/merged-model-p5real6-d025-r2",
+  "model": "outputs/merged-model-p6-lr5e5-r2",
   "output_signals": "results/jspace_item_signals.jsonl",
   "priority_categories": {
     "natural_fertilizers": {
-      "accuracy": 0.2,
+      "accuracy": 0.6,
       "buckets": {
         "absent": 0,
         "format_sensitive": 2,
-        "late_weak": 0,
-        "position_unstable": 2,
-        "present_unsurfaced": 6,
+        "late_weak": 4,
+        "position_unstable": 3,
+        "present_unsurfaced": 1,
         "robust": 0
       },
-      "n_correct": 2,
+      "n_correct": 6,
       "n_items": 10,
       "priority": true
     },
     "soil_science_and_microbiology": {
-      "accuracy": 0.55,
+      "accuracy": 0.8,
       "buckets": {
-        "absent": 2,
-        "format_sensitive": 5,
-        "late_weak": 5,
-        "position_unstable": 3,
-        "present_unsurfaced": 5,
-        "robust": 0
+        "absent": 0,
+        "format_sensitive": 0,
+        "late_weak": 16,
+        "position_unstable": 2,
+        "present_unsurfaced": 1,
+        "robust": 1
       },
-      "n_correct": 11,
+      "n_correct": 16,
       "n_items": 20,
       "priority": true
     },
     "sustainable_water_management": {
-      "accuracy": 0.4667,
+      "accuracy": 0.9333,
       "buckets": {
         "absent": 0,
-        "format_sensitive": 2,
-        "late_weak": 0,
-        "position_unstable": 6,
-        "present_unsurfaced": 6,
+        "format_sensitive": 1,
+        "late_weak": 11,
+        "position_unstable": 2,
+        "present_unsurfaced": 0,
         "robust": 1
       },
-      "n_correct": 7,
+      "n_correct": 14,
       "n_items": 15,
       "priority": true
     }

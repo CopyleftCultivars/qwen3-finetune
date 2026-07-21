@@ -28,7 +28,7 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 
 | Lever | Status | Direction / prior | Evidence | Knob |
 |---|---|---|---|---|
-| Learning rate (peak) | SEARCH DIMENSION | Untested below default. v3-clean used `train.py`'s default (2e-4 peak); the "5e-5" figure in `prepare_dataset_v3.py`'s docstring was aspirational and **was never actually applied**. Try lower LR next; no evidence yet either way. | `trainer_state.json` max observed LR 1.9999e-4 | `--lr` |
+| Learning rate (peak) | **SETTLED CONSTANT** | Pin `lr=5e-5`; this is no longer a search dimension. v3-clean/v4clean's `2e-4` default is **FALSIFIED / DEAD** relative to 5e-5 at this dataset size. | Chainlink #86: n=4 identical runs confirmed 5e-5, primary delta +1.478 +/- 0.071 SD (an order of magnitude tighter than any other lever's run noise, on an effect ~20x that noise floor). | `--lr` |
 | LR schedule | SEARCH DIMENSION | Cosine used for v3-clean, untested vs linear/constant. No diagnostic evidence yet. | v3-clean used `lr_scheduler_type="cosine"` | `--lr-scheduler {cosine,linear,constant}` |
 | Warmup ratio | SEARCH DIMENSION | 5% warmup used for v3-clean. Untested independently from scheduler type. | v3-clean used `warmup_ratio=0.05` | `--warmup-ratio` |
 | Epochs | SEARCH DIMENSION | v3-clean ran fixed 6 epochs. Untested whether fewer epochs avoids overfitting to the small train set. | v3-clean `trainer_state.json` max_steps over 6 epochs | `--epochs` |
