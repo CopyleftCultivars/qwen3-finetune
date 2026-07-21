@@ -1,7 +1,7 @@
 {
-  "lens_sha256": "ac8f9a3be4ce064f3ee5a1292540cac1f82043ae2a1c59c1a6d2aac95877c02d",
+  "lens_sha256": "4570a349fbe992c4768d7ff54d24dcdc7ca44379a63eeb713ee1bd0805913f8b",
   "max_seq_len": 128,
-  "model": "outputs/merged-model-v3-clean",
+  "model": "outputs/merged-model-p5real6-d025-r2",
   "prompt_count": 100,
   "prompt_count_requested": 100,
   "prompt_source": "data/train_v3.jsonl",
