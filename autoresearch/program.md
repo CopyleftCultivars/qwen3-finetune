@@ -3,6 +3,24 @@
 This is the human-edited search manual for the Phase 4 loop. The loop should be
 hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
 
+## Current champion
+
+- **v4clean** (`outputs/merged-model-p5real6-d025-r2`) supersedes v3-clean as of chainlink #85,
+  2026-07-20. Settings: v3-clean's mix, `epochs=4`, `lora_dropout=0.025` (see
+  `autoresearch/configs/v4-clean-baseline.yaml`). Promoted on chainlink #84's repeat-confirmed
+  result: primary delta +0.519 +/- 0.149 SD (n=4 identical runs), rubric drop 2.85 +/- 0.58pp
+  (all 4 comfortably under the 5.0pp limit — unlike the falsified `lora_dropout=0.01` point,
+  see `levers.md`), forgetting/anchor/bias/compute/sealed clean throughout.
+- New champion-reference artifacts: `results/primary_objective_v4_clean.json`,
+  `results/mcq_gold_ll_v4_clean.json`, `results/general_knowledge_v4_clean.json`. New rubric
+  baseline: `codexv4` label (`results/periodic_rubric_baseline_codexv4.jsonl`, mean 53.17% at
+  items-per-type=12, graded under the codex judge backend). J-space lens/annotations
+  regenerated against v4clean (`autoresearch/jspace_config.json`,
+  `results/jspace_category_summary.json`, `results/jspace_item_signals.jsonl`).
+- v3-clean's history (below) is preserved as the record of how the prior champion was reached;
+  it is superseded, not deleted. Future streams should set `--baseline-label codexv4` (not
+  `codexv3`/`codexv3-12`) and reference the v4clean baseline files above.
+
 ## Editable and frozen surfaces
 
 - The candidate search edit is limited to `autoresearch/finetune.py` parameters/configuration and
@@ -29,8 +47,10 @@ hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
 - Bias (relative rule, human-directed 2026-07-18): the guard prevents *reintroducing*
   letter bias. A candidate whose predicted-letter deviation from uniform is <=0.10 always
   passes; otherwise it must not exceed the champion baseline's deviation plus a 0.05 noise
-  tolerance (~1.2 SE at n=113). Context: champion v3-clean itself measures 0.272 deviation
-  (A=0.522), so absolute-uniform gating rejected candidates that improved balance.
+  tolerance (~1.2 SE at n=113). Context: v3-clean (former champion) measured 0.272 deviation
+  (A=0.522), so absolute-uniform gating rejected candidates that improved balance. Current
+  champion v4clean measures 0.219 deviation (A=0.469) -- an improvement, and the baseline
+  future candidates are compared against as of chainlink #85.
 - Forgetting: reject general/non-farming score drops beyond threshold.
 - Generation quality: reject free-form rubric drops beyond threshold.
 - Grader drift: pause for human review if anchor drift exceeds threshold.
