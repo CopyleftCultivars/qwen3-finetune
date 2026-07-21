@@ -1,0 +1,32 @@
+schema_version: 1
+
+# Tier-1 sweep (#91), lever 4: warmup ratio. v5clean's exact settings
+# (lr=5e-5, cosine schedule, lora_dropout=0.025, epochs=4,
+# lora_r=32/alpha=64) except warmup_ratio=0.10.
+run_name: p7-warmup10
+dataset_suffix: _p7warm10
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.1
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
