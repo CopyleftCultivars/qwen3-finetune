@@ -1,0 +1,241 @@
+{
+  "buckets": [
+    "position_unstable"
+  ],
+  "category_agreement_count": 18,
+  "category_disagreement_count": 0,
+  "category_map_dir": "[LOCAL_PATH]",
+  "matches": [
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000054",
+      "mapped_category": "soil_science_and_microbiology",
+      "question": "Which of the following conditions is NOT favorable for biological nitrogen fixation?",
+      "question_id": "SS-TRAIN-0005",
+      "signal_category": "soil_science_and_microbiology",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000063",
+      "mapped_category": "sustainable_water_management",
+      "question": "According to the principles of water movement in saturated soil, which of the following laws describes the flow of water through porous media?",
+      "question_id": "SWM-TRAIN-0038",
+      "signal_category": "sustainable_water_management",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000103",
+      "mapped_category": "organic_farming",
+      "question": "What is a key requirement regarding the physical environment for certified organic livestock?",
+      "question_id": "OF-TRAIN-0020",
+      "signal_category": "organic_farming",
+      "source_split": "data/val_v3.jsonl",
+      "status": "resolved_not_in_qmd"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000135",
+      "mapped_category": "sustainable_water_management",
+      "question": "How is 'available water' in soil commonly calculated?",
+      "question_id": "SWM-TRAIN-0088",
+      "signal_category": "sustainable_water_management",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000143",
+      "mapped_category": "conversations",
+      "question": "What is the best time of year to take cuttings from a persimmon tree for propagation?",
+      "question_id": "CONV-TRAIN-0169",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000150",
+      "mapped_category": "conversations",
+      "question": "How do Indigenous Microorganisms (IMOs) benefit black bean farming in natural agriculture?",
+      "question_id": "CONV-TRAIN-0113",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000166",
+      "mapped_category": "conversations",
+      "question": "Which of the following is a key component of the soil food web that forms symbiotic relationships with plants to enhance nutrient uptake?",
+      "question_id": "CONV-TRAIN-0087",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000172",
+      "mapped_category": "soil_science_and_microbiology",
+      "question": "Why is soil nitrogen considered difficult to characterize?",
+      "question_id": "SS-TRAIN-0102",
+      "signal_category": "soil_science_and_microbiology",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000220",
+      "mapped_category": "natural_fertilizers",
+      "question": "Based on the phosphorus management guide, what is the optimal Mehlich 3 soil test phosphorus range (in ppm) for optimum production of agronomic crops in Pennsylvania soils?",
+      "question_id": "NF-TRAIN-0013",
+      "signal_category": "natural_fertilizers",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000231",
+      "mapped_category": "natural_fertilizers",
+      "question": "How is the N-P-K content of finished compost characterized?",
+      "question_id": "NF-TRAIN-0070",
+      "signal_category": "natural_fertilizers",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000258",
+      "mapped_category": "permaculture",
+      "question": "Which of the following would be placed in Zone 1 in a permaculture design?",
+      "question_id": "PC-TRAIN-0100",
+      "signal_category": "permaculture",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000259",
+      "mapped_category": "conversations",
+      "question": "What is the correct sequential order for producing Indigenous Microorganisms (IMO) from initial collection to a soil-ready form?",
+      "question_id": "CONV-TRAIN-0128",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000311",
+      "question": "Which of the following best describes 'sectors' in the context of permaculture site design?",
+      "signal_category": "unknown",
+      "source_split": "data/val_v3.jsonl",
+      "status": "question_not_found"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000341",
+      "mapped_category": "natural_fertilizers",
+      "question": "According to the National Organic Standard, what temperature range must compost piles maintain?",
+      "question_id": "NF-TRAIN-0083",
+      "signal_category": "natural_fertilizers",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000371",
+      "mapped_category": "organic_farming",
+      "question": "How are long-term green manures, or leys, typically managed in stockless organic systems?",
+      "question_id": "OF-TRAIN-0005",
+      "signal_category": "organic_farming",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000387",
+      "mapped_category": "conversations",
+      "question": "What are the primary ingredients for preparing IMO-4 in natural farming for soil health improvement?",
+      "question_id": "CONV-TRAIN-0207",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000402",
+      "mapped_category": "conversations",
+      "question": "What is the common name for the plant Cnidoscolus chayamansa?",
+      "question_id": "CONV-TRAIN-0077",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000413",
+      "mapped_category": "conversations",
+      "question": "To prepare a 1-gallon solution containing 25 ppm molybdenum using sodium molybdate (which is 39% molybdenum by weight), approximately how many grams of sodium molybdate are required?",
+      "question_id": "CONV-TRAIN-0002",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000428",
+      "question": "In the permaculture zoning model, which zone would most likely contain wild, foraged plants and require minimal maintenance?",
+      "signal_category": "unknown",
+      "source_split": "data/val_v3.jsonl",
+      "status": "question_not_found"
+    },
+    {
+      "bucket": "position_unstable",
+      "item_id": "row_000465",
+      "mapped_category": "conversations",
+      "question": "Why is it challenging to grow moringa year-round outdoors in climates like Indiana?",
+      "question_id": "CONV-TRAIN-0031",
+      "signal_category": "conversations",
+      "source_split": "data/val_v3.jsonl",
+      "status": "selected"
+    }
+  ],
+  "qmd_record_count": 311,
+  "qmd_source": "[LOCAL_PATH]",
+  "question_join_count": 18,
+  "question_join_fraction": 0.9,
+  "selected_qmd_fraction": 0.054662,
+  "selected_qmd_record_count": 17,
+  "selected_question_ids": [
+    "CONV-TRAIN-0002",
+    "CONV-TRAIN-0031",
+    "CONV-TRAIN-0077",
+    "CONV-TRAIN-0087",
+    "CONV-TRAIN-0113",
+    "CONV-TRAIN-0128",
+    "CONV-TRAIN-0169",
+    "CONV-TRAIN-0207",
+    "NF-TRAIN-0013",
+    "NF-TRAIN-0070",
+    "NF-TRAIN-0083",
+    "OF-TRAIN-0005",
+    "PC-TRAIN-0100",
+    "SS-TRAIN-0005",
+    "SS-TRAIN-0102",
+    "SWM-TRAIN-0038",
+    "SWM-TRAIN-0088"
+  ],
+  "signal_count": 20,
+  "signals": "[LOCAL_PATH]",
+  "source_splits": [
+    "data/val_v3.jsonl"
+  ],
+  "status_counts": {
+    "question_not_found": 2,
+    "resolved_not_in_qmd": 1,
+    "selected": 17
+  }
+}
