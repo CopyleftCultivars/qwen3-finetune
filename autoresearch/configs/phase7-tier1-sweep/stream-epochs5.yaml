@@ -1,0 +1,67 @@
+# Tier-1 sweep (#91) stream 2: epochs 4 -> 5, everything else = v5clean's
+# settled base (lr=5e-5, lora_dropout=0.025).
+stream_id: epochs5
+run_name: p7-epochs5
+hypothesis: >-
+  Epochs was tested extensively (#71-77) but only under the OLD lr=2e-4
+  default; the combination with the NEW lr=5e-5 base is untested. More
+  epochs at this much lower LR may still be improving rather than
+  overfitting, unlike at lr=2e-4. Falsified if primary delta drops under
+  v5clean's own bar, or if any guard regresses versus v5clean's measured
+  numbers (bias 0.060, forgetting 41.67%, rubric 60.8% baseline).
+lever_tier: tier1
+prior: >-
+  levers.md Epochs row: untested whether fewer epochs avoids overfitting;
+  this stream tests the opposite direction from stream 1 (more, not
+  fewer). Chainlink #91's priority-1 pick: bracketing the current
+  epochs=4 pin now that lr/dropout are both settled constants.
+predicted_direction: unknown
+candidate_edit: >-
+  finetune.py config epochs 4 -> 5; lr=5e-5, lora_dropout=0.025 unchanged
+  (v5clean's settled base).
+rationale: >-
+  Chainlink #91, lever 1 of the planned Tier-1 sweep. Single-lever stream
+  against the current champion (v5clean), paired with stream 1 (epochs=3)
+  to bracket the current epochs=4 pin -- not a duplicate-lever violation
+  since program.md's diversity rule permits a labelled micro-sweep of one
+  lever across two streams.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p7-epochs5.json
+guardrails: results/autoresearch_guardrails_p7-epochs5.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p7-epochs5.json
+finetune_config: autoresearch/configs/phase7-tier1-sweep/p7-epochs5.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p7-epochs5
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p7-epochs5.json
+    --output results/primary_p7-epochs5.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p7-epochs5
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p7-epochs5.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p7-epochs5
+    --label p7-epochs5
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p7-epochs5.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p7-epochs5.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p7-epochs5.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p7-epochs5.json
+    --output results/autoresearch_guardrails_p7-epochs5.json
