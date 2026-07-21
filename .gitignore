@@ -61,3 +61,17 @@ mcq_generation/quality/scores/
 
 # External reference implementation cloned locally for Phase 5 planning/work.
 jacobian-lens/
+
+# Autoresearch per-run constructed SFT datasets (prepare_dataset_v3.py output,
+# named by each stream's dataset_suffix, e.g. data/train_p6lr.jsonl). Verified
+# deterministic given the same source files + seed=42 + config knobs — the
+# vast majority of these are byte-identical duplicates of the canonical
+# data/train_v3.jsonl / data/val_v3.jsonl (every stream that doesn't override
+# conversation_ratio/target_permutation_ids/synth_item_count regenerates the
+# same content under a different filename). Reproducible from the already-
+# committed finetune config YAML for any given run; only the canonical
+# _v2/_v3/_v4-suffixed files are pinned in git as the permanent eval/training
+# anchors everything else is measured against.
+data/train_p[0-9]*.jsonl
+data/val_p[0-9]*.jsonl
+data/qmd_mcq_jspace_*.jsonl
