@@ -1,0 +1,65 @@
+# Tier-1 LR sweep (#86): learning rate 5e-5 vs v4clean's 2e-4, everything
+# else held at v4clean's exact settings (lora_dropout=0.025, epochs=4).
+stream_id: lr5e5-r2
+run_name: p6-lr5e5-r2
+hypothesis: >-
+  Lowering peak LR from v4clean's 2e-4 to the never-actually-applied
+  "aspirational" 5e-5 figure reduces overfitting risk on the small
+  (~4400-pair) dataset. Direction is untested; levers.md flags this as
+  worth trying with no prior evidence either way. Falsified if the primary
+  delta drops under the 0.40/2.0-SE bar, or if any guard regresses versus
+  v4clean's own measured numbers (bias 0.219, forgetting 0% drop, rubric
+  53.17% baseline).
+lever_tier: tier1
+prior: >-
+  levers.md LR row: "the 5e-5 figure in prepare_dataset_v3.py's docstring
+  was aspirational and was never actually applied. Try lower LR next; no
+  evidence yet either way." First Tier-1 hyperparameter swept since v3/v4
+  clean's founding runs.
+predicted_direction: unknown
+candidate_edit: >-
+  finetune.py config lr 0.0002 -> 0.00005; all other v4clean settings
+  (lora_dropout=0.025, epochs=4, full mix) unchanged.
+rationale: >-
+  Chainlink #86. Single-lever Tier-1 sweep against the current champion
+  (v4clean), not a micro-sweep batch -- one stream, one lever moved.
+baseline_primary: results/primary_objective_v4_clean.json
+candidate_primary: results/primary_p6-lr5e5-r2.json
+guardrails: results/autoresearch_guardrails_p6-lr5e5-r2.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p6-lr5e5-r2.json
+finetune_config: autoresearch/configs/phase6-post-v4clean-confirm/p6-lr5e5-r2.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p6-lr5e5-r2
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p6-lr5e5-r2.json
+    --output results/primary_p6-lr5e5-r2.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p6-lr5e5-r2
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p6-lr5e5-r2.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p5real6-d025-r2
+    --candidate-model outputs/merged-model-p6-lr5e5-r2
+    --label p6-lr5e5-r2
+    --baseline-label codexv4
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 12
+    --output results/periodic_guards_p6-lr5e5-r2.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p6-lr5e5-r2.json
+    --baseline-mcq results/mcq_gold_ll_v4_clean.json
+    --candidate-general-mcq results/general_knowledge_p6-lr5e5-r2.json
+    --baseline-general-mcq results/general_knowledge_v4_clean.json
+    --periodic-guards results/periodic_guards_p6-lr5e5-r2.json
+    --output results/autoresearch_guardrails_p6-lr5e5-r2.json
