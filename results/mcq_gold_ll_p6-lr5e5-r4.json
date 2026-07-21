@@ -1,0 +1,3558 @@
+{
+  "per_item": [
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -4.40625,
+      "gold_probability": 0.7928085519641477,
+      "logprobs": {
+        "A": -5.78125,
+        "B": -4.40625,
+        "C": -9.75,
+        "D": -10.0
+      },
+      "option_set_gold_logprob": -0.2321735089860071,
+      "question_id": "row_000009",
+      "top_letter": "B",
+      "top_logprob": -4.40625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.2060546875,
+      "gold_probability": 0.8138238768680698,
+      "logprobs": {
+        "A": -2.703125,
+        "B": -2.703125,
+        "C": -2.953125,
+        "D": -0.2060546875
+      },
+      "option_set_gold_logprob": -0.2060113038743615,
+      "question_id": "row_000013",
+      "top_letter": "D",
+      "top_logprob": -0.2060546875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -5.46875,
+      "gold_probability": 0.11144421977056242,
+      "logprobs": {
+        "A": -3.59375,
+        "B": -5.46875,
+        "C": -5.59375,
+        "D": -6.03125
+      },
+      "option_set_gold_logprob": -2.1942310843753408,
+      "question_id": "row_000015",
+      "top_letter": "A",
+      "top_logprob": -3.59375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -1.953125,
+      "gold_probability": 0.2304676283201692,
+      "logprobs": {
+        "A": -2.328125,
+        "B": -3.328125,
+        "C": -1.953125,
+        "D": -1.078125
+      },
+      "option_set_gold_logprob": -1.467644867535461,
+      "question_id": "row_000016",
+      "top_letter": "D",
+      "top_logprob": -1.078125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "A",
+      "gold_logprob": -5.21875,
+      "gold_probability": 0.009761390503993734,
+      "logprobs": {
+        "A": -5.21875,
+        "B": -7.09375,
+        "C": -0.6015625,
+        "D": -7.71875
+      },
+      "option_set_gold_logprob": -4.629320419033487,
+      "question_id": "row_000021",
+      "top_letter": "C",
+      "top_logprob": -0.6015625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.51953125,
+      "gold_probability": 0.7688300839649734,
+      "logprobs": {
+        "A": -2.515625,
+        "B": -3.015625,
+        "C": -0.51953125,
+        "D": -3.015625
+      },
+      "option_set_gold_logprob": -0.2628852910237911,
+      "question_id": "row_000026",
+      "top_letter": "C",
+      "top_logprob": -0.51953125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -1.3046875,
+      "gold_probability": 0.694570027048868,
+      "logprobs": {
+        "A": -2.1875,
+        "B": -1.3046875,
+        "C": -5.0625,
+        "D": -7.1875
+      },
+      "option_set_gold_logprob": -0.36446229098693117,
+      "question_id": "row_000030",
+      "top_letter": "B",
+      "top_logprob": -1.3046875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -6.25,
+      "gold_probability": 0.9690538302806669,
+      "logprobs": {
+        "A": -6.25,
+        "B": -10.625,
+        "C": -10.375,
+        "D": -12.0
+      },
+      "option_set_gold_logprob": -0.0314351162291195,
+      "question_id": "row_000031",
+      "top_letter": "A",
+      "top_logprob": -6.25,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.8984375,
+      "gold_probability": 0.9289466982106981,
+      "logprobs": {
+        "A": -4.28125,
+        "B": -4.28125,
+        "C": -0.8984375,
+        "D": -5.65625
+      },
+      "option_set_gold_logprob": -0.07370391726029786,
+      "question_id": "row_000034",
+      "top_letter": "C",
+      "top_logprob": -0.8984375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.33203125,
+      "gold_probability": 0.9968042597807951,
+      "logprobs": {
+        "A": -6.46875,
+        "B": -0.33203125,
+        "C": -8.3125,
+        "D": -7.59375
+      },
+      "option_set_gold_logprob": -0.003200857502225688,
+      "question_id": "row_000035",
+      "top_letter": "B",
+      "top_logprob": -0.33203125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -2.28125,
+      "gold_probability": 0.1364188490664914,
+      "logprobs": {
+        "A": -2.15625,
+        "B": -2.28125,
+        "C": -1.15625,
+        "D": -1.53125
+      },
+      "option_set_gold_logprob": -1.9920253534830499,
+      "question_id": "row_000054",
+      "top_letter": "C",
+      "top_logprob": -1.15625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -2.703125,
+      "gold_probability": 0.06735457656396468,
+      "logprobs": {
+        "A": -7.46875,
+        "B": -5.21875,
+        "C": -2.703125,
+        "D": -0.08154296875
+      },
+      "option_set_gold_logprob": -2.6977844264824307,
+      "question_id": "row_000063",
+      "top_letter": "D",
+      "top_logprob": -0.08154296875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -1.96875,
+      "gold_probability": 0.5332133715810513,
+      "logprobs": {
+        "A": -7.59375,
+        "B": -2.21875,
+        "C": -4.34375,
+        "D": -1.96875
+      },
+      "option_set_gold_logprob": -0.6288336130080636,
+      "question_id": "row_000064",
+      "top_letter": "D",
+      "top_logprob": -1.96875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.53125,
+      "gold_probability": 0.8901101937266486,
+      "logprobs": {
+        "A": -3.28125,
+        "B": -0.53125,
+        "C": -3.78125,
+        "D": -4.40625
+      },
+      "option_set_gold_logprob": -0.11641001074416056,
+      "question_id": "row_000072",
+      "top_letter": "B",
+      "top_logprob": -0.53125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -5.0,
+      "gold_probability": 0.620327314126819,
+      "logprobs": {
+        "A": -5.75,
+        "B": -7.0,
+        "C": -5.0,
+        "D": -10.4375
+      },
+      "option_set_gold_logprob": -0.4775080142359121,
+      "question_id": "row_000074",
+      "top_letter": "C",
+      "top_logprob": -5.0,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -1.5390625,
+      "gold_probability": 0.9935635021976011,
+      "logprobs": {
+        "A": -7.03125,
+        "B": -8.0625,
+        "C": -1.5390625,
+        "D": -8.5625
+      },
+      "option_set_gold_logprob": -0.006457301370505468,
+      "question_id": "row_000085",
+      "top_letter": "C",
+      "top_logprob": -1.5390625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -4.15625,
+      "gold_probability": 0.6233810599909356,
+      "logprobs": {
+        "A": -6.53125,
+        "B": -4.90625,
+        "C": -4.15625,
+        "D": -7.40625
+      },
+      "option_set_gold_logprob": -0.4725972939023266,
+      "question_id": "row_000087",
+      "top_letter": "C",
+      "top_logprob": -4.15625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -4.4375,
+      "gold_probability": 0.6109588524261916,
+      "logprobs": {
+        "A": -6.3125,
+        "B": -5.6875,
+        "C": -4.4375,
+        "D": -6.0625
+      },
+      "option_set_gold_logprob": -0.49272566671627793,
+      "question_id": "row_000100",
+      "top_letter": "C",
+      "top_logprob": -4.4375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.5390625,
+      "gold_probability": 0.6089030398202046,
+      "logprobs": {
+        "A": -3.40625,
+        "B": -3.53125,
+        "C": -1.1640625,
+        "D": -0.5390625
+      },
+      "option_set_gold_logprob": -0.4960962360657254,
+      "question_id": "row_000103",
+      "top_letter": "D",
+      "top_logprob": -0.5390625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -8.75,
+      "gold_probability": 0.014241437492165256,
+      "logprobs": {
+        "A": -5.78125,
+        "B": -6.15625,
+        "C": -5.15625,
+        "D": -8.75
+      },
+      "option_set_gold_logprob": -4.251599430609646,
+      "question_id": "row_000108",
+      "top_letter": "C",
+      "top_logprob": -5.15625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -7.375,
+      "gold_probability": 0.002816790796590201,
+      "logprobs": {
+        "A": -7.875,
+        "B": -7.375,
+        "C": -1.5078125,
+        "D": -9.25
+      },
+      "option_set_gold_logprob": -5.872157057456872,
+      "question_id": "row_000119",
+      "top_letter": "C",
+      "top_logprob": -1.5078125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.41796875,
+      "gold_probability": 0.979555600154882,
+      "logprobs": {
+        "A": -4.65625,
+        "B": -5.53125,
+        "C": -0.41796875,
+        "D": -8.1875
+      },
+      "option_set_gold_logprob": -0.0206562793954964,
+      "question_id": "row_000132",
+      "top_letter": "C",
+      "top_logprob": -0.41796875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -0.515625,
+      "gold_probability": 0.8739043372751908,
+      "logprobs": {
+        "A": -0.515625,
+        "B": -3.640625,
+        "C": -3.390625,
+        "D": -3.640625
+      },
+      "option_set_gold_logprob": -0.13478436323566487,
+      "question_id": "row_000135",
+      "top_letter": "A",
+      "top_logprob": -0.515625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.017822265625,
+      "gold_probability": 0.9921697081495102,
+      "logprobs": {
+        "A": -5.65625,
+        "B": -5.53125,
+        "C": -0.017822265625,
+        "D": -8.125
+      },
+      "option_set_gold_logprob": -0.007861109565605841,
+      "question_id": "row_000138",
+      "top_letter": "C",
+      "top_logprob": -0.017822265625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.4921875,
+      "gold_probability": 0.6113346334615021,
+      "logprobs": {
+        "A": -4.25,
+        "B": -5.625,
+        "C": -0.9921875,
+        "D": -0.4921875
+      },
+      "option_set_gold_logprob": -0.49211078812698883,
+      "question_id": "row_000141",
+      "top_letter": "D",
+      "top_logprob": -0.4921875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -3.109375,
+      "gold_probability": 0.719679555334556,
+      "logprobs": {
+        "A": -4.5,
+        "B": -6.125,
+        "C": -3.109375,
+        "D": -5.5
+      },
+      "option_set_gold_logprob": -0.32894922807687843,
+      "question_id": "row_000143",
+      "top_letter": "C",
+      "top_logprob": -3.109375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -13.625,
+      "gold_probability": 0.07966631424850362,
+      "logprobs": {
+        "A": -12.5,
+        "B": -11.5625,
+        "C": -14.125,
+        "D": -13.625
+      },
+      "option_set_gold_logprob": -2.5299084393874707,
+      "question_id": "row_000150",
+      "top_letter": "B",
+      "top_logprob": -11.5625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -0.01300048828125,
+      "gold_probability": 0.9987192255999601,
+      "logprobs": {
+        "A": -0.01300048828125,
+        "B": -8.375,
+        "C": -8.375,
+        "D": -7.125
+      },
+      "option_set_gold_logprob": -0.0012815952925654445,
+      "question_id": "row_000154",
+      "top_letter": "A",
+      "top_logprob": -0.01300048828125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.7890625,
+      "gold_probability": 0.8401896239546282,
+      "logprobs": {
+        "A": -3.171875,
+        "B": -3.546875,
+        "C": -4.15625,
+        "D": -0.7890625
+      },
+      "option_set_gold_logprob": -0.17412766981772163,
+      "question_id": "row_000155",
+      "top_letter": "D",
+      "top_logprob": -0.7890625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.0185546875,
+      "gold_probability": 0.9830553510179584,
+      "logprobs": {
+        "A": -4.40625,
+        "B": -5.40625,
+        "C": -0.0185546875,
+        "D": -8.375
+      },
+      "option_set_gold_logprob": -0.017089852161870638,
+      "question_id": "row_000162",
+      "top_letter": "C",
+      "top_logprob": -0.0185546875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -3.390625,
+      "gold_probability": 0.8776653777029934,
+      "logprobs": {
+        "A": -8.8125,
+        "B": -9.75,
+        "C": -5.40625,
+        "D": -3.390625
+      },
+      "option_set_gold_logprob": -0.13048987678054555,
+      "question_id": "row_000163",
+      "top_letter": "D",
+      "top_logprob": -3.390625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -4.53125,
+      "gold_probability": 0.19806116990965145,
+      "logprobs": {
+        "A": -6.78125,
+        "B": -4.53125,
+        "C": -3.171875,
+        "D": -7.53125
+      },
+      "option_set_gold_logprob": -1.6191793570617754,
+      "question_id": "row_000166",
+      "top_letter": "C",
+      "top_logprob": -3.171875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -0.64453125,
+      "gold_probability": 0.9164787066306954,
+      "logprobs": {
+        "A": -0.64453125,
+        "B": -3.390625,
+        "C": -4.78125,
+        "D": -5.15625
+      },
+      "option_set_gold_logprob": -0.08721644532667261,
+      "question_id": "row_000170",
+      "top_letter": "A",
+      "top_logprob": -0.64453125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -4.71875,
+      "gold_probability": 0.19711637338601556,
+      "logprobs": {
+        "A": -3.71875,
+        "B": -4.71875,
+        "C": -5.46875,
+        "D": -4.84375
+      },
+      "option_set_gold_logprob": -1.623960996807366,
+      "question_id": "row_000172",
+      "top_letter": "A",
+      "top_logprob": -3.71875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.4453125,
+      "gold_probability": 0.6404376559265645,
+      "logprobs": {
+        "A": -2.5625,
+        "B": -1.6953125,
+        "C": -2.3125,
+        "D": -0.4453125
+      },
+      "option_set_gold_logprob": -0.4456034989534067,
+      "question_id": "row_000174",
+      "top_letter": "D",
+      "top_logprob": -0.4453125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -4.15625,
+      "gold_probability": 0.017723287188308463,
+      "logprobs": {
+        "A": -6.53125,
+        "B": -0.1435546875,
+        "C": -4.15625,
+        "D": -7.53125
+      },
+      "option_set_gold_logprob": -4.032875843768659,
+      "question_id": "row_000183",
+      "top_letter": "B",
+      "top_logprob": -0.1435546875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -1.3671875,
+      "gold_probability": 0.7591295562388078,
+      "logprobs": {
+        "A": -1.3671875,
+        "B": -3.875,
+        "C": -3.125,
+        "D": -4.125
+      },
+      "option_set_gold_logprob": -0.2755828228211937,
+      "question_id": "row_000184",
+      "top_letter": "A",
+      "top_logprob": -1.3671875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -0.05517578125,
+      "gold_probability": 0.9999846390821505,
+      "logprobs": {
+        "A": -0.05517578125,
+        "B": -12.3125,
+        "C": -11.9375,
+        "D": -12.5625
+      },
+      "option_set_gold_logprob": -1.5361035829589683e-05,
+      "question_id": "row_000186",
+      "top_letter": "A",
+      "top_logprob": -0.05517578125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -3.296875,
+      "gold_probability": 0.8339881744072946,
+      "logprobs": {
+        "A": -5.6875,
+        "B": -5.6875,
+        "C": -3.296875,
+        "D": -7.4375
+      },
+      "option_set_gold_logprob": -0.1815360560916708,
+      "question_id": "row_000189",
+      "top_letter": "C",
+      "top_logprob": -3.296875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -2.8125,
+      "gold_probability": 0.12433471930947425,
+      "logprobs": {
+        "A": -1.5703125,
+        "B": -1.8203125,
+        "C": -2.8125,
+        "D": -2.9375
+      },
+      "option_set_gold_logprob": -2.0847780008073746,
+      "question_id": "row_000193",
+      "top_letter": "A",
+      "top_logprob": -1.5703125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.431640625,
+      "gold_probability": 0.997868981193837,
+      "logprobs": {
+        "A": -7.3125,
+        "B": -0.431640625,
+        "C": -7.8125,
+        "D": -8.0625
+      },
+      "option_set_gold_logprob": -0.00213329265772702,
+      "question_id": "row_000203",
+      "top_letter": "B",
+      "top_logprob": -0.431640625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -5.375,
+      "gold_probability": 0.05395576437329953,
+      "logprobs": {
+        "A": -3.734375,
+        "B": -5.0,
+        "C": -2.984375,
+        "D": -5.375
+      },
+      "option_set_gold_logprob": -2.9195907463999644,
+      "question_id": "row_000215",
+      "top_letter": "C",
+      "top_logprob": -2.984375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -3.34375,
+      "gold_probability": 0.8523055697527613,
+      "logprobs": {
+        "A": -6.09375,
+        "B": -5.59375,
+        "C": -3.34375,
+        "D": -8.875
+      },
+      "option_set_gold_logprob": -0.15981016650778362,
+      "question_id": "row_000218",
+      "top_letter": "C",
+      "top_logprob": -3.34375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.08544921875,
+      "gold_probability": 0.980097678916247,
+      "logprobs": {
+        "A": -4.21875,
+        "B": -6.59375,
+        "C": -5.96875,
+        "D": -0.08544921875
+      },
+      "option_set_gold_logprob": -0.020103039920962087,
+      "question_id": "row_000219",
+      "top_letter": "D",
+      "top_logprob": -0.08544921875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -4.1875,
+      "gold_probability": 0.33278271932680115,
+      "logprobs": {
+        "A": -4.4375,
+        "B": -6.5625,
+        "C": -4.1875,
+        "D": -4.0625
+      },
+      "option_set_gold_logprob": -1.1002654964829943,
+      "question_id": "row_000220",
+      "top_letter": "D",
+      "top_logprob": -4.0625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -1.0078125,
+      "gold_probability": 0.40461647731526146,
+      "logprobs": {
+        "A": -6.25,
+        "B": -1.0078125,
+        "C": -5.5,
+        "D": -0.6328125
+      },
+      "option_set_gold_logprob": -0.9048156301265156,
+      "question_id": "row_000225",
+      "top_letter": "D",
+      "top_logprob": -0.6328125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -1.53125,
+      "gold_probability": 0.5199578434832289,
+      "logprobs": {
+        "A": -2.78125,
+        "B": -2.03125,
+        "C": -1.53125,
+        "D": -5.03125
+      },
+      "option_set_gold_logprob": -0.6540075409175921,
+      "question_id": "row_000231",
+      "top_letter": "C",
+      "top_logprob": -1.53125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -0.32421875,
+      "gold_probability": 0.8753540506412081,
+      "logprobs": {
+        "A": -0.32421875,
+        "B": -2.828125,
+        "C": -3.703125,
+        "D": -3.953125
+      },
+      "option_set_gold_logprob": -0.13312684516064582,
+      "question_id": "row_000232",
+      "top_letter": "A",
+      "top_logprob": -0.32421875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -2.3125,
+      "gold_probability": 0.8420799649318532,
+      "logprobs": {
+        "A": -2.3125,
+        "B": -5.3125,
+        "C": -4.4375,
+        "D": -6.3125
+      },
+      "option_set_gold_logprob": -0.17188029902134272,
+      "question_id": "row_000235",
+      "top_letter": "A",
+      "top_logprob": -2.3125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -2.609375,
+      "gold_probability": 0.8849685770298342,
+      "logprobs": {
+        "A": -5.625,
+        "B": -5.375,
+        "C": -6.625,
+        "D": -2.609375
+      },
+      "option_set_gold_logprob": -0.12220314078554517,
+      "question_id": "row_000244",
+      "top_letter": "D",
+      "top_logprob": -2.609375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -2.859375,
+      "gold_probability": 0.14709428302312577,
+      "logprobs": {
+        "A": -5.46875,
+        "B": -1.2265625,
+        "C": -2.859375,
+        "D": -3.359375
+      },
+      "option_set_gold_logprob": -1.9166815166906597,
+      "question_id": "row_000245",
+      "top_letter": "B",
+      "top_logprob": -1.2265625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.21484375,
+      "gold_probability": 0.910341254222719,
+      "logprobs": {
+        "A": -3.34375,
+        "B": -4.34375,
+        "C": -3.46875,
+        "D": -0.21484375
+      },
+      "option_set_gold_logprob": -0.09393574512755702,
+      "question_id": "row_000251",
+      "top_letter": "D",
+      "top_logprob": -0.21484375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -2.828125,
+      "gold_probability": 0.8012490737454789,
+      "logprobs": {
+        "A": -2.828125,
+        "B": -4.46875,
+        "C": -5.96875,
+        "D": -7.34375
+      },
+      "option_set_gold_logprob": -0.22158342675980822,
+      "question_id": "row_000254",
+      "top_letter": "A",
+      "top_logprob": -2.828125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -7.1875,
+      "gold_probability": 0.05986836296142394,
+      "logprobs": {
+        "A": -4.5625,
+        "B": -7.1875,
+        "C": -6.8125,
+        "D": -8.0
+      },
+      "option_set_gold_logprob": -2.81560707763862,
+      "question_id": "row_000258",
+      "top_letter": "A",
+      "top_logprob": -4.5625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -2.90625,
+      "gold_probability": 0.12422185986111647,
+      "logprobs": {
+        "A": -3.03125,
+        "B": -1.1484375,
+        "C": -2.90625,
+        "D": -3.90625
+      },
+      "option_set_gold_logprob": -2.0856861196468794,
+      "question_id": "row_000259",
+      "top_letter": "B",
+      "top_logprob": -1.1484375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -6.53125,
+      "gold_probability": 0.14154152948820234,
+      "logprobs": {
+        "A": -4.78125,
+        "B": -8.25,
+        "C": -6.53125,
+        "D": -8.5625
+      },
+      "option_set_gold_logprob": -1.9551621103436934,
+      "question_id": "row_000261",
+      "top_letter": "A",
+      "top_logprob": -4.78125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -1.0625,
+      "gold_probability": 0.9831265895693846,
+      "logprobs": {
+        "A": -5.4375,
+        "B": -6.5625,
+        "C": -1.0625,
+        "D": -8.6875
+      },
+      "option_set_gold_logprob": -0.017017388317109552,
+      "question_id": "row_000263",
+      "top_letter": "C",
+      "top_logprob": -1.0625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.1767578125,
+      "gold_probability": 0.8404430500992388,
+      "logprobs": {
+        "A": -4.8125,
+        "B": -3.296875,
+        "C": -0.1767578125,
+        "D": -2.171875
+      },
+      "option_set_gold_logprob": -0.17382608559834525,
+      "question_id": "row_000264",
+      "top_letter": "C",
+      "top_logprob": -0.1767578125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.0123291015625,
+      "gold_probability": 0.9935338045143025,
+      "logprobs": {
+        "A": -6.75,
+        "B": -0.0123291015625,
+        "C": -5.5,
+        "D": -6.75
+      },
+      "option_set_gold_logprob": -0.0064871918878953655,
+      "question_id": "row_000274",
+      "top_letter": "B",
+      "top_logprob": -0.0123291015625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.306640625,
+      "gold_probability": 0.8855187045114454,
+      "logprobs": {
+        "A": -2.4375,
+        "B": -7.4375,
+        "C": -4.9375,
+        "D": -0.306640625
+      },
+      "option_set_gold_logprob": -0.12158169887511612,
+      "question_id": "row_000283",
+      "top_letter": "D",
+      "top_logprob": -0.306640625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -2.140625,
+      "gold_probability": 0.9344641328599039,
+      "logprobs": {
+        "A": -2.140625,
+        "B": -4.90625,
+        "C": -7.15625,
+        "D": -9.625
+      },
+      "option_set_gold_logprob": -0.06778203392538937,
+      "question_id": "row_000285",
+      "top_letter": "A",
+      "top_logprob": -2.140625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -3.75,
+      "gold_probability": 0.7582597922993698,
+      "logprobs": {
+        "A": -5.625,
+        "B": -3.75,
+        "C": -6.375,
+        "D": -6.125
+      },
+      "option_set_gold_logprob": -0.27672921815543167,
+      "question_id": "row_000286",
+      "top_letter": "B",
+      "top_logprob": -3.75,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -4.875,
+      "gold_probability": 0.019768254117502167,
+      "logprobs": {
+        "A": -4.625,
+        "B": -1.0,
+        "C": -4.875,
+        "D": -7.0
+      },
+      "option_set_gold_logprob": -3.9236779553854255,
+      "question_id": "row_000288",
+      "top_letter": "B",
+      "top_logprob": -1.0,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.0181884765625,
+      "gold_probability": 0.9971600190839176,
+      "logprobs": {
+        "A": -6.15625,
+        "B": -0.0181884765625,
+        "C": -8.5,
+        "D": -7.65625
+      },
+      "option_set_gold_logprob": -0.0028440213134650724,
+      "question_id": "row_000290",
+      "top_letter": "B",
+      "top_logprob": -0.0181884765625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.08203125,
+      "gold_probability": 0.923857164504305,
+      "logprobs": {
+        "A": -4.84375,
+        "B": -4.71875,
+        "C": -2.828125,
+        "D": -0.08203125
+      },
+      "option_set_gold_logprob": -0.07919780315957055,
+      "question_id": "row_000293",
+      "top_letter": "D",
+      "top_logprob": -0.08203125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.453125,
+      "gold_probability": 0.6764510558991698,
+      "logprobs": {
+        "A": -3.828125,
+        "B": -0.453125,
+        "C": -2.578125,
+        "D": -1.578125
+      },
+      "option_set_gold_logprob": -0.3908951829920543,
+      "question_id": "row_000304",
+      "top_letter": "B",
+      "top_logprob": -0.453125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.98828125,
+      "gold_probability": 0.5812891108731012,
+      "logprobs": {
+        "A": -4.125,
+        "B": -1.4921875,
+        "C": -0.98828125,
+        "D": -3.609375
+      },
+      "option_set_gold_logprob": -0.5425070368206599,
+      "question_id": "row_000311",
+      "top_letter": "C",
+      "top_logprob": -0.98828125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.033935546875,
+      "gold_probability": 0.9667178538027446,
+      "logprobs": {
+        "A": -5.15625,
+        "B": -4.90625,
+        "C": -3.90625,
+        "D": -0.033935546875
+      },
+      "option_set_gold_logprob": -0.03384860086786437,
+      "question_id": "row_000312",
+      "top_letter": "D",
+      "top_logprob": -0.033935546875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -2.484375,
+      "gold_probability": 0.8762044567049664,
+      "logprobs": {
+        "A": -5.625,
+        "B": -2.484375,
+        "C": -5.5,
+        "D": -5.5
+      },
+      "option_set_gold_logprob": -0.13215581721380654,
+      "question_id": "row_000318",
+      "top_letter": "B",
+      "top_logprob": -2.484375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -2.0,
+      "gold_probability": 0.7068861512998341,
+      "logprobs": {
+        "A": -3.375,
+        "B": -4.875,
+        "C": -4.25,
+        "D": -2.0
+      },
+      "option_set_gold_logprob": -0.3468856567457024,
+      "question_id": "row_000321",
+      "top_letter": "D",
+      "top_logprob": -2.0,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.05078125,
+      "gold_probability": 0.997492229539419,
+      "logprobs": {
+        "A": -6.4375,
+        "B": -7.1875,
+        "C": -0.05078125,
+        "D": -10.3125
+      },
+      "option_set_gold_logprob": -0.0025109201838798218,
+      "question_id": "row_000324",
+      "top_letter": "C",
+      "top_logprob": -0.05078125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -6.40625,
+      "gold_probability": 0.0636386864843372,
+      "logprobs": {
+        "A": -3.90625,
+        "B": -6.40625,
+        "C": -6.53125,
+        "D": -5.90625
+      },
+      "option_set_gold_logprob": -2.7545337155065535,
+      "question_id": "row_000325",
+      "top_letter": "A",
+      "top_logprob": -3.90625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.3984375,
+      "gold_probability": 0.9754222292125536,
+      "logprobs": {
+        "A": -4.65625,
+        "B": -6.40625,
+        "C": -5.15625,
+        "D": -0.3984375
+      },
+      "option_set_gold_logprob": -0.024884846123185714,
+      "question_id": "row_000328",
+      "top_letter": "D",
+      "top_logprob": -0.3984375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.031494140625,
+      "gold_probability": 0.9853655033037639,
+      "logprobs": {
+        "A": -4.90625,
+        "B": -0.031494140625,
+        "C": -5.65625,
+        "D": -5.65625
+      },
+      "option_set_gold_logprob": -0.014742637295327982,
+      "question_id": "row_000330",
+      "top_letter": "B",
+      "top_logprob": -0.031494140625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -5.75,
+      "gold_probability": 0.2848930401081737,
+      "logprobs": {
+        "A": -4.875,
+        "B": -9.0,
+        "C": -5.75,
+        "D": -8.375
+      },
+      "option_set_gold_logprob": -1.2556414670214129,
+      "question_id": "row_000332",
+      "top_letter": "A",
+      "top_logprob": -4.875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -8.6875,
+      "gold_probability": 0.002775658954301561,
+      "logprobs": {
+        "A": -7.9375,
+        "B": -8.5625,
+        "C": -2.8125,
+        "D": -8.6875
+      },
+      "option_set_gold_logprob": -5.886867098963571,
+      "question_id": "row_000333",
+      "top_letter": "C",
+      "top_logprob": -2.8125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -8.0625,
+      "gold_probability": 0.0848171287217431,
+      "logprobs": {
+        "A": -5.9375,
+        "B": -7.8125,
+        "C": -8.0625,
+        "D": -7.9375
+      },
+      "option_set_gold_logprob": -2.467257766938244,
+      "question_id": "row_000341",
+      "top_letter": "A",
+      "top_logprob": -5.9375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.404296875,
+      "gold_probability": 0.7004243095320598,
+      "logprobs": {
+        "A": -2.53125,
+        "B": -2.40625,
+        "C": -0.404296875,
+        "D": -2.15625
+      },
+      "option_set_gold_logprob": -0.3560689711029915,
+      "question_id": "row_000344",
+      "top_letter": "C",
+      "top_logprob": -0.404296875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -2.203125,
+      "gold_probability": 0.8909878227017751,
+      "logprobs": {
+        "A": -5.3125,
+        "B": -6.5625,
+        "C": -2.203125,
+        "D": -4.9375
+      },
+      "option_set_gold_logprob": -0.11542451860609677,
+      "question_id": "row_000345",
+      "top_letter": "C",
+      "top_logprob": -2.203125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -6.34375,
+      "gold_probability": 0.9789341738058183,
+      "logprobs": {
+        "A": -6.34375,
+        "B": -12.5,
+        "C": -12.25,
+        "D": -10.4375
+      },
+      "option_set_gold_logprob": -0.021290876908519645,
+      "question_id": "row_000348",
+      "top_letter": "A",
+      "top_logprob": -6.34375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -8.375,
+      "gold_probability": 0.0403582702871023,
+      "logprobs": {
+        "A": -5.65625,
+        "B": -6.40625,
+        "C": -8.0,
+        "D": -8.375
+      },
+      "option_set_gold_logprob": -3.2099589415235874,
+      "question_id": "row_000350",
+      "top_letter": "A",
+      "top_logprob": -5.65625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -6.65625,
+      "gold_probability": 0.011289402227044339,
+      "logprobs": {
+        "A": -2.890625,
+        "B": -6.65625,
+        "C": -4.28125,
+        "D": -3.140625
+      },
+      "option_set_gold_logprob": -4.483890849339733,
+      "question_id": "row_000353",
+      "top_letter": "A",
+      "top_logprob": -2.890625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -0.1953125,
+      "gold_probability": 0.8249282595532278,
+      "logprobs": {
+        "A": -0.1953125,
+        "B": -5.6875,
+        "C": -4.6875,
+        "D": -1.8203125
+      },
+      "option_set_gold_logprob": -0.192458854545832,
+      "question_id": "row_000355",
+      "top_letter": "A",
+      "top_logprob": -0.1953125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -12.4375,
+      "gold_probability": 0.057573100096518774,
+      "logprobs": {
+        "A": -9.875,
+        "B": -12.1875,
+        "C": -12.4375,
+        "D": -11.6875
+      },
+      "option_set_gold_logprob": -2.8546998325776745,
+      "question_id": "row_000358",
+      "top_letter": "A",
+      "top_logprob": -9.875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -3.21875,
+      "gold_probability": 0.724152677660475,
+      "logprobs": {
+        "A": -4.59375,
+        "B": -5.34375,
+        "C": -3.21875,
+        "D": -7.96875
+      },
+      "option_set_gold_logprob": -0.3227530280821274,
+      "question_id": "row_000365",
+      "top_letter": "C",
+      "top_logprob": -3.21875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.07763671875,
+      "gold_probability": 0.9528466726565206,
+      "logprobs": {
+        "A": -4.3125,
+        "B": -0.07763671875,
+        "C": -4.1875,
+        "D": -4.0625
+      },
+      "option_set_gold_logprob": -0.04830127740469698,
+      "question_id": "row_000368",
+      "top_letter": "B",
+      "top_logprob": -0.07763671875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -3.25,
+      "gold_probability": 0.41841738650347204,
+      "logprobs": {
+        "A": -3.5,
+        "B": -4.5,
+        "C": -3.25,
+        "D": -4.375
+      },
+      "option_set_gold_logprob": -0.8712758123541863,
+      "question_id": "row_000370",
+      "top_letter": "C",
+      "top_logprob": -3.25,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -0.984375,
+      "gold_probability": 0.4239186470335605,
+      "logprobs": {
+        "A": -3.609375,
+        "B": -2.859375,
+        "C": -0.984375,
+        "D": -0.859375
+      },
+      "option_set_gold_logprob": -0.8582137123634884,
+      "question_id": "row_000371",
+      "top_letter": "D",
+      "top_logprob": -0.859375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -3.765625,
+      "gold_probability": 0.025860691960162423,
+      "logprobs": {
+        "A": -5.90625,
+        "B": -5.03125,
+        "C": -3.765625,
+        "D": -0.1474609375
+      },
+      "option_set_gold_logprob": -3.655031148062831,
+      "question_id": "row_000381",
+      "top_letter": "D",
+      "top_logprob": -0.1474609375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -5.03125,
+      "gold_probability": 0.3807779743584892,
+      "logprobs": {
+        "A": -7.90625,
+        "B": -5.15625,
+        "C": -5.40625,
+        "D": -5.03125
+      },
+      "option_set_gold_logprob": -0.9655388181828938,
+      "question_id": "row_000382",
+      "top_letter": "D",
+      "top_logprob": -5.03125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -10.375,
+      "gold_probability": 0.7885345100760885,
+      "logprobs": {
+        "A": -10.375,
+        "B": -12.9375,
+        "C": -12.4375,
+        "D": -13.125
+      },
+      "option_set_gold_logprob": -0.23757910679475255,
+      "question_id": "row_000387",
+      "top_letter": "A",
+      "top_logprob": -10.375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -7.4375,
+      "gold_probability": 0.034654930040068976,
+      "logprobs": {
+        "A": -4.1875,
+        "B": -7.4375,
+        "C": -8.3125,
+        "D": -6.9375
+      },
+      "option_set_gold_logprob": -3.3623152823685487,
+      "question_id": "row_000389",
+      "top_letter": "A",
+      "top_logprob": -4.1875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -4.15625,
+      "gold_probability": 0.6660369779609798,
+      "logprobs": {
+        "A": -4.90625,
+        "B": -10.1875,
+        "C": -7.78125,
+        "D": -4.15625
+      },
+      "option_set_gold_logprob": -0.4064100875191292,
+      "question_id": "row_000391",
+      "top_letter": "D",
+      "top_logprob": -4.15625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -2.71875,
+      "gold_probability": 0.9884785797383723,
+      "logprobs": {
+        "A": -8.875,
+        "B": -7.46875,
+        "C": -2.71875,
+        "D": -9.75
+      },
+      "option_set_gold_logprob": -0.011588306066674183,
+      "question_id": "row_000392",
+      "top_letter": "C",
+      "top_logprob": -2.71875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -7.65625,
+      "gold_probability": 0.022628372882144657,
+      "logprobs": {
+        "A": -3.90625,
+        "B": -8.6875,
+        "C": -8.8125,
+        "D": -7.65625
+      },
+      "option_set_gold_logprob": -3.7885507228432656,
+      "question_id": "row_000394",
+      "top_letter": "A",
+      "top_logprob": -3.90625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -2.9375,
+      "gold_probability": 0.9986117243138705,
+      "logprobs": {
+        "A": -10.9375,
+        "B": -9.8125,
+        "C": -13.6875,
+        "D": -2.9375
+      },
+      "option_set_gold_logprob": -0.001389240233628466,
+      "question_id": "row_000397",
+      "top_letter": "D",
+      "top_logprob": -2.9375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -1.453125,
+      "gold_probability": 0.9361787065598153,
+      "logprobs": {
+        "A": -4.9375,
+        "B": -1.453125,
+        "C": -5.5625,
+        "D": -5.3125
+      },
+      "option_set_gold_logprob": -0.06594889491678976,
+      "question_id": "row_000399",
+      "top_letter": "B",
+      "top_logprob": -1.453125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.765625,
+      "gold_probability": 0.9981217438026351,
+      "logprobs": {
+        "A": -7.75,
+        "B": -8.0,
+        "C": -0.765625,
+        "D": -9.125
+      },
+      "option_set_gold_logprob": -0.0018800223323855879,
+      "question_id": "row_000402",
+      "top_letter": "C",
+      "top_logprob": -0.765625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -2.71875,
+      "gold_probability": 0.9330683778979888,
+      "logprobs": {
+        "A": -5.46875,
+        "B": -8.6875,
+        "C": -7.96875,
+        "D": -2.71875
+      },
+      "option_set_gold_logprob": -0.06927679261232333,
+      "question_id": "row_000413",
+      "top_letter": "D",
+      "top_logprob": -2.71875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.2236328125,
+      "gold_probability": 0.9891676884088832,
+      "logprobs": {
+        "A": -5.84375,
+        "B": -5.21875,
+        "C": -0.2236328125,
+        "D": -7.71875
+      },
+      "option_set_gold_logprob": -0.010891408234640436,
+      "question_id": "row_000416",
+      "top_letter": "C",
+      "top_logprob": -0.2236328125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.8671875,
+      "gold_probability": 0.7704582786573007,
+      "logprobs": {
+        "A": -5.625,
+        "B": -4.125,
+        "C": -2.25,
+        "D": -0.8671875
+      },
+      "option_set_gold_logprob": -0.2607697740886923,
+      "question_id": "row_000419",
+      "top_letter": "D",
+      "top_logprob": -0.8671875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -9.125,
+      "gold_probability": 0.8096342217893902,
+      "logprobs": {
+        "A": -9.125,
+        "B": -11.0625,
+        "C": -12.125,
+        "D": -12.3125
+      },
+      "option_set_gold_logprob": -0.21117271134551072,
+      "question_id": "row_000428",
+      "top_letter": "A",
+      "top_logprob": -9.125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.2255859375,
+      "gold_probability": 0.9695011137765209,
+      "logprobs": {
+        "A": -3.96875,
+        "B": -0.2255859375,
+        "C": -6.21875,
+        "D": -5.46875
+      },
+      "option_set_gold_logprob": -0.03097365548470011,
+      "question_id": "row_000439",
+      "top_letter": "B",
+      "top_logprob": -0.2255859375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.70703125,
+      "gold_probability": 0.9764600483571421,
+      "logprobs": {
+        "A": -6.09375,
+        "B": -5.46875,
+        "C": -0.70703125,
+        "D": -5.21875
+      },
+      "option_set_gold_logprob": -0.023821442603092137,
+      "question_id": "row_000442",
+      "top_letter": "C",
+      "top_logprob": -0.70703125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -0.99609375,
+      "gold_probability": 0.4439826663301902,
+      "logprobs": {
+        "A": -2.625,
+        "B": -0.99609375,
+        "C": -3.875,
+        "D": -0.99609375
+      },
+      "option_set_gold_logprob": -0.811969757108854,
+      "question_id": "row_000446",
+      "top_letter": "B",
+      "top_logprob": -0.99609375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.0247802734375,
+      "gold_probability": 0.988927478378202,
+      "logprobs": {
+        "A": -6.28125,
+        "B": -4.90625,
+        "C": -6.40625,
+        "D": -0.0247802734375
+      },
+      "option_set_gold_logprob": -0.011134278280425045,
+      "question_id": "row_000447",
+      "top_letter": "D",
+      "top_logprob": -0.0247802734375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -8.375,
+      "gold_probability": 0.06957838747616754,
+      "logprobs": {
+        "A": -6.09375,
+        "B": -8.625,
+        "C": -7.34375,
+        "D": -8.375
+      },
+      "option_set_gold_logprob": -2.6653012846322697,
+      "question_id": "row_000465",
+      "top_letter": "A",
+      "top_logprob": -6.09375,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.1064453125,
+      "gold_probability": 0.9713615827491252,
+      "logprobs": {
+        "A": -5.34375,
+        "B": -3.859375,
+        "C": -0.1064453125,
+        "D": -7.34375
+      },
+      "option_set_gold_logprob": -0.029056498185752993,
+      "question_id": "row_000466",
+      "top_letter": "C",
+      "top_logprob": -0.1064453125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "D",
+      "gold_logprob": -0.0390625,
+      "gold_probability": 0.9654248517138017,
+      "logprobs": {
+        "A": -4.40625,
+        "B": -5.40625,
+        "C": -4.03125,
+        "D": -0.0390625
+      },
+      "option_set_gold_logprob": -0.03518701368620262,
+      "question_id": "row_000469",
+      "top_letter": "D",
+      "top_logprob": -0.0390625,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -7.875,
+      "gold_probability": 0.7615135529079071,
+      "logprobs": {
+        "A": -9.875,
+        "B": -7.875,
+        "C": -10.125,
+        "D": -10.5
+      },
+      "option_set_gold_logprob": -0.27244730915866894,
+      "question_id": "row_000471",
+      "top_letter": "B",
+      "top_logprob": -7.875,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -1.203125,
+      "gold_probability": 0.7117173550874519,
+      "logprobs": {
+        "A": -2.203125,
+        "B": -4.84375,
+        "C": -1.203125,
+        "D": -5.71875
+      },
+      "option_set_gold_logprob": -0.3400744195766587,
+      "question_id": "row_000473",
+      "top_letter": "C",
+      "top_logprob": -1.203125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -5.125,
+      "gold_probability": 0.7419040197720179,
+      "logprobs": {
+        "A": -6.875,
+        "B": -9.0,
+        "C": -5.125,
+        "D": -7.0
+      },
+      "option_set_gold_logprob": -0.298535397588614,
+      "question_id": "row_000480",
+      "top_letter": "C",
+      "top_logprob": -5.125,
+      "topic": "unknown"
+    },
+    {
+      "category": "unknown",
+      "correct_by_argmax": true,
+      "gold": "C",
+      "gold_logprob": -0.14453125,
+      "gold_probability": 0.9995951346314489,
+      "logprobs": {
+        "A": -8.625,
+        "B": -9.25,
+        "C": -0.14453125,
+        "D": -9.5
+      },
+      "option_set_gold_logprob": -0.00040494734866245526,
+      "question_id": "row_000482",
+      "top_letter": "C",
+      "top_logprob": -0.14453125,
+      "topic": "unknown"
+    }
+  ],
+  "skipped": [
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 1
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 2
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 3
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 4
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 5
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 6
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 7
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 8
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 10
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 11
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 12
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 14
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 17
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 18
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 19
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 20
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 22
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 23
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 24
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 25
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 27
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 28
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 29
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 32
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 33
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 36
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 37
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 38
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 39
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 40
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 41
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 42
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 43
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 44
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 45
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 46
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 47
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 48
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 49
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 50
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 51
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 52
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 53
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 55
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 56
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 57
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 58
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 59
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 60
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 61
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 62
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 65
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 66
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 67
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 68
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 69
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 70
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 71
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 73
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 75
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 76
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 77
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 78
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 79
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 80
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 81
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 82
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 83
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 84
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 86
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 88
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 89
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 90
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 91
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 92
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 93
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 94
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 95
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 96
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 97
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 98
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 99
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 101
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 102
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 104
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 105
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 106
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 107
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 109
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 110
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 111
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 112
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 113
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 114
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 115
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 116
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 117
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 118
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 120
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 121
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 122
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 123
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 124
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 125
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 126
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 127
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 128
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 129
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 130
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 131
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 133
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 134
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 136
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 137
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 139
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 140
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 142
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 144
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 145
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 146
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 147
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 148
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 149
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 151
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 152
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 153
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 156
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 157
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 158
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 159
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 160
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 161
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 164
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 165
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 167
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 168
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 169
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 171
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 173
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 175
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 176
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 177
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 178
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 179
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 180
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 181
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 182
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 185
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 187
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 188
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 190
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 191
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 192
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 194
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 195
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 196
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 197
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 198
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 199
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 200
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 201
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 202
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 204
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 205
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 206
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 207
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 208
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 209
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 210
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 211
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 212
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 213
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 214
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 216
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 217
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 221
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 222
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 223
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 224
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 226
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 227
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 228
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 229
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 230
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 233
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 234
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 236
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 237
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 238
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 239
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 240
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 241
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 242
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 243
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 246
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 247
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 248
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 249
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 250
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 252
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 253
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 255
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 256
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 257
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 260
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 262
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 265
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 266
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 267
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 268
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 269
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 270
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 271
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 272
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 273
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 275
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 276
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 277
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 278
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 279
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 280
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 281
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 282
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 284
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 287
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 289
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 291
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 292
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 294
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 295
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 296
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 297
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 298
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 299
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 300
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 301
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 302
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 303
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 305
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 306
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 307
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 308
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 309
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 310
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 313
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 314
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 315
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 316
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 317
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 319
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 320
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 322
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 323
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 326
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 327
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 329
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 331
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 334
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 335
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 336
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 337
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 338
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 339
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 340
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 342
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 343
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 346
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 347
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 349
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 351
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 352
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 354
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 356
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 357
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 359
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 360
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 361
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 362
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 363
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 364
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 366
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 367
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 369
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 372
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 373
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 374
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 375
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 376
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 377
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 378
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 379
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 380
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 383
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 384
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 385
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 386
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 388
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 390
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 393
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 395
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 396
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 398
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 400
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 401
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 403
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 404
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 405
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 406
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 407
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 408
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 409
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 410
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 411
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 412
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 414
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 415
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 417
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 418
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 420
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 421
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 422
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 423
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 424
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 425
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 426
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 427
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 429
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 430
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 431
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 432
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 433
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 434
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 435
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 436
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 437
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 438
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 440
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 441
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 443
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 444
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 445
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 448
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 449
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 450
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 451
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 452
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 453
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 454
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 455
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 456
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 457
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 458
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 459
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 460
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 461
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 462
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 463
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 464
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 467
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 468
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 470
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 472
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 474
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 475
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 476
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 477
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 478
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 479
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 481
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 483
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 484
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 485
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 486
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 487
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 488
+    },
+    {
+      "reason": "instruction does not contain an A/B/C/D option block",
+      "row_number": 489
+    }
+  ],
+  "summary": {
+    "argmax_accuracy": 0.7168141592920354,
+    "dataset": "data/val_v3.jsonl",
+    "device": "cuda",
+    "diagnostics_dir": "../benchmark-eval-workspace/diagnostics",
+    "full_precision": true,
+    "mean_gold_logprob": -2.9200142379355642,
+    "mean_gold_nll": 2.9200142379355642,
+    "mean_option_set_gold_logprob": -0.9367904599729199,
+    "mean_option_set_gold_nll": 0.9367904599729199,
+    "model": "outputs/merged-model-p6-lr5e5-r4",
+    "scored_mcq_rows": 113,
+    "skipped_non_mcq_rows": 376
+  }
+}
