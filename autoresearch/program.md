@@ -21,6 +21,27 @@ hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
   it is superseded, not deleted. Future streams should set `--baseline-label codexv4` (not
   `codexv3`/`codexv3-12`) and reference the v4clean baseline files above.
 
+## Rubric sample-size growth policy (human-directed, 2026-07-21)
+
+- The rubric guard's `--items-per-type` grew once already under pressure: 6 (30 items) was
+  proven too noisy (chainlink #82 — a 2/4 pass rate on `lora_dropout=0.01` reversed to 0/4 fail
+  at higher precision), so v4clean's `codexv4` baseline was built at 12 (60 items). The dev pool
+  (`eval_freeform/dev.jsonl`) has a hard ceiling of 18/type (90 items total) — there is no more
+  headroom without authoring new dev items, which is out of scope for the loop itself.
+- Going forward, **every successful champion promotion also grows the rubric sample size by
+  +3/type**, up to that ceiling: v4clean is baselined at 12/type; the *next* promoted champion's
+  baseline must be built at 15/type; the one after that at 18/type (the ceiling — stays there
+  for all subsequent promotions once reached).
+- Rationale: a promotion already requires building a fresh judge baseline for the new champion
+  (new model → new reference generations → new grading), so bumping N at that exact moment adds
+  no extra re-baseline event — it rides the one that would happen anyway. Growing preemptively
+  mid-tournament, by contrast, would invalidate whatever comparison is currently in flight against
+  the existing baseline for no such win (see chainlink #86's LR-sweep stream, which correctly
+  stays at 12/type against `codexv4` — this policy does not apply retroactively or mid-flight).
+- Do not skip a step: always exactly +3/type per promotion until the 18/type ceiling, not a
+  jump straight to 18. This keeps each re-baseline small relative to the one before it, and
+  gives another checkpoint to notice if noise is still a problem before committing to the max.
+
 ## Editable and frozen surfaces
 
 - The candidate search edit is limited to `autoresearch/finetune.py` parameters/configuration and
