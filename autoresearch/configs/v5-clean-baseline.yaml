@@ -1,0 +1,52 @@
+schema_version: 1
+
+# Reproduces v5clean's actual known settings (chainlink #90 promotion):
+# - the promoted champion checkpoint is outputs/merged-model-p6-lr5e5-r2
+#   (trained via autoresearch/configs/phase6-post-v4clean-confirm/p6-lr5e5-r2.yaml);
+#   this file is the clean-naming reproduction recipe, analogous to
+#   v4-clean-baseline.yaml's relationship to the original v4clean run.
+# - adapter output: outputs/lora-adapter-v5-clean
+# - training data: data/train_v3.jsonl / data/val_v3.jsonl (same mix as v3/v4-clean)
+# - LoRA config: r=32, alpha=64, dropout=0.025, all 7 target modules
+# - lr=5e-5 (down from v4clean's 2e-4) -- the single lever this promotion moved
+# - confirmed robust over n=4 identical runs (chainlink #86): primary delta
+#   +1.478 +/- 0.071 SD, rubric IMPROVED in every run (never regressed)
+run_name: v5-clean
+dataset_suffix: _v5
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
+
+conversation_ratio:
+target_permutation_ids:
+sft_format: bare-letter
+synth_item_count:
+
+model: unsloth/Qwen3-0.6B
+merge_base: Qwen/Qwen3-0.6B
+merge_dtype: float16
+force_peft: false
+wandb: false
+resume: false
