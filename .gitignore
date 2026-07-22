@@ -75,3 +75,6 @@ jacobian-lens/
 data/train_p[0-9]*.jsonl
 data/val_p[0-9]*.jsonl
 data/qmd_mcq_jspace_*.jsonl
+# Regenerable cloze preflight artifacts; contamination reports remain tracked.
+data/cloze_raw_*.jsonl
+data/cloze_clean_*.jsonl
