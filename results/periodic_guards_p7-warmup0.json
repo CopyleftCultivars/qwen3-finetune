@@ -1,0 +1,42 @@
+{
+  "baseline_label": "codexv5",
+  "baseline_model": "outputs/merged-model-p6-lr5e5-r2",
+  "candidate_model": "outputs/merged-model-p7-warmup0",
+  "grader_anchor": {
+    "max_abs_drift": 0.0,
+    "reports": [
+      "results/periodic_anchor_baseline_codexv5.json",
+      "results/periodic_anchor_candidate_p7-warmup0.json"
+    ],
+    "total_drift_alerts": 0
+  },
+  "grader_models": [
+    "codex/gpt-5.6-luna"
+  ],
+  "items_per_type": 15,
+  "judge_backend": "codex",
+  "label": "p7-warmup0",
+  "rubric": {
+    "baseline_detail": {
+      "grader_models": [
+        "codex/gpt-5.6-luna"
+      ],
+      "mean_weighted_score": 0.608,
+      "n_items": 75,
+      "output": "results/periodic_rubric_baseline_codexv5.jsonl",
+      "percent": 60.8
+    },
+    "baseline_percent": 60.8,
+    "candidate_detail": {
+      "grader_models": [
+        "codex/gpt-5.6-luna"
+      ],
+      "mean_weighted_score": 0.5929333333333333,
+      "n_items": 75,
+      "output": "results/periodic_rubric_candidate_p7-warmup0.jsonl",
+      "percent": 59.29333333333333
+    },
+    "candidate_percent": 59.29333333333333,
+    "drop_percent_points": 1.5066666666666677
+  }
+}
