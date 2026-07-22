@@ -1,0 +1,31 @@
+schema_version: 1
+
+# Tier-1 sweep (#91), lever 8: LoRA target modules. v5clean's exact settings
+# except the target set is narrowed from all 7 projections to attention-only.
+run_name: p7-target-attn
+dataset_suffix: _p7attn
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
