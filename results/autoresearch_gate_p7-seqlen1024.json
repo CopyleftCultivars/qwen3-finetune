@@ -1,0 +1,21 @@
+{
+  "baseline_primary": -0.7751536917130241,
+  "candidate_primary": -1.5641967493050792,
+  "decision": "reject",
+  "format": "autoresearch_gate_decision_v1",
+  "primary_delta": -0.7890430575920552,
+  "primary_delta_standard_errors": -3.9452152879602758,
+  "primary_delta_threshold": 0.4,
+  "primary_standard_error": 0.2,
+  "reasons": {
+    "metric": [
+      "primary_delta_not_significant delta=-0.7890430576 threshold=0.4000000000"
+    ],
+    "pause_guardrails": [],
+    "reject_guardrails": [
+      "forgetting_drop_exceeded drop=10.0000 limit=5.0000",
+      "bias_reintroduced observed=0.1128 baseline=0.0597 allowed=0.1097"
+    ]
+  },
+  "recommended_action": "revert_candidate"
+}
