@@ -1,0 +1,70 @@
+schema_version: 1
+
+# Tier-2 targeted position/order augmentation against the v5clean champion.
+stream_id: perm-targeted
+run_name: p7-perm-targeted
+hypothesis: >-
+  Extra cyclic-shift coverage on the seeded position-unstable training items
+  may improve option-position invariance and the MCQ primary without changing
+  the balanced letter marginal. The seed report contains 17 CONV-TRAIN IDs
+  with literal overlap in the QMD training source; the preparation audit will
+  record the exact match count. Falsified if the candidate fails the primary
+  gate or any quality, forgetting, bias, anchor, or compute guardrail.
+lever_tier: tier2
+prior: >-
+  levers.md answer-position shuffle row: highest-confidence target, with
+  targeted rather than blanket augmentation. Use the checked-in
+  results/jspace_position_unstable_target_ids.json seed report and the
+  --target-permutation-ids implementation; this avoids the known zero-overlap
+  benchmark-ID caveat of the external 321-item B3 report.
+predicted_direction: up
+candidate_edit: >-
+  prepare_dataset_v3.py target_permutation_ids disabled ->
+  results/jspace_position_unstable_target_ids.json (default multiplier 2);
+  lr=5e-5, cosine schedule, warmup_ratio=0.05, epochs=4, batch_size=4,
+  grad_accum=4, lora_r=32/alpha=64, max_seq_len=2048, packing=false, and all
+  other v5clean settings unchanged.
+rationale: >-
+  First Tier-2 continuation after the complete #91 Tier-1 sweep. Single
+  targeted permutation stream against the current champion; if it passes, it
+  becomes a candidate for repeat confirmation before promotion discussion.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p7-perm-targeted.json
+guardrails: results/autoresearch_guardrails_p7-perm-targeted.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p7-perm-targeted.json
+finetune_config: autoresearch/configs/phase7-tier2/p7-perm-targeted.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p7-perm-targeted
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p7-perm-targeted.json
+    --output results/primary_p7-perm-targeted.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p7-perm-targeted
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p7-perm-targeted.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p7-perm-targeted
+    --label p7-perm-targeted
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p7-perm-targeted.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p7-perm-targeted.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p7-perm-targeted.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p7-perm-targeted.json
+    --output results/autoresearch_guardrails_p7-perm-targeted.json
