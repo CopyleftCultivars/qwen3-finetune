@@ -92,6 +92,7 @@ def order_pairs(
         scored.sort(key=lambda item: (-item[1]["difficulty_score"], _tie_key(item[0])))
 
     counts = Counter(item[1]["difficulty_bucket"] for item in scored)
+    source_counts = Counter(str(pair.get("_source", "unknown")) for pair, _ in scored)
     scores = [item[1]["difficulty_score"] for item in scored]
     report = {
         "format": "curriculum_signal_report_v1",
@@ -99,6 +100,7 @@ def order_pairs(
         "order": order,
         "item_count": len(scored),
         "bucket_counts": dict(sorted(counts.items())),
+        "source_counts": dict(sorted(source_counts.items())),
         "score_min": min(scores) if scores else None,
         "score_max": max(scores) if scores else None,
         "score_mean": round(sum(scores) / len(scores), 6) if scores else None,

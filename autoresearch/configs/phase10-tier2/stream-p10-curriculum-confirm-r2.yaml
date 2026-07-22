@@ -1,0 +1,59 @@
+schema_version: 1
+stream_id: p10-curriculum-confirm-r2
+run_name: p10-curriculum-confirm-r2
+hypothesis: >-
+  Repeat confirmation of the easy-to-hard curriculum result under a second
+  new training initialization seed. The data split, curriculum signal, and all
+  optimizer settings remain fixed; promotion still requires the frozen gate.
+lever_tier: tier2-confirmation
+prior: >-
+  The seed-42 curriculum run reached primary delta +0.3994, just below the
+  +0.4 gate, while all other guards were clean or improved. This is repeat two
+  of three with the same validation split and training_seed=102.
+predicted_direction: up
+candidate_edit: >-
+  Keep --seed=42 and curriculum_order=easy-to-hard fixed; change only the
+  training initialization/sampler seed to 102.
+rationale: >-
+  A three-repeat confirmation campaign distinguishes a reproducible curriculum
+  effect from a one-run near miss before Tier 2 is closed.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p10-curriculum-confirm-r2.json
+guardrails: results/autoresearch_guardrails_p10-curriculum-confirm-r2.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p10-curriculum-confirm-r2.json
+finetune_config: autoresearch/configs/phase10-tier2/p10-curriculum-confirm-r2.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p10-curriculum-confirm-r2
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_p10curriculum_confirm_r2.jsonl
+    --mcq-output results/mcq_gold_ll_p10-curriculum-confirm-r2.json
+    --output results/primary_p10-curriculum-confirm-r2.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p10-curriculum-confirm-r2
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p10-curriculum-confirm-r2.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p10-curriculum-confirm-r2
+    --label p10-curriculum-confirm-r2
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p10-curriculum-confirm-r2.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p10-curriculum-confirm-r2.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p10-curriculum-confirm-r2.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p10-curriculum-confirm-r2.json
+    --output results/autoresearch_guardrails_p10-curriculum-confirm-r2.json
