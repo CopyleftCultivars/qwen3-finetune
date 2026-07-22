@@ -1,0 +1,73 @@
+schema_version: 1
+
+stream_id: p9-clean
+run_name: p9-clean-cloze400-refusal
+hypothesis: >-
+  Removing embedded persona/system text while retaining the underlying QMD
+  questions, adding ten reviewed refusal examples, and retaining the audited
+  cloze dose will improve domain transfer without reproducing the accidental
+  system-prompt leakage or random prompt-injection behavior in the source.
+lever_tier: post-tier2-data-hygiene
+prior: >-
+  The previous cloze assembly retained 65 QMD variants whose instruction began
+  with a long assistant persona, plus incidental adversarial-looking chat rows.
+  Those rows were encoded as user content. The new pipeline strips composite
+  QMD prefixes, drops persona-only conversation rows, and adds only reviewed,
+  non-disclosing refusal examples. A separate diagnostic compares deployment
+  system-prompt use with and without the same model and domain validation rows.
+predicted_direction: up
+candidate_edit: >-
+  Enable filter_system_prompts, add 10 reviewed adversarial_refusal rows, and
+  retain cloze_count=400; keep v5clean optimizer, MCQ, split, and format fixed.
+rationale: >-
+  This makes the data source intentional and auditable before spending another
+  GPU run. The primary gate remains unchanged; the system-prompt comparison is
+  reported separately so a deployment prompt cannot silently alter promotion.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p9-clean-cloze400-refusal.json
+guardrails: results/autoresearch_guardrails_p9-clean-cloze400-refusal.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p9-clean-cloze400-refusal.json
+finetune_config: autoresearch/configs/phase9-data-hygiene/p9-clean-cloze400-refusal.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p9-clean-cloze400-refusal
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_p9clean.jsonl
+    --mcq-output results/mcq_gold_ll_p9-clean-cloze400-refusal.json
+    --output results/primary_p9-clean-cloze400-refusal.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p9-clean-cloze400-refusal
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p9-clean-cloze400-refusal.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p9-clean-cloze400-refusal
+    --label p9-clean-cloze400-refusal
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p9-clean-cloze400-refusal.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/compare_system_prompt.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p9-clean-cloze400-refusal
+    --dataset data/val_p9clean.jsonl
+    --system-prompt-file autoresearch/system_prompts/natural_farming.txt
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+    --output results/system_prompt_compare_p9-clean-cloze400-refusal.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p9-clean-cloze400-refusal.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p9-clean-cloze400-refusal.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p9-clean-cloze400-refusal.json
+    --output results/autoresearch_guardrails_p9-clean-cloze400-refusal.json

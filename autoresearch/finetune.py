@@ -99,6 +99,12 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
         argv.extend(["--mcq-rationale", args.mcq_rationale])
     if args.qmd_mcq:
         argv.extend(["--qmd-mcq", args.qmd_mcq])
+    if args.adversarial_refusals:
+        argv.extend(["--adversarial-refusals", args.adversarial_refusals])
+    if args.adversarial_refusal_count is not None:
+        argv.extend(["--adversarial-refusal-count", str(args.adversarial_refusal_count)])
+    if args.filter_system_prompts:
+        argv.append("--filter-system-prompts")
     if args.cloze_source:
         argv.extend(["--cloze-source", args.cloze_source])
     if args.cloze_count is not None:
@@ -377,6 +383,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--mcq-rationale", default=None)
     parser.add_argument("--qmd-mcq", default=DEFAULT_QMD_MCQ)
     parser.add_argument(
+        "--adversarial-refusals",
+        default=None,
+        help="Reviewed adversarial-refusal JSONL to add as a separate source",
+    )
+    parser.add_argument("--adversarial-refusal-count", type=int, default=None)
+    parser.add_argument(
+        "--filter-system-prompts",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Strip composite persona prefixes and drop persona-only rows",
+    )
+    parser.add_argument(
         "--cloze-source",
         default=None,
         help="Audit-approved cloze JSONL to mix into the training pool",
@@ -538,6 +556,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         parser.error("--cloze-count must be >= 1")
     if args.cloze_maximum_answer_frequency < 0:
         parser.error("--cloze-maximum-answer-frequency must be >= 0")
+    if args.adversarial_refusal_count is not None and args.adversarial_refusal_count < 1:
+        parser.error("--adversarial-refusal-count must be >= 1")
     if args.cloze_conversations and not args.cloze_benchmark:
         parser.error("--cloze-conversations requires --cloze-benchmark")
     if args.cloze_source and args.cloze_conversations:

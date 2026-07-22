@@ -42,6 +42,9 @@ python3 prepare_dataset_v3.py \
   --qmd-mcq data/sources/qmd_mcq_all_phase3.jsonl \
   --cloze-source data/sources/cloze_chat_clean.jsonl \
   --cloze-count 400 \
+  --filter-system-prompts \
+  --adversarial-refusals data/sources/adversarial_refusals.jsonl \
+  --adversarial-refusal-count 10 \
   --output-dir data --suffix _cloze_probe
 ```
 
@@ -49,6 +52,16 @@ The cloze target is the exact missing phrase, while MCQ letter accounting is
 kept separate so cloze answers ending in `A`, `B`, `C`, or `D` cannot alter the
 gold-letter balance diagnostic. The first GPU experiment should hold v5clean's
 settings fixed and vary only the audited cloze count/proportion.
+
+The hygiene filter is separate from cloze authoring. It removes persona-only
+conversation rows and strips the known composite persona prefix from QMD MCQ
+instructions while retaining the underlying question. The reviewed refusal
+source is opt-in; its rows are not mixed into the ordinary chat corpus.
+
+The deployment prompt in `autoresearch/system_prompts/natural_farming.txt` is
+also kept separate from training records. `autoresearch/compare_system_prompt.py`
+reports the same model's domain MCQ score with and without that prompt, so a
+prompt benefit is visible without changing the frozen primary gate.
 
 This pipeline is intentionally deterministic and conservative. It is not a
 replacement for expert-authored cloze questions; a later data-authoring pass
