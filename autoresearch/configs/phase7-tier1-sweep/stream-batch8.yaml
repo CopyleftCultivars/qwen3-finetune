@@ -1,0 +1,67 @@
+schema_version: 1
+
+# Tier-1 sweep (#91) stream: v5clean batch_size=4 -> 8.
+stream_id: batch8
+run_name: p7-batch8
+hypothesis: >-
+  Doubling per-device batch size from 4 to 8 raises the effective batch from
+  16 to 32 and may improve update stability while reducing wall-clock time.
+  The larger batch can also wash out useful small-dataset gradients or exceed
+  memory. Falsified if the candidate fails the primary gate or any quality,
+  forgetting, bias, anchor, or compute guardrail versus v5clean.
+lever_tier: tier1
+prior: >-
+  levers.md Batch size row: v3-clean used per-device batch=4 and the knob is
+  untested in the settled lr=5e-5 base. Chainlink #91 priority-11 pick after
+  epochs, rank, schedule, warmup, alpha, packing, sequence length, target
+  modules, early-stop patience, and gradient accumulation. Earlier #69 work
+  established that batch_size=8 is technically viable in this model family.
+predicted_direction: unknown
+candidate_edit: >-
+  finetune.py config batch_size 4 -> 8; grad_accum=4, lr=5e-5, cosine
+  schedule, warmup_ratio=0.05, epochs=4, lora_r=32/alpha=64,
+  max_seq_len=2048, packing=false, and all other v5clean settings unchanged.
+rationale: >-
+  Chainlink #91, lever 11 of the planned Tier-1 sweep. Single larger-batch
+  stream against the current champion; if it passes, it becomes a candidate
+  for repeat confirmation before promotion discussion.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p7-batch8.json
+guardrails: results/autoresearch_guardrails_p7-batch8.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p7-batch8.json
+finetune_config: autoresearch/configs/phase7-tier1-sweep/p7-batch8.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p7-batch8
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p7-batch8.json
+    --output results/primary_p7-batch8.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p7-batch8
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p7-batch8.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p7-batch8
+    --label p7-batch8
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p7-batch8.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p7-batch8.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p7-batch8.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p7-batch8.json
+    --output results/autoresearch_guardrails_p7-batch8.json
