@@ -1,0 +1,67 @@
+schema_version: 1
+
+# Tier-2 answer-surface variant against the v5clean champion.
+stream_id: surface-prefix
+run_name: p7-surface-prefix
+hypothesis: >-
+  Replacing bare-letter MCQ targets with an Answer-prefix target may alter the
+  answer surface enough to expose useful intermediate signal without changing
+  the underlying option-order data. It may also shift the output distribution
+  or hurt the rubric. Falsified if the candidate fails the primary gate or any
+  quality, forgetting, bias, anchor, or compute guardrail.
+lever_tier: tier2
+prior: >-
+  levers.md SFT target format row: v5clean uses bare-letter targets and
+  answer-prefix is untested in the settled lr=5e-5 base. Earlier phase5 work
+  rejected an answer-prefix run under the older v3-clean champion, so this is
+  a fresh current-champion check rather than an assumed win.
+predicted_direction: unknown
+candidate_edit: >-
+  prepare_dataset_v3.py sft_format bare-letter -> answer-prefix; lr=5e-5,
+  cosine schedule, warmup_ratio=0.05, epochs=4, batch_size=4, grad_accum=4,
+  lora_r=32/alpha=64, max_seq_len=2048, packing=false, and all other v5clean
+  settings unchanged.
+rationale: >-
+  Second Tier-2 continuation after the complete #91 Tier-1 sweep. Single
+  answer-surface stream against the current champion; if it passes, it becomes
+  a candidate for repeat confirmation before promotion discussion.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p7-surface-prefix.json
+guardrails: results/autoresearch_guardrails_p7-surface-prefix.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p7-surface-prefix.json
+finetune_config: autoresearch/configs/phase7-tier2/p7-surface-prefix.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p7-surface-prefix
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p7-surface-prefix.json
+    --output results/primary_p7-surface-prefix.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p7-surface-prefix
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p7-surface-prefix.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p7-surface-prefix
+    --label p7-surface-prefix
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p7-surface-prefix.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p7-surface-prefix.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p7-surface-prefix.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p7-surface-prefix.json
+    --output results/autoresearch_guardrails_p7-surface-prefix.json
