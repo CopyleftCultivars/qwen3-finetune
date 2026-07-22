@@ -1,0 +1,48 @@
+schema_version: 1
+
+# First post-Tier-2 data-pipeline probe: add a fixed audited cloze dose to
+# v5clean without changing its optimizer, format, or MCQ source.
+run_name: p8-cloze400
+dataset_suffix: _p8cloze400
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+cloze_source:
+cloze_conversations: data/sources/gemma4/hf_dataset/train.jsonl
+cloze_benchmark: [LOCAL_PATH]
+cloze_maximum_answer_frequency: 50
+cloze_count: 400
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
+
+conversation_ratio:
+target_permutation_ids:
+sft_format: bare-letter
+synth_item_count:
+
+model: unsloth/Qwen3-0.6B
+merge_base: Qwen/Qwen3-0.6B
+merge_dtype: float16
+force_peft: false
+wandb: false
+resume: false

@@ -1,0 +1,66 @@
+schema_version: 1
+
+# One controlled cloze-mix probe against the v5clean champion.
+stream_id: cloze400
+run_name: p8-cloze400
+hypothesis: >-
+  Adding 400 deterministic, contamination-audited cloze targets derived from
+  clean chat answers will improve benchmark transfer by teaching the model to
+  recover domain-specific answer spans while preserving the existing MCQ
+  supervision and the v5clean answer format.
+lever_tier: post-tier2-data-pipeline
+prior: >-
+  The current chat source contains useful natural-farming answers, but the
+  normal instruction/output objective only supervises the answer as a whole.
+  A conservative cloze view may add local phrase-recovery signal. The source
+  is audited against benchmark questions and capped at 50 repeats per
+  normalized answer; this is a pipeline probe, not a claim that CROP's public
+  recipe explicitly uses cloze.
+predicted_direction: up
+candidate_edit: >-
+  Add cloze_count=400 from the deterministic audited chat-cloze preflight;
+  keep all v5clean optimizer, MCQ, split, seed, and bare-letter settings fixed.
+rationale: >-
+  This is the smallest useful first probe from the available 1,025-item
+  audited pool: large enough to expose a measurable effect, but still a
+  modest addition to the approximately 5,964 pre-filter training pairs.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p8-cloze400.json
+guardrails: results/autoresearch_guardrails_p8-cloze400.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p8-cloze400.json
+finetune_config: autoresearch/configs/phase8-cloze/p8-cloze400.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p8-cloze400
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_p8cloze400.jsonl
+    --mcq-output results/mcq_gold_ll_p8-cloze400.json
+    --output results/primary_p8-cloze400.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p8-cloze400
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p8-cloze400.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p8-cloze400
+    --label p8-cloze400
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p8-cloze400.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p8-cloze400.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p8-cloze400.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p8-cloze400.json
+    --output results/autoresearch_guardrails_p8-cloze400.json
