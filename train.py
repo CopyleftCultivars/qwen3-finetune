@@ -161,6 +161,7 @@ def load_model_with_lora(
     lora_alpha: int,
     lora_dropout: float = 0.0,
     target_modules: Optional[list[str]] = None,
+    random_state: int = 42,
 ) -> tuple:
     """Load Qwen3-0.6B in 4-bit and attach LoRA adapters."""
     if target_modules is None:
@@ -184,7 +185,7 @@ def load_model_with_lora(
         lora_dropout=lora_dropout,
         bias="none",
         use_gradient_checkpointing="unsloth",
-        random_state=42,
+        random_state=random_state,
     )
 
     tokenizer.eos_token = "<|im_end|>"
@@ -222,6 +223,7 @@ def build_training_args(
     early_stop_patience: Optional[int] = None,
     packing: bool = False,
     max_seq_len: Optional[int] = None,
+    seed: int = 42,
 ):
     import torch
     from trl import SFTConfig
@@ -242,7 +244,7 @@ def build_training_args(
         optim="adamw_8bit",
         lr_scheduler_type=lr_scheduler,
         weight_decay=weight_decay,
-        seed=42,
+        seed=seed,
         report_to=report_to,
         run_name="qwen3-0.6b-nf-qlora",
     )
@@ -407,6 +409,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Training sampler order; sequential is for curriculum experiments",
     )
     parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Training initialization and sampler seed",
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         help="Resume from the latest checkpoint in --output-dir",
@@ -457,6 +465,7 @@ def main() -> None:
         lora_alpha=args.lora_alpha,
         lora_dropout=args.lora_dropout,
         target_modules=args.target_modules,
+        random_state=args.seed,
     )
 
     # ── Build HuggingFace datasets ─────────────────────────────────────────
@@ -490,6 +499,7 @@ def main() -> None:
         early_stop_patience=args.early_stop_patience,
         packing=args.packing,
         max_seq_len=args.max_seq_len,
+        seed=args.seed,
     )
 
     tokenizer.eos_token = "<|im_end|>"

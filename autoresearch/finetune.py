@@ -201,6 +201,8 @@ def _train_argv(args: argparse.Namespace) -> list[str]:
         args.chat_template_variant,
         "--train-order",
         args.train_order,
+        "--seed",
+        str(args.training_seed),
     ]
     if args.early_stop_patience is not None:
         argv.extend(["--early-stop-patience", str(args.early_stop_patience)])
@@ -381,6 +383,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="Suffix for prepared train/val JSONL files; defaults to _<run-name>",
     )
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--training-seed",
+        type=int,
+        default=42,
+        help=(
+            "Training-only initialization/sampler seed. Keep --seed fixed "
+            "when confirming a candidate on the same validation split."
+        ),
+    )
     parser.add_argument("--split", type=float, default=0.9)
     parser.add_argument("--min-output-chars", type=int, default=10)
     parser.add_argument("--max-total-chars", type=int, default=8192)
