@@ -1,0 +1,42 @@
+{
+  "baseline_label": "codexv5",
+  "baseline_model": "outputs/merged-model-p6-lr5e5-r2",
+  "candidate_model": "outputs/merged-model-p10-chat-template-tokenizer",
+  "grader_anchor": {
+    "max_abs_drift": 0.0,
+    "reports": [
+      "results/periodic_anchor_baseline_codexv5.json",
+      "results/periodic_anchor_candidate_p10-chat-template-tokenizer.json"
+    ],
+    "total_drift_alerts": 0
+  },
+  "grader_models": [
+    "codex/gpt-5.6-luna"
+  ],
+  "items_per_type": 15,
+  "judge_backend": "codex",
+  "label": "p10-chat-template-tokenizer",
+  "rubric": {
+    "baseline_detail": {
+      "grader_models": [
+        "codex/gpt-5.6-luna"
+      ],
+      "mean_weighted_score": 0.6080000000000001,
+      "n_items": 75,
+      "output": "results/periodic_rubric_baseline_codexv5.jsonl",
+      "percent": 60.80000000000001
+    },
+    "baseline_percent": 60.80000000000001,
+    "candidate_detail": {
+      "grader_models": [
+        "codex/gpt-5.6-luna"
+      ],
+      "mean_weighted_score": 0.4981333333333333,
+      "n_items": 75,
+      "output": "results/periodic_rubric_candidate_p10-chat-template-tokenizer.jsonl",
+      "percent": 49.81333333333333
+    },
+    "candidate_percent": 49.81333333333333,
+    "drop_percent_points": 10.986666666666679
+  }
+}
