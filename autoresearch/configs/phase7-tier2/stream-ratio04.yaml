@@ -1,0 +1,66 @@
+schema_version: 1
+
+# Tier-2 replay-ratio dose refinement against the v5clean champion.
+stream_id: ratio04
+run_name: p7-ratio04
+hypothesis: >-
+  The ratio=0.5 near miss improved primary by +0.372, just below the +0.4
+  gate. Lowering the conversation fraction to 0.4 adds relative MCQ weight
+  while remaining subsample-only and may clear the primary bar; it could also
+  reduce general replay too far and hurt the rubric. Falsified if the
+  candidate fails the primary gate or any quality, forgetting, bias, anchor,
+  or compute guardrail.
+lever_tier: tier2
+prior: >-
+  Immediate dose refinement of the current-champion ratio=0.5 near miss
+  (commit 5c4fdb4). The replay-ratio implementation is deterministic,
+  subsample-only, and preserves MCQ letter balance.
+predicted_direction: up
+candidate_edit: >-
+  prepare_dataset_v3.py conversation_ratio 0.5 -> 0.4; lr=5e-5, cosine
+  schedule, warmup_ratio=0.05, epochs=4, batch_size=4, grad_accum=4,
+  lora_r=32/alpha=64, sft_format=bare-letter, max_seq_len=2048,
+  packing=false, and all other v5clean settings unchanged.
+rationale: >-
+  Dose refinement after the Tier-2 ratio=0.5 near miss; if ratio=0.4 passes,
+  it becomes a candidate for repeat confirmation before promotion discussion.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p7-ratio04.json
+guardrails: results/autoresearch_guardrails_p7-ratio04.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p7-ratio04.json
+finetune_config: autoresearch/configs/phase7-tier2/p7-ratio04.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p7-ratio04
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p7-ratio04.json
+    --output results/primary_p7-ratio04.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p7-ratio04
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p7-ratio04.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p7-ratio04
+    --label p7-ratio04
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p7-ratio04.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p7-ratio04.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p7-ratio04.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p7-ratio04.json
+    --output results/autoresearch_guardrails_p7-ratio04.json
