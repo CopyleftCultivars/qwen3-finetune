@@ -1,0 +1,65 @@
+schema_version: 1
+
+# Tier-1 sweep (#91) stream: v5clean max_seq_len=2048 -> 1024.
+stream_id: seqlen1024
+run_name: p7-seqlen1024
+hypothesis: >-
+  The v5clean 2048-token cap likely leaves headroom unused because the MCQ
+  pairs are short. Halving the cap may reduce padding and compute while
+  preserving the learning signal, but it could truncate unusually long
+  rationale examples. Falsified if the candidate fails the primary gate or
+  any quality, forgetting, bias, anchor, or compute guardrail versus v5clean.
+lever_tier: tier1
+prior: >-
+  levers.md Seq-len row: max_seq_len=2048 was inherited from v3-clean and is
+  likely oversized for the short-pair dataset. Chainlink #91 priority-7 pick
+  after epochs, rank, schedule, warmup, alpha, and packing.
+predicted_direction: unknown
+candidate_edit: >-
+  finetune.py config max_seq_len 2048 -> 1024; lr=5e-5, cosine schedule,
+  warmup_ratio=0.05, epochs=4, lora_r=32/alpha=64, packing=false, and all
+  other v5clean settings unchanged.
+rationale: >-
+  Chainlink #91, lever 7 of the planned Tier-1 sweep. Single shorter-cap
+  stream against the current champion; if it passes, it becomes a candidate
+  for repeat confirmation before promotion discussion.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p7-seqlen1024.json
+guardrails: results/autoresearch_guardrails_p7-seqlen1024.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p7-seqlen1024.json
+finetune_config: autoresearch/configs/phase7-tier1-sweep/p7-seqlen1024.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p7-seqlen1024
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p7-seqlen1024.json
+    --output results/primary_p7-seqlen1024.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p7-seqlen1024
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p7-seqlen1024.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p7-seqlen1024
+    --label p7-seqlen1024
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p7-seqlen1024.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p7-seqlen1024.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p7-seqlen1024.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p7-seqlen1024.json
+    --output results/autoresearch_guardrails_p7-seqlen1024.json
