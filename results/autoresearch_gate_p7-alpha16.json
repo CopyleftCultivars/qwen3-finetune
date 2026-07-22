@@ -1,0 +1,18 @@
+{
+  "baseline_primary": -0.7751536917130241,
+  "candidate_primary": -0.6143506156840816,
+  "decision": "reject",
+  "format": "autoresearch_gate_decision_v1",
+  "primary_delta": 0.1608030760289425,
+  "primary_delta_standard_errors": 0.8040153801447125,
+  "primary_delta_threshold": 0.4,
+  "primary_standard_error": 0.2,
+  "reasons": {
+    "metric": [
+      "primary_delta_not_significant delta=0.1608030760 threshold=0.4000000000"
+    ],
+    "pause_guardrails": [],
+    "reject_guardrails": []
+  },
+  "recommended_action": "revert_candidate"
+}

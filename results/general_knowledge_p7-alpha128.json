@@ -1,0 +1,451 @@
+{
+  "per_item": [
+    {
+      "category": "math",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -6.78125,
+      "gold_probability": 0.9818331463226294,
+      "logprobs": {
+        "A": -6.78125,
+        "B": -11.0625,
+        "C": -12.9375,
+        "D": -12.75
+      },
+      "option_set_gold_logprob": -0.01833389715944859,
+      "question_id": "GK-001",
+      "top_letter": "A",
+      "top_logprob": -6.78125,
+      "topic": "unknown"
+    },
+    {
+      "category": "math",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -11.3125,
+      "gold_probability": 0.005002607941989094,
+      "logprobs": {
+        "A": -6.03125,
+        "B": -11.3125,
+        "C": -13.125,
+        "D": -10.5625
+      },
+      "option_set_gold_logprob": -5.297795914130164,
+      "question_id": "GK-002",
+      "top_letter": "A",
+      "top_logprob": -6.03125,
+      "topic": "unknown"
+    },
+    {
+      "category": "math",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -10.0,
+      "gold_probability": 0.013735241055270684,
+      "logprobs": {
+        "A": -6.25,
+        "B": -12.8125,
+        "C": -10.0,
+        "D": -6.625
+      },
+      "option_set_gold_logprob": -4.287790409150561,
+      "question_id": "GK-003",
+      "top_letter": "A",
+      "top_logprob": -6.25,
+      "topic": "unknown"
+    },
+    {
+      "category": "math",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -11.625,
+      "gold_probability": 0.020143836244294794,
+      "logprobs": {
+        "A": -7.75,
+        "B": -12.875,
+        "C": -13.375,
+        "D": -11.625
+      },
+      "option_set_gold_logprob": -3.9048569309678154,
+      "question_id": "GK-004",
+      "top_letter": "A",
+      "top_logprob": -7.75,
+      "topic": "unknown"
+    },
+    {
+      "category": "math",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -12.5,
+      "gold_probability": 0.8802060609285205,
+      "logprobs": {
+        "A": -12.5,
+        "B": -17.375,
+        "C": -14.5625,
+        "D": -19.125
+      },
+      "option_set_gold_logprob": -0.1275992387750469,
+      "question_id": "GK-005",
+      "top_letter": "A",
+      "top_logprob": -12.5,
+      "topic": "unknown"
+    },
+    {
+      "category": "math",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -12.125,
+      "gold_probability": 0.005985890904265428,
+      "logprobs": {
+        "A": -7.0625,
+        "B": -12.125,
+        "C": -12.0,
+        "D": -10.1875
+      },
+      "option_set_gold_logprob": -5.118350094865483,
+      "question_id": "GK-006",
+      "top_letter": "A",
+      "top_logprob": -7.0625,
+      "topic": "unknown"
+    },
+    {
+      "category": "geography",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -11.875,
+      "gold_probability": 0.32427737440776233,
+      "logprobs": {
+        "A": -11.75,
+        "B": -12.3125,
+        "C": -11.875,
+        "D": -13.0625
+      },
+      "option_set_gold_logprob": -1.1261560355780218,
+      "question_id": "GK-007",
+      "top_letter": "A",
+      "top_logprob": -11.75,
+      "topic": "unknown"
+    },
+    {
+      "category": "geography",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -12.1875,
+      "gold_probability": 0.04150606157551198,
+      "logprobs": {
+        "A": -9.875,
+        "B": -9.75,
+        "C": -11.75,
+        "D": -12.1875
+      },
+      "option_set_gold_logprob": -3.181915800350979,
+      "question_id": "GK-008",
+      "top_letter": "B",
+      "top_logprob": -9.75,
+      "topic": "unknown"
+    },
+    {
+      "category": "geography",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -7.15625,
+      "gold_probability": 0.5709454140957019,
+      "logprobs": {
+        "A": -7.15625,
+        "B": -7.65625,
+        "C": -9.75,
+        "D": -9.8125
+      },
+      "option_set_gold_logprob": -0.5604616709261087,
+      "question_id": "GK-009",
+      "top_letter": "A",
+      "top_logprob": -7.15625,
+      "topic": "unknown"
+    },
+    {
+      "category": "geography",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -12.0,
+      "gold_probability": 0.8976526355690938,
+      "logprobs": {
+        "A": -14.375,
+        "B": -12.0,
+        "C": -16.25,
+        "D": -17.0
+      },
+      "option_set_gold_logprob": -0.10797210559308319,
+      "question_id": "GK-010",
+      "top_letter": "B",
+      "top_logprob": -12.0,
+      "topic": "unknown"
+    },
+    {
+      "category": "geography",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -13.5,
+      "gold_probability": 0.006246353032125525,
+      "logprobs": {
+        "A": -8.4375,
+        "B": -13.4375,
+        "C": -13.5,
+        "D": -16.625
+      },
+      "option_set_gold_logprob": -5.075757500404794,
+      "question_id": "GK-011",
+      "top_letter": "A",
+      "top_logprob": -8.4375,
+      "topic": "unknown"
+    },
+    {
+      "category": "geography",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -17.0,
+      "gold_probability": 0.00902042224545893,
+      "logprobs": {
+        "A": -14.125,
+        "B": -12.5,
+        "C": -16.25,
+        "D": -17.0
+      },
+      "option_set_gold_logprob": -4.708264133868123,
+      "question_id": "GK-012",
+      "top_letter": "B",
+      "top_logprob": -12.5,
+      "topic": "unknown"
+    },
+    {
+      "category": "science",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -2.078125,
+      "gold_probability": 0.9998890770634254,
+      "logprobs": {
+        "A": -2.078125,
+        "B": -13.125,
+        "C": -11.5,
+        "D": -13.25
+      },
+      "option_set_gold_logprob": -0.0001109290889784486,
+      "question_id": "GK-013",
+      "top_letter": "A",
+      "top_logprob": -2.078125,
+      "topic": "unknown"
+    },
+    {
+      "category": "science",
+      "correct_by_argmax": true,
+      "gold": "B",
+      "gold_logprob": -6.5625,
+      "gold_probability": 0.560808187123482,
+      "logprobs": {
+        "A": -7.0625,
+        "B": -6.5625,
+        "C": -8.5625,
+        "D": -9.75
+      },
+      "option_set_gold_logprob": -0.5783763443606856,
+      "question_id": "GK-014",
+      "top_letter": "B",
+      "top_logprob": -6.5625,
+      "topic": "unknown"
+    },
+    {
+      "category": "science",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -17.75,
+      "gold_probability": 0.022913769836168718,
+      "logprobs": {
+        "A": -14.125,
+        "B": -16.75,
+        "C": -17.75,
+        "D": -16.875
+      },
+      "option_set_gold_logprob": -3.7760172462426245,
+      "question_id": "GK-015",
+      "top_letter": "A",
+      "top_logprob": -14.125,
+      "topic": "unknown"
+    },
+    {
+      "category": "science",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -10.4375,
+      "gold_probability": 0.10912039060750062,
+      "logprobs": {
+        "A": -8.375,
+        "B": -12.25,
+        "C": -12.4375,
+        "D": -10.4375
+      },
+      "option_set_gold_logprob": -2.2153035052792,
+      "question_id": "GK-016",
+      "top_letter": "A",
+      "top_logprob": -8.375,
+      "topic": "unknown"
+    },
+    {
+      "category": "science",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -8.5,
+      "gold_probability": 0.8833831556975111,
+      "logprobs": {
+        "A": -8.5,
+        "B": -11.6875,
+        "C": -11.0,
+        "D": -13.25
+      },
+      "option_set_gold_logprob": -0.1239962475841223,
+      "question_id": "GK-017",
+      "top_letter": "A",
+      "top_logprob": -8.5,
+      "topic": "unknown"
+    },
+    {
+      "category": "science",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -11.875,
+      "gold_probability": 0.08090401718185435,
+      "logprobs": {
+        "A": -9.75,
+        "B": -11.875,
+        "C": -10.875,
+        "D": -13.1875
+      },
+      "option_set_gold_logprob": -2.51449180000893,
+      "question_id": "GK-018",
+      "top_letter": "A",
+      "top_logprob": -9.75,
+      "topic": "unknown"
+    },
+    {
+      "category": "logic",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -6.5,
+      "gold_probability": 0.1444009208635704,
+      "logprobs": {
+        "A": -4.75,
+        "B": -8.375,
+        "C": -6.5,
+        "D": -10.5625
+      },
+      "option_set_gold_logprob": -1.9351616753722052,
+      "question_id": "GK-019",
+      "top_letter": "A",
+      "top_logprob": -4.75,
+      "topic": "unknown"
+    },
+    {
+      "category": "logic",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -9.625,
+      "gold_probability": 0.2071025385923136,
+      "logprobs": {
+        "A": -8.875,
+        "B": -9.8125,
+        "C": -9.75,
+        "D": -9.625
+      },
+      "option_set_gold_logprob": -1.5745412528463885,
+      "question_id": "GK-020",
+      "top_letter": "A",
+      "top_logprob": -8.875,
+      "topic": "unknown"
+    },
+    {
+      "category": "logic",
+      "correct_by_argmax": true,
+      "gold": "A",
+      "gold_logprob": -6.53125,
+      "gold_probability": 0.670149468918723,
+      "logprobs": {
+        "A": -6.53125,
+        "B": -13.5,
+        "C": -7.28125,
+        "D": -10.5
+      },
+      "option_set_gold_logprob": -0.4002545035391467,
+      "question_id": "GK-021",
+      "top_letter": "A",
+      "top_logprob": -6.53125,
+      "topic": "unknown"
+    },
+    {
+      "category": "logic",
+      "correct_by_argmax": false,
+      "gold": "B",
+      "gold_logprob": -10.5625,
+      "gold_probability": 0.26971170928608446,
+      "logprobs": {
+        "A": -9.75,
+        "B": -10.5625,
+        "C": -12.25,
+        "D": -11.875
+      },
+      "option_set_gold_logprob": -1.3104016338126974,
+      "question_id": "GK-022",
+      "top_letter": "A",
+      "top_logprob": -9.75,
+      "topic": "unknown"
+    },
+    {
+      "category": "logic",
+      "correct_by_argmax": false,
+      "gold": "C",
+      "gold_logprob": -4.4375,
+      "gold_probability": 0.21537803799916824,
+      "logprobs": {
+        "A": -3.171875,
+        "B": -7.3125,
+        "C": -4.4375,
+        "D": -7.625
+      },
+      "option_set_gold_logprob": -1.535360478607673,
+      "question_id": "GK-023",
+      "top_letter": "A",
+      "top_logprob": -3.171875,
+      "topic": "unknown"
+    },
+    {
+      "category": "logic",
+      "correct_by_argmax": false,
+      "gold": "D",
+      "gold_logprob": -8.9375,
+      "gold_probability": 0.06728223239240065,
+      "logprobs": {
+        "A": -6.875,
+        "B": -7.9375,
+        "C": -7.75,
+        "D": -8.9375
+      },
+      "option_set_gold_logprob": -2.6988590832436428,
+      "question_id": "GK-024",
+      "top_letter": "A",
+      "top_logprob": -6.875,
+      "topic": "unknown"
+    }
+  ],
+  "skipped": [],
+  "summary": {
+    "argmax_accuracy": 0.3333333333333333,
+    "dataset": "autoresearch/general_knowledge_probe.jsonl",
+    "device": "cuda",
+    "diagnostics_dir": "../benchmark-eval-workspace/diagnostics",
+    "full_precision": true,
+    "mean_gold_logprob": -10.077473958333334,
+    "mean_gold_nll": 10.077473958333334,
+    "mean_option_set_gold_logprob": -2.1740886846564966,
+    "mean_option_set_gold_nll": 2.1740886846564966,
+    "model": "outputs/merged-model-p7-alpha128",
+    "scored_mcq_rows": 24,
+    "skipped_non_mcq_rows": 0
+  }
+}
