@@ -506,8 +506,9 @@ def main() -> None:
         from torch.utils.data import SequentialSampler
 
         class SequentialSFTTrainer(SFTTrainer):
-            def _get_train_sampler(self):
-                return SequentialSampler(self.train_dataset)
+            def _get_train_sampler(self, train_dataset=None):
+                dataset = train_dataset if train_dataset is not None else self.train_dataset
+                return SequentialSampler(dataset)
 
         trainer_class = SequentialSFTTrainer
 
