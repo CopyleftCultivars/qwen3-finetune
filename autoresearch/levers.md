@@ -42,7 +42,7 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 | LoRA vs full finetune | SETTLED CONSTANT | Use LoRA. Phase 4's stated compute budget (~5–20 min/run at 0.6B+LoRA → 30–100 experiments/night) assumes LoRA; full finetuning changes the compute-budget tier entirely and isn't compatible with the nightly-loop design. | n/a | not exposed |
 | Weight decay | SEARCH DIMENSION | Fixed 0.01 for v3-clean. Untested. Low priority. | v3-clean training args / prior hardcoded `weight_decay=0.01` | `--weight-decay` |
 | Seq-len | SEARCH DIMENSION | `max_seq_len=2048` used for v3-clean, with likely unused headroom since MCQ pairs are short. | v3-clean training invocation | `--max-seq-len` |
-| Packing | SEARCH DIMENSION | Packing was absent in v3-clean and is now wired to TRL SFTConfig/dataset construction. Untested whether packed short examples improve throughput or learning. | prior `build_dataset` tokenized each pair independently | `--packing` |
+| Packing | **SETTLED CONSTANT** | Keep `packing=false`. The correctness/performance check regressed primary by `-0.089` (`-0.445 SE`), missed the compute budget at 28.09 vs 28.00 minutes, lowered rubric from 60.8% to 57.79%, and increased forgetting by a 10% relative drop (41.67% → 37.50% accuracy). | `results/autoresearch_gate_p7-packing.json`, `results/autoresearch_guardrails_p7-packing.json`, `results/periodic_guards_p7-packing.json`; commit `ff506a1` | `--packing=false` |
 
 ---
 
