@@ -14,7 +14,7 @@ guard, not a replacement for that gate.
 | Embedded system/persona filtering | **Search rejected — isolated filter-only candidate** | `results/autoresearch_gate_p10-filter-only.json`: primary delta `+0.0586` (`+0.29 SE`, below the `+0.4` threshold), bias `0.1173` vs `0.1097` allowed, rubric `60.80% → 60.68%`, and forgetting improved `41.67% → 45.83%`. Filtering is now causally tested but is not a champion candidate. |
 | Reviewed adversarial refusals | **Search rejected — isolated refusal-only candidate** | `results/autoresearch_gate_p10-refusal-only.json`: primary delta `+0.0497` (`+0.25 SE`, below threshold), rubric `60.80% → 59.13%`, forgetting improved `41.67% → 45.83%`, and the remaining guards were clean. Ten reviewed examples did not establish a champion benefit. |
 | Chat template / prompt variant | **Unlocked; isolated run pending** | `measure_periodic_guards.py` supplies the free-form rubric axis. `tokenizer-v1` is now an explicit training knob; deployment system-prompt A/B remains separate. |
-| Curriculum order | **Pipeline ready; isolated run pending** | `length-structure-v1` provides a deterministic text-only ranking signal and audit report; it is explicitly a heuristic, not a ground-truth difficulty label. |
+| Curriculum order | **Search rejected — near miss** | `results/autoresearch_gate_p10-curriculum-easy-hard.json`: primary delta `+0.3994` (`+2.00 SE`), just below the `+0.4` threshold; bias/anchors/compute were clean, rubric improved `60.80% → 62.76%`, and forgetting improved `41.67% → 66.67%`. The initial sampler-signature failure was fixed and recorded in the journal; the corrected run is the evaluable result. |
 
 ## Confounded p9 reference
 
