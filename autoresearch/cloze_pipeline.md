@@ -63,6 +63,15 @@ also kept separate from training records. `autoresearch/compare_system_prompt.py
 reports the same model's domain MCQ score with and without that prompt, so a
 prompt benefit is visible without changing the frozen primary gate.
 
+The first combined Phase 9 probe (400 cloze items, system-text hygiene, and 10
+reviewed refusals) was rejected: primary delta `-0.890` (`-4.450 SE`), compute
+30.10 vs 28.00 minutes, and a bias guard failure. The rubric improved by 1.25
+percentage points and forgetting was unchanged. The system-prompt A/B also
+reduced domain MCQ accuracy for both baseline and candidate, so it is not the
+default prompt for this interface. These results do not isolate cloze,
+filtering, or refusal data from one another; further search should separate
+those factors rather than treating the combined result as a causal verdict.
+
 This pipeline is intentionally deterministic and conservative. It is not a
 replacement for expert-authored cloze questions; a later data-authoring pass
 can add richer blanks once this controlled probe establishes whether the task
