@@ -52,6 +52,8 @@ import sys
 from pathlib import Path
 from typing import Generator
 
+from autoresearch.curriculum import order_pairs
+
 _OPTION_LETTERS = ("A", "B", "C", "D")
 
 # Cyclic shift weights: index = shift amount (0-3).
@@ -619,6 +621,8 @@ def split_and_write(
     train_fraction: float,
     seed: int,
     suffix: str = "_v3",
+    curriculum_order: str = "none",
+    curriculum_report: Path | None = None,
 ) -> tuple[int, int]:
     rng = random.Random(seed)
     shuffled = pairs.copy()
@@ -627,6 +631,26 @@ def split_and_write(
     split_idx = max(1, int(len(shuffled) * train_fraction))
     train = shuffled[:split_idx]
     val = shuffled[split_idx:]
+
+    if curriculum_order != "none":
+        train, report = order_pairs(train, curriculum_order)
+        if curriculum_report is not None:
+            curriculum_report.parent.mkdir(parents=True, exist_ok=True)
+            curriculum_report.write_text(
+                json.dumps(
+                    {
+                        **report,
+                        "seed": seed,
+                        "train_fraction": train_fraction,
+                        "train_count": len(train),
+                        "validation_count": len(val),
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -799,6 +823,21 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--suffix", default="_v3",
                     help="Suffix for output filenames (default: _v3)")
+    ap.add_argument(
+        "--curriculum-order",
+        choices=("none", "easy-to-hard", "hard-to-easy"),
+        default="none",
+        help=(
+            "Order the training split with the deterministic text-only "
+            "difficulty proxy; validation membership remains seed-shuffled"
+        ),
+    )
+    ap.add_argument(
+        "--curriculum-report",
+        default=None,
+        metavar="PATH",
+        help="Optional JSON audit report for the curriculum signal and ordering",
+    )
     return ap
 
 
@@ -829,6 +868,10 @@ def main() -> None:
         ap.error("--adversarial-refusal-count must be >= 1")
     if args.cloze_count is not None and args.cloze_count < 1:
         ap.error("--cloze-count must be >= 1")
+    if args.curriculum_order != "none" and args.curriculum_report is None:
+        args.curriculum_report = str(
+            Path("results") / f"curriculum_{args.suffix.lstrip('_')}.json"
+        )
 
     source_counts: dict[str, int] = {}
     conv_pairs: list[dict[str, str]] = []
@@ -1029,7 +1072,15 @@ def main() -> None:
 
     output_dir = Path(args.output_dir)
     n_train, n_val = split_and_write(
-        filtered, output_dir, args.split, args.seed, suffix=args.suffix
+        filtered,
+        output_dir,
+        args.split,
+        args.seed,
+        suffix=args.suffix,
+        curriculum_order=args.curriculum_order,
+        curriculum_report=(
+            Path(args.curriculum_report) if args.curriculum_report else None
+        ),
     )
     print(f"\nWrote {n_train} train pairs → {output_dir}/train{args.suffix}.jsonl",
           file=sys.stderr)

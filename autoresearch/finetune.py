@@ -115,6 +115,10 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
         argv.extend(["--target-permutation-ids", args.target_permutation_ids])
     if args.synth_item_count is not None:
         argv.extend(["--synth-item-count", str(args.synth_item_count)])
+    if args.curriculum_order != "none":
+        argv.extend(["--curriculum-order", args.curriculum_order])
+    if args.curriculum_report:
+        argv.extend(["--curriculum-report", args.curriculum_report])
     return argv
 
 
@@ -193,6 +197,10 @@ def _train_argv(args: argparse.Namespace) -> list[str]:
         args.target_modules,
         "--max-seq-len",
         str(args.max_seq_len),
+        "--chat-template-variant",
+        args.chat_template_variant,
+        "--train-order",
+        args.train_order,
     ]
     if args.early_stop_patience is not None:
         argv.extend(["--early-stop-patience", str(args.early_stop_patience)])
@@ -458,6 +466,29 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Cap/subsample raw QMD MCQ records before cyclic shift expansion",
     )
+    parser.add_argument(
+        "--curriculum-order",
+        choices=("none", "easy-to-hard", "hard-to-easy"),
+        default="none",
+        help="Text-only curriculum ordering applied to the training split",
+    )
+    parser.add_argument(
+        "--curriculum-report",
+        default=None,
+        help="JSON audit report path for the curriculum signal",
+    )
+    parser.add_argument(
+        "--chat-template-variant",
+        choices=("hardcoded-v1", "tokenizer-v1"),
+        default="hardcoded-v1",
+        help="Training ChatML rendering variant",
+    )
+    parser.add_argument(
+        "--train-order",
+        choices=("shuffled", "sequential"),
+        default="shuffled",
+        help="Trainer sampler order; sequential is for curriculum experiments",
+    )
 
     # Tier 3 J-space routing hooks (chainlink #58). Opt-in and narrow:
     # baseline behavior is unchanged unless --jspace-signals is passed.
@@ -566,6 +597,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         parser.error("--split must be between 0 and 1 (exclusive)")
     if args.conversation_ratio is not None and not 0.0 < args.conversation_ratio < 1.0:
         parser.error("--conversation-ratio must be between 0 and 1 (exclusive)")
+    if args.train_order == "sequential" and args.curriculum_order == "none":
+        parser.error("--train-order sequential requires --curriculum-order")
 
     jspace_dependents = (
         args.jspace_bucket,

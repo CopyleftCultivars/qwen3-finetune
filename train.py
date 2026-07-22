@@ -94,6 +94,7 @@ def build_dataset(
     tokenizer,
     max_seq_len: int,
     packing: bool = False,
+    chat_template_variant: str = "hardcoded-v1",
 ) -> Dataset:
     """Format pairs as ChatML strings and return a HuggingFace Dataset.
 
@@ -103,13 +104,28 @@ def build_dataset(
     """
     from datasets import Dataset
 
-    texts = [
-        CHAT_TEMPLATE.format(
-            instruction=p["instruction"].strip(),
-            output=p["output"].strip(),
-        )
-        for p in pairs
-    ]
+    if chat_template_variant == "hardcoded-v1":
+        texts = [
+            CHAT_TEMPLATE.format(
+                instruction=p["instruction"].strip(),
+                output=p["output"].strip(),
+            )
+            for p in pairs
+        ]
+    elif chat_template_variant == "tokenizer-v1":
+        texts = [
+            tokenizer.apply_chat_template(
+                [
+                    {"role": "user", "content": p["instruction"].strip()},
+                    {"role": "assistant", "content": p["output"].strip()},
+                ],
+                tokenize=False,
+                add_generation_prompt=False,
+            )
+            for p in pairs
+        ]
+    else:
+        raise ValueError(f"unknown chat template variant: {chat_template_variant}")
 
     raw_ds = Dataset.from_dict({"text": texts})
     if packing:
@@ -379,6 +395,18 @@ def build_parser() -> argparse.ArgumentParser:
         help="Enable TRL SFTTrainer sequence packing (default: disabled)",
     )
     parser.add_argument(
+        "--chat-template-variant",
+        choices=("hardcoded-v1", "tokenizer-v1"),
+        default="hardcoded-v1",
+        help="Training ChatML rendering variant",
+    )
+    parser.add_argument(
+        "--train-order",
+        choices=("shuffled", "sequential"),
+        default="shuffled",
+        help="Training sampler order; sequential is for curriculum experiments",
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         help="Resume from the latest checkpoint in --output-dir",
@@ -433,8 +461,20 @@ def main() -> None:
 
     # ── Build HuggingFace datasets ─────────────────────────────────────────
     print("Tokenizing datasets ...", file=sys.stderr)
-    train_ds = build_dataset(train_pairs, tokenizer, args.max_seq_len, packing=args.packing)
-    val_ds = build_dataset(val_pairs, tokenizer, args.max_seq_len, packing=args.packing)
+    train_ds = build_dataset(
+        train_pairs,
+        tokenizer,
+        args.max_seq_len,
+        packing=args.packing,
+        chat_template_variant=args.chat_template_variant,
+    )
+    val_ds = build_dataset(
+        val_pairs,
+        tokenizer,
+        args.max_seq_len,
+        packing=args.packing,
+        chat_template_variant=args.chat_template_variant,
+    )
 
     # ── Configure training ─────────────────────────────────────────────────
     training_args = build_training_args(
@@ -461,7 +501,17 @@ def main() -> None:
             EarlyStoppingCallback(early_stopping_patience=args.early_stop_patience)
         )
 
-    trainer = SFTTrainer(
+    trainer_class = SFTTrainer
+    if args.train_order == "sequential":
+        from torch.utils.data import SequentialSampler
+
+        class SequentialSFTTrainer(SFTTrainer):
+            def _get_train_sampler(self):
+                return SequentialSampler(self.train_dataset)
+
+        trainer_class = SequentialSFTTrainer
+
+    trainer = trainer_class(
         model=model,
         processing_class=tokenizer,
         train_dataset=train_ds,

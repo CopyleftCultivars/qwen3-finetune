@@ -1,0 +1,60 @@
+schema_version: 1
+stream_id: p10-curriculum-easy-hard
+run_name: p10-curriculum-easy-hard
+hypothesis: >-
+  A deterministic easy-to-hard order lets the model establish short,
+  structurally simple response behavior before longer and more conditional
+  items. Falsified if the candidate fails the frozen primary or any guard.
+lever_tier: tier2
+prior: >-
+  No trusted difficulty field exists. The new length-structure-v1 signal is
+  explicit and auditable, but it is only a ranking heuristic and must earn its
+  status through an isolated current-champion run.
+predicted_direction: unknown
+candidate_edit: >-
+  Apply curriculum_order=easy-to-hard to the deterministic training split and
+  use a sequential trainer sampler; all content and optimizer settings stay
+  at v5clean.
+rationale: >-
+  The split remains seed-shuffled before ordering, so validation membership is
+  unchanged and the only causal edit is training order.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p10-curriculum-easy-hard.json
+guardrails: results/autoresearch_guardrails_p10-curriculum-easy-hard.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p10-curriculum-easy-hard.json
+finetune_config: autoresearch/configs/phase10-tier2/p10-curriculum-easy-hard.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p10-curriculum-easy-hard
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_p10curriculum.jsonl
+    --mcq-output results/mcq_gold_ll_p10-curriculum-easy-hard.json
+    --output results/primary_p10-curriculum-easy-hard.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p10-curriculum-easy-hard
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p10-curriculum-easy-hard.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p10-curriculum-easy-hard
+    --label p10-curriculum-easy-hard
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p10-curriculum-easy-hard.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p10-curriculum-easy-hard.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p10-curriculum-easy-hard.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p10-curriculum-easy-hard.json
+    --output results/autoresearch_guardrails_p10-curriculum-easy-hard.json
