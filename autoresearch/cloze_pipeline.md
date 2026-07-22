@@ -68,9 +68,15 @@ reviewed refusals) was rejected: primary delta `-0.890` (`-4.450 SE`), compute
 30.10 vs 28.00 minutes, and a bias guard failure. The rubric improved by 1.25
 percentage points and forgetting was unchanged. The system-prompt A/B also
 reduced domain MCQ accuracy for both baseline and candidate, so it is not the
-default prompt for this interface. These results do not isolate cloze,
-filtering, or refusal data from one another; further search should separate
-those factors rather than treating the combined result as a causal verdict.
+default prompt for this interface.
+
+The isolated Phase 8 cloze-only probe was also rejected, but with a materially
+different and more informative result: primary delta `-0.316` (`-1.580 SE`),
+compute 28.35 vs 28.00 minutes, bias `0.1121` just above the `0.1097` limit,
+and a 1.43-point rubric drop. Forgetting improved from 41.67% to 45.83%.
+This is evidence against the tested 400-item dose in the current budget, not a
+claim that every possible cloze construction is harmful. The individual
+filter/refusal follow-ups remain separate in Phase 10.
 
 This pipeline is intentionally deterministic and conservative. It is not a
 replacement for expert-authored cloze questions; a later data-authoring pass

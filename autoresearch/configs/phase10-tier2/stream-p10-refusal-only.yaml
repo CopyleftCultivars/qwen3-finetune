@@ -1,0 +1,59 @@
+schema_version: 1
+stream_id: p10-refusal-only
+run_name: p10-refusal-only
+hypothesis: >-
+  Ten reviewed, concise refusal examples will improve robustness to unsafe or
+  prompt-exfiltration requests without disturbing the domain MCQ objective.
+  Falsified if the candidate fails the frozen primary or any guard.
+lever_tier: tier2
+prior: >-
+  The reviewed source is auditable, but the first GPU result was confounded
+  with cloze augmentation and filtering. This run changes only the refusal
+  source against v5clean.
+predicted_direction: unknown
+candidate_edit: >-
+  Add exactly ten approved adversarial_refusal rows; keep filtering disabled,
+  cloze disabled, and all v5clean settings fixed.
+rationale: >-
+  This separates deliberate refusal behavior from accidental adversarial chat
+  rows and from the cloze effect.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p10-refusal-only.json
+guardrails: results/autoresearch_guardrails_p10-refusal-only.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p10-refusal-only.json
+finetune_config: autoresearch/configs/phase10-tier2/p10-refusal-only.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p10-refusal-only
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_p10refusal.jsonl
+    --mcq-output results/mcq_gold_ll_p10-refusal-only.json
+    --output results/primary_p10-refusal-only.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p10-refusal-only
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p10-refusal-only.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p10-refusal-only
+    --label p10-refusal-only
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p10-refusal-only.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p10-refusal-only.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p10-refusal-only.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p10-refusal-only.json
+    --output results/autoresearch_guardrails_p10-refusal-only.json

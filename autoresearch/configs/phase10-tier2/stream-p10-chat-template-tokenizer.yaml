@@ -1,0 +1,60 @@
+schema_version: 1
+stream_id: p10-chat-template-tokenizer
+run_name: p10-chat-template-tokenizer
+hypothesis: >-
+  Rendering the training conversations through the model tokenizer's official
+  ChatML template will improve prompt/target alignment versus the historical
+  hard-coded equivalent. The free-form rubric is a required secondary signal.
+  Falsified if the candidate fails the frozen primary or any guard.
+lever_tier: tier2
+prior: >-
+  The free-form rubric axis now exists through periodic guards, so prompt
+  variants are no longer blocked in principle. This candidate isolates
+  tokenizer-v1 rendering; it does not add a system prompt or alter content.
+predicted_direction: unknown
+candidate_edit: >-
+  train.py --chat-template-variant tokenizer-v1; retain the same data sources,
+  split, answer surface, optimizer, and canonical evaluation prompts.
+rationale: >-
+  This makes the formerly pending chat-template lever a concrete, independently
+  scored Tier-2 candidate while keeping deployment system-prompt A/B separate.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p10-chat-template-tokenizer.json
+guardrails: results/autoresearch_guardrails_p10-chat-template-tokenizer.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p10-chat-template-tokenizer.json
+finetune_config: autoresearch/configs/phase10-tier2/p10-chat-template-tokenizer.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p10-chat-template-tokenizer
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_p10chattemplate.jsonl
+    --mcq-output results/mcq_gold_ll_p10-chat-template-tokenizer.json
+    --output results/primary_p10-chat-template-tokenizer.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p10-chat-template-tokenizer
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p10-chat-template-tokenizer.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p10-chat-template-tokenizer
+    --label p10-chat-template-tokenizer
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p10-chat-template-tokenizer.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p10-chat-template-tokenizer.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p10-chat-template-tokenizer.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p10-chat-template-tokenizer.json
+    --output results/autoresearch_guardrails_p10-chat-template-tokenizer.json
