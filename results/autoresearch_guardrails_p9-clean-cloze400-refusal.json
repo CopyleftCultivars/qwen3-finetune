@@ -1,0 +1,46 @@
+{
+  "bias": {
+    "baseline_letter_distribution": {
+      "A": 0.23008849557522124,
+      "B": 0.20353982300884957,
+      "C": 0.30973451327433627,
+      "D": 0.25663716814159293
+    },
+    "baseline_source": "results/mcq_gold_ll_v5_clean.json",
+    "letter_distribution": {
+      "A": 0.5948275862068966,
+      "B": 0.09482758620689655,
+      "C": 0.19827586206896552,
+      "D": 0.11206896551724138
+    },
+    "source": "results/mcq_gold_ll_p9-clean-cloze400-refusal.json"
+  },
+  "compute": {
+    "elapsed_minutes": 30.1,
+    "injected_by": "run_loop_batch_mode",
+    "status_note": "overwritten_by_run_loop_guardrails_inject_compute",
+    "total_stream_minutes": 41.65
+  },
+  "forgetting": {
+    "baseline_accuracy": 0.4166666666666667,
+    "baseline_source": "results/general_knowledge_v5_clean.json",
+    "candidate_accuracy": 0.4166666666666667,
+    "probe": "autoresearch/general_knowledge_probe.jsonl",
+    "relative_drop_percent": 0.0,
+    "source": "results/general_knowledge_p9-clean-cloze400-refusal.json"
+  },
+  "grader_anchor": {
+    "max_abs_drift": 0.0,
+    "source": "results/periodic_guards_p9-clean-cloze400-refusal.json",
+    "total_drift_alerts": 0
+  },
+  "rubric": {
+    "baseline_percent": 60.80000000000001,
+    "candidate_percent": 62.05333333333334,
+    "drop_percent_points": -1.2533333333333303,
+    "source": "results/periodic_guards_p9-clean-cloze400-refusal.json"
+  },
+  "sealed_test_access": {
+    "touched": false
+  }
+}

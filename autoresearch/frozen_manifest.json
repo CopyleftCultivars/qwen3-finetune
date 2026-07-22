@@ -39,7 +39,7 @@
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "4fdf2acd6e63cc3f4731b06a691c268523eecc32ce28bd17f7c8df6b418c45d1"
+      "sha256": "8138b0305b5e70cbe41ee544bed3c86b50ac8cc4f207c90f6ae5119acf961d5e"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -112,5 +112,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-22T16:51:28+00:00"
+  "generated_at": "2026-07-22T17:35:46+00:00"
 }
