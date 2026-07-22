@@ -7,6 +7,10 @@ Three source streams:
   3. QMD-generated MCQ pairs (output of scripts/generate_mcq_from_qmd.py)
      — cyclic shifts applied here, with 2x weight on D-position shift
 
+Optional streams:
+  4. audited cloze pairs generated from clean chat answers
+  5. reviewed adversarial-refusal pairs with explicit provenance markers
+
 Optionally filters any source through LLM judge verdicts (judge_verdict="keep").
 
 Stage B findings driving this v3 design:
@@ -30,6 +34,8 @@ Usage:
         --conversations data/sources/gemma4/hf_dataset/train.jsonl \\
         --mcq-rationale <path to a verified non-benchmark-overlapping MCQ+rationale source> \\
         --qmd-mcq data/sources/qmd_mcq_generated.jsonl \\
+        [--filter-system-prompts] \\
+        [--adversarial-refusals data/sources/adversarial_refusals.jsonl] \\
         [--judged-filter data/sources/mcq_with_rationale_judged.jsonl] \\
         [--output-dir data] \\
         [--split 0.9] [--seed 42]
@@ -64,6 +70,7 @@ _SYSTEM_PROMPT_MARKERS = (
     "You are an AI assistant",
     "You are a helpful",
 )
+_SYSTEM_PROMPT_END_MARKER = "Respond in user's language unless otherwise specified."
 
 
 # ---------------------------------------------------------------------------
@@ -71,7 +78,64 @@ _SYSTEM_PROMPT_MARKERS = (
 # ---------------------------------------------------------------------------
 
 def _is_system_prompt(text: str) -> bool:
-    return any(text.strip().startswith(m) for m in _SYSTEM_PROMPT_MARKERS)
+    return any(text.lstrip().startswith(m) for m in _SYSTEM_PROMPT_MARKERS)
+
+
+def _strip_embedded_system_prompt(text: str) -> tuple[str | None, bool]:
+    """Remove a known persona prefix, or drop a prompt-only system row.
+
+    QMD records sometimes concatenate the old assistant persona and the actual
+    MCQ into one instruction. Conversation records usually contain the persona
+    as its own human turn. We preserve a real question after the known
+    boundary, but never keep the persona as user content.
+    """
+    if not _is_system_prompt(text):
+        return text, False
+    boundary = text.find(_SYSTEM_PROMPT_END_MARKER)
+    if boundary >= 0:
+        suffix = text[boundary + len(_SYSTEM_PROMPT_END_MARKER):].strip()
+        if suffix:
+            return suffix, True
+    return None, False
+
+
+def _filter_system_prompt_pairs(
+    pairs: list[dict[str, str]],
+    *,
+    source: str,
+    strip_composite: bool = True,
+) -> tuple[list[dict[str, str]], dict[str, int]]:
+    """Filter embedded system/persona text at the source boundary."""
+    kept: list[dict[str, str]] = []
+    stats = {"stripped": 0, "dropped": 0}
+    for pair in pairs:
+        source_instruction = pair.get("_source_instruction", pair.get("instruction", ""))
+        cleaned, stripped = _strip_embedded_system_prompt(source_instruction)
+        if not strip_composite and _is_system_prompt(source_instruction):
+            cleaned, stripped = None, False
+        if cleaned is None:
+            stats["dropped"] += 1
+            continue
+        updated = dict(pair)
+        if stripped:
+            instruction = pair.get("instruction", "")
+            if instruction.startswith("Complete the missing phrase"):
+                # Cloze prompts retain their generated wrapper; only the
+                # original question metadata is used for this filter.
+                updated["instruction"] = instruction.replace(
+                    source_instruction, cleaned, 1
+                )
+                updated["_source_instruction"] = cleaned
+            else:
+                updated["instruction"] = cleaned
+            stats["stripped"] += 1
+        kept.append(updated)
+    print(
+        f"  System/preamble filter ({source}): stripped {stats['stripped']}, "
+        f"dropped {stats['dropped']}",
+        file=sys.stderr,
+    )
+    return kept, stats
 
 
 def _load_conversations(path: Path) -> Generator[dict[str, str], None, None]:
@@ -160,6 +224,39 @@ def _load_cloze_pairs(path: Path) -> Generator[dict[str, str], None, None]:
                 "instruction": str(rec["instruction"]),
                 "output": str(rec["output"]),
                 "_source": "chat_cloze",
+                "_source_instruction": str(rec.get("_source_instruction", "")),
+            }
+
+
+# Source 2c — reviewed adversarial refusal examples
+
+def _load_adversarial_refusals(path: Path) -> Generator[dict[str, str], None, None]:
+    """Load only explicitly reviewed, provenance-labelled refusal examples."""
+    with open(path, encoding="utf-8") as fh:
+        for lineno, raw in enumerate(fh, start=1):
+            raw = raw.strip()
+            if not raw:
+                continue
+            try:
+                rec = json.loads(raw)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"{path}:{lineno}: invalid JSON: {exc}") from exc
+            if rec.get("_source") != "adversarial_refusal":
+                raise ValueError(
+                    f"{path}:{lineno}: refusal row must have _source="
+                    "adversarial_refusal"
+                )
+            if rec.get("_review_status") != "approved":
+                raise ValueError(
+                    f"{path}:{lineno}: refusal row is not review-approved"
+                )
+            if "instruction" not in rec or "output" not in rec:
+                raise ValueError(f"{path}:{lineno}: refusal row needs instruction/output")
+            yield {
+                "instruction": str(rec["instruction"]),
+                "output": str(rec["output"]),
+                "_source": "adversarial_refusal",
+                "_refusal_id": str(rec.get("_refusal_id", f"row-{lineno}")),
             }
 
 
@@ -264,6 +361,7 @@ def _load_qmd_mcq(
     synth_item_count: int | None = None,
     seed: int = 42,
     excluded_source_docs: set[str] | None = None,
+    filter_system_prompts: bool = False,
 ) -> Generator[dict[str, str], None, None]:
     """Load QMD MCQ pairs and emit cyclic-shifted variants with D-position 2x."""
     matched_target_ids: set[str] = set()
@@ -284,6 +382,9 @@ def _load_qmd_mcq(
             if excluded_source_docs and _qmd_source_doc(rec) in excluded_source_docs:
                 continue
             records.append(rec)
+
+    if filter_system_prompts:
+        records, _ = _filter_system_prompt_pairs(records, source="qmd_mcq")
 
     if synth_item_count is not None:
         if synth_item_count > len(records):
@@ -598,6 +699,28 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--qmd-mcq", metavar="PATH",
                     help="QMD-generated MCQ (data/sources/qmd_mcq_generated.jsonl)")
     ap.add_argument(
+        "--adversarial-refusals",
+        metavar="PATH",
+        default=None,
+        help="Reviewed adversarial-refusal JSONL to add as a separate source",
+    )
+    ap.add_argument(
+        "--adversarial-refusal-count",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Deterministically subsample the reviewed refusal pool",
+    )
+    ap.add_argument(
+        "--filter-system-prompts",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help=(
+            "Strip known persona prefixes from composite MCQs and drop persona-only "
+            "conversation rows"
+        ),
+    )
+    ap.add_argument(
         "--cloze-source",
         metavar="PATH",
         help="Audit-approved cloze JSONL from generate/check_cloze_contamination.py",
@@ -683,8 +806,17 @@ def main() -> None:
     ap = build_parser()
     args = ap.parse_args()
 
-    if not any([args.conversations, args.mcq_rationale, args.qmd_mcq]):
-        ap.error("At least one of --conversations, --mcq-rationale, or --qmd-mcq is required")
+    if not any([
+        args.conversations,
+        args.mcq_rationale,
+        args.qmd_mcq,
+        args.cloze_source,
+        args.adversarial_refusals,
+    ]):
+        ap.error(
+            "At least one data source is required: conversations, MCQ rationale, "
+            "QMD MCQ, cloze, or adversarial refusals"
+        )
     if not 0.0 < args.split < 1.0:
         ap.error("--split must be between 0 and 1 (exclusive)")
     if args.conversation_ratio is not None and not 0.0 < args.conversation_ratio < 1.0:
@@ -693,6 +825,8 @@ def main() -> None:
         ap.error("--target-permutation-multiplier must be >= 1")
     if args.synth_item_count is not None and args.synth_item_count < 1:
         ap.error("--synth-item-count must be >= 1")
+    if args.adversarial_refusal_count is not None and args.adversarial_refusal_count < 1:
+        ap.error("--adversarial-refusal-count must be >= 1")
     if args.cloze_count is not None and args.cloze_count < 1:
         ap.error("--cloze-count must be >= 1")
 
@@ -700,6 +834,7 @@ def main() -> None:
     conv_pairs: list[dict[str, str]] = []
     mcq_pairs: list[dict[str, str]] = []
     cloze_pairs: list[dict[str, str]] = []
+    refusal_pairs: list[dict[str, str]] = []
     target_permutation_ids: set[str] | None = None
     freeform_source_exclusions: set[str] | None = None
 
@@ -737,6 +872,10 @@ def main() -> None:
             ap.error(f"Conversations file not found: {path}")
         print(f"Loading conversations from {path} ...", file=sys.stderr)
         conv_pairs = list(_load_conversations(path))
+        if args.filter_system_prompts:
+            conv_pairs, _ = _filter_system_prompt_pairs(
+                conv_pairs, source="gemma4_conversations", strip_composite=False
+            )
         source_counts["gemma4_conversations"] = len(conv_pairs)
         print(f"  → {len(conv_pairs)} pairs", file=sys.stderr)
 
@@ -765,6 +904,7 @@ def main() -> None:
                 synth_item_count=args.synth_item_count,
                 seed=args.seed,
                 excluded_source_docs=freeform_source_exclusions,
+                filter_system_prompts=args.filter_system_prompts,
             ))
         except ValueError as exc:
             ap.error(str(exc))
@@ -808,6 +948,30 @@ def main() -> None:
         source_counts["chat_cloze"] = len(cloze_pairs)
         print(f"  → {len(cloze_pairs)} audited pairs", file=sys.stderr)
 
+    if args.adversarial_refusals:
+        path = Path(args.adversarial_refusals)
+        if not path.exists():
+            ap.error(f"Adversarial refusal source not found: {path}")
+        print(f"Loading reviewed adversarial refusals from {path} ...", file=sys.stderr)
+        try:
+            refusal_pairs = list(_load_adversarial_refusals(path))
+        except ValueError as exc:
+            ap.error(str(exc))
+        if args.adversarial_refusal_count is not None:
+            if args.adversarial_refusal_count > len(refusal_pairs):
+                ap.error(
+                    f"--adversarial-refusal-count {args.adversarial_refusal_count} "
+                    f"exceeds refusal pool ({len(refusal_pairs)})"
+                )
+            if args.adversarial_refusal_count < len(refusal_pairs):
+                rng = random.Random(args.seed)
+                refusal_pairs = sorted(
+                    rng.sample(refusal_pairs, args.adversarial_refusal_count),
+                    key=lambda pair: pair["instruction"],
+                )
+        source_counts["adversarial_refusal"] = len(refusal_pairs)
+        print(f"  → {len(refusal_pairs)} reviewed pairs", file=sys.stderr)
+
     if args.conversation_ratio is not None and conv_pairs and mcq_pairs:
         n_conv_before, n_mcq_before = len(conv_pairs), len(mcq_pairs)
         conv_pairs, mcq_pairs = apply_conversation_ratio(
@@ -821,7 +985,14 @@ def main() -> None:
             file=sys.stderr,
         )
 
-    all_pairs: list[dict[str, str]] = conv_pairs + mcq_pairs + cloze_pairs
+    if args.filter_system_prompts:
+        cloze_pairs, _ = _filter_system_prompt_pairs(
+            cloze_pairs, source="chat_cloze", strip_composite=False
+        )
+
+    all_pairs: list[dict[str, str]] = (
+        conv_pairs + mcq_pairs + cloze_pairs + refusal_pairs
+    )
     print(f"\nTotal before filtering: {len(all_pairs)}", file=sys.stderr)
 
     keep_hashes: set[str] | None = None

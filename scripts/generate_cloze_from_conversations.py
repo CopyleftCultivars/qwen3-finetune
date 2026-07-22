@@ -101,11 +101,19 @@ def _iter_pairs(path: Path) -> Iterable[tuple[int, dict[str, str]]]:
                 instruction = str(prompt.get("value", "")).strip()
                 output = str(answer.get("value", "")).strip()
                 if instruction and output:
+                    if any(instruction.startswith(marker) for marker in _SYSTEM_PROMPT_MARKERS):
+                        # A persona-bearing conversation turn is not a clean
+                        # user question. QMD composite prompts are handled
+                        # separately by prepare_dataset_v3.py; cloze authoring
+                        # drops these rows rather than preserving the artifact.
+                        instruction = ""
+                    if not instruction:
+                        continue
                     pairs.append((instruction, output))
 
-            # Match prepare_dataset_v3.py: the first human turn is a system-like
-            # formatting prompt, not a user question and should never become
-            # cloze context.
+            # The first human turn is usually a system-like formatting prompt,
+            # but later records can contain the same artifact too. All of them
+            # were removed above before cloze authoring.
             start = 1 if pairs and any(
                 pairs[0][0].startswith(marker) for marker in _SYSTEM_PROMPT_MARKERS
             ) else 0
