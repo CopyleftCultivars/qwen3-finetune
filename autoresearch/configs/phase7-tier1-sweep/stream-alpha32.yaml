@@ -1,0 +1,64 @@
+# Tier-1 sweep (#91) stream: LoRA alpha/r=1 at fixed r=32.
+stream_id: alpha32
+run_name: p7-alpha32
+hypothesis: >-
+  LoRA alpha has not been tested independently at fixed rank. Lowering alpha
+  from 64 to 32 lowers the alpha/r update scale from 2 to 1 and may reduce
+  over-intensification on this small dataset, or may underfit. Direction is
+  genuinely unknown. Falsified if primary delta drops under v5clean's own
+  bar, or if any guard regresses versus v5clean's measured numbers (bias
+  0.060, forgetting 41.67%, rubric 60.8% baseline).
+lever_tier: tier1
+prior: >-
+  levers.md LoRA alpha row: v3-clean/v5clean used alpha=64 with r=32;
+  alpha was untested independently from rank. Chainlink #91 comment 137
+  specifies a geometric alpha/r dose-response at fixed r=32.
+predicted_direction: unknown
+candidate_edit: >-
+  finetune.py config lora_alpha 64 -> 32 at fixed lora_r=32 (alpha/r=1);
+  lr=5e-5, cosine schedule, warmup_ratio=0.05, lora_dropout=0.025,
+  epochs=4, and all other v5clean settings unchanged.
+rationale: >-
+  Chainlink #91, lever 5 of the planned Tier-1 sweep. Geometric alpha/r
+  dose-response stream against v5clean, paired with alpha16, alpha128, and
+  alpha256 in a labelled four-stream micro-sweep.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p7-alpha32.json
+guardrails: results/autoresearch_guardrails_p7-alpha32.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p7-alpha32.json
+finetune_config: autoresearch/configs/phase7-tier1-sweep/p7-alpha32.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p7-alpha32
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p7-alpha32.json
+    --output results/primary_p7-alpha32.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p7-alpha32
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p7-alpha32.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p7-alpha32
+    --label p7-alpha32
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p7-alpha32.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p7-alpha32.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p7-alpha32.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p7-alpha32.json
+    --output results/autoresearch_guardrails_p7-alpha32.json
