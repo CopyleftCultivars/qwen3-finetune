@@ -135,6 +135,35 @@ def _load_mcq_with_rationale(path: Path) -> Generator[dict[str, str], None, None
 
 
 # ---------------------------------------------------------------------------
+# Source 2b — audited cloze pairs from clean chat data
+# ---------------------------------------------------------------------------
+
+def _load_cloze_pairs(path: Path) -> Generator[dict[str, str], None, None]:
+    """Load only cloze records that passed the explicit contamination audit."""
+    with open(path, encoding="utf-8") as fh:
+        for lineno, raw in enumerate(fh, start=1):
+            raw = raw.strip()
+            if not raw:
+                continue
+            try:
+                rec = json.loads(raw)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"{path}:{lineno}: invalid JSON: {exc}") from exc
+            if rec.get("_contamination_status") != "passed":
+                raise ValueError(
+                    f"{path}:{lineno}: cloze record is not audit-approved; run "
+                    "scripts/check_cloze_contamination.py first"
+                )
+            if "instruction" not in rec or "output" not in rec:
+                continue
+            yield {
+                "instruction": str(rec["instruction"]),
+                "output": str(rec["output"]),
+                "_source": "chat_cloze",
+            }
+
+
+# ---------------------------------------------------------------------------
 # Source 3 — QMD-generated MCQ (from generate_mcq_from_qmd.py)
 # Apply cyclic shifts here with heavier D-position weight.
 # ---------------------------------------------------------------------------
@@ -396,6 +425,8 @@ def filter_and_dedup(
 def _letter_distribution(pairs: list[dict[str, str]]) -> dict[str, int]:
     dist: dict[str, int] = {l: 0 for l in _OPTION_LETTERS}
     for pair in pairs:
+        if pair.get("_source") not in {"qmd_mcq", "qmd_mcq_wrapped", "mcq_rationale"}:
+            continue
         am = _ANSWER_LETTER.search(pair["output"])
         if am:
             dist[am.group(1)] += 1
@@ -567,6 +598,18 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--qmd-mcq", metavar="PATH",
                     help="QMD-generated MCQ (data/sources/qmd_mcq_generated.jsonl)")
     ap.add_argument(
+        "--cloze-source",
+        metavar="PATH",
+        help="Audit-approved cloze JSONL from generate/check_cloze_contamination.py",
+    )
+    ap.add_argument(
+        "--cloze-count",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Deterministically subsample the audited cloze pool to N items",
+    )
+    ap.add_argument(
         "--sft-format",
         choices=("bare-letter", "answer-prefix", "sentence"),
         default="bare-letter",
@@ -650,10 +693,13 @@ def main() -> None:
         ap.error("--target-permutation-multiplier must be >= 1")
     if args.synth_item_count is not None and args.synth_item_count < 1:
         ap.error("--synth-item-count must be >= 1")
+    if args.cloze_count is not None and args.cloze_count < 1:
+        ap.error("--cloze-count must be >= 1")
 
     source_counts: dict[str, int] = {}
     conv_pairs: list[dict[str, str]] = []
     mcq_pairs: list[dict[str, str]] = []
+    cloze_pairs: list[dict[str, str]] = []
     target_permutation_ids: set[str] | None = None
     freeform_source_exclusions: set[str] | None = None
 
@@ -736,6 +782,32 @@ def main() -> None:
             file=sys.stderr,
         )
 
+    if args.cloze_source:
+        path = Path(args.cloze_source)
+        if not path.exists():
+            ap.error(f"Cloze source file not found: {path}")
+        print(f"Loading audited cloze pairs from {path} ...", file=sys.stderr)
+        try:
+            cloze_pairs = list(_load_cloze_pairs(path))
+        except ValueError as exc:
+            ap.error(str(exc))
+        if args.cloze_count is not None:
+            if args.cloze_count > len(cloze_pairs):
+                ap.error(
+                    f"--cloze-count {args.cloze_count} exceeds audited cloze pool "
+                    f"({len(cloze_pairs)})"
+                )
+            if args.cloze_count < len(cloze_pairs):
+                rng = random.Random(args.seed)
+                cloze_pairs = sorted(
+                    rng.sample(cloze_pairs, args.cloze_count),
+                    key=lambda pair: hashlib.sha256(
+                        pair["instruction"].encode("utf-8")
+                    ).hexdigest(),
+                )
+        source_counts["chat_cloze"] = len(cloze_pairs)
+        print(f"  → {len(cloze_pairs)} audited pairs", file=sys.stderr)
+
     if args.conversation_ratio is not None and conv_pairs and mcq_pairs:
         n_conv_before, n_mcq_before = len(conv_pairs), len(mcq_pairs)
         conv_pairs, mcq_pairs = apply_conversation_ratio(
@@ -749,7 +821,7 @@ def main() -> None:
             file=sys.stderr,
         )
 
-    all_pairs: list[dict[str, str]] = conv_pairs + mcq_pairs
+    all_pairs: list[dict[str, str]] = conv_pairs + mcq_pairs + cloze_pairs
     print(f"\nTotal before filtering: {len(all_pairs)}", file=sys.stderr)
 
     keep_hashes: set[str] | None = None

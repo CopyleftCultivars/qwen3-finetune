@@ -99,6 +99,10 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
         argv.extend(["--mcq-rationale", args.mcq_rationale])
     if args.qmd_mcq:
         argv.extend(["--qmd-mcq", args.qmd_mcq])
+    if args.cloze_source:
+        argv.extend(["--cloze-source", args.cloze_source])
+    if args.cloze_count is not None:
+        argv.extend(["--cloze-count", str(args.cloze_count)])
     if args.conversation_ratio is not None:
         argv.extend(["--conversation-ratio", str(args.conversation_ratio)])
     if args.target_permutation_ids:
@@ -106,6 +110,43 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
     if args.synth_item_count is not None:
         argv.extend(["--synth-item-count", str(args.synth_item_count)])
     return argv
+
+
+def _cloze_commands(args: argparse.Namespace) -> list[list[str]]:
+    """Return the reproducible cloze generation/audit preflight commands."""
+    if not args.cloze_conversations:
+        return []
+    suffix = args.run_name.replace("/", "_")
+    raw_path = Path(args.dataset_output_dir) / f"cloze_raw_{suffix}.jsonl"
+    clean_path = Path(args.dataset_output_dir) / f"cloze_clean_{suffix}.jsonl"
+    report_path = Path("results") / f"cloze_contamination_{suffix}.json"
+    args.cloze_source = str(clean_path)
+    return [
+        [
+            sys.executable,
+            "scripts/generate_cloze_from_conversations.py",
+            "--input",
+            args.cloze_conversations,
+            "--output",
+            str(raw_path),
+            "--seed",
+            str(args.seed),
+            "--maximum-answer-frequency",
+            str(args.cloze_maximum_answer_frequency),
+        ],
+        [
+            sys.executable,
+            "scripts/check_cloze_contamination.py",
+            "--cloze",
+            str(raw_path),
+            "--benchmark",
+            args.cloze_benchmark,
+            "--output",
+            str(clean_path),
+            "--report",
+            str(report_path),
+        ],
+    ]
 
 
 def _train_argv(args: argparse.Namespace) -> list[str]:
@@ -335,6 +376,28 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--conversations", default=DEFAULT_CONVERSATIONS)
     parser.add_argument("--mcq-rationale", default=None)
     parser.add_argument("--qmd-mcq", default=DEFAULT_QMD_MCQ)
+    parser.add_argument(
+        "--cloze-source",
+        default=None,
+        help="Audit-approved cloze JSONL to mix into the training pool",
+    )
+    parser.add_argument(
+        "--cloze-conversations",
+        default=None,
+        help="Raw ShareGPT JSONL from which the cloze preflight builds items",
+    )
+    parser.add_argument(
+        "--cloze-benchmark",
+        default=None,
+        help="Benchmark JSONL used by the cloze contamination preflight",
+    )
+    parser.add_argument(
+        "--cloze-maximum-answer-frequency",
+        type=int,
+        default=50,
+        help="Cap repeated normalized cloze answers during preflight generation",
+    )
+    parser.add_argument("--cloze-count", type=int, default=None)
 
     # SEARCH DIMENSION: Tier 1 hyperparameters.
     parser.add_argument("--lr", type=float, default=2e-4)
@@ -471,6 +534,14 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         parser.error("--run-name is required unless provided by --config")
     if args.synth_item_count is not None and args.synth_item_count < 1:
         parser.error("--synth-item-count must be >= 1")
+    if args.cloze_count is not None and args.cloze_count < 1:
+        parser.error("--cloze-count must be >= 1")
+    if args.cloze_maximum_answer_frequency < 0:
+        parser.error("--cloze-maximum-answer-frequency must be >= 0")
+    if args.cloze_conversations and not args.cloze_benchmark:
+        parser.error("--cloze-conversations requires --cloze-benchmark")
+    if args.cloze_source and args.cloze_conversations:
+        parser.error("use either --cloze-source or --cloze-conversations, not both")
     if not 0.0 < args.split < 1.0:
         parser.error("--split must be between 0 and 1 (exclusive)")
     if args.conversation_ratio is not None and not 0.0 < args.conversation_ratio < 1.0:
@@ -514,7 +585,7 @@ def main() -> None:
     if args.jspace_signals is not None:
         args.qmd_mcq = str(_jspace_select(args))
 
-    commands = [_prepare_argv(args), _train_argv(args), _merge_argv(args)]
+    commands = _cloze_commands(args) + [_prepare_argv(args), _train_argv(args), _merge_argv(args)]
     if args.dry_run:
         print("Dry run: checksum passed; planned subprocesses:")
     for argv in commands:
