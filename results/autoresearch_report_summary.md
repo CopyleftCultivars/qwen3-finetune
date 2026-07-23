@@ -17,6 +17,20 @@ guard, not a replacement for that gate.
 | Curriculum order | **Search rejected — three-repeat confirmation** | The fixed-data confirmation campaign produced primary deltas `+0.199` (seed 101), `+0.338` (seed 102), and `+0.340` (seed 103), all below the `+0.4` gate. All three kept the same 4,400 ordered training items and 489 validation items; hard guards stayed clean, forgetting improved to 62.5–66.67%, and rubric ranged 57.39–59.87%. The original +0.399 near miss was not robust enough to promote. |
 | Rationale targets | **Search rejected — two category/dose runs; replay strategy closed** | The combined p11 overlay produced primary delta `-0.0732` (`-0.366 SE`) and bias `0.1645`; the natural-fertilizers-only p12 overlay produced delta `-0.0597` (`-0.298 SE`) and bias `0.1469`, both against v5clean and both below the `+0.4` gate. P12 kept rubric within guard (`60.80% → 60.53%`), forgetting unchanged at `41.67%`, and anchors clean, but still failed bias. All 311 clean rationale outputs exactly match the existing QMD outputs by `_source_question_id`, so this is metadata-clean replay rather than novel reasoning supervision. v5clean remains champion; stop widening this replay strategy. |
 
+## Tier 2 completion campaign
+
+The three remaining Tier-2 search dimensions were each given one isolated dose-refinement run against v5clean. No candidate cleared the frozen `+0.4` primary gate, and v5clean remains champion.
+
+| Dimension | Candidate | Primary delta | Guard summary | Decision |
+|---|---|---:|---|---|
+| Answer-position augmentation | multiplier 3 on the 17 joined position-unstable QMD records | `-0.1461` (`-0.730 SE`) | Rubric `60.80% → 56.56%`; compute `27.10 min`; bias, forgetting, anchors, sealed clean | **reject** |
+| Conversation/MCQ replay ratio | conversation fraction `0.55` | `+0.3121` (`+1.560 SE`) | Rubric drop `1.87 pp`; compute `15.46 min`; forgetting improved to `54.17%`; bias, anchors, sealed clean | **reject** |
+| Synth-item count | 233 raw QMD items before cyclic expansion | `+0.2023` (`+1.011 SE`) | Rubric `60.80% → 59.37%`; compute `26.52 min`; forgetting improved to `58.33%`; bias, anchors, sealed clean | **reject** |
+
+The position result closes the tested multiplier-2/3 targeted replay surface. The ratio result closes the current-source 0.40/0.50/0.55 dose bracket. The synth result closes the executable 155/233 down-dose search; moving above the 311-item source ceiling requires a separate MCQ authoring and contamination-audit pipeline. Distractor quality remains outside the training loop because it belongs to item authoring and review.
+
+The initial position attempt was also recorded as an infrastructure failed-run when the loop was invoked with `/usr/bin/python` without `unsloth`; the scientific candidate was rerun unchanged in the `qwen3-train` CUDA environment before evaluation.
+
 ## Tier 3 rationale-target unlock
 
 The first Tier 3 candidate was trained and rejected by the normal gate. The

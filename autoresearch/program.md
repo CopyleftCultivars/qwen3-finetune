@@ -169,8 +169,9 @@ Diversity rules:
 - Tier 3 data/format levers are higher-ceiling than Tier 2, which are higher-ceiling than Tier 1
   hyperparameters.
 - Letter balance is a settled constant. Do not reintroduce answer-position bias.
-- Position/order augmentation is the first prioritized experiment: target residual position-spread
-  weakness rather than blindly changing all data.
+- Position/order augmentation was the first prioritized Tier-2 experiment. The targeted
+  17-record QMD overlap dose and a stronger multiplier-3 follow-up both rejected; do not
+  silently reopen this exact replay surface.
 - CoT/rationale targets are pending-unlock: they may help the weak 0.6B internal workspace, but
   require free-form/rubric confirmation because MCQ can be blind to answer quality.
 - Every proposal must state: hypothesis, lever tier, prior cited from `levers.md`, smallest edit,
