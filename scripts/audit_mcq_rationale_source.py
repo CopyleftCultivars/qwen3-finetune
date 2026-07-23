@@ -183,8 +183,7 @@ def audit_rows(
         prefix = source_id.split("-", 1)[0]
         category = CATEGORY_BY_PREFIX.get(prefix, "unknown")
         source_categories[category] += 1
-        clean.append(
-            {
+        clean_row = {
                 "instruction": instruction,
                 "output": output,
                 "_source": "mcq_rationale_clean",
@@ -194,7 +193,14 @@ def audit_rows(
                 "_rationale_status": "validated_think_target",
                 "_rationale_audit": "mcq_rationale_contamination_audit_v1",
             }
-        )
+        # Preserve authoring provenance for opt-in experimental sources.  The
+        # canonical fields above remain normalized for prepare_dataset_v3.py;
+        # these extra fields make it possible to distinguish novel authoring
+        # from historical QMD replay after the contamination audit.
+        for key in ("_rationale_origin", "_rationale_replay_comparison"):
+            if key in row:
+                clean_row[key] = row[key]
+        clean.append(clean_row)
 
     report = {
         "format": "mcq_rationale_contamination_audit_v1",

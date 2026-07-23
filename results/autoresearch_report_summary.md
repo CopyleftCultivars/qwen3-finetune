@@ -65,6 +65,26 @@ effects with recurring bias, close the current rationale-replay strategy. A
 future rationale experiment must author genuinely new rationales or use a new
 target construction; do not widen this overlay unchanged.
 
+## Tier 3 P13 novel-supervision candidate
+
+P13 changes the target construction rather than widening the rejected replay
+strategy. A local CUDA Qwen authoring pass produced 43 natural-fertilizers
+step-back rationales, preserving the source answer letters while requiring a
+general agronomic principle, application to the question, and distractor
+distinction. The authoring audit reports zero exact output matches and zero
+normalized rationale matches against the existing QMD outputs. The separate
+contamination audit reports zero exact benchmark-question overlaps and zero
+high-lexical-overlap collisions; no sealed-test path was read.
+
+The opt-in source is `data/sources/p13_novel_rationale_nf.jsonl` and the
+candidate recipe is
+`autoresearch/configs/phase13-tier3/p13-novel-rationale-nf.yaml`. The dry-run
+composition is 4,409 conversation pairs, 1,555 cyclic-expanded QMD pairs, and
+172 four-way rationale-overlay pairs, for 6,136 pairs before filtering and
+5,061 after filtering (4,554 train / 507 validation). The final MCQ pool is
+exactly A/B/C/D-balanced at 348 each. Training and gating remain pending; the
+source is not part of the default v5clean recipe.
+
 ## Confounded p9 reference
 
 The combined `p9-clean-cloze400-refusal` candidate had primary delta

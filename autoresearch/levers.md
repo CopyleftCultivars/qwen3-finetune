@@ -72,7 +72,7 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 |---|---|---|---|
 | Rationale / CoT targets | **SEARCH REJECTED — two category/dose runs; replay strategy closed** | P11 combined natural_fertilizers + soil_science_and_microbiology rationale replay produced primary delta `-0.0732` and bias `0.1645`; p12 natural_fertilizers-only replay produced delta `-0.0597` and bias `0.1469`. Both missed the `+0.4` gate; p12 kept rubric within guard (`60.80% → 60.53%`), forgetting unchanged, and anchors clean, but still failed bias. A direct postmortem found all 311 clean rationale outputs exactly match `qmd_mcq_all_phase3.jsonl` by `_source_question_id`: the source is contamination-audited and opt-in, but it is not novel reasoning supervision. Close this replay strategy; a future rationale lever needs genuinely new authoring or target construction. | `results/autoresearch_gate_p11-rationale-overlay.json`; `results/autoresearch_gate_p12-rationale-nf-only.json`; `results/autoresearch_guardrails_p12-rationale-nf-only.json`; `results/periodic_guards_p12-rationale-nf-only.json`; `data/sources/qmd_mcq_rationale_clean.jsonl`; `autoresearch/configs/phase12-tier3/p12-rationale-nf-only.yaml` |
 | Reflection-data proportion | PENDING-UNLOCK | Unmeasurable without a free-form quality signal. | plan doc |
-| J-space-informed data selection | **ACTIVE ROUTING PRIOR** (promoted Phase 5, chainlink #57) | Use bucket evidence from `results/jspace_item_signals.jsonl` / `results/jspace_category_summary.json` to route which lever a proposal targets: `absent` → category/source data expansion; `late_weak` → rationale targets; `present_unsurfaced` → rationale or answer-surface experiments; `format_sensitive` → format/chat-template experiments; `position_unstable` → targeted permutation; `robust` → do not target except replay. Evidence for *choosing* a lever, never a score to optimize; regenerate artifacts whenever the champion changes (the lens is model-specific). Narrow selection knobs (`--jspace-*`) land with #58. | v3-clean dev baseline (113 scorable MCQ rows): present_unsurfaced 45, position_unstable 34, format_sensitive 12, late_weak 12, absent 10, robust 0; diagnostic surface frozen per #56 (`autoresearch/jspace_config.json`) |
+| J-space-informed data selection | **ACTIVE ROUTING PRIOR** (promoted Phase 5, chainlink #57) | Use bucket evidence from `results/jspace_item_signals.jsonl` / `results/jspace_category_summary.json` to route which lever a proposal targets: `absent` → category/source data expansion; `late_weak` → rationale targets; `present_unsurfaced` → rationale or answer-surface experiments; `format_sensitive` → format/chat-template experiments; `position_unstable` → targeted permutation; `robust` → do not target except replay. Evidence for *choosing* a lever, never a score to optimize; regenerate artifacts whenever the champion changes (the lens is model-specific). Narrow selection knobs (`--jspace-*`) land with #58. | v5clean J-space refit: late_weak 63, position_unstable 20, format_sensitive 13, present_unsurfaced 11, robust 6, absent 0; diagnostic surface frozen per #56 (`autoresearch/jspace_config.json`) |
 | Free-form score as weighted objective term | PENDING-UNLOCK | This lever *is* Phase 2.6 itself — it doesn't unlock, it gets built. | plan doc |
 
 ---
@@ -104,15 +104,13 @@ general-replay-ratio lever now has a real knob (`--conversation-ratio`, chainlin
 CROP's non-monotone result still means don't default to "more is better" when it's
 first searched.
 
-**Tier 3 (reasoning) and CROP-derived:** PENDING-UNLOCK behind Phase 2.6's
-free-form eval axis, except J-space-informed data selection, which is now an ACTIVE
-ROUTING PRIOR (Phase 5, #57): it steers which lever a proposal targets using the frozen
-J-space diagnostic surface, without itself being a measurable objective. One caveat worth
-flagging early: diagnostic 1's negative
-real-gen headroom is a soft warning against over-investing in CoT/rationale levers as
-an assumed win. When 2.6 lands and these unlock, diagnostic 2's category ranking
-(Natural Fertilizers → Sustainable Water Mgmt → Soil Science) gives a concrete starting
-point rather than searching blind across all 9 categories at once.
+**Tier 3 (reasoning) and CROP-derived:** the free-form axis and rationale path are
+unlocked, but the current QMD rationale-replay strategy is rejected after p11/p12.
+J-space-informed data selection remains an ACTIVE ROUTING PRIOR (Phase 5, #57): it
+steers which lever a proposal targets using the frozen v5clean J-space diagnostic
+surface, without itself being a measurable objective. The v5clean category ranking
+(Natural Fertilizers → Soil Science → Sustainable Water Mgmt) now guides P13 toward
+genuinely new supervision rather than another replay overlay.
 
 ---
 
