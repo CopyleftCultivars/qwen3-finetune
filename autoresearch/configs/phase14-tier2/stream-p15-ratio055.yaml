@@ -1,0 +1,62 @@
+schema_version: 1
+stream_id: p15-ratio055
+run_name: p15-ratio055
+hypothesis: >-
+  The ratio-0.50 candidate was a primary near miss with clean guards, while
+  ratio-0.40 moved primary further but crossed the rubric-drop limit. A 0.55
+  conversation fraction may retain the primary benefit while restoring enough
+  general replay to keep the rubric guard clean. Falsified if the candidate
+  misses the primary gate or any guardrail.
+lever_tier: tier2
+prior: >-
+  levers.md replay-ratio row and the p7 ratio results: 0.50 gave delta
+  +0.3716 with rubric -3.41 points; 0.40 gave delta +0.3273 with rubric
+  -5.13 points. The implementation is deterministic, subsample-only, and
+  preserves MCQ letter balance.
+predicted_direction: up
+candidate_edit: >-
+  Set conversation_ratio=0.55; retain the v5clean sources, split, optimizer,
+  bare-letter surface, and all settled settings.
+rationale: >-
+  This is the smallest intermediate dose that can test whether the ratio
+  signal has a usable quality/primary tradeoff before abandoning the lever.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p15-ratio055.json
+guardrails: results/autoresearch_guardrails_p15-ratio055.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p15-ratio055.json
+finetune_config: autoresearch/configs/phase14-tier2/p15-ratio055.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p15-ratio055
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p15-ratio055.json
+    --output results/primary_p15-ratio055.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p15-ratio055
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p15-ratio055.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p15-ratio055
+    --label p15-ratio055
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p15-ratio055.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p15-ratio055.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p15-ratio055.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p15-ratio055.json
+    --output results/autoresearch_guardrails_p15-ratio055.json

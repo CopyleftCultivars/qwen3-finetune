@@ -117,6 +117,11 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
         argv.extend(["--conversation-ratio", str(args.conversation_ratio)])
     if args.target_permutation_ids:
         argv.extend(["--target-permutation-ids", args.target_permutation_ids])
+    if args.target_permutation_multiplier != 2:
+        argv.extend([
+            "--target-permutation-multiplier",
+            str(args.target_permutation_multiplier),
+        ])
     if args.synth_item_count is not None:
         argv.extend(["--synth-item-count", str(args.synth_item_count)])
     if args.curriculum_order != "none":
@@ -498,6 +503,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--conversation-ratio", type=float, default=None)
     parser.add_argument("--target-permutation-ids", default=None, metavar="PATH")
     parser.add_argument(
+        "--target-permutation-multiplier",
+        type=int,
+        default=2,
+        help="Extra cyclic-shift multiplier for targeted QMD records",
+    )
+    parser.add_argument(
         "--sft-format",
         choices=("bare-letter", "answer-prefix", "sentence"),
         default="bare-letter",
@@ -629,6 +640,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         parser.error("--run-name is required unless provided by --config")
     if args.synth_item_count is not None and args.synth_item_count < 1:
         parser.error("--synth-item-count must be >= 1")
+    if args.target_permutation_multiplier < 1:
+        parser.error("--target-permutation-multiplier must be >= 1")
     if args.cloze_count is not None and args.cloze_count < 1:
         parser.error("--cloze-count must be >= 1")
     if args.cloze_maximum_answer_frequency < 0:
