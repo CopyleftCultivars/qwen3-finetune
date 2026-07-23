@@ -15,7 +15,7 @@ guard, not a replacement for that gate.
 | Reviewed adversarial refusals | **Search rejected — isolated refusal-only candidate** | `results/autoresearch_gate_p10-refusal-only.json`: primary delta `+0.0497` (`+0.25 SE`, below threshold), rubric `60.80% → 59.13%`, forgetting improved `41.67% → 45.83%`, and the remaining guards were clean. Ten reviewed examples did not establish a champion benefit. |
 | Chat template / prompt variant | **Search rejected — tokenizer-v1** | `results/autoresearch_gate_p10-chat-template-tokenizer.json`: primary delta `-1.213` (`-6.06 SE`), bias `0.3164`, forgetting drop 10%, rubric `60.80% → 49.81%`, and compute 28.18 vs 28.00 minutes. The free-form axis successfully exposed the severe quality regression; keep hardcoded-v1 as the current training interface. |
 | Curriculum order | **Search rejected — three-repeat confirmation** | The fixed-data confirmation campaign produced primary deltas `+0.199` (seed 101), `+0.338` (seed 102), and `+0.340` (seed 103), all below the `+0.4` gate. All three kept the same 4,400 ordered training items and 489 validation items; hard guards stayed clean, forgetting improved to 62.5–66.67%, and rubric ranged 57.39–59.87%. The original +0.399 near miss was not robust enough to promote. |
-| Rationale targets | **Search rejected — first J-space-guided overlay** | `results/autoresearch_gate_p11-rationale-overlay.json`: primary delta `-0.0732` (`-0.366 SE`) against the `+0.4` gate; output bias reappeared (`0.1645` vs `0.1097` allowed). Forgetting improved (`41.67% → 50.00%`), anchors stayed clean (`0.0` drift), rubric fell `60.80% → 58.04%` (`-2.76` points), and the 27.93-minute training run stayed within compute. The first rationale replay dose is rejected; v5clean remains champion. |
+| Rationale targets | **Search rejected — two category/dose runs; replay strategy closed** | The combined p11 overlay produced primary delta `-0.0732` (`-0.366 SE`) and bias `0.1645`; the natural-fertilizers-only p12 overlay produced delta `-0.0597` (`-0.298 SE`) and bias `0.1469`, both against v5clean and both below the `+0.4` gate. P12 kept rubric within guard (`60.80% → 60.53%`), forgetting unchanged at `41.67%`, and anchors clean, but still failed bias. All 311 clean rationale outputs exactly match the existing QMD outputs by `_source_question_id`, so this is metadata-clean replay rather than novel reasoning supervision. v5clean remains champion; stop widening this replay strategy. |
 
 ## Tier 3 rationale-target unlock
 
@@ -42,6 +42,28 @@ from `60.80%` to `58.04%`; forgetting improved to `50.00%` accuracy and
 anchor drift remained zero. The candidate recipe is
 `autoresearch/configs/phase11-tier3/p11-rationale-overlay.yaml`. Do not promote
 or repeat this exact overlay dose without a new rationale/bias hypothesis.
+
+## Tier 3 rationale follow-up
+
+The natural-fertilizers-only p12 ablation tested the smallest targeted follow-up
+after p11. It selected 43 `late_weak` source records, added 172 rationale
+overlay rows, and produced 5,061 post-filter pairs (4,554 train / 507
+validation) with exact A/B/C/D balance. The frozen primary moved from
+`-0.77515` to `-0.83482` (`-0.05966`, `-0.298 SE`), and the gate rejected it
+for both missing the `+0.4` threshold and reintroducing bias (`0.1469` vs
+`0.1097` allowed). Rubric was nearly flat (`60.80% → 60.53%`, `-0.27`
+points), forgetting stayed at `41.67%`, anchor drift was zero, and the sealed
+test was untouched. Training took `1,680.0 s` (~28.00 minutes), so it was
+compute-borderline but not a substantive runtime failure.
+
+The source postmortem is decisive for this lever shape: all 311 rationale
+outputs in `data/sources/qmd_mcq_rationale_clean.jsonl` exactly match the
+corresponding outputs in `data/sources/qmd_mcq_all_phase3.jsonl`. The source is
+contamination-audited and safely opt-in, but it does not add independent
+reasoning supervision. After p11 and p12 both showed negative/flat primary
+effects with recurring bias, close the current rationale-replay strategy. A
+future rationale experiment must author genuinely new rationales or use a new
+target construction; do not widen this overlay unchanged.
 
 ## Confounded p9 reference
 
