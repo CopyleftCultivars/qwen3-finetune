@@ -97,6 +97,10 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
         argv.extend(["--conversations", args.conversations])
     if args.mcq_rationale:
         argv.extend(["--mcq-rationale", args.mcq_rationale])
+    if args.mcq_rationale_categories:
+        argv.extend(["--mcq-rationale-categories", args.mcq_rationale_categories])
+    if args.rationale_overlay:
+        argv.append("--rationale-overlay")
     if args.qmd_mcq:
         argv.extend(["--qmd-mcq", args.qmd_mcq])
     if args.adversarial_refusals:
@@ -296,7 +300,21 @@ def _jspace_select(args: argparse.Namespace) -> Path:
             random.Random(args.seed).sample(targeted_ids, args.jspace_max_items)
         )
 
-    if args.jspace_action == "include":
+    if args.jspace_action == "rationale_overlay":
+        if not args.mcq_rationale:
+            raise SystemExit(
+                "--jspace-action rationale_overlay requires --mcq-rationale "
+                "to point at an audit-approved rationale source"
+            )
+        # Keep the complete baseline QMD pool.  J-space selects the categories
+        # whose clean rationale rows are replayed; it does not replace the
+        # ordinary MCQ stream with a validation-derived subset.
+        kept_ids = {
+            str(r["_source_question_id"]) for r in records
+        }
+        args.mcq_rationale_categories = ",".join(target_categories)
+        args.rationale_overlay = True
+    elif args.jspace_action == "include":
         kept_ids = set(capped_ids)
     elif args.jspace_action == "exclude":
         kept_ids = {
@@ -326,6 +344,8 @@ def _jspace_select(args: argparse.Namespace) -> Path:
         "action": args.jspace_action,
         "buckets": buckets,
         "target_categories": target_categories,
+        "rationale_source": args.mcq_rationale if args.jspace_action == "rationale_overlay" else None,
+        "rationale_overlay": args.jspace_action == "rationale_overlay",
         "signal_evidence_counts": evidence_counts,
         "seed": args.seed,
         "source": source_path.as_posix(),
@@ -400,6 +420,17 @@ def build_parser() -> argparse.ArgumentParser:
     # contaminated MCQ-rationale file; callers may pass a verified clean source.
     parser.add_argument("--conversations", default=DEFAULT_CONVERSATIONS)
     parser.add_argument("--mcq-rationale", default=None)
+    parser.add_argument(
+        "--mcq-rationale-categories",
+        default=None,
+        help="Comma-separated clean rationale source categories to replay",
+    )
+    parser.add_argument(
+        "--rationale-overlay",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Preserve balanced cyclic rationale replay rows through deduplication",
+    )
     parser.add_argument("--qmd-mcq", default=DEFAULT_QMD_MCQ)
     parser.add_argument(
         "--adversarial-refusals",
@@ -527,9 +558,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--jspace-action",
-        choices=("include", "exclude", "cap"),
+        choices=("include", "exclude", "cap", "rationale_overlay"),
         default="include",
-        help="include: keep only targeted records; exclude: drop them; cap: subsample them",
+        help=(
+            "include: keep only targeted records; exclude: drop them; cap: "
+            "subsample them; rationale_overlay: keep the baseline QMD pool and "
+            "replay clean rationale rows for the selected categories"
+        ),
     )
 
     # Pass-through model/merge controls; not search dimensions.
@@ -600,6 +635,10 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         parser.error("--cloze-maximum-answer-frequency must be >= 0")
     if args.adversarial_refusal_count is not None and args.adversarial_refusal_count < 1:
         parser.error("--adversarial-refusal-count must be >= 1")
+    if args.mcq_rationale_categories and not args.mcq_rationale:
+        parser.error("--mcq-rationale-categories requires --mcq-rationale")
+    if args.rationale_overlay and not args.mcq_rationale:
+        parser.error("--rationale-overlay requires --mcq-rationale")
     if args.cloze_conversations and not args.cloze_benchmark:
         parser.error("--cloze-conversations requires --cloze-benchmark")
     if args.cloze_source and args.cloze_conversations:
@@ -615,6 +654,7 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         args.jspace_bucket,
         args.jspace_category,
         args.jspace_max_items,
+        args.jspace_action if args.jspace_action != "include" else None,
     )
     if args.jspace_signals is None:
         if any(value is not None for value in jspace_dependents):
@@ -632,6 +672,10 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
             parser.error("--jspace-max-items must be >= 1")
         if args.jspace_action == "cap" and args.jspace_max_items is None:
             parser.error("--jspace-action cap requires --jspace-max-items")
+        if args.jspace_action == "rationale_overlay" and not args.mcq_rationale:
+            parser.error(
+                "--jspace-action rationale_overlay requires --mcq-rationale"
+            )
 
 
 def main() -> None:

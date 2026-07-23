@@ -16,6 +16,26 @@ guard, not a replacement for that gate.
 | Chat template / prompt variant | **Search rejected — tokenizer-v1** | `results/autoresearch_gate_p10-chat-template-tokenizer.json`: primary delta `-1.213` (`-6.06 SE`), bias `0.3164`, forgetting drop 10%, rubric `60.80% → 49.81%`, and compute 28.18 vs 28.00 minutes. The free-form axis successfully exposed the severe quality regression; keep hardcoded-v1 as the current training interface. |
 | Curriculum order | **Search rejected — three-repeat confirmation** | The fixed-data confirmation campaign produced primary deltas `+0.199` (seed 101), `+0.338` (seed 102), and `+0.340` (seed 103), all below the `+0.4` gate. All three kept the same 4,400 ordered training items and 489 validation items; hard guards stayed clean, forgetting improved to 62.5–66.67%, and rubric ranged 57.39–59.87%. The original +0.399 near miss was not robust enough to promote. |
 
+## Tier 3 rationale-target unlock
+
+The first Tier 3 candidate is configured but not yet trained.  The clean
+rationale source is packaged at
+`data/sources/qmd_mcq_rationale_clean.jsonl` from the existing QMD rationale
+pool and audited against
+`[LOCAL_PATH]`.
+The audit covers 311 rows, removes 16 embedded persona prefixes, reports zero
+exact question collisions and zero high-lexical-overlap collisions, and emits
+`_contamination_status=passed` provenance required by `prepare_dataset_v3.py`.
+
+The candidate is J-space-guided by the v5clean `late_weak` bucket, restricted
+to `natural_fertilizers` and `soil_science_and_microbiology`.  It retains the
+complete v5clean conversation/QMD pool and adds four cyclic answer-position
+variants per selected rationale row, preserving A/B/C/D balance.  The source
+and overlay are opt-in; baseline configs do not change.  The candidate recipe
+is `autoresearch/configs/phase11-tier3/p11-rationale-overlay.yaml`.  Promotion
+still requires the normal primary, forgetting, bias, rubric, anchor, compute,
+and sealed-test gates, followed by repeat confirmation if it passes.
+
 ## Confounded p9 reference
 
 The combined `p9-clean-cloze400-refusal` candidate had primary delta

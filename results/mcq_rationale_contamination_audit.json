@@ -1,0 +1,38 @@
+{
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_question_count": 1603,
+  "clean_count": 311,
+  "dropped_system_prompt_count": 16,
+  "exact_question_overlap_count": 0,
+  "format": "mcq_rationale_contamination_audit_v1",
+  "high_lexical_overlap_count": 0,
+  "lexical_overlap_threshold": 0.85,
+  "maximum_nonmatching_token_jaccard": {
+    "benchmark_question_id": "NF-0196",
+    "score": 0.666667,
+    "source_question_id": "NF-TRAIN-0117"
+  },
+  "notes": [
+    "Question-level audit; semantic similarity is not claimed absent.",
+    "Known system/persona prefixes are removed before validation and packaging.",
+    "The emitted source is opt-in and must be passed with --mcq-rationale."
+  ],
+  "passed": true,
+  "rejected": [],
+  "rejected_count": 0,
+  "sealed_test_paths_read": [],
+  "source": "data/sources/qmd_mcq_all_phase3.jsonl",
+  "source_categories": {
+    "agroecology": 12,
+    "conversations": 83,
+    "indigenous_and_traditional_knowledge": 7,
+    "integrated_farming_systems": 2,
+    "natural_fertilizers": 43,
+    "organic_farming": 25,
+    "permaculture": 44,
+    "regenerative_agriculture": 5,
+    "soil_science_and_microbiology": 55,
+    "sustainable_water_management": 35
+  },
+  "source_count": 311
+}

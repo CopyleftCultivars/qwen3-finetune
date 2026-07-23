@@ -73,6 +73,18 @@ _SYSTEM_PROMPT_MARKERS = (
     "You are a helpful",
 )
 _SYSTEM_PROMPT_END_MARKER = "Respond in user's language unless otherwise specified."
+_RATIONALE_CATEGORY_BY_PREFIX = {
+    "AG": "agroecology",
+    "CONV": "conversations",
+    "IFS": "integrated_farming_systems",
+    "ITK": "indigenous_and_traditional_knowledge",
+    "NF": "natural_fertilizers",
+    "OF": "organic_farming",
+    "PC": "permaculture",
+    "RA": "regenerative_agriculture",
+    "SS": "soil_science_and_microbiology",
+    "SWM": "sustainable_water_management",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -177,11 +189,20 @@ def _load_conversations(path: Path) -> Generator[dict[str, str], None, None]:
 # Source 2 — MCQ pairs already carrying rationale (from add_rationale.py)
 # ---------------------------------------------------------------------------
 
-def _load_mcq_with_rationale(path: Path) -> Generator[dict[str, str], None, None]:
-    """Pass through instruction/output pairs that already carry rationale.
+def _load_mcq_with_rationale(
+    path: Path,
+    *,
+    categories: set[str] | None = None,
+    overlay: bool = False,
+    sft_format: str = "bare-letter",
+) -> Generator[dict[str, str], None, None]:
+    """Load only audit-approved rationale rows.
 
-    These came from the existing benchmark MCQ cyclic-shift variants, so
-    position balancing is already done. No re-shifting needed.
+    The clean source is opt-in.  ``overlay`` intentionally emits four cyclic
+    variants per selected source item and marks them so deduplication preserves
+    the extra rationale exposure while retaining exact A/B/C/D balance.  The
+    default path remains a one-row pass-through and does not alter baseline
+    behavior unless ``--mcq-rationale`` is explicitly supplied.
     """
     with open(path, encoding="utf-8") as fh:
         for lineno, raw in enumerate(fh, start=1):
@@ -192,12 +213,42 @@ def _load_mcq_with_rationale(path: Path) -> Generator[dict[str, str], None, None
                 rec = json.loads(raw)
             except json.JSONDecodeError as exc:
                 raise ValueError(f"{path}:{lineno}: invalid JSON: {exc}") from exc
-            if "instruction" in rec and "output" in rec:
-                yield {
-                    "instruction": rec["instruction"],
-                    "output": rec["output"],
-                    "_source": rec.get("_source", "mcq_rationale"),
-                }
+            if rec.get("_contamination_status") != "passed":
+                raise ValueError(
+                    f"{path}:{lineno}: rationale row is not audit-approved; run "
+                    "scripts/audit_mcq_rationale_source.py first"
+                )
+            if "instruction" not in rec or "output" not in rec:
+                continue
+            source_id = str(rec.get("_source_question_id", ""))
+            category = str(rec.get("_source_category", ""))
+            if not category and source_id:
+                category = _RATIONALE_CATEGORY_BY_PREFIX.get(
+                    source_id.split("-", 1)[0], "unknown"
+                )
+            if categories is not None and category not in categories:
+                continue
+            base = {
+                "instruction": str(rec["instruction"]),
+                "output": str(rec["output"]),
+                "_source": "mcq_rationale",
+                "_source_question_id": source_id,
+                "_source_category": category,
+            }
+            if not overlay:
+                yield base
+                continue
+            for shift in range(4):
+                shifted = _cyclic_shift_pair(base, shift, sft_format=sft_format)
+                if shifted is None:
+                    raise ValueError(
+                        f"{path}:{lineno}: rationale row cannot be cyclically shifted"
+                    )
+                shifted["_source"] = "mcq_rationale"
+                shifted["_source_question_id"] = source_id
+                shifted["_source_category"] = category
+                shifted["_rationale_overlay"] = True
+                yield shifted
 
 
 # ---------------------------------------------------------------------------
@@ -508,13 +559,21 @@ def filter_and_dedup(
             skipped["long"] += 1
             continue
         h = _instruction_hash(pair)
-        if h in seen:
+        # A rationale overlay is an explicit replay dose.  Keep one copy per
+        # source question/variant even when the same prompt already exists in
+        # the ordinary QMD stream; ordinary deduplication remains unchanged.
+        dedup_key = (
+            f"{h}:{pair.get('_source_question_id', '')}"
+            if pair.get("_rationale_overlay")
+            else h
+        )
+        if dedup_key in seen:
             skipped["dup"] += 1
             continue
         if keep_hashes is not None and h not in keep_hashes:
             skipped["judge"] += 1
             continue
-        seen.add(h)
+        seen.add(dedup_key)
         result.append(pair)
 
     print(
@@ -720,6 +779,24 @@ def build_parser() -> argparse.ArgumentParser:
             "is 99.9%% derived from the eval benchmark and must not be used."
         ),
     )
+    ap.add_argument(
+        "--mcq-rationale-categories",
+        default=None,
+        metavar="CAT,...",
+        help=(
+            "Optional comma-separated _source_category values to keep from the "
+            "audit-approved rationale source"
+        ),
+    )
+    ap.add_argument(
+        "--rationale-overlay",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help=(
+            "Opt-in rationale replay: emit four cyclic answer-position variants "
+            "per selected rationale source item and preserve them through dedup"
+        ),
+    )
     ap.add_argument("--qmd-mcq", metavar="PATH",
                     help="QMD-generated MCQ (data/sources/qmd_mcq_generated.jsonl)")
     ap.add_argument(
@@ -868,6 +945,10 @@ def main() -> None:
         ap.error("--adversarial-refusal-count must be >= 1")
     if args.cloze_count is not None and args.cloze_count < 1:
         ap.error("--cloze-count must be >= 1")
+    if args.mcq_rationale_categories and not args.mcq_rationale:
+        ap.error("--mcq-rationale-categories requires --mcq-rationale")
+    if args.rationale_overlay and not args.mcq_rationale:
+        ap.error("--rationale-overlay requires --mcq-rationale")
     if args.curriculum_order != "none" and args.curriculum_report is None:
         args.curriculum_report = str(
             Path("results") / f"curriculum_{args.suffix.lstrip('_')}.json"
@@ -928,10 +1009,27 @@ def main() -> None:
             ap.error(f"MCQ rationale file not found: {path}")
         _refuse_contaminated_mcq(path, ap)
         print(f"Loading MCQ+rationale pairs from {path} ...", file=sys.stderr)
-        pairs = list(_load_mcq_with_rationale(path))
+        rationale_categories = (
+            set(args.mcq_rationale_categories.split(","))
+            if args.mcq_rationale_categories
+            else None
+        )
+        pairs = list(
+            _load_mcq_with_rationale(
+                path,
+                categories=rationale_categories,
+                overlay=args.rationale_overlay,
+                sft_format=args.sft_format,
+            )
+        )
         source_counts["mcq_rationale"] = len(pairs)
         mcq_pairs.extend(pairs)
-        print(f"  → {len(pairs)} pairs", file=sys.stderr)
+        print(
+            f"  → {len(pairs)} pairs"
+            f" (categories {sorted(rationale_categories) if rationale_categories else 'all'}, "
+            f"overlay {args.rationale_overlay})",
+            file=sys.stderr,
+        )
 
     if args.qmd_mcq:
         path = Path(args.qmd_mcq)
