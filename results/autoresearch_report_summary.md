@@ -67,7 +67,7 @@ target construction; do not widen this overlay unchanged.
 
 ## Tier 3 P13 novel-supervision candidate
 
-P13 changes the target construction rather than widening the rejected replay
+P13 changed the target construction rather than widening the rejected replay
 strategy. A local CUDA Qwen authoring pass produced 43 natural-fertilizers
 step-back rationales, preserving the source answer letters while requiring a
 general agronomic principle, application to the question, and distractor
@@ -76,14 +76,21 @@ normalized rationale matches against the existing QMD outputs. The separate
 contamination audit reports zero exact benchmark-question overlaps and zero
 high-lexical-overlap collisions; no sealed-test path was read.
 
-The opt-in source is `data/sources/p13_novel_rationale_nf.jsonl` and the
-candidate recipe is
-`autoresearch/configs/phase13-tier3/p13-novel-rationale-nf.yaml`. The dry-run
-composition is 4,409 conversation pairs, 1,555 cyclic-expanded QMD pairs, and
-172 four-way rationale-overlay pairs, for 6,136 pairs before filtering and
-5,061 after filtering (4,554 train / 507 validation). The final MCQ pool is
-exactly A/B/C/D-balanced at 348 each. Training and gating remain pending; the
-source is not part of the default v5clean recipe.
+The opt-in source was assembled as 4,409 conversation pairs, 1,555
+cyclic-expanded QMD pairs, and 172 four-way rationale-overlay pairs, for 6,136
+pairs before filtering and 5,061 after filtering (4,554 train / 507
+validation). The final MCQ pool was exactly A/B/C/D-balanced at 348 each.
+
+The CUDA run completed 1,140 steps in 1,782.6 seconds (~29.70 minutes), then
+merged successfully. Against v5clean, the candidate primary moved from
+`-0.77515` to `-0.64442` (`+0.13073`, `+0.654 SE`), below the `+0.4` gate.
+The gate rejected it because bias reappeared (`0.1202` vs `0.1097` allowed)
+and the measured training runtime exceeded the 28-minute budget. The paired
+75-item Codex rubric was essentially flat (`60.80% → 60.77%`), forgetting
+improved (`41.67% → 45.83%`), anchor drift was zero, and the sealed test was
+untouched. P13 therefore does not revive the rationale lever or the v5clean
+champion; leave future work to a materially different authoring strategy or
+dose rather than repeating this source.
 
 ## Confounded p9 reference
 

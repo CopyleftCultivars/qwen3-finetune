@@ -1,0 +1,44 @@
+{
+  "bias": {
+    "baseline_letter_distribution": {
+      "A": 0.23008849557522124,
+      "B": 0.20353982300884957,
+      "C": 0.30973451327433627,
+      "D": 0.25663716814159293
+    },
+    "baseline_source": "results/mcq_gold_ll_v5_clean.json",
+    "letter_distribution": {
+      "A": 0.35877862595419846,
+      "B": 0.20610687022900764,
+      "C": 0.3053435114503817,
+      "D": 0.1297709923664122
+    },
+    "source": "results/mcq_gold_ll_p13-novel-rationale-nf.json"
+  },
+  "compute": {
+    "elapsed_minutes": 29.70,
+    "status_note": "measured_wall_clock_training_and_merge_runtime"
+  },
+  "forgetting": {
+    "baseline_accuracy": 0.4166666666666667,
+    "baseline_source": "results/general_knowledge_v5_clean.json",
+    "candidate_accuracy": 0.4583333333333333,
+    "probe": "autoresearch/general_knowledge_probe.jsonl",
+    "relative_drop_percent": -9.99999999999999,
+    "source": "results/general_knowledge_p13-novel-rationale-nf.json"
+  },
+  "grader_anchor": {
+    "max_abs_drift": 0.0,
+    "source": "results/periodic_guards_p13-novel-rationale-nf.json",
+    "total_drift_alerts": 0
+  },
+  "rubric": {
+    "baseline_percent": 60.80000000000001,
+    "candidate_percent": 60.77333333333335,
+    "drop_percent_points": 0.02666666666666373,
+    "source": "results/periodic_guards_p13-novel-rationale-nf.json"
+  },
+  "sealed_test_access": {
+    "touched": false
+  }
+}
