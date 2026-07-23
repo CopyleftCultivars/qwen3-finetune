@@ -1,0 +1,30 @@
+{
+  "checks": {
+    "final_mcq_letter_balance_exact": true,
+    "rationale_category_is_natural_fertilizers": true,
+    "rationale_source_is_audit_approved": true
+  },
+  "composition": {
+    "final_mcq_letter_counts": {
+      "A": 348,
+      "B": 348,
+      "C": 348,
+      "D": 348
+    },
+    "final_mcq_rows": 1392,
+    "total_after_filtering": 5061,
+    "total_before_filtering": 6136,
+    "train_rows": 4554,
+    "validation_rows": 507
+  },
+  "config": "autoresearch/configs/phase13-tier3/p13-novel-rationale-nf.yaml",
+  "format": "p13_dataset_composition_v1",
+  "sealed_test_paths_read": [],
+  "sources": {
+    "gemma4_conversations": 4409,
+    "mcq_rationale_natural_fertilizers_audited": 43,
+    "mcq_rationale_natural_fertilizers_overlay": 172,
+    "qmd_mcq_cyclic_expanded": 1555,
+    "qmd_mcq_raw": 311
+  }
+}

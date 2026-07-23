@@ -1,0 +1,29 @@
+{
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_question_count": 1603,
+  "clean_count": 43,
+  "dropped_system_prompt_count": 0,
+  "exact_question_overlap_count": 0,
+  "format": "mcq_rationale_contamination_audit_v1",
+  "high_lexical_overlap_count": 0,
+  "lexical_overlap_threshold": 0.85,
+  "maximum_nonmatching_token_jaccard": {
+    "benchmark_question_id": "NF-0196",
+    "score": 0.666667,
+    "source_question_id": "NF-TRAIN-0117"
+  },
+  "notes": [
+    "Question-level audit; semantic similarity is not claimed absent.",
+    "Known system/persona prefixes are removed before validation and packaging.",
+    "The emitted source is opt-in and must be passed with --mcq-rationale."
+  ],
+  "passed": true,
+  "rejected": [],
+  "rejected_count": 0,
+  "sealed_test_paths_read": [],
+  "source": "data/sources/p13_novel_rationale_nf_raw.jsonl",
+  "source_categories": {
+    "natural_fertilizers": 43
+  },
+  "source_count": 43
+}
