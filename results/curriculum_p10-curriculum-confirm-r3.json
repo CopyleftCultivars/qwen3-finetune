@@ -1,0 +1,24 @@
+{
+  "bucket_counts": {
+    "easy": 7,
+    "hard": 2927,
+    "medium": 1466
+  },
+  "format": "curriculum_signal_report_v1",
+  "item_count": 4400,
+  "note": "Heuristic ranking from training instruction/output text only; not a validated difficulty annotation.",
+  "order": "easy-to-hard",
+  "score_max": 92.8223,
+  "score_mean": 67.685384,
+  "score_min": 19.260642,
+  "seed": 42,
+  "signal_version": "length-structure-v1",
+  "source_counts": {
+    "gemma4_conversations": 3293,
+    "qmd_mcq": 1051,
+    "qmd_mcq_wrapped": 56
+  },
+  "train_count": 4400,
+  "train_fraction": 0.9,
+  "validation_count": 489
+}
