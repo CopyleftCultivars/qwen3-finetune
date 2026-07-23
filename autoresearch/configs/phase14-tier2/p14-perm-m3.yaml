@@ -1,0 +1,48 @@
+schema_version: 1
+
+# Tier-2 answer-position dose refinement: multiplier 3 on the checked-in
+# v5clean position-unstable QMD seed set.
+run_name: p14-perm-m3
+dataset_suffix: _p14perm3
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations: data/sources/gemma4/hf_dataset/train.jsonl
+mcq_rationale:
+qmd_mcq: data/sources/qmd_mcq_all_phase3.jsonl
+target_permutation_ids: results/jspace_position_unstable_target_ids.json
+target_permutation_multiplier: 3
+sft_format: bare-letter
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
+
+conversation_ratio:
+synth_item_count:
+curriculum_order: none
+curriculum_report:
+chat_template_variant: hardcoded-v1
+train_order: shuffled
+
+model: unsloth/Qwen3-0.6B
+merge_base: Qwen/Qwen3-0.6B
+merge_dtype: float16
+force_peft: false
+wandb: false
+resume: false

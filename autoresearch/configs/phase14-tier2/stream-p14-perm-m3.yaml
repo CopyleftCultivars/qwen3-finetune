@@ -1,0 +1,63 @@
+schema_version: 1
+stream_id: p14-perm-m3
+run_name: p14-perm-m3
+hypothesis: >-
+  The rejected multiplier-2 position-unstable dose may have been too weak to
+  change the targeted items. Multiplier 3 adds one more balanced cyclic pass
+  only to the 17 QMD records joined to the v5clean position-unstable signal.
+  Falsified if the candidate misses the primary gate or any guardrail.
+lever_tier: tier2
+prior: >-
+  levers.md answer-position augmentation row and
+  results/jspace_position_unstable_join_report.json: the first targeted dose
+  was clean but rejected at delta -0.0968, while its rubric improved by 3.09
+  points. This is a dose refinement, not a blanket permutation rerun.
+predicted_direction: up
+candidate_edit: >-
+  Add target_permutation_multiplier=3 to the existing 17-ID position-unstable
+  target set; retain the v5clean data sources, split, optimizer, bare-letter
+  surface, and all settled settings.
+rationale: >-
+  One stronger targeted dose resolves whether the first negative result was a
+  weak-dose miss or evidence against position augmentation. Promotion still
+  requires the frozen primary gate and all guards.
+baseline_primary: results/primary_objective_v5_clean.json
+candidate_primary: results/primary_p14-perm-m3.json
+guardrails: results/autoresearch_guardrails_p14-perm-m3.json
+write_passing_guardrails: false
+guardrails_inject_compute: true
+gate_output: results/autoresearch_gate_p14-perm-m3.json
+finetune_config: autoresearch/configs/phase14-tier2/p14-perm-m3.yaml
+finetune_dry_run: false
+eval_commands:
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_primary.py
+    --model outputs/merged-model-p14-perm-m3
+    --weights autoresearch/objective_weights.json
+    --mcq-dataset data/val_v3.jsonl
+    --mcq-output results/mcq_gold_ll_p14-perm-m3.json
+    --output results/primary_p14-perm-m3.json
+    --diagnostics-dir ../benchmark-eval-workspace/diagnostics
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/score_mcq_ll.py
+    --model outputs/merged-model-p14-perm-m3
+    --dataset autoresearch/general_knowledge_probe.jsonl
+    --output results/general_knowledge_p14-perm-m3.json
+  - >-
+    python3 autoresearch/measure_periodic_guards.py
+    --baseline-model outputs/merged-model-p6-lr5e5-r2
+    --candidate-model outputs/merged-model-p14-perm-m3
+    --label p14-perm-m3
+    --baseline-label codexv5
+    --reuse-baseline
+    --judge-backend codex
+    --items-per-type 15
+    --output results/periodic_guards_p14-perm-m3.json
+  - >-
+    conda run -n qwen3-diagnostics python autoresearch/build_guardrails.py
+    --candidate-mcq results/mcq_gold_ll_p14-perm-m3.json
+    --baseline-mcq results/mcq_gold_ll_v5_clean.json
+    --candidate-general-mcq results/general_knowledge_p14-perm-m3.json
+    --baseline-general-mcq results/general_knowledge_v5_clean.json
+    --periodic-guards results/periodic_guards_p14-perm-m3.json
+    --output results/autoresearch_guardrails_p14-perm-m3.json
