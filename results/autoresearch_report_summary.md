@@ -15,11 +15,12 @@ guard, not a replacement for that gate.
 | Reviewed adversarial refusals | **Search rejected — isolated refusal-only candidate** | `results/autoresearch_gate_p10-refusal-only.json`: primary delta `+0.0497` (`+0.25 SE`, below threshold), rubric `60.80% → 59.13%`, forgetting improved `41.67% → 45.83%`, and the remaining guards were clean. Ten reviewed examples did not establish a champion benefit. |
 | Chat template / prompt variant | **Search rejected — tokenizer-v1** | `results/autoresearch_gate_p10-chat-template-tokenizer.json`: primary delta `-1.213` (`-6.06 SE`), bias `0.3164`, forgetting drop 10%, rubric `60.80% → 49.81%`, and compute 28.18 vs 28.00 minutes. The free-form axis successfully exposed the severe quality regression; keep hardcoded-v1 as the current training interface. |
 | Curriculum order | **Search rejected — three-repeat confirmation** | The fixed-data confirmation campaign produced primary deltas `+0.199` (seed 101), `+0.338` (seed 102), and `+0.340` (seed 103), all below the `+0.4` gate. All three kept the same 4,400 ordered training items and 489 validation items; hard guards stayed clean, forgetting improved to 62.5–66.67%, and rubric ranged 57.39–59.87%. The original +0.399 near miss was not robust enough to promote. |
+| Rationale targets | **Search rejected — first J-space-guided overlay** | `results/autoresearch_gate_p11-rationale-overlay.json`: primary delta `-0.0732` (`-0.366 SE`) against the `+0.4` gate; output bias reappeared (`0.1645` vs `0.1097` allowed). Forgetting improved (`41.67% → 50.00%`), anchors stayed clean (`0.0` drift), rubric fell `60.80% → 58.04%` (`-2.76` points), and the 27.93-minute training run stayed within compute. The first rationale replay dose is rejected; v5clean remains champion. |
 
 ## Tier 3 rationale-target unlock
 
-The first Tier 3 candidate is configured but not yet trained.  The clean
-rationale source is packaged at
+The first Tier 3 candidate was trained and rejected by the normal gate. The
+clean rationale source is packaged at
 `data/sources/qmd_mcq_rationale_clean.jsonl` from the existing QMD rationale
 pool and audited against
 `[LOCAL_PATH]`.
@@ -31,10 +32,16 @@ The candidate is J-space-guided by the v5clean `late_weak` bucket, restricted
 to `natural_fertilizers` and `soil_science_and_microbiology`.  It retains the
 complete v5clean conversation/QMD pool and adds four cyclic answer-position
 variants per selected rationale row, preserving A/B/C/D balance.  The source
-and overlay are opt-in; baseline configs do not change.  The candidate recipe
-is `autoresearch/configs/phase11-tier3/p11-rationale-overlay.yaml`.  Promotion
-still requires the normal primary, forgetting, bias, rubric, anchor, compute,
-and sealed-test gates, followed by repeat confirmation if it passes.
+and overlay are opt-in; baseline configs do not change. The run produced 5,281
+pairs (4,752 train / 529 validation), including 392 overlay rows from 98
+selected late-weak source IDs; the candidate MCQ targets were exactly
+A/B/C/D-balanced. On the candidate validation file, the frozen primary moved
+from `-0.77515` to `-0.84836` (`-0.07321`, `-0.366 SE`), while the model's
+predicted-letter bias guard failed. The Codex-graded periodic rubric moved
+from `60.80%` to `58.04%`; forgetting improved to `50.00%` accuracy and
+anchor drift remained zero. The candidate recipe is
+`autoresearch/configs/phase11-tier3/p11-rationale-overlay.yaml`. Do not promote
+or repeat this exact overlay dose without a new rationale/bias hypothesis.
 
 ## Confounded p9 reference
 
