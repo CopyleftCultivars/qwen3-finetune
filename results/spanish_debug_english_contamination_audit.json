@@ -1,0 +1,96 @@
+{
+  "format": "spanish_transfer_contamination_audit_v1",
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855",
+  "benchmark_field_count": 4143,
+  "lexical_threshold": 0.85,
+  "minimum_exact_chars": 48,
+  "minimum_overlap_tokens": 6,
+  "targets": [
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 4588,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.6,
+        "source_question_id": "707",
+        "field": "question",
+        "line": 2401
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    },
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 511,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.38461538461538464,
+        "source_question_id": "159",
+        "field": "question",
+        "line": 243
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    },
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 5164,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.6,
+        "source_question_id": "707",
+        "field": "question",
+        "line": 2401
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    },
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 577,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.38461538461538464,
+        "source_question_id": "159",
+        "field": "question",
+        "line": 243
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    },
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 4491,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.6,
+        "source_question_id": "707",
+        "field": "question",
+        "line": 2401
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    },
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 499,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.38461538461538464,
+        "source_question_id": "159",
+        "field": "question",
+        "line": 243
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    }
+  ],
+  "passed": true
+}

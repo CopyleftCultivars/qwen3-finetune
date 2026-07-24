@@ -1,0 +1,54 @@
+{
+  "base_train": {
+    "count": 4396,
+    "path": "[LOCAL_PATH]",
+    "sha256": "bdc49ce77b20cf2422e45b3f5b0a2c36c456f71204aafac5e5de671e740f86fc"
+  },
+  "base_validation": {
+    "count": 489,
+    "path": "[LOCAL_PATH]",
+    "sha256": "2f63df7f7495a87bf1971b82d635e303432a380251b1e935310b6859a96df39f"
+  },
+  "format": "spanish_qmd_overlay_baseline_dataset_manifest_v1",
+  "notes": [
+    "The English v5clean training/validation pools are retained as the regression-preserving base.",
+    "Spanish overlays are QMD translations only; no Spanish benchmark transfer item is included."
+  ],
+  "output_train": {
+    "count": 5356,
+    "path": "[LOCAL_PATH]",
+    "sha256": "0c4af41ce0dc94eacfb98f4fc02711021fd79616f6df22778f45e70dff9aafea"
+  },
+  "output_validation": {
+    "count": 599,
+    "path": "[LOCAL_PATH]",
+    "sha256": "4ee020c622bbbc2b6c50916e644c35bf9cff08f182a8d537435308e97e8b88a9"
+  },
+  "sealed_test_paths_read": [],
+  "spanish_benchmark_records_included": false,
+  "spanish_records_training_allowed": true,
+  "spanish_train_inputs": [
+    {
+      "count": 768,
+      "path": "[LOCAL_PATH]",
+      "sha256": "b1de6ecdb3ef76f42ae0f2f06df951a4d7e094b72d99d30f8be682429aba278f"
+    },
+    {
+      "count": 192,
+      "path": "[LOCAL_PATH]",
+      "sha256": "fde707c4ea3774caac4e4a25705978cd9542e3b12b8bf393095fc293b90d91c4"
+    }
+  ],
+  "spanish_validation_inputs": [
+    {
+      "count": 88,
+      "path": "[LOCAL_PATH]",
+      "sha256": "7b739ec18bb27d2887625d6830e5e97e326b42516f68ea6e78355df81ac90603"
+    },
+    {
+      "count": 22,
+      "path": "[LOCAL_PATH]",
+      "sha256": "aaa88b8cb264ff18363519186f47fede1ffe54bbea24dd685701fce4bf230c10"
+    }
+  ]
+}

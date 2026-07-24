@@ -112,7 +112,12 @@ def normalize_mcq_record(row: dict[str, Any], row_number: int) -> dict[str, Any]
     """Normalize supported JSONL rows into diagnostics benchmark item shape."""
     if all(key in row for key in ("question", "A", "B", "C", "D", "answer")):
         item = {
-            "question_id": str(row.get("question_id") or f"row_{row_number:06d}"),
+            "question_id": str(
+                row.get("question_id")
+                or row.get("source_question_id")
+                or row.get("id")
+                or f"row_{row_number:06d}"
+            ),
             "question": str(row["question"]).strip(),
             "answer": str(row["answer"]).strip().upper(),
         }
@@ -136,6 +141,14 @@ def normalize_mcq_record(row: dict[str, Any], row_number: int) -> dict[str, Any]
             raise McqRecordError(f"empty required MCQ field: {key}")
 
     for key in ("category", "topic", "difficulty"):
+        if key in row:
+            item[key] = row[key]
+    source_metadata = row.get("source_metadata")
+    if isinstance(source_metadata, dict):
+        item["category"] = row.get("category") or source_metadata.get("category", "unknown")
+        item["topic"] = row.get("topic") or source_metadata.get("question_topic", "unknown")
+        item["source_benchmark_sha256"] = source_metadata.get("source_benchmark_sha256")
+    for key in ("language", "locale", "benchmark_role", "source_language", "source_question_id"):
         if key in row:
             item[key] = row[key]
     return item
@@ -173,6 +186,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--output", default="results/mcq_gold_ll.json")
+    parser.add_argument("--suite-name", default="mcq", help="Stable name for the evaluated suite")
+    parser.add_argument(
+        "--provenance-manifest",
+        default=None,
+        help="Optional JSON manifest to pin the evaluated dataset provenance",
+    )
     parser.add_argument(
         "--diagnostics-dir",
         default=str(DEFAULT_DIAGNOSTICS_DIR),
@@ -211,6 +230,41 @@ def main(argv: list[str] | None = None) -> int:
     if not records:
         parser.error(f"no scorable MCQ rows found in {args.dataset}")
 
+    provenance_manifest: dict[str, Any] | None = None
+    if args.provenance_manifest:
+        provenance_path = Path(args.provenance_manifest)
+        provenance_manifest = json.loads(provenance_path.read_text(encoding="utf-8"))
+        if not isinstance(provenance_manifest, dict):
+            parser.error(f"provenance manifest must be a JSON object: {provenance_path}")
+        expected_count = provenance_manifest.get("translated_count")
+        manifest_output = provenance_manifest.get("output_path") or provenance_manifest.get("full_output_path")
+        manifest_dev = provenance_manifest.get("dev_path")
+        manifest_sealed = provenance_manifest.get("sealed_test_path")
+        dataset_resolved = Path(args.dataset).resolve()
+
+        def manifest_path_matches(value: Any) -> bool:
+            if not isinstance(value, str) or not value:
+                return False
+            candidate = Path(value)
+            if candidate.is_absolute():
+                return dataset_resolved == candidate.resolve()
+            return any(dataset_resolved == (parent / candidate).resolve() for parent in provenance_path.resolve().parents)
+
+        if manifest_path_matches(manifest_output):
+            expected_count = provenance_manifest.get("translated_count", provenance_manifest.get("full_output_count"))
+        elif manifest_path_matches(manifest_dev):
+            expected_count = provenance_manifest.get("dev_count")
+        elif manifest_path_matches(manifest_sealed):
+            expected_count = provenance_manifest.get("sealed_test_count")
+        if args.limit is not None:
+            expected_count = None
+        if expected_count is not None and expected_count != len(records):
+            parser.error(
+                f"provenance count mismatch: manifest={expected_count}, scored={len(records)}"
+            )
+        if provenance_manifest.get("training_allowed") is False:
+            log.info("Dataset is explicitly marked training_allowed=false")
+
     model, tokenizer = helpers["load_model_and_tokenizer"](
         args.model,
         full_precision=args.full_precision,
@@ -231,6 +285,10 @@ def main(argv: list[str] | None = None) -> int:
                 "question_id": item["question_id"],
                 "category": item.get("category", "unknown"),
                 "topic": item.get("topic", "unknown"),
+                "language": item.get("language", "en"),
+                "locale": item.get("locale"),
+                "benchmark_role": item.get("benchmark_role"),
+                "source_question_id": item.get("source_question_id"),
                 "gold": gold,
                 "gold_logprob": logprobs[gold],
                 "gold_probability": probs[gold],
@@ -248,6 +306,7 @@ def main(argv: list[str] | None = None) -> int:
     summary = {
         "model": args.model,
         "dataset": args.dataset,
+        "suite_name": args.suite_name,
         "diagnostics_dir": str(Path(args.diagnostics_dir)),
         "scored_mcq_rows": total,
         "skipped_non_mcq_rows": len(skipped),
@@ -259,6 +318,14 @@ def main(argv: list[str] | None = None) -> int:
         "full_precision": args.full_precision,
         "device": args.device,
     }
+    if provenance_manifest is not None:
+        summary["provenance_manifest"] = args.provenance_manifest
+        summary["provenance_format"] = provenance_manifest.get("format")
+        summary["benchmark_role"] = provenance_manifest.get("benchmark_role")
+        summary["training_allowed"] = provenance_manifest.get("training_allowed")
+        for key in ("source_sha256", "output_sha256", "source_count", "translated_count"):
+            if key in provenance_manifest:
+                summary[key] = provenance_manifest[key]
     result = {
         "summary": summary,
         "per_item": per_item,

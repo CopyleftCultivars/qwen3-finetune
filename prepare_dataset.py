@@ -231,6 +231,17 @@ _KNOWN_BENCHMARK_FILENAMES = frozenset({
 })
 
 
+def _is_spanish_transfer_path(path: Path) -> bool:
+    """Return whether a path belongs to the evaluation-only Spanish transfer set."""
+    resolved = path.expanduser().resolve()
+    parts = {part.casefold() for part in resolved.parts}
+    return (
+        "spanish-benchmark-workspace" in parts
+        or resolved.name.casefold() == "english_v5clean_benchmark_es.jsonl"
+        or "en_to_es" in parts
+    )
+
+
 def _refuse_benchmark_mcq(mcq_path: Path, parser: argparse.ArgumentParser) -> None:
     """Refuse to build training data directly from a known eval-benchmark file.
 
@@ -239,6 +250,12 @@ def _refuse_benchmark_mcq(mcq_path: Path, parser: argparse.ArgumentParser) -> No
     example pointed straight at the eval benchmark, training the model on 100% of
     the questions it was later scored against. See MCQ_DIAGNOSTIC_PLAN.md.
     """
+    if _is_spanish_transfer_path(mcq_path):
+        parser.error(
+            "--mcq points at the Spanish English-to-Spanish transfer diagnostic. "
+            "That benchmark is evaluation-only and must never enter training, "
+            "validation, or autoresearch data preparation."
+        )
     if mcq_path.name in _KNOWN_BENCHMARK_FILENAMES:
         parser.error(
             f"--mcq points at '{mcq_path.name}', a known eval-benchmark file. "

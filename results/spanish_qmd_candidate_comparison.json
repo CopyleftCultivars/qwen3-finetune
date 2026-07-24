@@ -1,0 +1,59 @@
+{
+  "format": "spanish_qmd_candidate_comparison_v1",
+  "status": "candidate_rejected_regression",
+  "candidate_model": "outputs/merged-model-spanish-qmd-baseline-v1",
+  "baseline_model": "outputs/merged-model-p6-lr5e5-r2",
+  "training": {
+    "dataset_manifest": "results/spanish_qmd_baseline_dataset_manifest.json",
+    "dataset_manifest_status": true,
+    "train_count": 5356,
+    "validation_count": 599
+  },
+  "cuda_matched": true,
+  "english_v5clean_anchor": {
+    "baseline": {
+      "mean_option_set_gold_logprob": -0.7716679736035341,
+      "argmax_accuracy": 0.7367436057392389
+    },
+    "candidate": {
+      "mean_option_set_gold_logprob": -1.4395032612188636,
+      "argmax_accuracy": 0.5782907049282595
+    },
+    "delta": {
+      "mean_option_set_gold_logprob": -0.6678352876153295,
+      "argmax_accuracy": -0.1584529008109794
+    }
+  },
+  "spanish_transfer_diagnostic": {
+    "baseline": {
+      "mean_option_set_gold_logprob": -0.9870368601772038,
+      "argmax_accuracy": 0.7124142233312539
+    },
+    "candidate": {
+      "mean_option_set_gold_logprob": -1.537141858132023,
+      "argmax_accuracy": 0.47972551466001245
+    },
+    "delta": {
+      "mean_option_set_gold_logprob": -0.5501049979548193,
+      "argmax_accuracy": -0.23268870867124147
+    }
+  },
+  "acceptance_gates": {
+    "all_scores_complete": true,
+    "spanish_improvement": false,
+    "english_no_regression": false,
+    "english_training_contamination_pass": true,
+    "spanish_training_contamination_pass": true
+  },
+  "interpretation": [
+    "The candidate is a completed trained baseline point, not an accepted autoresearch candidate.",
+    "Both language gates fail: Spanish transfer and English anchor are lower than CUDA-matched v5clean.",
+    "The candidate should not be promoted or used as the autoresearch champion."
+  ],
+  "score_artifacts": {
+    "baseline_english": "results/en_v5clean_anchor_baseline_v5clean_cuda.json",
+    "baseline_spanish": "results/es_transfer_baseline_v5clean_cuda.json",
+    "candidate_english": "results/en_v5clean_anchor_candidate_spanish_qmd_baseline_v1.json",
+    "candidate_spanish": "results/es_transfer_candidate_spanish_qmd_baseline_v1.json"
+  }
+}
