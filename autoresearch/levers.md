@@ -81,7 +81,10 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 
 | Lever | Status | Direction / prior | Evidence |
 |---|---|---|---|
-| Auxiliary-task mixing (summary/NER/extraction/open-book) | PENDING-UNLOCK | No aux-task data pipeline exists in this repo yet — needs authoring before it's a knob, and scoring it needs the free-form axis anyway (MCQ accuracy can't detect whether aux-task mixing helped). | CROP PDF |
+| CROP auxiliary: summarization | **SEARCH DIMENSION — pilot ready, not yet evaluated** | Add exactly one fixed-dose, provenance-tracked summarization stream to the strict v5clean base. First measure the task alone; do not combine it with the other auxiliary streams until its primary, forgetting, and free-form effects are known. | `scripts/build_crop_auxiliary_datasets.py`; `data/auxiliary/summarization/manifest.json`; `autoresearch/configs/phase17-crop-auxiliary/p17-aux-summarization.yaml`; CROP PDF | `--auxiliary-task summarization` + prepared dataset manifest |
+| CROP auxiliary: NER/entity extraction | **SEARCH DIMENSION — pilot ready, not yet evaluated** | Add exactly one fixed-dose, provenance-tracked entity-extraction stream to the strict v5clean base. Use the same pilot dose as the other three task streams so the first comparison is interpretable. | `scripts/build_crop_auxiliary_datasets.py`; `data/auxiliary/ner/manifest.json`; `autoresearch/configs/phase17-crop-auxiliary/p17-aux-ner.yaml`; CROP PDF | `--auxiliary-task ner` + prepared dataset manifest |
+| CROP auxiliary: structured extraction | **SEARCH DIMENSION — pilot ready, not yet evaluated** | Add exactly one fixed-dose, provenance-tracked structured-JSON extraction stream to the strict v5clean base. Preserve exact values and measure it independently before any combination. | `scripts/build_crop_auxiliary_datasets.py`; `data/auxiliary/structured_extraction/manifest.json`; `autoresearch/configs/phase17-crop-auxiliary/p17-aux-structured-extraction.yaml`; CROP PDF | `--auxiliary-task structured_extraction` + prepared dataset manifest |
+| CROP auxiliary: domain open-book QA | **SEARCH DIMENSION — pilot ready, not yet evaluated** | Add exactly one fixed-dose, context-grounded open-book QA stream to the strict v5clean base. Keep context-present quality separate from closed-book MCQ transfer; measure both before deciding whether this lever is useful. | `scripts/build_crop_auxiliary_datasets.py`; `data/auxiliary/open_book_qa/manifest.json`; `autoresearch/configs/phase17-crop-auxiliary/p17-aux-open-book-qa.yaml`; CROP PDF | `--auxiliary-task open_book_qa` + prepared dataset manifest |
 | Multi-turn / step-back SFT proportion | PENDING-UNLOCK | Same — no multi-turn step-back data exists; `_load_conversations` flattens ShareGPT multi-turn to single instruction/output pairs today, discarding turn structure. | CROP PDF |
 | Open-book/RAG-grounded vs closed-book targets | PENDING-UNLOCK | No RAG-grounded data pipeline exists. | CROP PDF |
 | General-instruction replay ratio | PENDING-UNLOCK (folds into the Tier-2 replay-ratio lever once a general-instruction source exists) | **Non-monotone — CROP Table 2 (Qwen1.5-7B): +CROP 0.676→+CQIA+CROP 0.709 overall but Difficult −0.075.** Don't assume more replay = better once this is buildable. | CROP PDF, verified |
@@ -106,6 +109,9 @@ first searched.
 
 **Tier 3 (reasoning) and CROP-derived:** the free-form axis and rationale path are
 unlocked, but the current QMD rationale-replay strategy is rejected after p11/p12.
+The four CROP-style auxiliary tasks are now separate search dimensions with a shared
+fixed pilot dose. Evaluate each one against v5clean in serial GPU runs; combination is
+blocked until the single-task measurements identify a worthwhile stream.
 J-space-informed data selection remains an ACTIVE ROUTING PRIOR (Phase 5, #57): it
 steers which lever a proposal targets using the frozen v5clean J-space diagnostic
 surface, without itself being a measurable objective. The v5clean category ranking

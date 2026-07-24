@@ -1,0 +1,53 @@
+schema_version: 1
+
+# Single-lever CROP-style pilot: summarization only.
+# The composed dataset is the strict v5clean base plus 256 audited train rows
+# and 64 audited validation rows from this task.
+run_name: p17-aux-summarization
+dataset_suffix: _p17auxsumm
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+training_seed: 42
+split: 0.9
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations:
+qmd_mcq:
+prepared_train_data: data/auxiliary_levers/summarization/train.jsonl
+prepared_val_data: data/auxiliary_levers/summarization/validation.jsonl
+auxiliary_task: summarization
+auxiliary_manifest: data/auxiliary/summarization/manifest.json
+auxiliary_base_train: data/train_p6lrr2_strict_clean.jsonl
+auxiliary_base_validation: data/val_p6lrr2_strict_clean.jsonl
+auxiliary_source_train: data/auxiliary/summarization/train.jsonl
+auxiliary_source_validation: data/auxiliary/summarization/validation.jsonl
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
+conversation_ratio:
+target_permutation_ids:
+sft_format: bare-letter
+synth_item_count:
+chat_template_variant: hardcoded-v1
+train_order: shuffled
+
+model: unsloth/Qwen3-0.6B
+merge_base: Qwen/Qwen3-0.6B
+merge_dtype: float16
+force_peft: false
+wandb: false
+resume: false
