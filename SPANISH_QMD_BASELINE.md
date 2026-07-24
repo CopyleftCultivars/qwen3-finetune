@@ -64,17 +64,20 @@ the 1,603-row English v5clean anchor:
 | Variant | Spanish option-set LL / accuracy | English option-set LL / accuracy | Result |
 | --- | --- | --- | --- |
 | v5clean baseline | `-1.02648` / `71.65%` | `-0.77167` / `73.67%` | anchor |
+| English-only continuation control | `-1.23236` / `65.11%` | `-1.01341` / `66.19%` | attribution control |
 | MCQ-only, 768 Spanish records | `-1.18795` / `65.11%` | `-1.03967` / `65.44%` | rejected |
 | Free-form-only, 192 Spanish records | `-1.06137` / `65.73%` | `-0.91454` / `68.68%` | rejected |
 | Mixed 10%, 95 Spanish records | `-1.24329` / `62.93%` | `-0.98418` / `66.75%` | rejected |
 
-Free-form-only is the least damaging diagnostic by Spanish option-set
+The English-only control also regresses, so continuing one full epoch from the
+v5clean merged checkpoint is itself too aggressive. Spanish data still adds a
+composition effect—the MCQ-only and mixed variants are worse than the control in
+different ways—but the control means Spanish is not the sole cause. Free-form-
+only is the least damaging Spanish diagnostic by Spanish option-set
 log-likelihood, but it still fails both bilingual gates. This does not establish
-that Spanish data is useless: all three tests used a full learning-rate/one-pass
-overlay against a small translated pool. The next controlled experiment should
-inspect formatting and truncation, then reduce optimization pressure (dose,
-learning rate, or replay ratio) before changing the benchmark or removing the
-Spanish track.
+that Spanish data is useless. The next controlled work should inspect formatting
+and truncation, then reduce optimization pressure (dose, learning rate, or
+replay ratio) before changing the benchmark or removing the Spanish track.
 
 The reproducible dataset manifest, contamination audits, model scores, and
 gate calculations are in:
@@ -83,6 +86,15 @@ gate calculations are in:
 - `results/spanish_debug_english_contamination_audit.json`;
 - `results/spanish_debug_spanish_contamination_audit.json`;
 - `results/spanish_debug_comparison.json`.
+
+The format audit in `results/spanish_training_format_audit.json` passes the
+Spanish canonical message shape, language labels, answer surfaces, and source
+split disjointness. Spanish MCQ records peak at 413 tokens and Spanish
+free-form records at 354 tokens under the exact hardcoded-v1 template, so none
+are truncated at `max_seq_len=2048`. The seven truncated records observed in
+the combined overlays are inherited English-base examples, not Spanish rows;
+they should be addressed in the from-scratch data audit but do not explain the
+Spanish overlay regression.
 
 The initial sandbox-only smoke had failed because it could not see CUDA and
 Unsloth refused to run without an accelerator. This is historical; the complete

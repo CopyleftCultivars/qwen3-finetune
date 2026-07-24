@@ -34,6 +34,7 @@ def main() -> int:
     parser.add_argument("--dataset-manifest", required=True, type=Path)
     parser.add_argument("--english-contamination", required=True, type=Path)
     parser.add_argument("--spanish-contamination", required=True, type=Path)
+    parser.add_argument("--english-control", nargs=2, metavar=("ENGLISH", "SPANISH"), help="Optional English-only control score artifacts")
     parser.add_argument("--variant", action="append", nargs=3, metavar=("NAME", "ENGLISH", "SPANISH"), required=True)
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
@@ -74,6 +75,31 @@ def main() -> int:
             "score_artifacts": {"english": str(english_path), "spanish": str(spanish_path)},
         }
 
+    control: dict[str, Any] | None = None
+    if args.english_control:
+        control_en = summary(Path(args.english_control[0]))
+        control_es = summary(Path(args.english_control[1]))
+        control = {
+            "models": {"english_score": control_en.get("model"), "spanish_score": control_es.get("model")},
+            "english_v5clean_anchor": {
+                "mean_option_set_gold_logprob": control_en.get("mean_option_set_gold_logprob"),
+                "argmax_accuracy": control_en.get("argmax_accuracy"),
+                "delta": {
+                    "mean_option_set_gold_logprob": control_en["mean_option_set_gold_logprob"] - baseline_en["mean_option_set_gold_logprob"],
+                    "argmax_accuracy": control_en["argmax_accuracy"] - baseline_en["argmax_accuracy"],
+                },
+            },
+            "spanish_transfer_dev": {
+                "mean_option_set_gold_logprob": control_es.get("mean_option_set_gold_logprob"),
+                "argmax_accuracy": control_es.get("argmax_accuracy"),
+                "delta": {
+                    "mean_option_set_gold_logprob": control_es["mean_option_set_gold_logprob"] - baseline_es["mean_option_set_gold_logprob"],
+                    "argmax_accuracy": control_es["argmax_accuracy"] - baseline_es["argmax_accuracy"],
+                },
+            },
+            "score_artifacts": {"english": args.english_control[0], "spanish": args.english_control[1]},
+        }
+
     best_spanish = max(variants, key=lambda name: variants[name]["spanish_transfer_dev"]["mean_option_set_gold_logprob"])
     report = {
         "format": "spanish_debug_comparison_v1",
@@ -100,6 +126,7 @@ def main() -> int:
                 "argmax_accuracy": baseline_es.get("argmax_accuracy"),
             },
         },
+        "english_only_control": control,
         "variants": variants,
         "selection": {
             "best_spanish_by_option_set_gold_logprob": best_spanish,
@@ -113,6 +140,7 @@ def main() -> int:
             "spanish_audit": str(args.spanish_contamination),
         },
         "interpretation": [
+            "The English-only control also regresses after one continued epoch, showing that the full v5 learning recipe is too aggressive when resumed from the v5clean merged checkpoint.",
             "The Spanish MCQ-only overlay is not the sole explanation for the full-candidate regression: all three one-epoch overlays remain below the v5clean Spanish dev anchor.",
             "Free-form-only is the least damaging variant by Spanish option-set log-likelihood, but it still fails the English no-regression gate.",
             "These are diagnostic runs, not evidence that Spanish data should be removed permanently; the next controlled lever should reduce optimization pressure or inspect formatting/truncation before changing benchmark policy.",
