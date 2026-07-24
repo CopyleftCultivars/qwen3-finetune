@@ -1,0 +1,59 @@
+{
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855",
+  "eligible_thread_count": 180,
+  "format": "multiturn_reflection_root_manifest_v1",
+  "pilot_dose": {
+    "seed": 42,
+    "split_fraction": 0.78,
+    "train_count": 140,
+    "validation_count": 40
+  },
+  "sealed_test_paths_read": [],
+  "source": "[LOCAL_PATH]",
+  "source_sha256": "ec4262b38d9a32d54e154e9a3df97f603e6e671ec105004793a26b68ae4f3e08",
+  "summaries": [
+    {
+      "candidate_count": 180,
+      "clean_count": 180,
+      "rejected_count": 0,
+      "source_overlap": [],
+      "task": "multiturn",
+      "train_count": 140,
+      "validation_count": 40
+    },
+    {
+      "candidate_count": 180,
+      "clean_count": 180,
+      "rejected_count": 0,
+      "source_overlap": [],
+      "task": "flattened_control",
+      "train_count": 140,
+      "validation_count": 40
+    },
+    {
+      "candidate_count": 180,
+      "clean_count": 180,
+      "rejected_count": 0,
+      "source_overlap": [],
+      "task": "interrupted_counterfactual",
+      "train_count": 140,
+      "validation_count": 40
+    },
+    {
+      "candidate_count": 180,
+      "clean_count": 180,
+      "rejected_count": 0,
+      "source_overlap": [],
+      "task": "answer_audit",
+      "train_count": 140,
+      "validation_count": 40
+    }
+  ],
+  "tasks": [
+    "multiturn",
+    "flattened_control",
+    "interrupted_counterfactual",
+    "answer_audit"
+  ]
+}

@@ -70,8 +70,8 @@ DEFAULT_TARGET_MODULES = (
 )
 
 
-def load_jsonl(path: Path) -> list[dict[str, str]]:
-    records: list[dict[str, str]] = []
+def load_jsonl(path: Path) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
     with open(path, encoding="utf-8") as fh:
         for lineno, raw in enumerate(fh, start=1):
             raw = raw.strip()
@@ -81,16 +81,27 @@ def load_jsonl(path: Path) -> list[dict[str, str]]:
                 rec = json.loads(raw)
             except json.JSONDecodeError as exc:
                 raise ValueError(f"{path}:{lineno}: invalid JSON: {exc}") from exc
-            if "instruction" not in rec or "output" not in rec:
+            if "messages" in rec:
+                messages = rec["messages"]
+                if not isinstance(messages, list) or len(messages) < 2:
+                    raise ValueError(f"{path}:{lineno}: messages must contain at least two turns")
+                for turn in messages:
+                    if not isinstance(turn, dict) or turn.get("role") not in {"system", "user", "assistant"}:
+                        raise ValueError(f"{path}:{lineno}: invalid message role")
+                    if not isinstance(turn.get("content"), str) or not turn["content"].strip():
+                        raise ValueError(f"{path}:{lineno}: message content must be non-empty text")
+                if messages[-1].get("role") != "assistant":
+                    raise ValueError(f"{path}:{lineno}: messages must end with an assistant target")
+            elif "instruction" not in rec or "output" not in rec:
                 raise ValueError(
-                    f"{path}:{lineno}: record must have 'instruction' and 'output' fields"
+                    f"{path}:{lineno}: record must have 'instruction'/'output' or 'messages' fields"
                 )
             records.append(rec)
     return records
 
 
 def build_dataset(
-    pairs: list[dict[str, str]],
+    pairs: list[dict[str, Any]],
     tokenizer,
     max_seq_len: int,
     packing: bool = False,
@@ -104,25 +115,30 @@ def build_dataset(
     """
     from datasets import Dataset
 
-    if chat_template_variant == "hardcoded-v1":
-        texts = [
-            CHAT_TEMPLATE.format(
-                instruction=p["instruction"].strip(),
-                output=p["output"].strip(),
-            )
-            for p in pairs
+    def render_hardcoded(messages: list[dict[str, str]]) -> str:
+        return "\n".join(
+            f"<|im_start|>{turn['role']}\n{turn['content'].strip()}<|im_end|>"
+            for turn in messages
+        )
+
+    def messages_for(pair: dict[str, Any]) -> list[dict[str, str]]:
+        if "messages" in pair:
+            return pair["messages"]
+        return [
+            {"role": "user", "content": pair["instruction"].strip()},
+            {"role": "assistant", "content": pair["output"].strip()},
         ]
+
+    if chat_template_variant == "hardcoded-v1":
+        texts = [render_hardcoded(messages_for(pair)) for pair in pairs]
     elif chat_template_variant == "tokenizer-v1":
         texts = [
             tokenizer.apply_chat_template(
-                [
-                    {"role": "user", "content": p["instruction"].strip()},
-                    {"role": "assistant", "content": p["output"].strip()},
-                ],
+                messages_for(pair),
                 tokenize=False,
                 add_generation_prompt=False,
             )
-            for p in pairs
+            for pair in pairs
         ]
     else:
         raise ValueError(f"unknown chat template variant: {chat_template_variant}")

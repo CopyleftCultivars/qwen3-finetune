@@ -1,0 +1,66 @@
+{
+  "benchmark": {
+    "path": "[LOCAL_PATH]",
+    "sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855"
+  },
+  "candidate_count": 180,
+  "clean_candidate_count": 180,
+  "contamination": {
+    "candidate_count": 180,
+    "clean_count": 180,
+    "format": "multiturn_reflection_benchmark_audit_v1",
+    "lexical_overlap_threshold": 0.85,
+    "maximum_token_jaccard": {
+      "benchmark_field": "C",
+      "benchmark_question_id": "NF-0092",
+      "id": "interrupted_counterfactual:conversation:000779:a43992274bab",
+      "score": 0.384615,
+      "source_field_index": 7
+    },
+    "minimum_overlap_tokens": 6,
+    "passed": true,
+    "rejected": [],
+    "rejected_count": 0,
+    "sealed_test_paths_read": [],
+    "source_document_independence": "not_claimed"
+  },
+  "format": "multiturn_reflection_dataset_manifest_v1",
+  "language": "en",
+  "notes": [
+    "This stream is a single autoresearch lever and must not be combined before its result is recorded.",
+    "The flattened control uses the same source threads and final answers as the preserved multi-turn stream.",
+    "No explicit step-back labels were found in the source; this phase tests genuine multi-turn preservation first."
+  ],
+  "pilot_dose": {
+    "seed": 42,
+    "split_fraction": 0.78,
+    "train_count": 140,
+    "validation_count": 40
+  },
+  "sealed_test_paths_read": [],
+  "source": {
+    "max_window_pairs": 4,
+    "path": "[LOCAL_PATH]",
+    "sha256": "ec4262b38d9a32d54e154e9a3df97f603e6e671ec105004793a26b68ae4f3e08",
+    "thread_count": 180
+  },
+  "split": {
+    "source_count": 180,
+    "train_source_count": 140,
+    "train_validation_source_overlap": [],
+    "validation_source_count": 40
+  },
+  "task": "interrupted_counterfactual",
+  "train": {
+    "count": 140,
+    "path": "[LOCAL_PATH]",
+    "sha256": "03e1c09b88dbeb5c1c36a3c05e2cd91223ab2841828ec1837a180f195c4518f1"
+  },
+  "train_validation_source_overlap": [],
+  "training_allowed": true,
+  "validation": {
+    "count": 40,
+    "path": "[LOCAL_PATH]",
+    "sha256": "f10e6f1a9b46e39d064e9bf385137f655b46086fbe79fc5a2a876cb0db84b986"
+  }
+}
