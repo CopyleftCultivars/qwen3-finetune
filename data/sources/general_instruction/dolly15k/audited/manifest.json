@@ -1,0 +1,39 @@
+{
+  "audit": {
+    "base_instruction_overlap_count": 2,
+    "clean_count": 15011,
+    "input_count": 15011,
+    "reference_field_count": 9618,
+    "rejected_count": 0,
+    "rejected_sample": [],
+    "train_count": 13510,
+    "train_validation_source_overlap": [],
+    "validation_count": 1501
+  },
+  "audited_at": "2026-07-24",
+  "base_paths": [
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]"
+  ],
+  "benchmark_path": "[LOCAL_PATH]",
+  "contamination_audit": "general_instruction_contamination_audit_v1",
+  "dataset_id": "databricks/databricks-dolly-15k",
+  "format": "general_instruction_audited_manifest_v1",
+  "language": "en",
+  "lexical_threshold": 0.9,
+  "license": "CC BY-SA 3.0",
+  "notes": [
+    "Training is allowed only when the benchmark/base near-duplicate audit is clean.",
+    "The audit is conservative and applies to the instruction surface; outputs remain provenance-tracked."
+  ],
+  "retrieved_at": "2026-07-24",
+  "revision": "bdd27f4",
+  "source_sha256": "0f45a2ad86c0e5b4beb31bf688e6c96abc0cb0d1d955be2d2d3eab9b102240d6",
+  "source_split": "train",
+  "source_url": "https://huggingface.co/datasets/databricks/databricks-dolly-15k",
+  "split_seed": "sha256_source_id_v1",
+  "total_count": 15011,
+  "train_count": 13510,
+  "training_allowed": true,
+  "validation_count": 1501
+}

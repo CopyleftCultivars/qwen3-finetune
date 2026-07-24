@@ -1,0 +1,21 @@
+{
+  "contamination_audit": "pending",
+  "dataset_id": "databricks/databricks-dolly-15k",
+  "format": "general_instruction_source_manifest_v1",
+  "language": "en",
+  "license": "CC BY-SA 3.0",
+  "notes": [
+    "English general-purpose instruction/response records; not natural-farming or QMD data.",
+    "This raw source must pass the repository contamination audit before training.",
+    "The source is split before any replay-ratio sampling."
+  ],
+  "retrieved_at": "2026-07-24",
+  "revision": "bdd27f4",
+  "source_split": "train",
+  "source_url": "https://huggingface.co/datasets/databricks/databricks-dolly-15k",
+  "split_seed": "sha256_source_id_v1",
+  "total_count": 15011,
+  "train_count": 13510,
+  "training_allowed": false,
+  "validation_count": 1501
+}

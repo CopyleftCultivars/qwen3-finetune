@@ -177,6 +177,29 @@ def _structured_compose_argv(args: argparse.Namespace) -> list[str]:
     ]
 
 
+def _general_replay_compose_argv(args: argparse.Namespace) -> list[str]:
+    return [
+        sys.executable,
+        "scripts/build_general_replay_datasets.py",
+        "--base-train",
+        args.general_replay_base_train,
+        "--base-validation",
+        args.general_replay_base_validation,
+        "--source-train",
+        args.general_replay_source_train,
+        "--source-validation",
+        args.general_replay_source_validation,
+        "--source-manifest",
+        args.general_replay_manifest,
+        "--ratio",
+        str(args.general_replay_ratio),
+        "--output-dir",
+        str(Path(args.prepared_train_data).parent),
+        "--tokenizer",
+        args.general_replay_tokenizer,
+    ]
+
+
 def _cloze_commands(args: argparse.Namespace) -> list[list[str]]:
     """Return the reproducible cloze generation/audit preflight commands."""
     if not args.cloze_conversations:
@@ -523,6 +546,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--structured-source-train", default=None, metavar="PATH")
     parser.add_argument("--structured-source-validation", default=None, metavar="PATH")
     parser.add_argument(
+        "--general-replay-ratio",
+        type=float,
+        default=None,
+        help="General-instruction token budget as a fraction of the v5clean base train budget",
+    )
+    parser.add_argument("--general-replay-manifest", default=None, metavar="PATH")
+    parser.add_argument("--general-replay-base-train", default=None, metavar="PATH")
+    parser.add_argument("--general-replay-base-validation", default=None, metavar="PATH")
+    parser.add_argument("--general-replay-source-train", default=None, metavar="PATH")
+    parser.add_argument("--general-replay-source-validation", default=None, metavar="PATH")
+    parser.add_argument("--general-replay-tokenizer", default="unsloth/Qwen3-0.6B")
+    parser.add_argument(
         "--adversarial-refusals",
         default=None,
         help="Reviewed adversarial-refusal JSONL to add as a separate source",
@@ -733,6 +768,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         parser.error("--cloze-maximum-answer-frequency must be >= 0")
     if args.adversarial_refusal_count is not None and args.adversarial_refusal_count < 1:
         parser.error("--adversarial-refusal-count must be >= 1")
+    if args.general_replay_ratio is not None and not 0.0 <= args.general_replay_ratio <= 1.0:
+        parser.error("--general-replay-ratio must be between 0 and 1")
     if args.mcq_rationale_categories and not args.mcq_rationale:
         parser.error("--mcq-rationale-categories requires --mcq-rationale")
     if args.rationale_overlay and not args.mcq_rationale:
@@ -752,8 +789,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
     if any(path is not None for path in prepared) and not all(path is not None for path in prepared):
         parser.error("--prepared-train-data and --prepared-val-data must be supplied together")
     if args.auxiliary_task != "none":
-        if args.structured_task != "none":
-            parser.error("--auxiliary-task and --structured-task are mutually exclusive")
+        if args.structured_task != "none" or args.general_replay_ratio is not None:
+            parser.error("auxiliary, structured, and general-replay tasks are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("an auxiliary task requires prepared train/validation data")
         if not args.auxiliary_manifest:
@@ -770,6 +807,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
             if not Path(path).exists():
                 parser.error(f"auxiliary input not found: {path}")
     if args.structured_task != "none":
+        if args.general_replay_ratio is not None:
+            parser.error("structured and general-replay tasks are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("a structured task requires prepared train/validation data")
         if not args.structured_manifest:
@@ -807,6 +846,42 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         )
     ):
         parser.error("structured dataset paths require --structured-task")
+    if args.general_replay_ratio is not None:
+        if not all(path is not None for path in prepared):
+            parser.error("general replay requires prepared train/validation data paths")
+        if not args.general_replay_manifest:
+            parser.error("general replay requires --general-replay-manifest")
+        general_inputs = (
+            args.general_replay_base_train,
+            args.general_replay_base_validation,
+            args.general_replay_source_train,
+            args.general_replay_source_validation,
+        )
+        if not all(path is not None for path in general_inputs):
+            parser.error("general replay requires base and source train/validation paths")
+        for path in general_inputs:
+            if not Path(path).exists():
+                parser.error(f"general replay input not found: {path}")
+        manifest_path = Path(args.general_replay_manifest)
+        if not manifest_path.exists():
+            parser.error(f"general replay manifest not found: {manifest_path}")
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid general replay manifest {manifest_path}: {exc}")
+        if manifest.get("training_allowed") is not True:
+            parser.error("general replay manifest is not training-allowed")
+    elif any(
+        value is not None
+        for value in (
+            args.general_replay_manifest,
+            args.general_replay_base_train,
+            args.general_replay_base_validation,
+            args.general_replay_source_train,
+            args.general_replay_source_validation,
+        )
+    ):
+        parser.error("general replay paths require --general-replay-ratio")
     if args.auxiliary_manifest:
         manifest_path = Path(args.auxiliary_manifest)
         if not manifest_path.exists():
@@ -865,7 +940,9 @@ def main() -> None:
         args.qmd_mcq = str(_jspace_select(args))
 
     commands = _cloze_commands(args)
-    if args.structured_task != "none":
+    if args.general_replay_ratio is not None:
+        commands.append(_general_replay_compose_argv(args))
+    elif args.structured_task != "none":
         commands.append(_structured_compose_argv(args))
     elif args.auxiliary_task != "none":
         commands.append(_auxiliary_compose_argv(args))
