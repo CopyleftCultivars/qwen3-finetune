@@ -59,6 +59,10 @@ FROZEN_PATHS = [
         "free-form rubric grader anchor set",
     ),
     FrozenPath(
+        "eval_freeform/guards.py",
+        "free-form dev-only and sealed-path guard code",
+    ),
+    FrozenPath(
         "autoresearch/score_primary.py",
         "frozen primary objective combiner code",
     ),
@@ -97,6 +101,10 @@ FROZEN_PATHS = [
     FrozenPath(
         "autoresearch/generate_freeform_candidates.py",
         "frozen free-form candidate generation code feeding the rubric guard",
+    ),
+    FrozenPath(
+        "autoresearch/run_freeform_evaluation.py",
+        "paired free-form dev generation/rubric evaluation orchestrator",
     ),
     FrozenPath(
         "autoresearch/jspace_annotator.py",

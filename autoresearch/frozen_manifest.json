@@ -24,7 +24,7 @@
     "autoresearch/generate_freeform_candidates.py": {
       "kind": "file",
       "note": "frozen free-form candidate generation code feeding the rubric guard",
-      "sha256": "986d0c364c6840babdc68c5bb34c9146631af1e331610521d67a7f1becb6f6e9"
+      "sha256": "48055ea637ca36ecb773aef9b10965b74a497c1177b2f38b6503699416487464"
     },
     "autoresearch/jspace_annotator.py": {
       "kind": "file",
@@ -39,7 +39,7 @@
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "2bd5f169ff37f5776c561ba428ecc91f6f0fa72d30c6767fcce9ff9058c5aa22"
+      "sha256": "8441db27e2823ba9f60eafdd6ea5bb6784bdd9a05928f250fec784739ad32cc6"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -50,6 +50,11 @@
       "kind": "file",
       "note": "frozen primary objective policy; not tuned or learned by the loop",
       "sha256": "480daa7f28529de17c12db8156d4425315d86f2ec4dcfe3bc434467b7e70f76a"
+    },
+    "autoresearch/run_freeform_evaluation.py": {
+      "kind": "file",
+      "note": "paired free-form dev generation/rubric evaluation orchestrator",
+      "sha256": "16823094f4b688fac2c732dbfd66e3aa1f40c0993dc42e87f1e372e3b29f2d7b"
     },
     "autoresearch/run_loop.py": {
       "kind": "file",
@@ -86,15 +91,20 @@
       "note": "free-form rubric grader anchor set",
       "sha256": "e1685b2abea4a6271cd8c5c591e2b1854cf13bc75ba14193b11028b8871a37d5"
     },
+    "eval_freeform/guards.py": {
+      "kind": "file",
+      "note": "free-form dev-only and sealed-path guard code",
+      "sha256": "b56377a929a61784aefdf7faedab9806ae5d67ff450d75b4fd96d55895ab769f"
+    },
     "eval_freeform/score_refll.py": {
       "kind": "file",
       "note": "frozen free-form reference log-likelihood scorer code",
-      "sha256": "9ec2a8fdf5338dac92d3f213013ac3051efda53d92c7d5db66f1b55e43bf549c"
+      "sha256": "d223768156811da7474464d3e6772ff31109a12cf03dad5545db67be485461b5"
     },
     "eval_freeform/score_rubric.py": {
       "kind": "file",
       "note": "frozen free-form rubric scorer code",
-      "sha256": "1ec203860168d3e2c7d790b8d6817c37e10c2c987bf6b75c012a136af29da9e9"
+      "sha256": "26d6171bf429a941f49ab60532ff5dc4cdb160d2830ced1494b51eb0820072cd"
     },
     "eval_freeform/scorer_config.json": {
       "kind": "file",
@@ -112,5 +122,5 @@
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     }
   },
-  "generated_at": "2026-07-24T17:25:03+00:00"
+  "generated_at": "2026-07-24T21:02:02+00:00"
 }

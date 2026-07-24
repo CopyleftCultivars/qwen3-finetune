@@ -104,3 +104,5 @@ results/primary_p18-*.json
 results/mcq_gold_ll_p18-*.json
 results/primary_p19-*.json
 results/general_instruction_validation_*.json
+results/freeform_eval_*.json
+results/freeform_eval_*/

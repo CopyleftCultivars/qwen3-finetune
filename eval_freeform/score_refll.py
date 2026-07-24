@@ -16,6 +16,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from guards import assert_not_sealed_path, validate_dev_ids
+
 
 DEFAULT_CONFIG = "eval_freeform/scorer_config.json"
 CHAT_ASSISTANT_REFERENCE_MODE = "chat_assistant_reference_v1"
@@ -282,9 +284,11 @@ def main(argv: list[str] | None = None) -> int:
     prompt_mode = args.prompt_mode or str(config["refll_prompt_mode"])
     enable_thinking = bool(config.get("refll_chat_template_enable_thinking", False))
 
-    rows = load_jsonl(Path(args.input), args.limit)
+    input_path = assert_not_sealed_path(args.input)
+    rows = load_jsonl(input_path, args.limit)
     if not rows:
         raise SystemExit(f"no rows loaded from {args.input}")
+    validate_dev_ids((row.get("id", "") for row in rows))
     for row in rows:
         validate_item(row)
 
