@@ -44,7 +44,7 @@
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "107b8c85fa3b0dab7dca344247a4b337372983028515ad2d00311e0a23047566"
+      "sha256": "67906aeda8d9ea28b5b1ac0a69962fbe0a58614996b5f3cd0c095ae2a51ba804"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -139,8 +139,8 @@
     "scripts/score_verification_target.py": {
       "kind": "file",
       "note": "frozen proposed-answer verification validation scorer",
-      "sha256": "7aea97ebab46ab060b97ef5435da7efc940314ba7d2ca35eb30596ecf8d57be4"
+      "sha256": "21845560329b947586b23af5cad88360d617ddb800c56ac1ec809d89520e082a"
     }
   },
-  "generated_at": "2026-07-24T21:20:55+00:00"
+  "generated_at": "2026-07-24T22:12:55+00:00"
 }

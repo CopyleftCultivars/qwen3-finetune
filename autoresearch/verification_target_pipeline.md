@@ -63,3 +63,29 @@ primary first, then the verification validation task, and then the paired
 English free-form rubric on the fixed dev IDs. Spanish and sealed English
 tests remain untouched. The verification task is a reported diagnostic; the
 English MCQ primary and existing guardrails decide promotion.
+
+## Phase 20 result
+
+The single isolated run was rejected. It used the v5clean recipe unchanged
+apart from adding the composed verification stream, trained for four epochs
+and 1,284 optimizer steps on one RTX 4070 Ti (28m34s; reported training loss
+1.1536). The merged candidate produced:
+
+| Metric | v5clean anchor | Proposed-answer audit |
+|---|---:|---:|
+| English MCQ primary | -0.7752 | **-3.0322** |
+| English MCQ argmax accuracy | — | 30.97% |
+| Verification validation parse-valid | — | **0/184 (0%)** |
+| Verification verdict / verified-answer / final-answer accuracy | — | **0% / 0% / 0%** |
+| OpenRouter free-form rubric | 46.0667% | 45.8333% |
+| Free-form rubric delta | — | -0.2333 points |
+| Same-lineage reference-LL | -3.6668/token | -3.6991/token |
+
+The candidate emitted bare letters on the verification validation prompts,
+so it did not learn the structured ledger target at this recipe. It also
+failed the frozen English primary by a wide margin; it is not a promotion
+candidate and must not be combined with another lever. The paired rubric used
+the fixed 90-item English dev subset, the same OpenRouter judge/config for
+both models, and recorded zero anchor drift. No Spanish or sealed test path
+was read. Raw runtime evaluation artifacts remain ignored; the compact
+result record is `autoresearch/verification_target_results.md`.
