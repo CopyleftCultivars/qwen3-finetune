@@ -56,6 +56,23 @@ selected auxiliary stream. For each resulting model, record:
   NER and structured extraction and grounded-answer quality for open-book QA;
 - the source and composition manifest hashes.
 
+Task-native scoring is run separately with `scripts/score_auxiliary_validation.py`.
+For example, after the summarization run:
+
+```bash
+python scripts/score_auxiliary_validation.py \
+  --model outputs/merged-model-p17-aux-summarization \
+  --dataset data/auxiliary/summarization/validation.jsonl \
+  --task summarization \
+  --output results/auxiliary_validation_p17-aux-summarization.json
+```
+
+For NER and structured extraction, JSON validity and exact canonical JSON are
+reported in addition to token F1. Open-book QA and summarization report token F1
+and exact normalized-text rate. Score the v5clean model on the same validation
+files first; these are auxiliary diagnostics, not replacements for the frozen
+MCQ objective or free-form guardrails.
+
 Do not combine auxiliary tasks until each single-task result is recorded. A
 combination is a new lever and must use a controlled dose, with the same
 contamination boundary and a fresh manifest.
