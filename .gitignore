@@ -90,3 +90,5 @@ data/auxiliary_levers/
 results/en_v5clean_anchor_*.json
 results/es_transfer_*.json
 results/mcq_gold_ll_*.json
+results/auxiliary_validation_*.json
+results/primary_p17-aux-*.json
