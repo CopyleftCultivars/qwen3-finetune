@@ -69,6 +69,10 @@ def _dataset_suffix(args: argparse.Namespace) -> str:
 
 
 def _dataset_paths(args: argparse.Namespace) -> tuple[Path, Path]:
+    if args.prepared_train_data or args.prepared_val_data:
+        if not args.prepared_train_data or not args.prepared_val_data:
+            raise ValueError("prepared train and validation paths must be supplied together")
+        return Path(args.prepared_train_data), Path(args.prepared_val_data)
     suffix = _dataset_suffix(args)
     output_dir = Path(args.dataset_output_dir)
     return output_dir / f"train{suffix}.jsonl", output_dir / f"val{suffix}.jsonl"
@@ -129,6 +133,27 @@ def _prepare_argv(args: argparse.Namespace) -> list[str]:
     if args.curriculum_report:
         argv.extend(["--curriculum-report", args.curriculum_report])
     return argv
+
+
+def _auxiliary_compose_argv(args: argparse.Namespace) -> list[str]:
+    return [
+        sys.executable,
+        "scripts/build_auxiliary_lever_dataset.py",
+        "--base-train",
+        args.auxiliary_base_train,
+        "--base-validation",
+        args.auxiliary_base_validation,
+        "--auxiliary-task",
+        args.auxiliary_task,
+        "--auxiliary-train",
+        args.auxiliary_source_train,
+        "--auxiliary-validation",
+        args.auxiliary_source_validation,
+        "--auxiliary-manifest",
+        args.auxiliary_manifest,
+        "--output-root",
+        str(Path(args.prepared_train_data).parent),
+    ]
 
 
 def _cloze_commands(args: argparse.Namespace) -> list[list[str]]:
@@ -420,6 +445,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--split", type=float, default=0.9)
     parser.add_argument("--min-output-chars", type=int, default=10)
     parser.add_argument("--max-total-chars", type=int, default=8192)
+    parser.add_argument(
+        "--prepared-train-data",
+        default=None,
+        metavar="PATH",
+        help="Use an already audited train JSONL and skip standard dataset preparation",
+    )
+    parser.add_argument(
+        "--prepared-val-data",
+        default=None,
+        metavar="PATH",
+        help="Validation JSONL paired with --prepared-train-data",
+    )
 
     # Data/source controls. The source defaults intentionally avoid the known
     # contaminated MCQ-rationale file; callers may pass a verified clean source.
@@ -437,6 +474,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="Preserve balanced cyclic rationale replay rows through deduplication",
     )
     parser.add_argument("--qmd-mcq", default=DEFAULT_QMD_MCQ)
+    parser.add_argument(
+        "--auxiliary-task",
+        choices=("none", "summarization", "ner", "structured_extraction", "open_book_qa"),
+        default="none",
+        help="Bookkeeping label for a single auxiliary-task lever",
+    )
+    parser.add_argument(
+        "--auxiliary-manifest",
+        default=None,
+        metavar="PATH",
+        help="Manifest that proves the selected prepared auxiliary dataset passed its audit",
+    )
+    parser.add_argument("--auxiliary-base-train", default=None, metavar="PATH")
+    parser.add_argument("--auxiliary-base-validation", default=None, metavar="PATH")
+    parser.add_argument("--auxiliary-source-train", default=None, metavar="PATH")
+    parser.add_argument("--auxiliary-source-validation", default=None, metavar="PATH")
     parser.add_argument(
         "--adversarial-refusals",
         default=None,
@@ -663,6 +716,39 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
     if args.train_order == "sequential" and args.curriculum_order == "none":
         parser.error("--train-order sequential requires --curriculum-order")
 
+    prepared = (args.prepared_train_data, args.prepared_val_data)
+    if any(path is not None for path in prepared) and not all(path is not None for path in prepared):
+        parser.error("--prepared-train-data and --prepared-val-data must be supplied together")
+    if args.auxiliary_task != "none":
+        if not all(path is not None for path in prepared):
+            parser.error("an auxiliary task requires prepared train/validation data")
+        if not args.auxiliary_manifest:
+            parser.error("an auxiliary task requires --auxiliary-manifest")
+        auxiliary_inputs = (
+            args.auxiliary_base_train,
+            args.auxiliary_base_validation,
+            args.auxiliary_source_train,
+            args.auxiliary_source_validation,
+        )
+        if not all(path is not None for path in auxiliary_inputs):
+            parser.error("an auxiliary task requires base and source train/validation paths")
+        for path in auxiliary_inputs:
+            if not Path(path).exists():
+                parser.error(f"auxiliary input not found: {path}")
+    if args.auxiliary_manifest:
+        manifest_path = Path(args.auxiliary_manifest)
+        if not manifest_path.exists():
+            parser.error(f"auxiliary manifest not found: {manifest_path}")
+        try:
+            with manifest_path.open(encoding="utf-8") as handle:
+                manifest = json.load(handle)
+        except (OSError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid auxiliary manifest {manifest_path}: {exc}")
+        if manifest.get("auxiliary_task", manifest.get("task")) != args.auxiliary_task:
+            parser.error("auxiliary manifest task does not match --auxiliary-task")
+        if manifest.get("training_allowed") is False:
+            parser.error("auxiliary manifest is not training-allowed")
+
     jspace_dependents = (
         args.jspace_bucket,
         args.jspace_category,
@@ -706,7 +792,12 @@ def main() -> None:
     if args.jspace_signals is not None:
         args.qmd_mcq = str(_jspace_select(args))
 
-    commands = _cloze_commands(args) + [_prepare_argv(args), _train_argv(args), _merge_argv(args)]
+    commands = _cloze_commands(args)
+    if args.auxiliary_task != "none":
+        commands.append(_auxiliary_compose_argv(args))
+    elif not args.prepared_train_data:
+        commands.append(_prepare_argv(args))
+    commands.extend([_train_argv(args), _merge_argv(args)])
     if args.dry_run:
         print("Dry run: checksum passed; planned subprocesses:")
     for argv in commands:

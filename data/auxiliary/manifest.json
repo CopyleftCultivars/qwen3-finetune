@@ -1,0 +1,58 @@
+{
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855",
+  "format": "crop_style_auxiliary_root_manifest_v1",
+  "pilot_dose": {
+    "seed": 42,
+    "split_fraction": 0.8,
+    "train_count": 256,
+    "validation_count": 64
+  },
+  "sealed_test_paths_read": [],
+  "source_document_count": 898,
+  "source_root": "[LOCAL_PATH]",
+  "summaries": [
+    {
+      "candidate_count": 898,
+      "clean_candidate_count": 898,
+      "rejected_count": 0,
+      "task": "summarization",
+      "train_count": 256,
+      "train_validation_source_overlap": [],
+      "validation_count": 64
+    },
+    {
+      "candidate_count": 898,
+      "clean_candidate_count": 898,
+      "rejected_count": 0,
+      "task": "ner",
+      "train_count": 256,
+      "train_validation_source_overlap": [],
+      "validation_count": 64
+    },
+    {
+      "candidate_count": 898,
+      "clean_candidate_count": 898,
+      "rejected_count": 0,
+      "task": "structured_extraction",
+      "train_count": 256,
+      "train_validation_source_overlap": [],
+      "validation_count": 64
+    },
+    {
+      "candidate_count": 1796,
+      "clean_candidate_count": 1796,
+      "rejected_count": 0,
+      "task": "open_book_qa",
+      "train_count": 256,
+      "train_validation_source_overlap": [],
+      "validation_count": 64
+    }
+  ],
+  "tasks": [
+    "summarization",
+    "ner",
+    "structured_extraction",
+    "open_book_qa"
+  ]
+}
