@@ -58,3 +58,22 @@ and contamination guardrails remain accept/revert gates. The sealed English
 and Spanish tests are not read, and no external free-form judge is part of
 this phase.
 
+## Phase 19 results
+
+The three candidates were trained serially on the single CUDA device from the
+same v5clean base and scored on the frozen English MCQ dev anchor, a fixed
+256-example local Dolly validation sample, and the Spanish transfer dev
+diagnostic. The 0% control is the already-scored v5clean champion.
+
+| Condition | English primary | English argmax | General token-F1 | General exact | Spanish dev primary | Spanish argmax |
+|---:|---:|---:|---:|---:|---:|---:|
+| v5clean / 0% | -0.7752 | 72.6% | 0.2278 | 0.0% | -1.4337 | 52.3% |
+| 5% | -1.9999 | 40.7% | 0.3225 | 2.0% | -1.5737 | 43.0% |
+| 10% | -1.0717 | 59.3% | 0.3314 | 3.9% | **-0.9066** | **64.8%** |
+| 20% | -1.4494 | 54.0% | **0.3567** | **5.1%** | -1.6632 | 41.4% |
+
+The 10% dose is the best Spanish transfer-dev result, and the 20% dose is
+the best local general-instruction result, but neither preserves the English
+regression anchor. No ratio is promoted. The source remains provenance-tracked
+and the generated ratio overlays remain ignored/reproducible; sealed English
+and Spanish tests, Spanish free-form data, and external judging were not used.
