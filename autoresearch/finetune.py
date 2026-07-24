@@ -177,6 +177,27 @@ def _structured_compose_argv(args: argparse.Namespace) -> list[str]:
     ]
 
 
+def _verification_compose_argv(args: argparse.Namespace) -> list[str]:
+    return [
+        sys.executable,
+        "scripts/build_verification_lever_dataset.py",
+        "--base-train",
+        args.verification_base_train,
+        "--base-validation",
+        args.verification_base_validation,
+        "--verification-task",
+        args.verification_task,
+        "--source-train",
+        args.verification_source_train,
+        "--source-validation",
+        args.verification_source_validation,
+        "--source-manifest",
+        args.verification_manifest,
+        "--output-root",
+        str(Path(args.prepared_train_data).parent),
+    ]
+
+
 def _general_replay_compose_argv(args: argparse.Namespace) -> list[str]:
     return [
         sys.executable,
@@ -546,6 +567,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--structured-source-train", default=None, metavar="PATH")
     parser.add_argument("--structured-source-validation", default=None, metavar="PATH")
     parser.add_argument(
+        "--verification-task",
+        choices=("none", "proposed_answer_audit"),
+        default="none",
+        help="Bookkeeping label for a proposed-answer verification lever",
+    )
+    parser.add_argument("--verification-manifest", default=None, metavar="PATH")
+    parser.add_argument("--verification-base-train", default=None, metavar="PATH")
+    parser.add_argument("--verification-base-validation", default=None, metavar="PATH")
+    parser.add_argument("--verification-source-train", default=None, metavar="PATH")
+    parser.add_argument("--verification-source-validation", default=None, metavar="PATH")
+    parser.add_argument(
         "--general-replay-ratio",
         type=float,
         default=None,
@@ -789,8 +821,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
     if any(path is not None for path in prepared) and not all(path is not None for path in prepared):
         parser.error("--prepared-train-data and --prepared-val-data must be supplied together")
     if args.auxiliary_task != "none":
-        if args.structured_task != "none" or args.general_replay_ratio is not None:
-            parser.error("auxiliary, structured, and general-replay tasks are mutually exclusive")
+        if args.structured_task != "none" or args.verification_task != "none" or args.general_replay_ratio is not None:
+            parser.error("auxiliary, structured, verification, and general-replay tasks are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("an auxiliary task requires prepared train/validation data")
         if not args.auxiliary_manifest:
@@ -807,8 +839,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
             if not Path(path).exists():
                 parser.error(f"auxiliary input not found: {path}")
     if args.structured_task != "none":
-        if args.general_replay_ratio is not None:
-            parser.error("structured and general-replay tasks are mutually exclusive")
+        if args.verification_task != "none" or args.general_replay_ratio is not None:
+            parser.error("structured, verification, and general-replay tasks are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("a structured task requires prepared train/validation data")
         if not args.structured_manifest:
@@ -846,7 +878,49 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         )
     ):
         parser.error("structured dataset paths require --structured-task")
+    if args.verification_task != "none":
+        if args.structured_task != "none" or args.general_replay_ratio is not None:
+            parser.error("verification, structured, and general-replay tasks are mutually exclusive")
+        if not all(path is not None for path in prepared):
+            parser.error("a verification task requires prepared train/validation data")
+        if not args.verification_manifest:
+            parser.error("a verification task requires --verification-manifest")
+        verification_inputs = (
+            args.verification_base_train,
+            args.verification_base_validation,
+            args.verification_source_train,
+            args.verification_source_validation,
+        )
+        if not all(path is not None for path in verification_inputs):
+            parser.error("a verification task requires base and source train/validation paths")
+        for path in verification_inputs:
+            if not Path(path).exists():
+                parser.error(f"verification input not found: {path}")
+        verification_manifest_path = Path(args.verification_manifest)
+        if not verification_manifest_path.exists():
+            parser.error(f"verification manifest not found: {verification_manifest_path}")
+        try:
+            verification_manifest = json.loads(verification_manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid verification manifest {verification_manifest_path}: {exc}")
+        if verification_manifest.get("task") != args.verification_task:
+            parser.error("verification manifest task does not match --verification-task")
+        if verification_manifest.get("training_allowed") is not True:
+            parser.error("verification manifest is not training-allowed")
+    elif any(
+        value is not None
+        for value in (
+            args.verification_manifest,
+            args.verification_base_train,
+            args.verification_base_validation,
+            args.verification_source_train,
+            args.verification_source_validation,
+        )
+    ):
+        parser.error("verification dataset paths require --verification-task")
     if args.general_replay_ratio is not None:
+        if args.verification_task != "none":
+            parser.error("general-replay and verification tasks are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("general replay requires prepared train/validation data paths")
         if not args.general_replay_manifest:
@@ -944,6 +1018,8 @@ def main() -> None:
         commands.append(_general_replay_compose_argv(args))
     elif args.structured_task != "none":
         commands.append(_structured_compose_argv(args))
+    elif args.verification_task != "none":
+        commands.append(_verification_compose_argv(args))
     elif args.auxiliary_task != "none":
         commands.append(_auxiliary_compose_argv(args))
     elif not args.prepared_train_data:

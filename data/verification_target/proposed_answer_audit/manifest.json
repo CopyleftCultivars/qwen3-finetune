@@ -1,0 +1,49 @@
+{
+  "audit": {
+    "base_instruction_exact_overlap_count": 0,
+    "benchmark_exact_overlap_count": 0,
+    "clean_count": 228,
+    "input_count": 228,
+    "rejected_count": 0,
+    "rejected_sample": []
+  },
+  "base_paths": [
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]"
+  ],
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855",
+  "format": "verification_target_source_manifest_v1",
+  "language": "en",
+  "notes": [
+    "This is a proposed-answer verification task, not QMD rationale replay or reflection replay.",
+    "Each source question emits exactly one proposed-answer record for A, B, C, and D.",
+    "The final answer remains a bare letter to preserve the settled MCQ interface.",
+    "Benchmark exact question and full option-block overlaps are rejected."
+  ],
+  "proposed_answer_distribution": {
+    "A": 228,
+    "B": 228,
+    "C": 228,
+    "D": 228
+  },
+  "sealed_test_paths_read": [],
+  "seed": 42,
+  "source": "[LOCAL_PATH]",
+  "source_question_count": 228,
+  "source_sha256": "e299ea312e4cef4132bc7a70fb338810662de8796f08ddbc9008cbb136edd4a3",
+  "source_train_count": 728,
+  "source_train_question_count": 182,
+  "source_train_sha256": "fca1a79fde3086cc42f7c7a744e4e4f931b2ce3b5481e3fd7019deb61b05beb2",
+  "source_train_validation_overlap": [],
+  "source_validation_count": 184,
+  "source_validation_question_count": 46,
+  "source_validation_sha256": "09e731f7b6f3fa81a5521450fb8a4efae9304adc5b981afbf54457a64704e798",
+  "split": 0.8,
+  "task": "proposed_answer_audit",
+  "training_allowed": true,
+  "verdict_distribution": {
+    "ACCEPT": 228,
+    "REJECT": 684
+  }
+}
