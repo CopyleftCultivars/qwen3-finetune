@@ -1,0 +1,195 @@
+{
+  "answer_counts": {
+    "A": 28,
+    "B": 118,
+    "C": 63,
+    "D": 5
+  },
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_field_count": 7878,
+  "benchmark_question_count": 1603,
+  "clean_count": 214,
+  "clean_output_ready": true,
+  "exact_question_overlap_count": 0,
+  "exact_text_overlap_count": 11,
+  "external_excluded_source_ids": [
+    "OF-TRAIN-0002",
+    "SS-TRAIN-0003"
+  ],
+  "format": "qmd_mcq_source_contamination_audit_v1",
+  "high_lexical_overlap_count": 1,
+  "lexical_overlap_threshold": 0.85,
+  "maximum_nonmatching_token_jaccard": {
+    "benchmark_field": "C",
+    "benchmark_question_id": "SS-0212",
+    "score": 0.9,
+    "source_field": "B",
+    "source_question_id": "SS-TRAIN-0107"
+  },
+  "notes": [
+    "Question-level audit; semantic similarity is not claimed absent.",
+    "The QMD source documents are not asserted to be independent of benchmark source documents.",
+    "Only the clean emitted copy may be translated into the Spanish training package."
+  ],
+  "passed": false,
+  "rejected": [
+    {
+      "benchmark_field": "B",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "NF-0052",
+      "question": "How does sector analysis differ fundamentally from zone analysis?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "D",
+      "source_index": 32,
+      "source_question_id": "PC-TRAIN-0095"
+    },
+    {
+      "benchmark_field": null,
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": null,
+      "question": "Which of the following is listed as a primary advantage of using green manures?",
+      "reason": "external_spanish_transfer_overlap",
+      "source_field": null,
+      "source_index": 45,
+      "source_question_id": "OF-TRAIN-0002"
+    },
+    {
+      "benchmark_field": "C",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "SS-0153",
+      "question": "According to the PGPR preface, which major bacterial genus is noted for forming endospores, which contributes to the stability of commercial PGPR products?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "B",
+      "source_index": 72,
+      "source_question_id": "NF-TRAIN-0027"
+    },
+    {
+      "benchmark_field": "A",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "OF-0209",
+      "question": "Which non-leguminous green manure crop is noted for its use as a winter cover crop to minimize nitrate leaching?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "A",
+      "source_index": 77,
+      "source_question_id": "NF-TRAIN-0041"
+    },
+    {
+      "benchmark_field": "A",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "NF-0129",
+      "question": "In the context of organic citrus production, which practice is mentioned as a component of soil fertility management?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "B",
+      "source_index": 78,
+      "source_question_id": "NF-TRAIN-0042"
+    },
+    {
+      "benchmark_field": "D",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "NF-0096",
+      "question": "A key benefit of using green manures, particularly winter cover crops, is the reduction of which environmental loss?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "A",
+      "source_index": 79,
+      "source_question_id": "NF-TRAIN-0043"
+    },
+    {
+      "benchmark_field": "B",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "AG-0051",
+      "question": "In a study comparing organic and conventional farming systems, which soil quality indicator showed a significantly higher value in plots fertilized with compost?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "D",
+      "source_index": 81,
+      "source_question_id": "NF-TRAIN-0045"
+    },
+    {
+      "benchmark_field": "B",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "OF-0008",
+      "question": "What is a primary use for winter green manures, especially in conventional agriculture?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "A",
+      "source_index": 87,
+      "source_question_id": "NF-TRAIN-0068"
+    },
+    {
+      "benchmark_field": "C",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "NF-0113",
+      "question": "What is the ideal carbon-to-nitrogen (C/N) ratio for most compost microorganisms?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "A",
+      "source_index": 90,
+      "source_question_id": "NF-TRAIN-0071"
+    },
+    {
+      "benchmark_field": "D",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "NF-0196",
+      "question": "Vermicomposting is described as what type of biological process?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "B",
+      "source_index": 102,
+      "source_question_id": "NF-TRAIN-0117"
+    },
+    {
+      "benchmark_field": "C",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "IF-0132",
+      "question": "Which management system is mentioned as a design tool for integrative regenerative agriculture practitioners?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "D",
+      "source_index": 115,
+      "source_question_id": "RA-TRAIN-0085"
+    },
+    {
+      "benchmark_field": null,
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": null,
+      "question": "What bidirectional exchange of metabolites occurs between mycorrhizal fungi and their plant partners?",
+      "reason": "external_spanish_transfer_overlap",
+      "source_field": null,
+      "source_index": 130,
+      "source_question_id": "SS-TRAIN-0003"
+    },
+    {
+      "benchmark_field": "C",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "NF-0104",
+      "question": "According to the carbon-nitrogen ratio discussion, what happens to the C:N ratio as fresh organic matter decomposes into humus?",
+      "reason": "exact_benchmark_text_overlap",
+      "source_field": "B",
+      "source_index": 151,
+      "source_question_id": "SS-TRAIN-0032"
+    },
+    {
+      "benchmark_field": "C",
+      "benchmark_question_id": null,
+      "benchmark_question_id_matched": "SS-0212",
+      "question": "What major physical forces are primarily involved in the formation of soil structure, especially as clay content increases?",
+      "reason": "high_lexical_benchmark_overlap",
+      "source_field": "B",
+      "source_index": 177,
+      "source_question_id": "SS-TRAIN-0107"
+    }
+  ],
+  "rejected_count": 14,
+  "sealed_test_paths_read": [],
+  "selection_status": "clean_subset_emitted",
+  "source": "data/sources/qmd_mcq_generated.jsonl",
+  "source_categories": {
+    "Agroecology Benchmark": 12,
+    "Indigenous and Traditional Knowledge Benchmark": 7,
+    "Integrated Farming Systems Benchmark": 2,
+    "Natural Fertilizers Benchmark": 35,
+    "Organic Farming Benchmark": 24,
+    "Permaculture Benchmark": 43,
+    "Regenerative Agriculture Benchmark": 4,
+    "Soil Science and Microbiology Benchmark": 52,
+    "Sustainable Water Management Benchmark": 35
+  },
+  "source_count": 228,
+  "source_sha256": "e299ea312e4cef4132bc7a70fb338810662de8796f08ddbc9008cbb136edd4a3",
+  "training_allowed_for_clean_output": true
+}

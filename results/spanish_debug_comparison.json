@@ -1,0 +1,143 @@
+{
+  "format": "spanish_debug_comparison_v1",
+  "status": "all_debug_variants_rejected",
+  "diagnostic_scope": {
+    "base_model": "outputs/merged-model-p6-lr5e5-r2",
+    "epochs": 1,
+    "v5_settings": {
+      "batch_size": 4,
+      "epochs": 1,
+      "grad_accum": 4,
+      "lora_alpha": 64,
+      "lora_dropout": 0.025,
+      "lora_r": 32,
+      "lr": 5e-05,
+      "max_seq_len": 2048
+    },
+    "cuda_matched": true,
+    "single_gpu_serial": true,
+    "spanish_evaluation_split": "en_to_es/dev.jsonl",
+    "sealed_test_paths_read": []
+  },
+  "baseline": {
+    "english_v5clean_anchor": {
+      "mean_option_set_gold_logprob": -0.7716679736035341,
+      "argmax_accuracy": 0.7367436057392389
+    },
+    "spanish_transfer_dev": {
+      "mean_option_set_gold_logprob": -1.026483513174053,
+      "argmax_accuracy": 0.7165109034267912
+    }
+  },
+  "variants": {
+    "mcq_only": {
+      "models": {
+        "english_score": "outputs/merged-model-spanish-debug-mcq-only",
+        "spanish_score": "outputs/merged-model-spanish-debug-mcq-only"
+      },
+      "scores_complete": true,
+      "english_v5clean_anchor": {
+        "mean_option_set_gold_logprob": -1.0396654624356172,
+        "argmax_accuracy": 0.654398003742982,
+        "delta": {
+          "mean_option_set_gold_logprob": -0.2679974888320831,
+          "argmax_accuracy": -0.08234560199625696
+        }
+      },
+      "spanish_transfer_dev": {
+        "mean_option_set_gold_logprob": -1.1879528776650476,
+        "argmax_accuracy": 0.6510903426791277,
+        "delta": {
+          "mean_option_set_gold_logprob": -0.16146936449099458,
+          "argmax_accuracy": -0.06542056074766356
+        }
+      },
+      "acceptance_gates": {
+        "spanish_improvement": false,
+        "english_no_regression": false
+      },
+      "score_artifacts": {
+        "english": "results/en_v5clean_anchor_debug_mcq_only.json",
+        "spanish": "results/es_transfer_debug_mcq_only.json"
+      }
+    },
+    "freeform_only": {
+      "models": {
+        "english_score": "outputs/merged-model-spanish-debug-freeform-only",
+        "spanish_score": "outputs/merged-model-spanish-debug-freeform-only"
+      },
+      "scores_complete": true,
+      "english_v5clean_anchor": {
+        "mean_option_set_gold_logprob": -0.9145425064456243,
+        "argmax_accuracy": 0.686837180286962,
+        "delta": {
+          "mean_option_set_gold_logprob": -0.14287453284209017,
+          "argmax_accuracy": -0.04990642545227697
+        }
+      },
+      "spanish_transfer_dev": {
+        "mean_option_set_gold_logprob": -1.061374283205783,
+        "argmax_accuracy": 0.6573208722741433,
+        "delta": {
+          "mean_option_set_gold_logprob": -0.03489077003173002,
+          "argmax_accuracy": -0.05919003115264798
+        }
+      },
+      "acceptance_gates": {
+        "spanish_improvement": false,
+        "english_no_regression": false
+      },
+      "score_artifacts": {
+        "english": "results/en_v5clean_anchor_debug_freeform_only.json",
+        "spanish": "results/es_transfer_debug_freeform_only.json"
+      }
+    },
+    "mixed_10pct": {
+      "models": {
+        "english_score": "outputs/merged-model-spanish-debug-mixed-10pct",
+        "spanish_score": "outputs/merged-model-spanish-debug-mixed-10pct"
+      },
+      "scores_complete": true,
+      "english_v5clean_anchor": {
+        "mean_option_set_gold_logprob": -0.9841847478517646,
+        "argmax_accuracy": 0.6674984404242046,
+        "delta": {
+          "mean_option_set_gold_logprob": -0.21251677424823046,
+          "argmax_accuracy": -0.06924516531503433
+        }
+      },
+      "spanish_transfer_dev": {
+        "mean_option_set_gold_logprob": -1.2432907691702149,
+        "argmax_accuracy": 0.6292834890965732,
+        "delta": {
+          "mean_option_set_gold_logprob": -0.2168072559961618,
+          "argmax_accuracy": -0.08722741433021808
+        }
+      },
+      "acceptance_gates": {
+        "spanish_improvement": false,
+        "english_no_regression": false
+      },
+      "score_artifacts": {
+        "english": "results/en_v5clean_anchor_debug_mixed_10pct.json",
+        "spanish": "results/es_transfer_debug_mixed_10pct.json"
+      }
+    }
+  },
+  "selection": {
+    "best_spanish_by_option_set_gold_logprob": "freeform_only",
+    "promotion_candidate": null,
+    "reason": "One-epoch diagnostics do not establish a promotion candidate unless both bilingual gates pass; no variant passed both gates."
+  },
+  "contamination": {
+    "english_training_audit_pass": true,
+    "spanish_training_audit_pass": true,
+    "english_audit": "results/spanish_debug_english_contamination_audit.json",
+    "spanish_audit": "results/spanish_debug_spanish_contamination_audit.json"
+  },
+  "interpretation": [
+    "The Spanish MCQ-only overlay is not the sole explanation for the full-candidate regression: all three one-epoch overlays remain below the v5clean Spanish dev anchor.",
+    "Free-form-only is the least damaging variant by Spanish option-set log-likelihood, but it still fails the English no-regression gate.",
+    "These are diagnostic runs, not evidence that Spanish data should be removed permanently; the next controlled lever should reduce optimization pressure or inspect formatting/truncation before changing benchmark policy."
+  ]
+}

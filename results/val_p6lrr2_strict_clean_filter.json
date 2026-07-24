@@ -1,0 +1,17 @@
+{
+  "format": "benchmark_contaminated_dataset_filter_v1",
+  "input": "[LOCAL_PATH]",
+  "input_sha256": "2f63df7f7495a87bf1971b82d635e303432a380251b1e935310b6859a96df39f",
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_field_count": 4143,
+  "lexical_threshold": 0.85,
+  "input_count": 489,
+  "clean_count": 489,
+  "rejected_count": 0,
+  "rejected": [],
+  "sealed_test_paths_read": [],
+  "passed": true,
+  "notes": [
+    "Filtered rows are not used in the strict Spanish-data candidate training base."
+  ]
+}

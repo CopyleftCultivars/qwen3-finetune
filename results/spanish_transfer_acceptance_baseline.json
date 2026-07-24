@@ -1,0 +1,48 @@
+{
+  "format": "spanish_transfer_acceptance_report_v1",
+  "status": "baseline_established_candidate_comparison_pending",
+  "model": "outputs/merged-model-p6-lr5e5-r2",
+  "device": "cpu",
+  "scorer": "autoresearch/score_mcq_ll.py",
+  "contamination_audit": {
+    "path": "results/spanish_transfer_contamination_audit.json",
+    "passed": true,
+    "target_files": 163,
+    "exact_matches": 0,
+    "high_lexical_overlap_matches": 0
+  },
+  "english_v5clean_anchor": {
+    "path": "../benchmark-eval-workspace/benchmark_combined.jsonl",
+    "records": 1603,
+    "mean_option_set_gold_logprob": -0.7703236221235069,
+    "argmax_accuracy": 0.7404865876481597
+  },
+  "spanish_transfer_diagnostic": {
+    "path": "../spanish-benchmark-workspace/benchmarks/transfer/en_to_es/english_v5clean_benchmark_es.jsonl",
+    "records": 1603,
+    "mean_option_set_gold_logprob": -0.9880914374444253,
+    "argmax_accuracy": 0.7105427323767936,
+    "benchmark_role": "en_to_es_parallel_language_transfer_diagnostic",
+    "source_sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855",
+    "answer_counts": {
+      "A": 419,
+      "B": 386,
+      "C": 388,
+      "D": 410
+    },
+    "human_review_status": "native_spanish_speaker_reviewed",
+    "training_allowed": false,
+    "dev_records": 321,
+    "sealed_test_records": 1282
+  },
+  "diagnostic_delta": {
+    "spanish_minus_english_mean_option_set_gold_logprob": -0.21776781532091838,
+    "interpretation": "language-transfer diagnostic only; not a cross-language quality ranking"
+  },
+  "acceptance_gates": {
+    "spanish_baseline_established": true,
+    "english_no_regression": "pending_candidate_comparison",
+    "spanish_improvement": "pending_candidate_comparison",
+    "training_contamination": "pass"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "format": "benchmark_contaminated_dataset_filter_v1",
+  "input": "[LOCAL_PATH]",
+  "input_sha256": "76ca9bec47065b5e06480b8e05e203efb44e6533293bcbcb02b8760bdcee022e",
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_field_count": 4143,
+  "lexical_threshold": 0.85,
+  "input_count": 4400,
+  "clean_count": 4396,
+  "rejected_count": 4,
+  "rejected": [
+    {
+      "line": 1041,
+      "reason": "exact_normalized_substring",
+      "benchmark_question_id": "1425",
+      "benchmark_field": "C"
+    },
+    {
+      "line": 1199,
+      "reason": "exact_normalized_substring",
+      "benchmark_question_id": "1425",
+      "benchmark_field": "C"
+    },
+    {
+      "line": 1665,
+      "reason": "exact_normalized_substring",
+      "benchmark_question_id": "1425",
+      "benchmark_field": "C"
+    },
+    {
+      "line": 3705,
+      "reason": "exact_normalized_substring",
+      "benchmark_question_id": "1425",
+      "benchmark_field": "C"
+    }
+  ],
+  "sealed_test_paths_read": [],
+  "passed": true,
+  "notes": [
+    "Filtered rows are not used in the strict Spanish-data candidate training base."
+  ]
+}

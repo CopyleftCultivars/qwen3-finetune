@@ -1,0 +1,40 @@
+{
+  "format": "spanish_transfer_contamination_audit_v1",
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_sha256": "44c9d9bf688fc50e0780bd1c515e95335a4a8577ba1174eaeea49c93bd8dba1f",
+  "benchmark_field_count": 4994,
+  "lexical_threshold": 0.85,
+  "minimum_exact_chars": 48,
+  "minimum_overlap_tokens": 6,
+  "targets": [
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 5356,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.44,
+        "source_question_id": "PC-0166",
+        "field": "question",
+        "line": 5174
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    },
+    {
+      "path": "[LOCAL_PATH]",
+      "records_scanned": 599,
+      "exact_match_count": 0,
+      "high_lexical_overlap_count": 0,
+      "maximum_token_jaccard": {
+        "score": 0.39285714285714285,
+        "source_question_id": "WM-0190",
+        "field": "question",
+        "line": 599
+      },
+      "exact_matches": [],
+      "high_lexical_overlaps": []
+    }
+  ],
+  "passed": true
+}
