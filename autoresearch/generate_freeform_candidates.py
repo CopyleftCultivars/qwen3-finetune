@@ -21,15 +21,16 @@ from pathlib import Path
 from typing import Any
 
 DEFAULT_DIAGNOSTICS_DIR = Path("../benchmark-eval-workspace/diagnostics")
-SEALED_PATH_FRAGMENTS = ("eval_freeform/test.jsonl",)
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
+from eval_freeform.guards import assert_not_sealed_path, validate_dev_ids  # noqa: E402
 
 
 def check_not_sealed(path: str | Path) -> Path:
-    resolved = Path(path)
-    for fragment in SEALED_PATH_FRAGMENTS:
-        if fragment in resolved.as_posix():
-            raise SystemExit(f"refusing to read sealed test path: {path}")
-    return resolved
+    try:
+        return assert_not_sealed_path(path)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
 
 
 def import_diagnostics_helpers(diagnostics_dir: Path):
@@ -82,6 +83,7 @@ def main(argv: list[str] | None = None) -> int:
     load_model_and_tokenizer = import_diagnostics_helpers(DEFAULT_DIAGNOSTICS_DIR)
 
     rows = [json.loads(line) for line in dev_path.open(encoding="utf-8") if line.strip()]
+    validate_dev_ids((row.get("id", "") for row in rows))
     subset = select_subset(rows, args.items_per_type)
     print(f"selected {len(subset)} items from {dev_path} ({args.items_per_type}/type)")
 

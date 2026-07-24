@@ -13,6 +13,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
+from guards import assert_not_sealed_path, validate_dev_ids
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
@@ -444,9 +446,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     drift_threshold = float(config.get("anchor_drift_threshold", 0.10))
 
-    rows = load_jsonl(Path(args.input), args.limit)
+    input_path = assert_not_sealed_path(args.input)
+    rows = load_jsonl(input_path, args.limit)
     if not rows:
         raise SystemExit(f"no rows loaded from {args.input}")
+    validate_dev_ids((row.get("id", "") for row in rows))
     for row in rows:
         validate_item(row)
 
