@@ -73,6 +73,17 @@ and exact normalized-text rate. Score the v5clean model on the same validation
 files first; these are auxiliary diagnostics, not replacements for the frozen
 MCQ objective or free-form guardrails.
 
+## Pilot results
+
+The completed single-task comparison is recorded in
+`autoresearch/crop_auxiliary_results.md`. All four streams improved their
+native task metric, but only NER improved the frozen English MCQ primary, and
+its `+0.0795` gain is below the repository's `+0.4` promotion threshold. The
+other three streams regress the closed-book MCQ primary at the tested dose.
+The paired free-form rubric/grader-anchor guard is still pending external
+evaluation authorization; no evaluation content was sent to OpenRouter or an
+external Codex judge.
+
 Do not combine auxiliary tasks until each single-task result is recorded. A
 combination is a new lever and must use a controlled dose, with the same
 contamination boundary and a fresh manifest.
