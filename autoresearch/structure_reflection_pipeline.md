@@ -55,3 +55,19 @@ Reflection proportion is a follow-up sweep, not a simultaneous combination.
 Only the best individual reflection format can advance to a token-matched
 5% / 10% / 20% proportion test.
 
+## Phase 18 result
+
+The individual pilots are complete. Every candidate improved its local native
+validation score, but every candidate regressed the frozen English MCQ anchor
+relative to v5clean (`-0.7752`). The best closed-book candidate was preserved
+multi-turn at `-1.7036`; it remained `-0.9284` below the anchor. The strongest
+native reflection gain was answer-audit, whose token-F1 rose from `0.4185` to
+`0.5993`, but its MCQ primary fell to `-1.7892`.
+
+Because no individual format passed the no-English-regression gate, the
+token-matched reflection-proportion sweep is locked pending a materially
+different recipe. The phase also does not claim a step-back result: the source
+audit found no explicit step-back examples.
+
+See `autoresearch/structure_reflection_results.md` for the complete table and
+disposition.
