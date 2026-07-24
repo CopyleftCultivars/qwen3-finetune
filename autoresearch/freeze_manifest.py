@@ -107,6 +107,22 @@ FROZEN_PATHS = [
         "paired free-form dev generation/rubric evaluation orchestrator",
     ),
     FrozenPath(
+        "scripts/build_verification_target.py",
+        "frozen proposed-answer verification source builder and contamination audit",
+    ),
+    FrozenPath(
+        "scripts/build_verification_lever_dataset.py",
+        "frozen proposed-answer verification composition builder",
+    ),
+    FrozenPath(
+        "scripts/score_verification_target.py",
+        "frozen proposed-answer verification validation scorer",
+    ),
+    FrozenPath(
+        "autoresearch/configs/phase20-verification/p20-proposed-answer-audit.yaml",
+        "frozen phase-20 verification lever recipe",
+    ),
+    FrozenPath(
         "autoresearch/jspace_annotator.py",
         "frozen J-space diagnostic annotator code; proposer guidance only",
     ),

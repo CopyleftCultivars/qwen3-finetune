@@ -6,6 +6,11 @@
       "note": "frozen guardrail-input assembly code feeding the gate",
       "sha256": "c3db754ba9059769cf173d9b6ed766b4728bd6d2ce497a77a49aad06bbae8d67"
     },
+    "autoresearch/configs/phase20-verification/p20-proposed-answer-audit.yaml": {
+      "kind": "file",
+      "note": "frozen phase-20 verification lever recipe",
+      "sha256": "a2dce4407c474d5aecb22e95b7268092c0de28ae6830a7c45645545ca8eb967d"
+    },
     "autoresearch/gate.py": {
       "kind": "file",
       "note": "frozen accept/reject/pause gate code",
@@ -39,7 +44,7 @@
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "8441db27e2823ba9f60eafdd6ea5bb6784bdd9a05928f250fec784739ad32cc6"
+      "sha256": "107b8c85fa3b0dab7dca344247a4b337372983028515ad2d00311e0a23047566"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -120,7 +125,22 @@
       "kind": "file",
       "note": "sealed free-form test split; grade exactly once at final evaluation",
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
+    },
+    "scripts/build_verification_lever_dataset.py": {
+      "kind": "file",
+      "note": "frozen proposed-answer verification composition builder",
+      "sha256": "ec699b7a2f5add479e043613773c54b6255efff11a7694cc3f14f317afc45f4a"
+    },
+    "scripts/build_verification_target.py": {
+      "kind": "file",
+      "note": "frozen proposed-answer verification source builder and contamination audit",
+      "sha256": "cdb9ac4d361c4a73a7063ae38d99ea5de90f67747d45ee1bdb0683593f5720ae"
+    },
+    "scripts/score_verification_target.py": {
+      "kind": "file",
+      "note": "frozen proposed-answer verification validation scorer",
+      "sha256": "7aea97ebab46ab060b97ef5435da7efc940314ba7d2ca35eb30596ecf8d57be4"
     }
   },
-  "generated_at": "2026-07-24T21:02:02+00:00"
+  "generated_at": "2026-07-24T21:20:55+00:00"
 }
