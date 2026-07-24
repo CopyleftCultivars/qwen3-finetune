@@ -132,7 +132,7 @@ def main() -> int:
         "dataset": str(args.dataset.resolve()),
         "count": len(scored),
         "aggregate": aggregate,
-        "proposed_answer_distribution": dict(sorted(Counter(row["expected_answer"] for row in rows).items())),
+        "correct_answer_distribution": dict(sorted(Counter(row["correct_answer"] for row in rows).items())),
         "items": scored,
         "sealed_test_paths_read": [],
     }
