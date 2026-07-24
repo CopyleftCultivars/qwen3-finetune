@@ -1,0 +1,182 @@
+{
+  "format": "spanish_training_format_audit_v1",
+  "model": "outputs/merged-model-p6-lr5e5-r2",
+  "max_seq_len": 2048,
+  "canonical": {
+    "mcq_train": {
+      "count": 768,
+      "language_es_count": 768,
+      "messages_shape_valid": true,
+      "unique_source_ids": 192,
+      "answer_surface_valid_count": 768
+    },
+    "mcq_validation": {
+      "count": 88,
+      "language_es_count": 88,
+      "messages_shape_valid": true,
+      "unique_source_ids": 22,
+      "answer_surface_valid_count": 88
+    },
+    "freeform_train": {
+      "count": 192,
+      "language_es_count": 192,
+      "messages_shape_valid": true,
+      "unique_source_ids": 192,
+      "answer_surface_valid_count": null
+    },
+    "freeform_validation": {
+      "count": 22,
+      "language_es_count": 22,
+      "messages_shape_valid": true,
+      "unique_source_ids": 22,
+      "answer_surface_valid_count": null
+    }
+  },
+  "canonical_token_stats": {
+    "mcq_train": {
+      "count": 768,
+      "mean_tokens": 296.4609375,
+      "p50_tokens": 296.0,
+      "p95_tokens": 363.0,
+      "p99_tokens": 399.0,
+      "max_tokens": 413,
+      "over_max_seq_len": 0,
+      "over_max_seq_len_fraction": 0.0
+    },
+    "mcq_validation": {
+      "count": 88,
+      "mean_tokens": 295.3636363636364,
+      "p50_tokens": 292.0,
+      "p95_tokens": 354.0,
+      "p99_tokens": 366.0,
+      "max_tokens": 366,
+      "over_max_seq_len": 0,
+      "over_max_seq_len_fraction": 0.0
+    },
+    "freeform_train": {
+      "count": 192,
+      "mean_tokens": 256.71875,
+      "p50_tokens": 254.0,
+      "p95_tokens": 322.0,
+      "p99_tokens": 344.0,
+      "max_tokens": 354,
+      "over_max_seq_len": 0,
+      "over_max_seq_len_fraction": 0.0
+    },
+    "freeform_validation": {
+      "count": 22,
+      "mean_tokens": 259.1818181818182,
+      "p50_tokens": 257.0,
+      "p95_tokens": 300.0,
+      "p99_tokens": 303.0,
+      "max_tokens": 324,
+      "over_max_seq_len": 0,
+      "over_max_seq_len_fraction": 0.0
+    }
+  },
+  "canonical_train_validation_source_id_overlap": [],
+  "variants": {
+    "english_only": {
+      "train_path": "data/train_p6lrr2_strict_clean.jsonl",
+      "validation_path": "data/val_p6lrr2_strict_clean.jsonl",
+      "train": {
+        "count": 4396,
+        "mean_tokens": 412.04686078252956,
+        "p50_tokens": 210.0,
+        "p95_tokens": 1173.0,
+        "p99_tokens": 1563.0,
+        "max_tokens": 3645,
+        "over_max_seq_len": 7,
+        "over_max_seq_len_fraction": 0.0015923566878980893
+      },
+      "validation": {
+        "count": 489,
+        "mean_tokens": 440.59100204498975,
+        "p50_tokens": 228.0,
+        "p95_tokens": 1234.0,
+        "p99_tokens": 1584.0,
+        "max_tokens": 1952,
+        "over_max_seq_len": 0,
+        "over_max_seq_len_fraction": 0.0
+      }
+    },
+    "mcq_only": {
+      "train_path": "data/spanish_debug/mcq_only/train.jsonl",
+      "validation_path": "data/spanish_debug/mcq_only/validation.jsonl",
+      "train": {
+        "count": 5164,
+        "mean_tokens": 394.856700232378,
+        "p50_tokens": 255.0,
+        "p95_tokens": 1136.0,
+        "p99_tokens": 1533.0,
+        "max_tokens": 3645,
+        "over_max_seq_len": 7,
+        "over_max_seq_len_fraction": 0.0013555383423702555
+      },
+      "validation": {
+        "count": 577,
+        "mean_tokens": 418.4419410745234,
+        "p50_tokens": 280.0,
+        "p95_tokens": 1181.0,
+        "p99_tokens": 1563.0,
+        "max_tokens": 1952,
+        "over_max_seq_len": 0,
+        "over_max_seq_len_fraction": 0.0
+      }
+    },
+    "freeform_only": {
+      "train_path": "data/spanish_debug/freeform_only/train.jsonl",
+      "validation_path": "data/spanish_debug/freeform_only/validation.jsonl",
+      "train": {
+        "count": 4588,
+        "mean_tokens": 405.54664341761116,
+        "p50_tokens": 216.0,
+        "p95_tokens": 1162.0,
+        "p99_tokens": 1548.0,
+        "max_tokens": 3645,
+        "over_max_seq_len": 7,
+        "over_max_seq_len_fraction": 0.0015257192676547515
+      },
+      "validation": {
+        "count": 511,
+        "mean_tokens": 432.7808219178082,
+        "p50_tokens": 236.0,
+        "p95_tokens": 1223.0,
+        "p99_tokens": 1563.0,
+        "max_tokens": 1952,
+        "over_max_seq_len": 0,
+        "over_max_seq_len_fraction": 0.0
+      }
+    },
+    "mixed_10pct": {
+      "train_path": "data/spanish_debug/mixed_10pct/train.jsonl",
+      "validation_path": "data/spanish_debug/mixed_10pct/validation.jsonl",
+      "train": {
+        "count": 4491,
+        "mean_tokens": 409.49521264751723,
+        "p50_tokens": 213.0,
+        "p95_tokens": 1166.0,
+        "p99_tokens": 1562.0,
+        "max_tokens": 3645,
+        "over_max_seq_len": 7,
+        "over_max_seq_len_fraction": 0.0015586729013582722
+      },
+      "validation": {
+        "count": 499,
+        "mean_tokens": 438.0080160320641,
+        "p50_tokens": 233.0,
+        "p95_tokens": 1234.0,
+        "p99_tokens": 1584.0,
+        "max_tokens": 1952,
+        "over_max_seq_len": 0,
+        "over_max_seq_len_fraction": 0.0
+      }
+    }
+  },
+  "conclusion": {
+    "spanish_canonical_structure_pass": true,
+    "spanish_mcq_answer_surface_pass": true,
+    "source_split_disjoint": true,
+    "truncation_requires_followup": true
+  }
+}
