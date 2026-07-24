@@ -16,6 +16,15 @@ def load_module(name: str, relative_path: str):
 
 
 class CropAuxiliaryPipelineTests(unittest.TestCase):
+    def test_task_metrics_cover_json_and_text_quality(self):
+        module = load_module("auxiliary_scorer", "scripts/score_auxiliary_validation.py")
+        structured = module.task_metrics("structured_extraction", '{"a": 1}', '{"a": 1}')
+        self.assertTrue(structured["json_valid"])
+        self.assertTrue(structured["exact_json"])
+        self.assertEqual(structured["json_token_f1"], 1.0)
+        summary = module.task_metrics("summarization", "a useful answer", "a useful answer")
+        self.assertEqual(summary["token_f1"], 1.0)
+
     def test_auxiliary_task_manifests_have_equal_pilot_dose_and_clean_splits(self):
         tasks = ("summarization", "ner", "structured_extraction", "open_book_qa")
         summaries = []
