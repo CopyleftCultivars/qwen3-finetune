@@ -156,6 +156,27 @@ def _auxiliary_compose_argv(args: argparse.Namespace) -> list[str]:
     ]
 
 
+def _structured_compose_argv(args: argparse.Namespace) -> list[str]:
+    return [
+        sys.executable,
+        "scripts/build_structured_lever_dataset.py",
+        "--base-train",
+        args.structured_base_train,
+        "--base-validation",
+        args.structured_base_validation,
+        "--structure-task",
+        args.structured_task,
+        "--source-train",
+        args.structured_source_train,
+        "--source-validation",
+        args.structured_source_validation,
+        "--source-manifest",
+        args.structured_manifest,
+        "--output-root",
+        str(Path(args.prepared_train_data).parent),
+    ]
+
+
 def _cloze_commands(args: argparse.Namespace) -> list[list[str]]:
     """Return the reproducible cloze generation/audit preflight commands."""
     if not args.cloze_conversations:
@@ -491,6 +512,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--auxiliary-source-train", default=None, metavar="PATH")
     parser.add_argument("--auxiliary-source-validation", default=None, metavar="PATH")
     parser.add_argument(
+        "--structured-task",
+        choices=("none", "multiturn", "flattened_control", "interrupted_counterfactual", "answer_audit"),
+        default="none",
+        help="Bookkeeping label for a preserved multi-turn or reflection lever",
+    )
+    parser.add_argument("--structured-manifest", default=None, metavar="PATH")
+    parser.add_argument("--structured-base-train", default=None, metavar="PATH")
+    parser.add_argument("--structured-base-validation", default=None, metavar="PATH")
+    parser.add_argument("--structured-source-train", default=None, metavar="PATH")
+    parser.add_argument("--structured-source-validation", default=None, metavar="PATH")
+    parser.add_argument(
         "--adversarial-refusals",
         default=None,
         help="Reviewed adversarial-refusal JSONL to add as a separate source",
@@ -720,6 +752,8 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
     if any(path is not None for path in prepared) and not all(path is not None for path in prepared):
         parser.error("--prepared-train-data and --prepared-val-data must be supplied together")
     if args.auxiliary_task != "none":
+        if args.structured_task != "none":
+            parser.error("--auxiliary-task and --structured-task are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("an auxiliary task requires prepared train/validation data")
         if not args.auxiliary_manifest:
@@ -735,6 +769,44 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         for path in auxiliary_inputs:
             if not Path(path).exists():
                 parser.error(f"auxiliary input not found: {path}")
+    if args.structured_task != "none":
+        if not all(path is not None for path in prepared):
+            parser.error("a structured task requires prepared train/validation data")
+        if not args.structured_manifest:
+            parser.error("a structured task requires --structured-manifest")
+        structured_inputs = (
+            args.structured_base_train,
+            args.structured_base_validation,
+            args.structured_source_train,
+            args.structured_source_validation,
+        )
+        if not all(path is not None for path in structured_inputs):
+            parser.error("a structured task requires base and source train/validation paths")
+        for path in structured_inputs:
+            if not Path(path).exists():
+                parser.error(f"structured input not found: {path}")
+        structured_manifest_path = Path(args.structured_manifest)
+        if not structured_manifest_path.exists():
+            parser.error(f"structured manifest not found: {structured_manifest_path}")
+        try:
+            structured_manifest = json.loads(structured_manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid structured manifest {structured_manifest_path}: {exc}")
+        if structured_manifest.get("task") != args.structured_task:
+            parser.error("structured manifest task does not match --structured-task")
+        if structured_manifest.get("training_allowed") is not True:
+            parser.error("structured manifest is not training-allowed")
+    elif any(
+        value is not None
+        for value in (
+            args.structured_manifest,
+            args.structured_base_train,
+            args.structured_base_validation,
+            args.structured_source_train,
+            args.structured_source_validation,
+        )
+    ):
+        parser.error("structured dataset paths require --structured-task")
     if args.auxiliary_manifest:
         manifest_path = Path(args.auxiliary_manifest)
         if not manifest_path.exists():
@@ -793,7 +865,9 @@ def main() -> None:
         args.qmd_mcq = str(_jspace_select(args))
 
     commands = _cloze_commands(args)
-    if args.auxiliary_task != "none":
+    if args.structured_task != "none":
+        commands.append(_structured_compose_argv(args))
+    elif args.auxiliary_task != "none":
         commands.append(_auxiliary_compose_argv(args))
     elif not args.prepared_train_data:
         commands.append(_prepare_argv(args))

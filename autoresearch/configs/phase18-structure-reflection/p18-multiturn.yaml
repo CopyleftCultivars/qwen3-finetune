@@ -1,0 +1,52 @@
+schema_version: 1
+
+# Preserve genuine multi-turn source structure. The source stream is fixed at
+# 140 train / 40 validation items; all other v5clean settings are unchanged.
+run_name: p18-multiturn
+dataset_suffix: _p18multiturn
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+training_seed: 42
+split: 0.78
+min_output_chars: 10
+max_total_chars: 8192
+
+conversations:
+qmd_mcq:
+prepared_train_data: data/structured_levers/multiturn/train.jsonl
+prepared_val_data: data/structured_levers/multiturn/validation.jsonl
+structured_task: multiturn
+structured_manifest: data/multiturn_reflection/multiturn/manifest.json
+structured_base_train: data/train_p6lrr2_strict_clean.jsonl
+structured_base_validation: data/val_p6lrr2_strict_clean.jsonl
+structured_source_train: data/multiturn_reflection/multiturn/train.jsonl
+structured_source_validation: data/multiturn_reflection/multiturn/validation.jsonl
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
+conversation_ratio:
+target_permutation_ids:
+sft_format: bare-letter
+synth_item_count:
+chat_template_variant: hardcoded-v1
+train_order: shuffled
+
+model: unsloth/Qwen3-0.6B
+merge_base: Qwen/Qwen3-0.6B
+merge_dtype: float16
+force_peft: false
+wandb: false
+resume: false
