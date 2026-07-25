@@ -1,0 +1,80 @@
+{
+  "authoring_method": "deterministic_context_bundle_v1",
+  "benchmark_audit": {
+    "benchmark": "[LOCAL_PATH]",
+    "benchmark_sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855",
+    "candidate_count": 320,
+    "clean_count": 320,
+    "format": "open_book_grounded_source_audit_v1",
+    "maximum_instruction_benchmark_token_jaccard": 0.085106,
+    "notes": [
+      "The audit checks the instruction/context surface against the open English MCQ dev proxy.",
+      "Semantic independence from the benchmark's source documents is not claimed.",
+      "The Spanish benchmark and all Spanish transfer files are evaluation-only and were not read."
+    ],
+    "passed": true,
+    "rejected": [],
+    "rejected_count": 0,
+    "sealed_test_paths_read": [],
+    "source": "[LOCAL_PATH]",
+    "source_sha256": "8aca0263fc07cd905074eaf8be4964a328e1abd2e0b06addb73b0d98e051bdff"
+  },
+  "format": "open_book_grounded_source_manifest_v1",
+  "language": "en",
+  "notes": [
+    "Every context bundle has one answer-bearing record and two same-split hard negatives.",
+    "No previous auxiliary, reflection, verification, distractor-quality, general-replay, or Spanish stream is included.",
+    "This source tests context-conditioned answering; it is not a replacement for the closed-book MCQ primary."
+  ],
+  "sealed_test_paths_read": [],
+  "source_files": {
+    "crop_requirement": {
+      "path": "[LOCAL_PATH]",
+      "sha256": "5a85ec677eddf6ce9d7cef3d3edeb15ccd5395191b9c4c0ae849d42de6f89559"
+    },
+    "mineral_profile": {
+      "path": "[LOCAL_PATH]",
+      "sha256": "9fc39ee96cc633154f693d94bd17196e1b03d568181c9837d3bab7f7ffea2787"
+    },
+    "recipe": {
+      "path": "[LOCAL_PATH]",
+      "sha256": "a09340679a7a184be12f7e1fb74b060e2ec9a3a066970092112a1e57d32c0514"
+    },
+    "regional_plants": {
+      "path": "[LOCAL_PATH]",
+      "sha256": "83e4b6eea01ee283983384ab1d0f4eb92d57507f4f54fc2cac3332a13804ac17"
+    }
+  },
+  "source_root": "[LOCAL_PATH]",
+  "split": {
+    "seed": 42,
+    "train_source_document_count": 719,
+    "train_validation_source_overlap": [],
+    "validation_fraction": 0.2,
+    "validation_source_document_count": 179
+  },
+  "task": "open_book_grounded",
+  "train": {
+    "count": 256,
+    "path": "[LOCAL_PATH]",
+    "sha256": "650fd90920205806fb3068daaf5342d3c3fabfd01f631330e64dd0a0e3ae247e",
+    "source_kind_counts": {
+      "crop_requirement": 78,
+      "mineral_profile": 84,
+      "recipe": 11,
+      "regional_plants": 83
+    }
+  },
+  "training_allowed": true,
+  "validation": {
+    "count": 64,
+    "path": "[LOCAL_PATH]",
+    "sha256": "7960fa331ef418e9e84f17c323c8a0c4062555b3d41f96046e9dab0ee1bb858f",
+    "source_kind_counts": {
+      "crop_requirement": 19,
+      "mineral_profile": 21,
+      "recipe": 3,
+      "regional_plants": 21
+    }
+  }
+}

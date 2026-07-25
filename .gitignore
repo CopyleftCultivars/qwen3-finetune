@@ -93,6 +93,10 @@ data/general_replay/
 data/sources/general_instruction/*/raw_*.jsonl
 data/verification_levers/
 
+# Phase 22 context-grounded compositions are rebuilt from the audited source
+# and strict v5clean base immediately before training.
+data/open_book_grounded_levers/
+
 # Distractor-quality MCQ compositions and authoring/judge intermediates are
 # regenerated from the checked-in clean source, manifest, and compact audit
 # summary. Keep the final train/validation source files tracked.
@@ -116,6 +120,7 @@ results/general_instruction_validation_*.json
 results/freeform_eval_*.json
 results/freeform_eval_*/
 results/verification_target_validation_*.json
+results/open_book_grounded_validation_*.json
 results/qmd_mcq_distractor_quality_*.json
 !results/qmd_mcq_distractor_quality_source_audit.json
 results/freeform_candidates_*.jsonl
