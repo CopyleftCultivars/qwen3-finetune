@@ -1,0 +1,20 @@
+{
+  "count": 170,
+  "errors": [],
+  "external_content_transmission": true,
+  "format": "distractor_quality_judge_report_v1",
+  "input": "[LOCAL_PATH]",
+  "judge_category": "conversations",
+  "judge_model": "anthropic/claude-haiku-4.5",
+  "output": "[LOCAL_PATH]",
+  "sealed_test_paths_read": [],
+  "thresholds": {
+    "keep": 4.0,
+    "review": 3.0
+  },
+  "verdict_counts": {
+    "keep": 62,
+    "reject": 1,
+    "review": 107
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "audit_report_path": "[LOCAL_PATH]",
+  "audit_report_sha256": "478e6431deb79c5ac55007c2b7c614e2299c7d33612abc2f1b86c3afb9601a7c",
+  "benchmark_path": "[LOCAL_PATH]",
+  "expanded_train_count": 212,
+  "expanded_train_letter_counts": {
+    "A": 53,
+    "B": 53,
+    "C": 53,
+    "D": 53
+  },
+  "expanded_validation_count": 36,
+  "expanded_validation_letter_counts": {
+    "A": 9,
+    "B": 9,
+    "C": 9,
+    "D": 9
+  },
+  "format": "distractor_quality_source_manifest_v1",
+  "judged_path": "[LOCAL_PATH]",
+  "judged_sha256": "1aed98b048b81ff80c8127724b51bd480a892e4fc99f2f15eecad2772e59d29c",
+  "language": "en",
+  "notes": [
+    "Only OpenRouter-judge keep rows are included; review and reject rows are excluded.",
+    "Each source question receives four equal cyclic rotations, making this added stream exactly A/B/C/D balanced.",
+    "The strict English v5clean base remains a separate, unchanged input to the composed training dataset.",
+    "No Spanish benchmark or sealed evaluation path was read."
+  ],
+  "quality_gate": {
+    "judge_model": "anthropic/claude-haiku-4.5",
+    "judge_verdict": "keep",
+    "judged_count": 170,
+    "kept_count": 62,
+    "minimum_composite": 4.0
+  },
+  "sealed_test_paths_read": [],
+  "source_answer_counts": {
+    "A": 3,
+    "B": 41,
+    "C": 17,
+    "D": 1
+  },
+  "source_train_question_count": 53,
+  "source_train_validation_overlap": [],
+  "source_validation_question_count": 9,
+  "task": "mcq_distractor_quality",
+  "train_path": "[LOCAL_PATH]",
+  "train_sha256": "962c58ae92e322d61f3b5d38b0241098a8668807067f11fb007d02ae9993a47f",
+  "training_allowed": true,
+  "validation_path": "[LOCAL_PATH]",
+  "validation_sha256": "54e1e092905a5c63dcff6a729079be8431806195a7d07ecae4dc483c0fcf599d"
+}

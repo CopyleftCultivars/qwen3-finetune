@@ -198,6 +198,25 @@ def _verification_compose_argv(args: argparse.Namespace) -> list[str]:
     ]
 
 
+def _distractor_quality_compose_argv(args: argparse.Namespace) -> list[str]:
+    return [
+        sys.executable,
+        "scripts/build_distractor_quality_lever_dataset.py",
+        "--base-train",
+        args.distractor_quality_base_train,
+        "--base-validation",
+        args.distractor_quality_base_validation,
+        "--source-train",
+        args.distractor_quality_source_train,
+        "--source-validation",
+        args.distractor_quality_source_validation,
+        "--source-manifest",
+        args.distractor_quality_manifest,
+        "--output-root",
+        str(Path(args.prepared_train_data).parent),
+    ]
+
+
 def _general_replay_compose_argv(args: argparse.Namespace) -> list[str]:
     return [
         sys.executable,
@@ -578,6 +597,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--verification-source-train", default=None, metavar="PATH")
     parser.add_argument("--verification-source-validation", default=None, metavar="PATH")
     parser.add_argument(
+        "--distractor-quality-task",
+        choices=("none", "mcq_distractor_quality"),
+        default="none",
+        help="Bookkeeping label for the isolated MCQ distractor-quality lever",
+    )
+    parser.add_argument("--distractor-quality-manifest", default=None, metavar="PATH")
+    parser.add_argument("--distractor-quality-base-train", default=None, metavar="PATH")
+    parser.add_argument("--distractor-quality-base-validation", default=None, metavar="PATH")
+    parser.add_argument("--distractor-quality-source-train", default=None, metavar="PATH")
+    parser.add_argument("--distractor-quality-source-validation", default=None, metavar="PATH")
+    parser.add_argument(
         "--general-replay-ratio",
         type=float,
         default=None,
@@ -820,6 +850,19 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
     prepared = (args.prepared_train_data, args.prepared_val_data)
     if any(path is not None for path in prepared) and not all(path is not None for path in prepared):
         parser.error("--prepared-train-data and --prepared-val-data must be supplied together")
+    active_tasks = [
+        name
+        for name, active in (
+            ("auxiliary", args.auxiliary_task != "none"),
+            ("structured", args.structured_task != "none"),
+            ("verification", args.verification_task != "none"),
+            ("distractor_quality", args.distractor_quality_task != "none"),
+            ("general_replay", args.general_replay_ratio is not None),
+        )
+        if active
+    ]
+    if len(active_tasks) > 1:
+        parser.error("auxiliary, structured, verification, distractor-quality, and general-replay tasks are mutually exclusive")
     if args.auxiliary_task != "none":
         if args.structured_task != "none" or args.verification_task != "none" or args.general_replay_ratio is not None:
             parser.error("auxiliary, structured, verification, and general-replay tasks are mutually exclusive")
@@ -879,8 +922,6 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
     ):
         parser.error("structured dataset paths require --structured-task")
     if args.verification_task != "none":
-        if args.structured_task != "none" or args.general_replay_ratio is not None:
-            parser.error("verification, structured, and general-replay tasks are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("a verification task requires prepared train/validation data")
         if not args.verification_manifest:
@@ -918,9 +959,45 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         )
     ):
         parser.error("verification dataset paths require --verification-task")
+    if args.distractor_quality_task != "none":
+        if not all(path is not None for path in prepared):
+            parser.error("a distractor-quality task requires prepared train/validation data")
+        if not args.distractor_quality_manifest:
+            parser.error("a distractor-quality task requires --distractor-quality-manifest")
+        distractor_inputs = (
+            args.distractor_quality_base_train,
+            args.distractor_quality_base_validation,
+            args.distractor_quality_source_train,
+            args.distractor_quality_source_validation,
+        )
+        if not all(path is not None for path in distractor_inputs):
+            parser.error("a distractor-quality task requires base and source train/validation paths")
+        for path in distractor_inputs:
+            if not Path(path).exists():
+                parser.error(f"distractor-quality input not found: {path}")
+        manifest_path = Path(args.distractor_quality_manifest)
+        if not manifest_path.exists():
+            parser.error(f"distractor-quality manifest not found: {manifest_path}")
+        try:
+            distractor_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid distractor-quality manifest {manifest_path}: {exc}")
+        if distractor_manifest.get("task") != args.distractor_quality_task:
+            parser.error("distractor-quality manifest task does not match --distractor-quality-task")
+        if distractor_manifest.get("training_allowed") is not True:
+            parser.error("distractor-quality manifest is not training-allowed")
+    elif any(
+        value is not None
+        for value in (
+            args.distractor_quality_manifest,
+            args.distractor_quality_base_train,
+            args.distractor_quality_base_validation,
+            args.distractor_quality_source_train,
+            args.distractor_quality_source_validation,
+        )
+    ):
+        parser.error("distractor-quality dataset paths require --distractor-quality-task")
     if args.general_replay_ratio is not None:
-        if args.verification_task != "none":
-            parser.error("general-replay and verification tasks are mutually exclusive")
         if not all(path is not None for path in prepared):
             parser.error("general replay requires prepared train/validation data paths")
         if not args.general_replay_manifest:
@@ -1020,6 +1097,8 @@ def main() -> None:
         commands.append(_structured_compose_argv(args))
     elif args.verification_task != "none":
         commands.append(_verification_compose_argv(args))
+    elif args.distractor_quality_task != "none":
+        commands.append(_distractor_quality_compose_argv(args))
     elif args.auxiliary_task != "none":
         commands.append(_auxiliary_compose_argv(args))
     elif not args.prepared_train_data:
