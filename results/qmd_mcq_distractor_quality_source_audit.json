@@ -1,0 +1,83 @@
+{
+  "answer_counts": {
+    "A": 11,
+    "B": 100,
+    "C": 53,
+    "D": 6
+  },
+  "base_exact_overlap_count": 0,
+  "base_paths": [
+    "[LOCAL_PATH]"
+  ],
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_exact_overlap_count": 0,
+  "clean_count": 170,
+  "format": "distractor_quality_source_audit_v1",
+  "input": "[LOCAL_PATH]",
+  "input_count": 181,
+  "input_sha256": "f0634dabc16f2f9f1eee4a78dee2489ff3b3343d87f58f72c26a514282667fc2",
+  "notes": [
+    "This is a source-level structural and exact-overlap audit; semantic quality is judged separately.",
+    "Final target-letter balance is supplied by the existing cyclic-shift training builder."
+  ],
+  "rejected": [
+    {
+      "index": 3,
+      "question_id": "DQ-RA-TRAIN-0118",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 11,
+      "question_id": "DQ-AG-TRAIN-0022",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 21,
+      "question_id": "DQ-PC-TRAIN-0013",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 22,
+      "question_id": "DQ-ITK-TRAIN-0005",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 27,
+      "question_id": "DQ-OF-TRAIN-0019",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 33,
+      "question_id": "DQ-CONV-TRAIN-0122",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 92,
+      "question_id": "DQ-CONV-TRAIN-0042",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 93,
+      "question_id": "DQ-CONV-TRAIN-0116",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 94,
+      "question_id": "DQ-OF-TRAIN-0057",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 116,
+      "question_id": "DQ-IFS-TRAIN-0053",
+      "reason": "bare_letter_option"
+    },
+    {
+      "index": 161,
+      "question_id": "DQ-CONV-TRAIN-0030",
+      "reason": "bare_letter_option"
+    }
+  ],
+  "rejected_count": 11,
+  "sealed_test_paths_read": [],
+  "training_allowed": true
+}

@@ -123,6 +123,22 @@ FROZEN_PATHS = [
         "frozen phase-20 verification lever recipe",
     ),
     FrozenPath(
+        "scripts/audit_distractor_quality_source.py",
+        "frozen distractor-quality source contamination and structure audit",
+    ),
+    FrozenPath(
+        "scripts/build_distractor_quality_source.py",
+        "frozen judge-kept distractor-quality source formatter and split builder",
+    ),
+    FrozenPath(
+        "scripts/build_distractor_quality_lever_dataset.py",
+        "frozen distractor-quality composition builder",
+    ),
+    FrozenPath(
+        "autoresearch/configs/phase21-distractor-quality/p21-distractor-quality.yaml",
+        "frozen phase-21 distractor-quality lever recipe",
+    ),
+    FrozenPath(
         "autoresearch/jspace_annotator.py",
         "frozen J-space diagnostic annotator code; proposer guidance only",
     ),

@@ -11,6 +11,11 @@
       "note": "frozen phase-20 verification lever recipe",
       "sha256": "a2dce4407c474d5aecb22e95b7268092c0de28ae6830a7c45645545ca8eb967d"
     },
+    "autoresearch/configs/phase21-distractor-quality/p21-distractor-quality.yaml": {
+      "kind": "file",
+      "note": "frozen phase-21 distractor-quality lever recipe",
+      "sha256": "34192e0f97b772747266f1e95334bccbac253708870beefbcadd9d3289e384d2"
+    },
     "autoresearch/gate.py": {
       "kind": "file",
       "note": "frozen accept/reject/pause gate code",
@@ -44,7 +49,7 @@
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "67906aeda8d9ea28b5b1ac0a69962fbe0a58614996b5f3cd0c095ae2a51ba804"
+      "sha256": "4a905c5f0b38e73ee45157bf315d85decbb6e188122fd187133706daa730e883"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -126,6 +131,21 @@
       "note": "sealed free-form test split; grade exactly once at final evaluation",
       "sha256": "8096b58d0ea6eb6c36da2e4a7a55433323df87aa5db63b25ee9c12f66ed27bdb"
     },
+    "scripts/audit_distractor_quality_source.py": {
+      "kind": "file",
+      "note": "frozen distractor-quality source contamination and structure audit",
+      "sha256": "1d7018f78c826a4857ca10e3888709574fb45362487355538eed9418e16c5836"
+    },
+    "scripts/build_distractor_quality_lever_dataset.py": {
+      "kind": "file",
+      "note": "frozen distractor-quality composition builder",
+      "sha256": "49376dabcb848f48f6d3756bac6904ce47e9561278c06fed608322e83dfc9a3a"
+    },
+    "scripts/build_distractor_quality_source.py": {
+      "kind": "file",
+      "note": "frozen judge-kept distractor-quality source formatter and split builder",
+      "sha256": "6b49a79cf5818c6b85999a5283abb3716e2862fcbf5617cb977bc98784d17f1f"
+    },
     "scripts/build_verification_lever_dataset.py": {
       "kind": "file",
       "note": "frozen proposed-answer verification composition builder",
@@ -142,5 +162,5 @@
       "sha256": "21845560329b947586b23af5cad88360d617ddb800c56ac1ec809d89520e082a"
     }
   },
-  "generated_at": "2026-07-24T22:12:55+00:00"
+  "generated_at": "2026-07-25T03:51:20+00:00"
 }
