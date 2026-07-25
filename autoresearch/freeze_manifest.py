@@ -139,6 +139,22 @@ FROZEN_PATHS = [
         "frozen phase-21 distractor-quality lever recipe",
     ),
     FrozenPath(
+        "scripts/build_open_book_grounded_source.py",
+        "frozen Phase 22 context-grounded source builder and contamination audit",
+    ),
+    FrozenPath(
+        "scripts/build_open_book_grounded_lever_dataset.py",
+        "frozen Phase 22 context-grounded composition builder",
+    ),
+    FrozenPath(
+        "scripts/score_open_book_grounded.py",
+        "frozen Phase 22 context-grounded validation scorer",
+    ),
+    FrozenPath(
+        "autoresearch/configs/phase22-open-book-grounded/p22-open-book-grounded.yaml",
+        "frozen Phase 22 context-grounded open-book recipe",
+    ),
+    FrozenPath(
         "autoresearch/jspace_annotator.py",
         "frozen J-space diagnostic annotator code; proposer guidance only",
     ),

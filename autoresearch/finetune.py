@@ -217,6 +217,25 @@ def _distractor_quality_compose_argv(args: argparse.Namespace) -> list[str]:
     ]
 
 
+def _grounded_compose_argv(args: argparse.Namespace) -> list[str]:
+    return [
+        sys.executable,
+        "scripts/build_open_book_grounded_lever_dataset.py",
+        "--base-train",
+        args.grounded_base_train,
+        "--base-validation",
+        args.grounded_base_validation,
+        "--source-train",
+        args.grounded_source_train,
+        "--source-validation",
+        args.grounded_source_validation,
+        "--source-manifest",
+        args.grounded_manifest,
+        "--output-root",
+        str(Path(args.prepared_train_data).parent),
+    ]
+
+
 def _general_replay_compose_argv(args: argparse.Namespace) -> list[str]:
     return [
         sys.executable,
@@ -608,6 +627,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--distractor-quality-source-train", default=None, metavar="PATH")
     parser.add_argument("--distractor-quality-source-validation", default=None, metavar="PATH")
     parser.add_argument(
+        "--grounded-task",
+        choices=("none", "open_book_grounded"),
+        default="none",
+        help="Bookkeeping label for the isolated context-grounded open-book lever",
+    )
+    parser.add_argument("--grounded-manifest", default=None, metavar="PATH")
+    parser.add_argument("--grounded-base-train", default=None, metavar="PATH")
+    parser.add_argument("--grounded-base-validation", default=None, metavar="PATH")
+    parser.add_argument("--grounded-source-train", default=None, metavar="PATH")
+    parser.add_argument("--grounded-source-validation", default=None, metavar="PATH")
+    parser.add_argument(
         "--general-replay-ratio",
         type=float,
         default=None,
@@ -857,12 +887,13 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
             ("structured", args.structured_task != "none"),
             ("verification", args.verification_task != "none"),
             ("distractor_quality", args.distractor_quality_task != "none"),
+            ("grounded", args.grounded_task != "none"),
             ("general_replay", args.general_replay_ratio is not None),
         )
         if active
     ]
     if len(active_tasks) > 1:
-        parser.error("auxiliary, structured, verification, distractor-quality, and general-replay tasks are mutually exclusive")
+        parser.error("auxiliary, structured, verification, distractor-quality, grounded, and general-replay tasks are mutually exclusive")
     if args.auxiliary_task != "none":
         if args.structured_task != "none" or args.verification_task != "none" or args.general_replay_ratio is not None:
             parser.error("auxiliary, structured, verification, and general-replay tasks are mutually exclusive")
@@ -997,6 +1028,44 @@ def validate_args(args: argparse.Namespace, parser: argparse.ArgumentParser) -> 
         )
     ):
         parser.error("distractor-quality dataset paths require --distractor-quality-task")
+    if args.grounded_task != "none":
+        if not all(path is not None for path in prepared):
+            parser.error("a grounded task requires prepared train/validation data")
+        if not args.grounded_manifest:
+            parser.error("a grounded task requires --grounded-manifest")
+        grounded_inputs = (
+            args.grounded_base_train,
+            args.grounded_base_validation,
+            args.grounded_source_train,
+            args.grounded_source_validation,
+        )
+        if not all(path is not None for path in grounded_inputs):
+            parser.error("a grounded task requires base and source train/validation paths")
+        for path in grounded_inputs:
+            if not Path(path).exists():
+                parser.error(f"grounded input not found: {path}")
+        manifest_path = Path(args.grounded_manifest)
+        if not manifest_path.exists():
+            parser.error(f"grounded manifest not found: {manifest_path}")
+        try:
+            grounded_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            parser.error(f"invalid grounded manifest {manifest_path}: {exc}")
+        if grounded_manifest.get("task") != args.grounded_task:
+            parser.error("grounded manifest task does not match --grounded-task")
+        if grounded_manifest.get("training_allowed") is not True:
+            parser.error("grounded manifest is not training-allowed")
+    elif any(
+        value is not None
+        for value in (
+            args.grounded_manifest,
+            args.grounded_base_train,
+            args.grounded_base_validation,
+            args.grounded_source_train,
+            args.grounded_source_validation,
+        )
+    ):
+        parser.error("grounded dataset paths require --grounded-task")
     if args.general_replay_ratio is not None:
         if not all(path is not None for path in prepared):
             parser.error("general replay requires prepared train/validation data paths")
@@ -1099,6 +1168,8 @@ def main() -> None:
         commands.append(_verification_compose_argv(args))
     elif args.distractor_quality_task != "none":
         commands.append(_distractor_quality_compose_argv(args))
+    elif args.grounded_task != "none":
+        commands.append(_grounded_compose_argv(args))
     elif args.auxiliary_task != "none":
         commands.append(_auxiliary_compose_argv(args))
     elif not args.prepared_train_data:

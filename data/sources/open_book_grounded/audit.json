@@ -1,0 +1,19 @@
+{
+  "benchmark": "[LOCAL_PATH]",
+  "benchmark_sha256": "da6fd2c175dc33a518ebe1b96fd3bfe15e11c0b197da7920a1dd90c07b498855",
+  "candidate_count": 320,
+  "clean_count": 320,
+  "format": "open_book_grounded_source_audit_v1",
+  "maximum_instruction_benchmark_token_jaccard": 0.085106,
+  "notes": [
+    "The audit checks the instruction/context surface against the open English MCQ dev proxy.",
+    "Semantic independence from the benchmark's source documents is not claimed.",
+    "The Spanish benchmark and all Spanish transfer files are evaluation-only and were not read."
+  ],
+  "passed": true,
+  "rejected": [],
+  "rejected_count": 0,
+  "sealed_test_paths_read": [],
+  "source": "[LOCAL_PATH]",
+  "source_sha256": "8aca0263fc07cd905074eaf8be4964a328e1abd2e0b06addb73b0d98e051bdff"
+}

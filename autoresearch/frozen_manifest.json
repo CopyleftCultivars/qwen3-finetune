@@ -16,6 +16,11 @@
       "note": "frozen phase-21 distractor-quality lever recipe",
       "sha256": "34192e0f97b772747266f1e95334bccbac253708870beefbcadd9d3289e384d2"
     },
+    "autoresearch/configs/phase22-open-book-grounded/p22-open-book-grounded.yaml": {
+      "kind": "file",
+      "note": "frozen Phase 22 context-grounded open-book recipe",
+      "sha256": "a8ece07e34be1dd445b57a0caefec8765bec1af18170eefddb08f19cff34e1f9"
+    },
     "autoresearch/gate.py": {
       "kind": "file",
       "note": "frozen accept/reject/pause gate code",
@@ -49,7 +54,7 @@
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "bc886282a4e37e0eaec037454040d7f9ed788b2babaa9f1384e051dc3c0793a7"
+      "sha256": "f6faefc9ce3292fc91cac36fffb6c62775383cf57073c15d39b8e8a4bed5aed6"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -146,6 +151,16 @@
       "note": "frozen judge-kept distractor-quality source formatter and split builder",
       "sha256": "6b49a79cf5818c6b85999a5283abb3716e2862fcbf5617cb977bc98784d17f1f"
     },
+    "scripts/build_open_book_grounded_lever_dataset.py": {
+      "kind": "file",
+      "note": "frozen Phase 22 context-grounded composition builder",
+      "sha256": "22680bab1e6c3325350b88ce079612d932f580bcb844754b9af9d1817204a192"
+    },
+    "scripts/build_open_book_grounded_source.py": {
+      "kind": "file",
+      "note": "frozen Phase 22 context-grounded source builder and contamination audit",
+      "sha256": "fdb9ca0f6b51a48904903465391755adc14aa133d55b50fa358bae26c6ed3e72"
+    },
     "scripts/build_verification_lever_dataset.py": {
       "kind": "file",
       "note": "frozen proposed-answer verification composition builder",
@@ -156,11 +171,16 @@
       "note": "frozen proposed-answer verification source builder and contamination audit",
       "sha256": "cdb9ac4d361c4a73a7063ae38d99ea5de90f67747d45ee1bdb0683593f5720ae"
     },
+    "scripts/score_open_book_grounded.py": {
+      "kind": "file",
+      "note": "frozen Phase 22 context-grounded validation scorer",
+      "sha256": "4a176966bfe9637b9374caa20371f5263f33e515d887ef71a2487fa31a5b4040"
+    },
     "scripts/score_verification_target.py": {
       "kind": "file",
       "note": "frozen proposed-answer verification validation scorer",
       "sha256": "21845560329b947586b23af5cad88360d617ddb800c56ac1ec809d89520e082a"
     }
   },
-  "generated_at": "2026-07-25T05:03:06+00:00"
+  "generated_at": "2026-07-25T05:27:23+00:00"
 }
