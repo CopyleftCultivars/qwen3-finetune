@@ -55,3 +55,11 @@ then v5clean remains the champion.
 
 Training is monitored at least every 20 minutes for progress, loss/gradient
 health, GPU utilization/memory, NaN/OMP/OOM failures, and completion time.
+
+## Result
+
+The isolated run completed normally but was rejected. The candidate primary
+was `-2.2282` versus the v5clean anchor `-0.7752` (delta `-1.4531`), and the
+answer-bias guard also failed. Free-form dev quality improved modestly, but
+that secondary result cannot override the closed-book MCQ anchor. See
+`autoresearch/distractor_quality_results.md` for the complete comparison.

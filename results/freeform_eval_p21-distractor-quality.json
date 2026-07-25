@@ -1,0 +1,203 @@
+{
+  "baseline": {
+    "anchors": {
+      "anchor_count": 5,
+      "drift_alert_count": 0,
+      "max_abs_drift": 0.0,
+      "path": "results/freeform_eval_freeform-p21-distractor-quality/baseline_anchor_report.json"
+    },
+    "generation": "results/freeform_eval_freeform-p21-distractor-quality/baseline_candidates.jsonl",
+    "model": "outputs/merged-model-p6-lr5e5-r2",
+    "refll": {
+      "chat_template_used": true,
+      "legacy_non_gating": false,
+      "mean_reference_logprob_per_token": -3.6668481133472968,
+      "path": "results/freeform_eval_freeform-p21-distractor-quality/baseline_refll.json",
+      "prompt_mode": "chat_assistant_reference_v1",
+      "scored_items": 90
+    },
+    "rubric": {
+      "by_type_percent": {
+        "constraint_satisfaction": 45.77777777777779,
+        "diagnostic_reasoning": 39.16666666666666,
+        "free_form_explanation": 26.05555555555556,
+        "multi_hop_factual": 65.3888888888889,
+        "quantitative": 53.94444444444445
+      },
+      "grader_models": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "item_count": 90,
+      "mean_weighted_score": 0.460666666666667,
+      "mock_grader": false,
+      "path": "results/freeform_eval_freeform-p21-distractor-quality/baseline_rubric.jsonl",
+      "percent": 46.0666666666667
+    }
+  },
+  "candidate": {
+    "anchors": {
+      "anchor_count": 5,
+      "drift_alert_count": 0,
+      "max_abs_drift": 0.0,
+      "path": "results/freeform_eval_freeform-p21-distractor-quality/candidate_anchor_report.json"
+    },
+    "generation": "results/freeform_eval_freeform-p21-distractor-quality/candidate_candidates.jsonl",
+    "model": "outputs/merged-model-p21-distractor-quality",
+    "refll": {
+      "chat_template_used": true,
+      "legacy_non_gating": false,
+      "mean_reference_logprob_per_token": -3.651480180850527,
+      "path": "results/freeform_eval_freeform-p21-distractor-quality/candidate_refll.json",
+      "prompt_mode": "chat_assistant_reference_v1",
+      "scored_items": 90
+    },
+    "rubric": {
+      "by_type_percent": {
+        "constraint_satisfaction": 50.77777777777778,
+        "diagnostic_reasoning": 38.61111111111111,
+        "free_form_explanation": 27.388888888888893,
+        "multi_hop_factual": 76.16666666666669,
+        "quantitative": 40.66666666666666
+      },
+      "grader_models": [
+        "anthropic/claude-haiku-4-5"
+      ],
+      "item_count": 90,
+      "mean_weighted_score": 0.46722222222222237,
+      "mock_grader": false,
+      "path": "results/freeform_eval_freeform-p21-distractor-quality/candidate_rubric.jsonl",
+      "percent": 46.722222222222236
+    }
+  },
+  "comparison": {
+    "anchor_max_abs_drift": 0.0,
+    "rubric_candidate_minus_baseline_percent_points": 0.6555555555555372,
+    "rubric_drop_percent_points": -0.6555555555555372
+  },
+  "dev_only": true,
+  "format": "freeform_paired_evaluation_report_v1",
+  "input": {
+    "path": "eval_freeform/dev.jsonl",
+    "selected_count": 90,
+    "selected_ids": [
+      "mhf_diverse_001",
+      "mhf_diverse_009",
+      "mhf_diverse_010",
+      "mhf_diverse_012",
+      "mhf_diverse_013",
+      "mhf_diverse_014",
+      "mhf_diverse_016",
+      "mhf_diverse_017",
+      "mhf_diverse_018",
+      "mhf_diverse_019",
+      "mhf_diverse_021",
+      "mhf_diverse_022",
+      "mhf_diverse_023",
+      "mhf_diverse_024",
+      "mhf_diverse_025",
+      "mhf_diverse_027",
+      "mhf_diverse_028",
+      "mhf_diverse_030",
+      "diag_diverse_003",
+      "diag_diverse_007",
+      "diag_diverse_008",
+      "diag_diverse_009",
+      "diag_diverse_011",
+      "diag_diverse_012",
+      "diag_diverse_013",
+      "diag_diverse_015",
+      "diag_diverse_016",
+      "diag_diverse_017",
+      "diag_diverse_020",
+      "diag_diverse_021",
+      "diag_diverse_022",
+      "diag_diverse_023",
+      "diag_diverse_024",
+      "diag_diverse_025",
+      "diag_diverse_028",
+      "diag_diverse_029",
+      "expl_diverse_001",
+      "expl_diverse_003",
+      "expl_diverse_006",
+      "expl_diverse_007",
+      "expl_diverse_008",
+      "expl_diverse_010",
+      "expl_diverse_011",
+      "expl_diverse_013",
+      "expl_diverse_014",
+      "expl_diverse_015",
+      "expl_diverse_016",
+      "expl_diverse_021",
+      "expl_diverse_022",
+      "expl_diverse_023",
+      "expl_diverse_024",
+      "expl_diverse_025",
+      "expl_diverse_026",
+      "expl_diverse_029",
+      "cons_diverse_006",
+      "cons_diverse_008",
+      "cons_diverse_009",
+      "cons_diverse_010",
+      "cons_diverse_012",
+      "cons_diverse_013",
+      "cons_diverse_014",
+      "cons_diverse_015",
+      "cons_diverse_016",
+      "cons_diverse_019",
+      "cons_diverse_020",
+      "cons_diverse_022",
+      "cons_diverse_023",
+      "cons_diverse_024",
+      "cons_diverse_025",
+      "cons_diverse_026",
+      "cons_diverse_027",
+      "cons_diverse_030",
+      "quant_diverse_001",
+      "quant_diverse_002",
+      "quant_diverse_003",
+      "quant_diverse_004",
+      "quant_diverse_005",
+      "quant_diverse_007",
+      "quant_diverse_009",
+      "quant_diverse_011",
+      "quant_diverse_012",
+      "quant_diverse_014",
+      "quant_diverse_016",
+      "quant_diverse_017",
+      "quant_diverse_018",
+      "quant_diverse_021",
+      "quant_diverse_022",
+      "quant_diverse_025",
+      "quant_diverse_026",
+      "quant_diverse_029"
+    ],
+    "sha256": "07e3df37ef5310f0c8fe689ecbac59ded8b0172ccb03520cde7c6054baea26bd",
+    "type_counts": {
+      "constraint_satisfaction": 18,
+      "diagnostic_reasoning": 18,
+      "free_form_explanation": 18,
+      "multi_hop_factual": 18,
+      "quantitative": 18
+    }
+  },
+  "judge": {
+    "backend": "openrouter",
+    "config": "eval_freeform/scorer_config.json",
+    "config_sha256": "74a9101089d5341624f0e8c9588ba7c509ed48629e8948d05595846356366b38",
+    "external_content_transmission": true,
+    "same_backend_required": true
+  },
+  "policy": {
+    "promotion_requires": [
+      "same fixed dev IDs for baseline and candidate",
+      "same judge backend/model/config",
+      "anchor drift within threshold",
+      "English MCQ primary no-regression gate",
+      "no sealed test access"
+    ],
+    "reference_ll_role": "reported_only_diagnostic_not_primary",
+    "rubric_role": "secondary_guardrail_until_human_calibrated_and_frozen"
+  },
+  "sealed_test_paths_read": [],
+  "status": "report_only_pending_gate_calibration"
+}

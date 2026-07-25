@@ -118,3 +118,9 @@ results/freeform_eval_*/
 results/verification_target_validation_*.json
 results/qmd_mcq_distractor_quality_*.json
 !results/qmd_mcq_distractor_quality_source_audit.json
+results/freeform_candidates_*.jsonl
+results/periodic_rubric_candidate_*.jsonl
+results/periodic_anchor_candidate_*.json
+results/general_knowledge_*.json
+results/mcq_distractor_quality_validation_*.json
+!results/freeform_eval_p21-distractor-quality.json
