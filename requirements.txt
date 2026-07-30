@@ -1,0 +1,18 @@
+# Core training stack. Install a CUDA-compatible torch build for your host.
+torch
+transformers
+datasets
+trl
+peft
+accelerate
+bitsandbytes
+unsloth
+safetensors
+
+# Data prep, configs, and tests.
+PyYAML
+numpy
+pytest
+
+# Optional experiment logging.
+wandb
