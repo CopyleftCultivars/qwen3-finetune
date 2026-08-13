@@ -53,7 +53,13 @@ else:
     FastLanguageModel = None
     PatchFastRL = None
 
-from autoresearch.grpo_dataset import EXCLUDED_GENERATOR_AGENTS, DEFAULT_DATASET_ID, load_rollout_prompts  # noqa: E402
+from autoresearch.grpo_dataset import (  # noqa: E402
+    DEFAULT_DATASET_ID,
+    DEFAULT_HOLDOUT_FRACTION,
+    DEFAULT_HOLDOUT_SEED,
+    EXCLUDED_GENERATOR_AGENTS,
+    load_rollout_prompts,
+)
 from autoresearch.grpo_reward import combined_reward, DEFAULT_WEIGHTS  # noqa: E402
 
 DEFAULT_ADAPTER = "outputs/lora-adapter-p6-lr5e5-r2/final"
@@ -168,6 +174,12 @@ def build_parser() -> argparse.ArgumentParser:
                          help="Comma-separated generator_agent values to exclude (default: agy)")
     parser.add_argument("--max-samples", type=int, default=None, metavar="N",
                          help="Cap the rollout prompt set to N examples (for smoke tests)")
+    parser.add_argument("--holdout-fraction", type=float, default=DEFAULT_HOLDOUT_FRACTION,
+                         help="Fraction of non-excluded rows reserved for score_grpo_primary.py's "
+                              "eval slice and withheld from training (default: 0.1)")
+    parser.add_argument("--holdout-seed", type=int, default=DEFAULT_HOLDOUT_SEED,
+                         help="Must match score_grpo_primary.py's --holdout-seed for the eval slice "
+                              "to actually stay out of training (default: 42)")
     parser.add_argument("--output-dir", default="outputs/lora-adapter-grpo", metavar="DIR")
     parser.add_argument("--num-generations", type=int, default=8, help="GRPO group size (default: 8)")
     parser.add_argument("--lr", type=float, default=2e-6, help="GRPO learning rate (default: 2e-6)")
@@ -213,6 +225,8 @@ def main() -> None:
             "max_steps": args.max_steps,
             "reward_weights": weights,
             "max_samples": args.max_samples,
+            "holdout_fraction": args.holdout_fraction,
+            "holdout_seed": args.holdout_seed,
         }, indent=2))
         return
 
@@ -220,6 +234,9 @@ def main() -> None:
         dataset_id=dataset_id,
         local_path=local_path,
         exclude_sources=exclude_sources,
+        holdout="train",
+        holdout_fraction=args.holdout_fraction,
+        holdout_seed=args.holdout_seed,
     )
     if args.max_samples is not None:
         train_ds = train_ds.select(range(min(args.max_samples, len(train_ds))))

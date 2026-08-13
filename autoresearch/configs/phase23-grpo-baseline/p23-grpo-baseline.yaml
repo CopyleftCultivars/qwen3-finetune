@@ -1,0 +1,36 @@
+schema_version: 1
+
+# First Tier 4 (RL second-stage / GRPO) phase. Not yet run -- see
+# autoresearch/grpo_baseline_pipeline.md for the design and open questions.
+# Every numeric knob below is either a Stage 1 calibration result (num_generations,
+# max_completion_len, max_prompt_len, batch_size) or a documented untested starting
+# point (beta, lr) per levers.md's Tier 4 table -- this run's job is to produce the
+# first real gate.py decision, not to already be tuned.
+run_name: phase23-grpo-baseline
+adapter: outputs/lora-adapter-p6-lr5e5-r2/final
+train_data: CopyleftCultivars/Agriculture-Agent-RL-Training-Data
+exclude_sources: agy
+max_samples:
+holdout_fraction: 0.1
+holdout_seed: 42
+output_root: outputs
+
+# Calibrated in autoresearch/grpo_stage1_calibration.json (25.92s/step at these
+# settings; 128-token completions were empirically too short, see levers.md Tier 4).
+num_generations: 8
+max_prompt_len: 1024
+max_completion_len: 768
+batch_size: 8
+grad_accum: 1
+
+# Untested (levers.md Tier 4: SEARCH DIMENSION), TRL/Stage-1 defaults.
+lr: 0.000002
+beta: 0.04
+temperature: 1.0
+max_steps: 200
+seed: 42
+reward_weights:
+
+merge_base: Qwen/Qwen3-0.6B
+merge_dtype: float16
+wandb: false

@@ -27,6 +27,9 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
+
+import yaml
 
 DEFAULT_ADAPTER = "outputs/lora-adapter-p6-lr5e5-r2/final"
 DEFAULT_OUTPUT_ROOT = "outputs"
@@ -72,6 +75,10 @@ def _train_argv(args: argparse.Namespace) -> list[str]:
         str(args.temperature),
         "--seed",
         str(args.seed),
+        "--holdout-fraction",
+        str(args.holdout_fraction),
+        "--holdout-seed",
+        str(args.holdout_seed),
     ]
     if args.max_samples is not None:
         argv.extend(["--max-samples", str(args.max_samples)])
@@ -99,13 +106,41 @@ def _merge_argv(args: argparse.Namespace) -> list[str]:
     ]
 
 
+def _load_config_defaults(config_path: Path, parser: argparse.ArgumentParser) -> dict[str, Any]:
+    """Mirrors finetune.py's YAML-config-as-argparse-defaults pattern exactly,
+    so autoresearch/configs/phaseNN-grpo-<name>/*.yaml uses the same convention
+    as every SFT phase config."""
+    with open(config_path, encoding="utf-8") as fh:
+        data = yaml.safe_load(fh)
+    if data is None:
+        data = {}
+    if not isinstance(data, dict):
+        parser.error(f"{config_path}: expected a flat YAML key:value map")
+
+    schema_version = data.get("schema_version")
+    if schema_version != 1:
+        parser.error(f"{config_path}: schema_version must be 1")
+
+    allowed = {action.dest for action in parser._actions if action.dest not in {"help", "config"}}
+    config_keys = set(data) - {"schema_version"}
+    unknown = sorted(config_keys - allowed)
+    if unknown:
+        parser.error(f"{config_path}: unknown config key(s): {', '.join(unknown)}")
+
+    return {key: data[key] for key in config_keys}
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--run-name", required=True, help="e.g. phase23-grpo-<name>")
+    parser.add_argument("--config", default=None, metavar="PATH",
+                         help="YAML file providing defaults for any flag below (schema_version: 1)")
+    parser.add_argument("--run-name", default=None, help="e.g. phase23-grpo-<name> (required, may come from --config)")
     parser.add_argument("--adapter", default=DEFAULT_ADAPTER)
     parser.add_argument("--train-data", default="CopyleftCultivars/Agriculture-Agent-RL-Training-Data")
     parser.add_argument("--exclude-sources", default="agy")
     parser.add_argument("--max-samples", type=int, default=None)
+    parser.add_argument("--holdout-fraction", type=float, default=0.1)
+    parser.add_argument("--holdout-seed", type=int, default=42)
     parser.add_argument("--output-root", default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--num-generations", type=int, default=8)
     parser.add_argument("--lr", type=float, default=2e-6)
@@ -125,9 +160,21 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main() -> None:
+def parse_args(argv: list[str] | None = None) -> tuple[argparse.Namespace, argparse.ArgumentParser]:
     parser = build_parser()
-    args = parser.parse_args()
+    config_parser = argparse.ArgumentParser(add_help=False)
+    config_parser.add_argument("--config", default=None)
+    config_args, _ = config_parser.parse_known_args(argv)
+    if config_args.config:
+        parser.set_defaults(**_load_config_defaults(Path(config_args.config), parser))
+    args = parser.parse_args(argv)
+    return args, parser
+
+
+def main() -> None:
+    args, parser = parse_args()
+    if not args.run_name:
+        parser.error("--run-name is required unless provided by --config")
 
     # Security boundary: checksum gate must be the first subprocess (same
     # discipline as finetune.py's SFT chain).

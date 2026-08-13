@@ -30,16 +30,36 @@ falsified lever entry in levers.md's Tier 4 (RL second-stage) section.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Iterable, Iterator, Optional
 
 DEFAULT_DATASET_ID = "CopyleftCultivars/Agriculture-Agent-RL-Training-Data"
 EXCLUDED_GENERATOR_AGENTS = frozenset({"agy"})
+DEFAULT_HOLDOUT_FRACTION = 0.1
+DEFAULT_HOLDOUT_SEED = 42
 
 
 def generator_agent_of(row: dict) -> str:
     return ((row.get("info") or {}).get("generation_meta") or {}).get("generator_agent", "?")
+
+
+def record_uuid_of(row: dict) -> str:
+    return (row.get("info") or {}).get("record_uuid", "")
+
+
+def holdout_bucket(record_uuid: str, seed: int = DEFAULT_HOLDOUT_SEED, fraction: float = DEFAULT_HOLDOUT_FRACTION) -> str:
+    """Deterministically assign a row to 'train' or 'eval' from its record_uuid.
+
+    Same (record_uuid, seed, fraction) always yields the same bucket regardless
+    of --max-samples or dataset ordering, so train_grpo.py (holdout="train") and
+    score_grpo_primary.py (holdout="eval") never see overlapping prompts even
+    across separate invocations/runs.
+    """
+    digest = hashlib.sha256(f"{seed}:{record_uuid}".encode("utf-8")).hexdigest()
+    bucket_value = int(digest[:8], 16) / 0xFFFFFFFF
+    return "eval" if bucket_value < fraction else "train"
 
 
 def iter_local_jsonl(path: Path) -> Iterator[dict]:
@@ -71,7 +91,10 @@ def load_rollout_prompts(
     dataset_id: str = DEFAULT_DATASET_ID,
     local_path: Optional[Path] = None,
     exclude_sources: frozenset[str] = EXCLUDED_GENERATOR_AGENTS,
-    split: str = "train",
+    hf_split: str = "train",
+    holdout: str = "train",
+    holdout_fraction: float = DEFAULT_HOLDOUT_FRACTION,
+    holdout_seed: int = DEFAULT_HOLDOUT_SEED,
 ):
     """Return a `datasets.Dataset` of rollout seed prompts, agy-excluded.
 
@@ -79,14 +102,24 @@ def load_rollout_prompts(
     dev sandbox this file was authored in; autoresearch/grpo_reward.py and this
     module's non-`datasets` helpers above are dependency-light on purpose so
     Stage 0 validation can run without it).
+
+    `holdout` selects the deterministic train/eval bucket (see holdout_bucket()):
+    "train" for GRPOTrainer's rollout seeds, "eval" for score_grpo_primary.py's
+    held-out evaluation slice, "all" to bypass the split entirely (e.g. Stage 0/1
+    validation against the full pool). Same seed/fraction on both sides is what
+    keeps the eval slice out of the training set.
     """
     import datasets  # deferred: training-host-only dependency
 
     if local_path is not None:
         ds = datasets.Dataset.from_list(list(iter_local_jsonl(local_path)))
     else:
-        ds = datasets.load_dataset(dataset_id, split=split)
+        ds = datasets.load_dataset(dataset_id, split=hf_split)
 
     ds = ds.filter(lambda row: generator_agent_of(row) not in exclude_sources)
+    if holdout != "all":
+        ds = ds.filter(
+            lambda row: holdout_bucket(record_uuid_of(row), holdout_seed, holdout_fraction) == holdout
+        )
     ds = ds.remove_columns([c for c in ("completion", "reward") if c in ds.column_names])
     return ds
