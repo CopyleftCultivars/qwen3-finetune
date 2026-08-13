@@ -1,0 +1,14 @@
+{
+  "format": "autoresearch_grpo_reward_weights_v1",
+  "component_weights": {
+    "tool_use_correctness": 0.4,
+    "content_quality": 0.3,
+    "citation_presence": 0.15,
+    "ethics_redflags": 0.15
+  },
+  "clip_min": 0.0,
+  "clip_max": 1.0,
+  "excluded_generator_agents": ["agy"],
+  "rationale": "Weights mirror the relative emphasis of info.reward_components in the source dataset: tool_use_correctness and content_quality apply to every record and carry the most weight, citation_presence and ethics_redflags are narrower-scope guards (citation only scored for indigenous_and_traditional_knowledge) and carry less. Not yet tuned by the loop -- first candidate for a Tier 4 sweep- lever once Stage 1/2 prove the pipeline works.",
+  "status": "PILOT - unvalidated against a live GRPO run"
+}

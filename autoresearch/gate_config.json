@@ -12,6 +12,10 @@
   "compute_budget": {
     "max_minutes_per_iteration": 28.0
   },
+  "compute_budget_grpo": {
+    "max_minutes_per_iteration": 90.0,
+    "note": "Tier 4 (RL second-stage / GRPO) budget, separate from the SFT compute_budget above -- rollout generation is far more expensive per-iteration than SFT forward/backward passes. Calibrated from a measured 25.92s/step (num_generations=8, max_completion_len=768, max_prompt_len=1024, batch_size=8) extrapolated to a ~200-step run (~86.4 min); see autoresearch/grpo_stage1_calibration.json. Passed via gate.py --budget-key compute_budget_grpo."
+  },
   "forgetting_guard": {
     "max_relative_drop_percent": 5.0
   },

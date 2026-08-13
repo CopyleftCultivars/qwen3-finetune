@@ -24,12 +24,12 @@
     "autoresearch/gate.py": {
       "kind": "file",
       "note": "frozen accept/reject/pause gate code",
-      "sha256": "2a76c23a2d6a872783b6fffb2612179431e426198e9e7ac2d6d5183f5f0cc167"
+      "sha256": "2ffc3e055d1367af07415033e210a2c7b4ba041d0965b8f5f9d9d7ab01192ad5"
     },
     "autoresearch/gate_config.json": {
       "kind": "file",
       "note": "frozen accept/reject guardrail thresholds and compute budget",
-      "sha256": "5f05d79961289691b0a625ba302f8c20e9317c479540dc75bb7f2d8a5a74aa04"
+      "sha256": "aed6a891679028c16d5cb1c52bcfb0395fc4ac77165693226c3c98304d33e948"
     },
     "autoresearch/general_knowledge_probe.jsonl": {
       "kind": "file",
@@ -54,7 +54,7 @@
     "autoresearch/levers.md": {
       "kind": "file",
       "note": "lever spec finetune.py must not silently drift from",
-      "sha256": "5d04d76e4432299f9e328c26a8b7ad37fe617b7b394c1f11690a881687404cf2"
+      "sha256": "5595abadb199dcd77c8bfb9159725ba4a537e532a7f2fc84caf1502e0f637cee"
     },
     "autoresearch/measure_periodic_guards.py": {
       "kind": "file",
@@ -182,5 +182,5 @@
       "sha256": "21845560329b947586b23af5cad88360d617ddb800c56ac1ec809d89520e082a"
     }
   },
-  "generated_at": "2026-07-25T06:05:17+00:00"
+  "generated_at": "2026-08-13T18:59:48+00:00"
 }

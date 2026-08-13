@@ -1,0 +1,39 @@
+{
+  "n_rows": 6191,
+  "by_generator_agent": {
+    "agy": {
+      "n": 1227,
+      "original_dataset_reward_mean": 0.9992,
+      "reimplemented_combined_reward_mean": 0.8858,
+      "component_means": {
+        "tool_use_correctness": 1.0,
+        "content_quality_proxy": 0.8187,
+        "citation_presence": 0.6015,
+        "ethics_redflags": 1.0
+      }
+    },
+    "hermes": {
+      "n": 984,
+      "original_dataset_reward_mean": 0.8193,
+      "reimplemented_combined_reward_mean": 0.894,
+      "component_means": {
+        "tool_use_correctness": 0.9182,
+        "content_quality_proxy": 0.9086,
+        "citation_presence": 0.6951,
+        "ethics_redflags": 0.999
+      }
+    },
+    "hermes_cli": {
+      "n": 3980,
+      "original_dataset_reward_mean": 0.6975,
+      "reimplemented_combined_reward_mean": 0.8101,
+      "component_means": {
+        "tool_use_correctness": 0.8162,
+        "content_quality_proxy": 0.8106,
+        "citation_presence": 0.6359,
+        "ethics_redflags": 0.9668
+      }
+    }
+  },
+  "verdict": "PASS: reimplemented reward does not reproduce agy inflation (agy=0.886 vs others_mean=0.852, gap=+0.034)"
+}

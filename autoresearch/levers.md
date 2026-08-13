@@ -96,6 +96,32 @@ the actual hyperparameters recorded in v3-clean's `trainer_state.json` /
 
 ---
 
+## Tier 4 — RL second-stage (GRPO)
+
+Online GRPO training on `CopyleftCultivars/Agriculture-Agent-RL-Training-Data` (HF, ~6.19k
+multi-turn tool-calling rollout trajectories), continuing from the frozen v5clean SFT
+checkpoint rather than replacing it. Reward is computed statically (`autoresearch/grpo_reward.py`,
+no live `cultivars-mcp`/PubChem calls in the training loop — see that module's docstring)
+against a reimplementation of the source dataset's `info.reward_components` semantics.
+Orchestrated by `autoresearch/grpo_finetune.py` (mirrors `finetune.py`'s checksum-gate +
+subprocess-chain pattern) rather than folded into `finetune.py` itself, since none of this
+tier's tunables apply to the SFT lever families above. Uses its own compute-budget key
+(`compute_budget_grpo` in `gate_config.json`, passed via `gate.py --budget-key`) since
+rollout generation is far more expensive per-iteration than SFT forward/backward passes.
+
+| Lever | Status | Direction / prior | Evidence | Knob |
+|---|---|---|---|---|
+| Reward source: `agy` generator_agent | **FORBIDDEN** | Never include `agy`-sourced rows, in the rollout prompt set or as a calibration reference for the reward function. Full-dataset scan (n=6191, 2026-08-13): `agy` self-judged reward mean 0.999 (99.6% of rows scored exactly 1.0) vs 0.819 (hermes) / 0.698 (hermes_cli) on the same shapes — a confirmed self-judging inflation bug, not a quality signal. | `autoresearch/grpo_dataset.py` (`EXCLUDED_GENERATOR_AGENTS`); `autoresearch/grpo_stage0_reward_validation.json` | `train_grpo.py --exclude-sources agy` (default) |
+| Starting policy: continue vs reinit | **SETTLED CONSTANT (interim)** | Continue from the champion SFT adapter (`outputs/lora-adapter-p6-lr5e5-r2/final`), not a fresh LoRA. Not yet a search dimension — isolating "does GRPO help at all" from "does adapter reinit matter" is the point of the first phase; reopen only after Stage 2's first real result. | `train_grpo.py::load_policy_with_lora`; plan doc `mutable-scribbling-dolphin.md` | `train_grpo.py --adapter outputs/lora-adapter-p6-lr5e5-r2/final` (default) |
+| Max completion length | **SETTLED CONSTANT (interim) — >= 768** | At 128 tokens every rollout hit the length cap and `reward_std` was exactly 0.0 on 2/2 smoke-test steps (100% `frac_reward_zero_std`) — GRPO had no gradient signal beyond the KL term, silently. At 768 tokens, clipped ratio dropped to 0-12.5% and `reward_std` was nonzero on 3/5 calibration steps. This dataset's completions run up to 43 turns; short caps are a silent-failure mode, not a cheap-to-vary knob, until a cheaper-but-safe floor is separately measured. | `autoresearch/grpo_stage1_calibration.json` | `train_grpo.py --max-completion-len` (default 512, use >=768) |
+| KL coefficient (`beta`) | **SEARCH DIMENSION — untested** | TRL default (0.04) used as the Stage 1/2 starting point. No directional prior yet. | n/a | `train_grpo.py --beta` |
+| Group size (`num_generations`) | **SEARCH DIMENSION — untested** | 8 used in Stage 1 calibration (worked; produced nonzero reward_std on most steps). Larger groups cost more per step (generation scales with group size x completion length) but should sharpen the advantage estimate. No swept evidence yet. | `autoresearch/grpo_stage1_calibration.json` | `train_grpo.py --num-generations` |
+| GRPO learning rate | **SEARCH DIMENSION — untested** | Expect far lower than SFT's settled `5e-5` (TRL's own `GRPOConfig` default is `1e-6`); Stage 1 used `2e-6`. No swept evidence yet. | n/a | `train_grpo.py --lr` |
+| Reward-component weights | **SEARCH DIMENSION — PILOT, unvalidated against a live gate run** | Default weights (`tool_use_correctness=0.4, content_quality=0.3, citation_presence=0.15, ethics_redflags=0.15`) mirror the source dataset's component emphasis, not yet tuned by the loop. Stage 0 confirmed the *combined* reward at these weights does not reproduce `agy`'s inflation (agy=0.886 vs hermes=0.894/hermes_cli=0.810, gap +0.034) — that validates the reward isn't obviously gameable in the same way, not that these specific weights are optimal. | `autoresearch/grpo_reward_weights.json`; `autoresearch/grpo_stage0_reward_validation.json` | `train_grpo.py --reward-weights PATH` |
+| GRPO primary objective metric | **PENDING-UNLOCK — `score_grpo_primary.py` not yet written** | The existing primary objective (`objective_weights.json`: MCQ option-set gold-LL only) cannot measure what GRPO optimizes — `generate_freeform_candidates.py` has no tool-call generation support, so the existing freeform/MCQ harness is a regression/forgetting guardrail for this tier, not the accept/reject signal. A GRPO-specific primary (mean reward on a held-out rollout-prompt slice) is required before any phase can reach `gate.py`. | plan doc `mutable-scribbling-dolphin.md` section 4 | not yet implemented |
+
+---
+
 ## Prose priors per tier (for `program.md`)
 
 **Tier 1 (hyperparameters):** all SEARCH DIMENSION except LoRA-vs-full (SETTLED: use
@@ -122,6 +148,17 @@ steers which lever a proposal targets using the frozen v5clean J-space diagnosti
 surface, without itself being a measurable objective. The v5clean category ranking
 (Natural Fertilizers → Soil Science → Sustainable Water Mgmt) now guides P13 toward
 genuinely new supervision rather than another replay overlay.
+
+**Tier 4 (RL second-stage / GRPO):** a new tier, not a continuation of Tiers 1-3 —
+GRPO trains agentic tool-calling behavior the SFT lever families never targeted, on a
+dataset (`Agriculture-Agent-RL-Training-Data`) whose own card says it's meant to
+complement, not replace, v5clean's SFT mix. Stage 0 (reward reimplementation) and
+Stage 1 (compatibility + completion-length calibration) are done; every row here is
+still pre-gate — no phase has reached `gate.py` yet, so treat every status above as
+provisional until a real `phase23-grpo-<name>` result lands. The blocking item before
+that can happen is `score_grpo_primary.py` (not yet written): the existing MCQ/freeform
+harness can't measure tool-use quality at all, so it can only serve as a
+forgetting/regression guardrail for this tier, never the accept/reject signal.
 
 ---
 

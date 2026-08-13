@@ -1,0 +1,36 @@
+{
+  "format": "autoresearch_grpo_stage1_calibration_v1",
+  "purpose": "Completion-length calibration run to fix the reward_std=0 finding from the initial Stage 1 smoke test before committing a compute_budget_grpo gate threshold.",
+  "host": "local RTX 4070 Ti (12GB VRAM), qwen3-grpo conda env",
+  "starting_adapter": "outputs/lora-adapter-p6-lr5e5-r2/final",
+  "runs": [
+    {
+      "label": "stage1_smoke",
+      "max_completion_len": 128,
+      "num_generations": 4,
+      "batch_size": 1,
+      "max_samples": 8,
+      "max_steps": 2,
+      "result": "100% of completions clipped at length cap; reward_std=0.0 on both steps (frac_reward_zero_std=1.0) -- no usable gradient signal beyond KL",
+      "seconds_per_step_avg": 13.2
+    },
+    {
+      "label": "stage1_calibration",
+      "max_completion_len": 768,
+      "max_prompt_len": 1024,
+      "num_generations": 8,
+      "batch_size": 8,
+      "max_samples": 48,
+      "max_steps": 5,
+      "result": "clipped_ratio dropped to 0-12.5% across steps; reward_std nonzero on 3/5 steps (0.0205, 0.0334, 0.0014), zero on 2/5 (both at reward=0.85, all 8 generations in that batch scored identically -- plausibly a real ceiling on easy prompts, not a bug, but worth watching in a longer run)",
+      "seconds_per_step_avg": 25.92,
+      "train_runtime_seconds": 129.6
+    }
+  ],
+  "extrapolation": {
+    "basis": "25.92 s/step at num_generations=8, max_completion_len=768, max_prompt_len=1024, batch_size=8",
+    "200_steps_estimate_minutes": 86.4,
+    "caveat": "Highly sensitive to num_generations and max_completion_len; re-measure if either changes materially for a real phase run. Coincidentally close to the plan's original unmeasured 90-minute placeholder."
+  },
+  "recommendation": "Use max_completion_len >= 768 (not 128) for any real Stage 2 run. Compute budget for a ~200-step run at these settings: ~90 minutes is a reasonable compute_budget_grpo.max_minutes_per_iteration starting point, pending gate.py/gate_config.json changes (both frozen files, need freeze_manifest.py regeneration -- not yet applied, awaiting confirmation)."
+}
