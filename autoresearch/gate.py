@@ -32,13 +32,13 @@ def primary_score(result: dict[str, Any], label: str) -> float:
         raise ValueError(f"{label}: missing primary.score") from exc
 
 
-def validate_config(config: dict[str, Any]) -> None:
+def validate_config(config: dict[str, Any], budget_key: str = "compute_budget") -> None:
     if config.get("format") != "autoresearch_gate_config_v1":
         raise ValueError("gate config format must be autoresearch_gate_config_v1")
     for path in (
         ("primary_gate", "min_delta_standard_errors"),
         ("primary_gate", "standard_error"),
-        ("compute_budget", "max_minutes_per_iteration"),
+        (budget_key, "max_minutes_per_iteration"),
         ("forgetting_guard", "max_relative_drop_percent"),
         ("bias_guard", "max_abs_letter_frequency_deviation"),
         ("bias_guard", "max_deviation_increase_vs_baseline"),
@@ -58,7 +58,11 @@ def relative_drop_percent(baseline: float, candidate: float) -> float:
     return 100.0 * (baseline - candidate) / baseline
 
 
-def guardrail_reasons(config: dict[str, Any], guardrails: dict[str, Any]) -> tuple[list[str], list[str]]:
+def guardrail_reasons(
+    config: dict[str, Any],
+    guardrails: dict[str, Any],
+    budget_key: str = "compute_budget",
+) -> tuple[list[str], list[str]]:
     reject: list[str] = []
     pause: list[str] = []
 
@@ -67,7 +71,7 @@ def guardrail_reasons(config: dict[str, Any], guardrails: dict[str, Any]) -> tup
         reject.append("missing_compute_guard")
     else:
         elapsed = float(compute["elapsed_minutes"])
-        limit = float(config["compute_budget"]["max_minutes_per_iteration"])
+        limit = float(config[budget_key]["max_minutes_per_iteration"])
         if elapsed > limit:
             reject.append(f"compute_budget_exceeded elapsed={elapsed:.4f} limit={limit:.4f}")
 
@@ -158,8 +162,9 @@ def decide(
     candidate: dict[str, Any],
     guardrails: dict[str, Any],
     config: dict[str, Any],
+    budget_key: str = "compute_budget",
 ) -> dict[str, Any]:
-    validate_config(config)
+    validate_config(config, budget_key=budget_key)
     baseline_score = primary_score(baseline, "baseline")
     candidate_score = primary_score(candidate, "candidate")
     delta = candidate_score - baseline_score
@@ -167,7 +172,7 @@ def decide(
     min_se = float(config["primary_gate"]["min_delta_standard_errors"])
     threshold = min_se * se
 
-    reject_reasons, pause_reasons = guardrail_reasons(config, guardrails)
+    reject_reasons, pause_reasons = guardrail_reasons(config, guardrails, budget_key=budget_key)
     metric_reasons: list[str] = []
     if delta <= threshold:
         metric_reasons.append(f"primary_delta_not_significant delta={delta:.10f} threshold={threshold:.10f}")
@@ -350,13 +355,24 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--guardrails", default=None, help="Guardrail report JSON")
     parser.add_argument("--output", default=None, help="Decision JSON output path")
     parser.add_argument("--self-test", action="store_true", help="Run built-in synthetic gate fixtures")
+    parser.add_argument(
+        "--budget-key",
+        default="compute_budget",
+        help=(
+            "Which gate_config.json compute-budget block to enforce (default: "
+            "compute_budget). GRPO iterations pass compute_budget_grpo -- rollout "
+            "generation is far more expensive per-iteration than SFT forward/backward "
+            "passes, so it gets its own threshold rather than sharing the SFT lever "
+            "family's calibrated 28-minute budget."
+        ),
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     config = load_json(Path(args.config))
-    validate_config(config)
+    validate_config(config, budget_key=args.budget_key)
 
     if args.self_test:
         run_self_test(config)
@@ -371,6 +387,7 @@ def main(argv: list[str] | None = None) -> int:
         load_json(Path(args.candidate)),
         load_json(Path(args.guardrails)),
         config,
+        budget_key=args.budget_key,
     )
     rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
