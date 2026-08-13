@@ -25,28 +25,19 @@ from __future__ import annotations
 
 import json
 import re
+import sys
+from pathlib import Path
 from typing import Any, Optional
 
-# Tool names observed across the dataset card's category/tool table plus tool
-# names referenced inside completion text (e.g. "lookup_gene_evidence"). This is
-# a living registry, not a ground-truth schema pulled from cultivars-mcp itself —
-# the dataset does not embed per-row tool JSON schemas in the prompt, only a
-# natural-language system message, so we validate against name membership + valid
-# JSON arguments rather than an argument-level schema. Extend this list (and note
-# it in a Tier 4 levers.md entry) if unknown tool names show up in practice.
-KNOWN_TOOL_NAMES = frozenset(
-    {
-        "find_trait_genes",
-        "list_trait_categories",
-        "lookup_gene",
-        "lookup_gene_evidence",
-        "translate_trait_to_species",
-        "list_maize_nam_founders",
-        "lookup_compound",
-        "resolve_accession",
-        "list_orphan_crop_requests",
-    }
-)
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from autoresearch.grpo_dataset import DOMAIN_TOOL_NAMES  # noqa: E402
+
+# Single source of truth: autoresearch/grpo_dataset.py::TOOL_SCHEMAS. Reconstructed
+# from observed argument-key frequency in the real data (not a ground-truth schema
+# pulled from cultivars-mcp itself), and explicitly excludes the scaffolding tools
+# (terminal, web_search, memory, etc.) found contaminating ~22% of raw completions
+# -- see grpo_dataset.py's module docstring for the full finding.
+KNOWN_TOOL_NAMES = DOMAIN_TOOL_NAMES
 
 # Shapes (info.shape) that require at least one tool call per the dataset card's
 # system-prompt instructions ("call the relevant tool before answering").
