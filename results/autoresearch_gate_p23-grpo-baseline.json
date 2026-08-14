@@ -1,0 +1,22 @@
+{
+  "baseline_primary": 0.6796425787125295,
+  "candidate_primary": 0.6760704411827541,
+  "decision": "pause",
+  "format": "autoresearch_gate_decision_v1",
+  "primary_delta": -0.0035721375297754765,
+  "primary_delta_standard_errors": -0.017860687648877382,
+  "primary_delta_threshold": 0.4,
+  "primary_standard_error": 0.2,
+  "reasons": {
+    "metric": [
+      "primary_delta_not_significant delta=-0.0035721375 threshold=0.4000000000"
+    ],
+    "pause_guardrails": [
+      "missing_grader_anchor_guard"
+    ],
+    "reject_guardrails": [
+      "missing_rubric_guard"
+    ]
+  },
+  "recommended_action": "pause_for_human"
+}

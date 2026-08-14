@@ -1,0 +1,26 @@
+{
+  "bias": {
+    "baseline_letter_distribution": {
+      "A": 0.23008849557522124,
+      "B": 0.20353982300884957,
+      "C": 0.30973451327433627,
+      "D": 0.25663716814159293
+    },
+    "letter_distribution": {
+      "A": 0.23008849557522124,
+      "B": 0.22123893805309736,
+      "C": 0.3008849557522124,
+      "D": 0.24778761061946902
+    }
+  },
+  "compute": {
+    "elapsed_minutes": 66.70259
+  },
+  "forgetting": {
+    "baseline_score": 0.7256637168141593,
+    "candidate_score": 0.7433628318584071
+  },
+  "sealed_test_access": {
+    "touched": false
+  }
+}
