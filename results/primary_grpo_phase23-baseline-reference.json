@@ -1,0 +1,27 @@
+{
+  "format": "autoresearch_grpo_primary_objective_result_v1",
+  "inputs": {
+    "model": "outputs/merged-model-p6-lr5e5-r2"
+  },
+  "not_comparable_to": "autoresearch_primary_objective_result_v2 (MCQ gold-LL is a different tier's metric)",
+  "objective_direction": "maximize",
+  "primary": {
+    "components": {
+      "citation_presence": 0.2,
+      "content_quality_proxy": 0.9543641512639862,
+      "ethics_redflags": 1.0,
+      "tool_use_correctness": 0.5333333333333333
+    },
+    "label": "grpo_mean_combined_reward_on_holdout",
+    "n_eval_prompts": 60,
+    "n_holdout_pool_total": 429,
+    "score": 0.6796425787125295
+  },
+  "reward_weights": {
+    "citation_presence": 0.15,
+    "content_quality": 0.3,
+    "ethics_redflags": 0.15,
+    "tool_use_correctness": 0.4
+  },
+  "role": "grpo_tier_primary_accept_revert_signal"
+}
