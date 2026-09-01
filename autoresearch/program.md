@@ -81,6 +81,27 @@ hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
   fires. Otherwise revert the candidate.
 - Keep compute fixed per iteration; do not let longer training masquerade as a discovery.
 
+### Trace-conditioned parallel track (Epic E, chainlink #105, 2026-09-01)
+
+- The primary above scores `P(gold letter | forced-empty-<think>)`, which removes reasoning
+  from the scored sequence entirely -- J-space then has no verbalizable content to read.
+  `autoresearch/score_mcq_trace_ll.py` (chainlink #106-108 / I1-I3) restores a reasoning surface:
+  Pass 1 generates a real trace (think-on, greedy, fixed seed), Pass 2 scores the gold letter
+  conditioned on that trace (think-off equivalent, closed `<think>` block).
+- This is a **new, NOT-comparable objective** (`autoresearch/objective_weights_v3.json`,
+  chainlink #109 / I4) running as a **PARALLEL track** -- it does not replace the primary above,
+  and never will without an explicit promotion decision recorded in both files.
+- Champion (v5clean) trace-LL baseline: `results/mcq_trace_ll_v5_clean.json` /
+  `.jsonl` (chainlink #109 / I4). Measured 2026-09-01 on the full 113 scorable rows in
+  `data/val_v3.jsonl`: `mean_trace_option_set_gold_logprob=-0.535`, `mean_delta_trace=+0.167`,
+  `delta_trace_positive_fraction=66.4%` (75/113) -- clears the "clear majority positive" half
+  of the step 8 gate. Trace-conditioning also lifted argmax accuracy (78.8% vs. 71.7%
+  empty-trace) and truncation was negligible (1/113 items hit `max_trace_tokens=256`). The
+  free-form rubric-guard half of the gate is not yet evaluated (chainlink #110 / I5).
+- Promotion requires (a) `delta_trace > 0` on a clear majority of items and (b) the free-form
+  rubric guard staying clean (Plan A step 8, `TRACE_EVAL_REASONING_SFT_RLM_PLAN.md`). Not yet
+  evaluated -- that decision is chainlink #110 (I5)'s `gate.py` PARALLEL track integration.
+
 ## Guardrails
 
 - Bias (relative rule, human-directed 2026-07-18): the guard prevents *reintroducing*

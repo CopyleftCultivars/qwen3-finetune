@@ -1,0 +1,32 @@
+{
+  "format": "autoresearch_trace_primary_objective_policy_v1",
+  "status": "parallel_track_not_yet_gating",
+  "parallel_to": "autoresearch/objective_weights.json (format autoresearch_primary_objective_policy_v2, UNCHANGED -- still the sole accept/revert signal until this track is explicitly promoted)",
+  "formula": "trace_primary = 1.0 * mcq_trace_mean_option_set_gold_logprob",
+  "mcq_trace_metric": "mean_trace_option_set_gold_logprob",
+  "mcq_trace_weight": 1.0,
+  "objective_direction": "maximize",
+  "comparability": "NOT comparable to mcq_mean_option_set_gold_logprob (objective_weights.json v2). The two objectives score different prompts (forced-empty-<think> vs a real generated reasoning trace baked into a closed <think> block) -- never diff the two numbers against each other. See TRACE_EVAL_REASONING_SFT_RLM_PLAN.md assumption 5.",
+  "delta_trace_ablation": {
+    "definition": "delta_trace = LL(with_trace) - LL(empty_trace) per item, computed by score_mcq_trace_ll.py (chainlink #108 / I3)",
+    "role": "necessary_but_not_sufficient_validation_signal",
+    "unlock_condition": "delta_trace_positive_fraction > 0.5 (a clear majority) AND the free-form rubric guard stays clean"
+  },
+  "promotion_gate": {
+    "status": "not_yet_evaluated",
+    "decided_by": "chainlink #110 (I5) -- gate.py PARALLEL track integration",
+    "rule": "TRACE_EVAL_REASONING_SFT_RLM_PLAN.md Part 1 / Plan A step 8: accept this track only when (a) delta_trace > 0 on a clear majority of items, and (b) the free-form rubric guard stays clean. Record the decision here and in program.md's Objective and gate rule section once made -- do not silently flip 'status' above without that record."
+  },
+  "baseline_reference": {
+    "champion": "v5clean (outputs/merged-model-p6-lr5e5-r2)",
+    "result_path": "results/mcq_trace_ll_v5_clean.json",
+    "per_item_path": "results/mcq_trace_ll_v5_clean.jsonl",
+    "chainlink_issue": 109
+  },
+  "rationale": "The current primary (objective_weights.json v2) scores P(gold letter | forced-empty-<think> prompt) -- that objective removes reasoning from the scored sequence entirely, so the J-space diagnostic has no verbalizable content to read. This trace-conditioned objective restores a real reasoning surface (Pass 1 generates a genuine trace, Pass 2 scores conditioned on it) without touching the frozen v2 primary, its gate, or any frozen_manifest.json file. See TRACE_EVAL_REASONING_SFT_RLM_PLAN.md Part 1 / Plan A.",
+  "chainlink": {
+    "epic": 105,
+    "milestone": 1,
+    "issue": 109
+  }
+}
