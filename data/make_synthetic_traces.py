@@ -225,6 +225,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--temperature", type=float, default=0.7, help="Only used by --teacher-backend openrouter")
     parser.add_argument("--max-tokens", type=int, default=400)
     parser.add_argument("--limit", type=int, default=None, help="Process only the first N MCQ train rows")
+    parser.add_argument(
+        "--concurrency", type=int, default=1,
+        help="Number of teacher calls to run in parallel (each is an independent subprocess/API "
+        "call). At ~4-5s/call for the claude backend, 1107 rows sequentially is ~90 min; "
+        "raise this to run faster.",
+    )
     parser.add_argument("--verbose", action="store_true")
     return parser
 
@@ -275,43 +281,54 @@ def main(argv: list[str] | None = None) -> int:
     teacher_call = make_teacher_caller(args.teacher_backend, args.model, args.max_tokens, args.openrouter_key)
     log.info("teacher backend: %s (model=%s)", args.teacher_backend, args.model or "backend default")
 
+    def process_one(item: dict[str, Any]) -> dict[str, Any] | None:
+        try:
+            system, prompt = build_teacher_prompt(item)
+        except GoldLeakageError as exc:
+            log.warning("skipping %s: %s", item.get("question_id"), exc)
+            return None
+        try:
+            trace = teacher_call(system, prompt)
+        except Exception as exc:  # noqa: BLE001 -- teacher call, log and continue past transient failures
+            log.warning("teacher call failed for %s: %s", item.get("question_id"), exc)
+            return None
+        return {
+            "question_id": item["question_id"],
+            "question": item["question"],
+            "A": item["A"],
+            "B": item["B"],
+            "C": item["C"],
+            "D": item["D"],
+            "gold": item["answer"],
+            "teacher_trace": trace,
+            "teacher_backend": args.teacher_backend,
+            "teacher_model": args.model,
+        }
+
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     n_written = 0
     n_failed = 0
+    n_done = 0
     with output_path.open("w", encoding="utf-8") as out_handle:
-        for item in eligible:
-            try:
-                system, prompt = build_teacher_prompt(item)
-            except GoldLeakageError as exc:
-                log.warning("skipping %s: %s", item.get("question_id"), exc)
+        if args.concurrency <= 1:
+            results = (process_one(item) for item in eligible)
+        else:
+            from concurrent.futures import ThreadPoolExecutor
+
+            # Independent subprocess calls (one `claude -p`/`codex exec`/etc. per item) --
+            # thread-based concurrency is safe here since each call owns its own process.
+            with ThreadPoolExecutor(max_workers=args.concurrency) as pool:
+                results = list(pool.map(process_one, eligible))
+        for result in results:
+            n_done += 1
+            if result is None:
                 n_failed += 1
                 continue
-            try:
-                trace = teacher_call(system, prompt)
-            except Exception as exc:  # noqa: BLE001 -- teacher call, log and continue past transient failures
-                log.warning("teacher call failed for %s: %s", item.get("question_id"), exc)
-                n_failed += 1
-                continue
-            out_handle.write(
-                json.dumps(
-                    {
-                        "question_id": item["question_id"],
-                        "question": item["question"],
-                        "A": item["A"],
-                        "B": item["B"],
-                        "C": item["C"],
-                        "D": item["D"],
-                        "gold": item["answer"],
-                        "teacher_trace": trace,
-                        "teacher_backend": args.teacher_backend,
-                        "teacher_model": args.model,
-                    },
-                    sort_keys=True,
-                )
-                + "\n"
-            )
+            out_handle.write(json.dumps(result, sort_keys=True) + "\n")
             n_written += 1
+            if args.verbose and n_done % 25 == 0:
+                log.info("progress: %d/%d processed (%d written, %d failed)", n_done, len(eligible), n_written, n_failed)
 
     print(f"wrote {output_path} ({n_written} traces, {n_failed} failed/skipped)")
     print(f"mcq_train_rows={len(records)}")
