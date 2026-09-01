@@ -8,12 +8,29 @@ For each MCQ-shaped TRAIN row in data/train_v3.jsonl (parsed via the frozen
 score_mcq_ll.py's normalize_records -- the same ~1107-row MCQ subset that
 pipeline already recognizes out of 4400 total train rows; the other ~3293
 rows are free-form conversational SFT data with no "gold letter", out of
-scope for this trace-SFT pass), calls an OpenRouter teacher model to produce
-a reasoning trace that justifies and converges on the gold letter. Reuses
-scripts/judge_training_data.py's client/retry plumbing rather than
-reimplementing OpenRouter calling, and score_mcq_trace_ll.py's
-build_question_messages for the exact same question/options text formatting
-the eval pipeline uses (and its leakage-marker guard, for free).
+scope for this trace-SFT pass), calls a teacher model to produce a reasoning
+trace that justifies and converges on the gold letter.
+
+Teacher backend is pluggable (--teacher-backend), so a real run doesn't have
+to spend metered OpenRouter credits when a local subscription-based CLI
+agent is available:
+  - claude   (default): `claude -p` non-interactive print mode, --restricted
+    (no Bash/code-exec tools needed for a pure text-completion task).
+  - codex:   `codex exec` non-interactive mode.
+  - opencode: `opencode run` non-interactive mode.
+  - openrouter: the original path, scripts/judge_training_data.py's
+    client/retry plumbing (metered, needs OPENROUTER_API_KEY) -- kept as a
+    real option, just no longer the default. Was the previous default before
+    this was pointed out to have an unnecessary-cost default: the OpenRouter
+    teacher's own DEFAULT_MODEL is "anthropic/claude-haiku-4-5" -- i.e. the
+    original design would have paid OpenRouter's per-token rate to call a
+    Claude model that's already reachable via this machine's own Claude Code
+    subscription for free.
+
+All backends share the exact same question/options formatting
+(score_mcq_trace_ll.py's build_question_messages, and its leakage-marker
+guard, for free) and the same TEACHER_SYSTEM_PROMPT/TEACHER_USER_TEMPLATE, so
+switching backends never changes what's being asked, only who answers it.
 
 Contamination pre-filter (before spending any API call): reuses
 prepare_dataset_v3.py's _instruction_hash to reject any train row whose
@@ -33,13 +50,13 @@ explicitly-gated, one-time manual audit at final evaluation, not in a script
 meant to be rerun while iterating on teacher prompts.
 
 Usage:
-  export OPENROUTER_API_KEY=...  # or set it in .env (already present here)
+  # default: local claude -p subscription, no API key needed
   python data/make_synthetic_traces.py \
-    --train-data data/train_v3.jsonl \
-    --val-data data/val_v3.jsonl \
-    --freeform-dev eval_freeform/dev.jsonl \
     --output data/synthetic_traces_v1.jsonl \
     --limit 20   # smoke test; omit for the full ~1107-row MCQ pass
+
+  # OpenRouter instead (needs OPENROUTER_API_KEY in env or .env):
+  python data/make_synthetic_traces.py --teacher-backend openrouter --limit 20 ...
 """
 
 from __future__ import annotations
@@ -48,10 +65,11 @@ import argparse
 import hashlib
 import json
 import logging
+import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 log = logging.getLogger(__name__)
 
@@ -62,7 +80,69 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from score_mcq_ll import normalize_records  # noqa: E402 -- frozen module, imported not edited
 from score_mcq_trace_ll import GoldLeakageError, build_question_messages  # noqa: E402
-from judge_training_data import DEFAULT_MODEL, _call_judge, _get_client, _load_api_key  # noqa: E402
+
+_CLI_RETRY_DELAYS = [2, 5, 15]
+
+
+def _run_teacher_subprocess(cmd: list[str], timeout: int) -> str:
+    for attempt, delay in enumerate([0] + _CLI_RETRY_DELAYS):
+        if delay:
+            time.sleep(delay)
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, check=True)
+            return result.stdout.strip()
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+            if attempt == len(_CLI_RETRY_DELAYS):
+                raise
+            log.warning("teacher CLI error (attempt %d): %s -- retrying", attempt + 1, exc)
+    raise RuntimeError("All retries exhausted")
+
+
+def call_teacher_claude(system: str, prompt: str, model: str | None, max_tokens: int) -> str:
+    """`claude -p`, non-interactive print mode. --restricted drops the
+    Bash/code-exec tools since this is a pure text-completion task with no
+    need for them; --output-format text keeps stdout clean (no JSON wrapper
+    to parse, no session/session-id bookkeeping)."""
+    cmd = ["claude", "-p", prompt, "--append-system-prompt", system, "--output-format", "text", "--restricted"]
+    if model:
+        cmd.extend(["--model", model])
+    return _run_teacher_subprocess(cmd, timeout=120)
+
+
+def call_teacher_codex(system: str, prompt: str, model: str | None, max_tokens: int) -> str:
+    """`codex exec`, non-interactive mode."""
+    cmd = ["codex", "exec", f"{system}\n\n{prompt}"]
+    if model:
+        cmd.extend(["-c", f'model="{model}"'])
+    return _run_teacher_subprocess(cmd, timeout=120)
+
+
+def call_teacher_opencode(system: str, prompt: str, model: str | None, max_tokens: int) -> str:
+    """`opencode run`, non-interactive mode, plain-text format."""
+    cmd = ["opencode", "run", f"{system}\n\n{prompt}", "--format", "default"]
+    if model:
+        cmd.extend(["--model", model])
+    return _run_teacher_subprocess(cmd, timeout=120)
+
+
+def make_teacher_caller(backend: str, model: str | None, max_tokens: int, openrouter_key: str | None) -> Callable[[str, str], str]:
+    """Return a (system, prompt) -> trace_text callable for the chosen backend.
+    All backends share the same TEACHER_SYSTEM_PROMPT/TEACHER_USER_TEMPLATE
+    (see build_teacher_prompt) -- only who answers changes, never what's asked."""
+    if backend == "claude":
+        return lambda system, prompt: call_teacher_claude(system, prompt, model, max_tokens)
+    if backend == "codex":
+        return lambda system, prompt: call_teacher_codex(system, prompt, model, max_tokens)
+    if backend == "opencode":
+        return lambda system, prompt: call_teacher_opencode(system, prompt, model, max_tokens)
+    if backend == "openrouter":
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        from judge_training_data import DEFAULT_MODEL, _call_judge, _get_client, _load_api_key  # noqa: E402
+
+        api_key = _load_api_key(openrouter_key)
+        client, resolved_model = _get_client(api_key, model or DEFAULT_MODEL)
+        return lambda system, prompt: _call_judge(system, prompt, client, resolved_model, max_tokens=max_tokens)
+    raise ValueError(f"unknown --teacher-backend: {backend!r}")
 
 # Same hashing primitive prepare_dataset_v3.py's contamination filtering already
 # uses (sha256 of the raw instruction text) -- kept identical so a row that
@@ -127,9 +207,22 @@ def build_parser() -> argparse.ArgumentParser:
         "--freeform-dev", default="eval_freeform/dev.jsonl", help="Non-sealed contamination-check source"
     )
     parser.add_argument("--output", default="data/synthetic_traces_v1.jsonl")
-    parser.add_argument("--model", default=DEFAULT_MODEL, help=f"OpenRouter teacher model (default: {DEFAULT_MODEL})")
-    parser.add_argument("--openrouter-key", default=None)
-    parser.add_argument("--temperature", type=float, default=0.7)
+    parser.add_argument(
+        "--teacher-backend",
+        choices=("claude", "codex", "opencode", "openrouter"),
+        default="claude",
+        help="claude/codex/opencode use a local subscription-based CLI (no metered API cost); "
+        "openrouter needs OPENROUTER_API_KEY (default: claude)",
+    )
+    parser.add_argument(
+        "--model",
+        default=None,
+        help="Model override passed to the chosen backend (backend-specific format, e.g. "
+        "'sonnet' for claude, 'o3' for codex, 'anthropic/claude-haiku-4-5' for openrouter). "
+        "Default: let the backend pick its own default.",
+    )
+    parser.add_argument("--openrouter-key", default=None, help="Only used by --teacher-backend openrouter")
+    parser.add_argument("--temperature", type=float, default=0.7, help="Only used by --teacher-backend openrouter")
     parser.add_argument("--max-tokens", type=int, default=400)
     parser.add_argument("--limit", type=int, default=None, help="Process only the first N MCQ train rows")
     parser.add_argument("--verbose", action="store_true")
@@ -179,8 +272,8 @@ def main(argv: list[str] | None = None) -> int:
     if not eligible:
         parser.error("no eligible (non-contaminated, MCQ-shaped) train rows found")
 
-    api_key = _load_api_key(args.openrouter_key)
-    client, model = _get_client(api_key, args.model)
+    teacher_call = make_teacher_caller(args.teacher_backend, args.model, args.max_tokens, args.openrouter_key)
+    log.info("teacher backend: %s (model=%s)", args.teacher_backend, args.model or "backend default")
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -195,8 +288,8 @@ def main(argv: list[str] | None = None) -> int:
                 n_failed += 1
                 continue
             try:
-                trace = _call_judge(system, prompt, client, model, max_tokens=args.max_tokens)
-            except Exception as exc:  # noqa: BLE001 -- teacher API call, log and continue past transient failures
+                trace = teacher_call(system, prompt)
+            except Exception as exc:  # noqa: BLE001 -- teacher call, log and continue past transient failures
                 log.warning("teacher call failed for %s: %s", item.get("question_id"), exc)
                 n_failed += 1
                 continue
@@ -211,8 +304,8 @@ def main(argv: list[str] | None = None) -> int:
                         "D": item["D"],
                         "gold": item["answer"],
                         "teacher_trace": trace,
-                        "teacher_model": model,
-                        "teacher_temperature": args.temperature,
+                        "teacher_backend": args.teacher_backend,
+                        "teacher_model": args.model,
                     },
                     sort_keys=True,
                 )
