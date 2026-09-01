@@ -1,0 +1,17 @@
+{
+  "causal_drop_rate": 0.6531165311653117,
+  "causal_dropped_count": 723,
+  "causal_verified_count": 384,
+  "chainlink_issue": 112,
+  "contamination_check_excludes_sealed_test": true,
+  "contamination_check_sources": [
+    "data/val_v3.jsonl",
+    "eval_freeform/dev.jsonl"
+  ],
+  "contamination_dropped": 0,
+  "format": "autoresearch_synthetic_trace_verification_report_v1",
+  "input": "data/synthetic_traces_v1.jsonl",
+  "input_rows": 1107,
+  "model": "unsloth/Qwen3-0.6B",
+  "post_contamination_rows": 1107
+}
