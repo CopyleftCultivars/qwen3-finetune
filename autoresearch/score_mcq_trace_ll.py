@@ -37,10 +37,14 @@ contaminated item. `--verify-determinism` reruns a sample twice and asserts
 the trace text and per-letter logprobs are bit-for-bit/value-for-value
 identical (Accept: "repeated runs match").
 
-Explicitly OUT of scope for this file (separate, later chainlink issue):
-  - Empty-trace delta_trace ablation (#108 / I3) -- score_with_trace() below
-    takes an explicit `trace` string precisely so I3 can call it a second
-    time with trace="" without duplicating the scoring logic.
+Ablation guard (chainlink #108 / I3): every scored item also gets a Pass-2-only
+rerun with an empty trace (score_with_trace(..., trace="") -- no extra
+generation, just a second forward pass), logged per item as
+empty_trace_option_set_gold_logprob and delta_trace = LL(with_trace) -
+LL(empty_trace). mean_delta_trace / delta_trace_positive_fraction are in the
+summary. Whether delta_trace_positive_fraction clears the Plan A step 8
+validation gate (majority positive AND rubric guard clean) is decided later,
+by #109/#110 (I4/I5) -- this file only measures and logs it.
 
 Usage:
   python autoresearch/score_mcq_trace_ll.py \
@@ -311,6 +315,16 @@ def main(argv: list[str] | None = None) -> int:
         probs = _softmax_probs(logprobs)
         top_letter = max(LETTERS, key=lambda letter: logprobs[letter])
         gold = item["answer"]
+        option_set_gold_logprob = math.log(probs[gold])
+
+        # I3 (#108) ablation guard: same Pass-2 scoring call with trace="" instead of
+        # a rerun of Pass 1 -- reuses score_with_trace/build_trace_prompt unchanged.
+        empty_logprobs = score_with_trace(model, tokenizer, item, "", letter_ids, score_symbol, args.device)
+        empty_probs = _softmax_probs(empty_logprobs)
+        empty_top_letter = max(LETTERS, key=lambda letter: empty_logprobs[letter])
+        empty_option_set_gold_logprob = math.log(empty_probs[gold])
+        delta_trace = option_set_gold_logprob - empty_option_set_gold_logprob
+
         per_item.append(
             {
                 "question_id": item["question_id"],
@@ -324,11 +338,16 @@ def main(argv: list[str] | None = None) -> int:
                 "trace_truncated": truncated,
                 "gold_logprob": logprobs[gold],
                 "gold_probability": probs[gold],
-                "option_set_gold_logprob": math.log(probs[gold]),
+                "option_set_gold_logprob": option_set_gold_logprob,
                 "top_letter": top_letter,
                 "top_logprob": logprobs[top_letter],
                 "correct_by_argmax": top_letter == gold,
                 "logprobs": {letter: logprobs[letter] for letter in LETTERS},
+                "empty_trace_option_set_gold_logprob": empty_option_set_gold_logprob,
+                "empty_trace_top_letter": empty_top_letter,
+                "empty_trace_correct_by_argmax": empty_top_letter == gold,
+                "empty_trace_logprobs": {letter: empty_logprobs[letter] for letter in LETTERS},
+                "delta_trace": delta_trace,
             }
         )
 
@@ -336,6 +355,8 @@ def main(argv: list[str] | None = None) -> int:
     mean_gold_ll = sum(row["gold_logprob"] for row in per_item) / total
     mean_option_gold_ll = sum(row["option_set_gold_logprob"] for row in per_item) / total
     n_truncated = sum(1 for row in per_item if row["trace_truncated"])
+    mean_delta_trace = sum(row["delta_trace"] for row in per_item) / total
+    n_delta_positive = sum(1 for row in per_item if row["delta_trace"] > 0)
     summary = {
         "format": "autoresearch_mcq_trace_ll_v1",
         "objective_note": (
@@ -344,7 +365,7 @@ def main(argv: list[str] | None = None) -> int:
             "TRACE_EVAL_REASONING_SFT_RLM_PLAN.md assumption 5 and objective_weights_v3.json "
             "(chainlink #109 / I4)."
         ),
-        "chainlink_issue": 106,
+        "chainlink_issues": [106, 107, 108],
         "model": args.model,
         "dataset": args.dataset,
         "diagnostics_dir": str(Path(args.diagnostics_dir)),
@@ -359,6 +380,16 @@ def main(argv: list[str] | None = None) -> int:
         "argmax_accuracy": sum(1 for row in per_item if row["correct_by_argmax"]) / total,
         "traces_truncated_count": n_truncated,
         "traces_truncated_fraction": n_truncated / total,
+        "empty_trace_argmax_accuracy": sum(1 for row in per_item if row["empty_trace_correct_by_argmax"]) / total,
+        "mean_delta_trace": mean_delta_trace,
+        "delta_trace_positive_count": n_delta_positive,
+        "delta_trace_positive_fraction": n_delta_positive / total,
+        "delta_trace_note": (
+            "delta_trace = LL(with_trace) - LL(empty_trace) per item (I3/#108 ablation guard). "
+            "delta_trace_positive_fraction > 0.5 is necessary but not sufficient for the Plan A "
+            "step 8 validation gate (which also requires the rubric guard clean) -- that gate "
+            "decision itself is chainlink #109/#110 (I4/I5), not decided here."
+        ),
         "full_precision": args.full_precision,
         "device": args.device,
     }
@@ -380,6 +411,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"scored_mcq_rows={total}")
     print(f"skipped_non_mcq_rows={len(skipped)}")
     print(f"mean_trace_option_set_gold_logprob={mean_option_gold_ll:.8f}")
+    print(f"mean_delta_trace={mean_delta_trace:.8f}")
+    print(f"delta_trace_positive_fraction={n_delta_positive / total:.4f}")
     print(f"argmax_accuracy={summary['argmax_accuracy']:.4f}")
     print(f"traces_truncated_fraction={summary['traces_truncated_fraction']:.4f}")
     return 0
