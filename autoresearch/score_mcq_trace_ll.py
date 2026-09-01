@@ -27,8 +27,17 @@ assumption 5) -- do not diff mean_trace_option_set_gold_logprob against
 score_mcq_ll.py's mean_option_set_gold_logprob. objective_weights_v3.json
 (chainlink #109 / I4) is where that policy gets written down formally.
 
-Explicitly OUT of scope for this file (separate, later chainlink issues):
-  - Sealed-path denylist refusal + determinism verification (#107 / I2).
+Leakage guards (chainlink #107 / I2): `--dataset` is checked against a sealed-
+path denylist before any file IO, same pattern as `jspace_annotator.py`'s
+`check_not_sealed`. The Pass-1 prompt (question + options only, no answer
+field -- see build_question_messages) is asserted gold-free after
+construction: a parsing regression that let "Answer: X" text leak into the
+parsed question text would raise loudly here rather than silently score a
+contaminated item. `--verify-determinism` reruns a sample twice and asserts
+the trace text and per-letter logprobs are bit-for-bit/value-for-value
+identical (Accept: "repeated runs match").
+
+Explicitly OUT of scope for this file (separate, later chainlink issue):
   - Empty-trace delta_trace ablation (#108 / I3) -- score_with_trace() below
     takes an explicit `trace` string precisely so I3 can call it a second
     time with trace="" without duplicating the scoring logic.
@@ -39,6 +48,9 @@ Usage:
     --dataset data/val_v3.jsonl \
     --output results/mcq_trace_ll_p6-lr5e5-r2.json \
     --per-item-output results/mcq_trace_ll_p6-lr5e5-r2.jsonl
+
+  # I2 determinism check (reruns --verify-determinism-samples items twice):
+  python autoresearch/score_mcq_trace_ll.py --model ... --verify-determinism --limit 5
 """
 
 from __future__ import annotations
@@ -66,6 +78,29 @@ from score_mcq_ll import (  # noqa: E402 -- reuse the frozen scorer's row parsin
 DEFAULT_MAX_TRACE_TOKENS = 256
 DEFAULT_SEED = 42
 
+# Same pattern as jspace_annotator.py: checked against a denylist before any
+# file IO. Never read the sealed free-form test split from this script.
+SEALED_PATH_FRAGMENTS = ("eval_freeform/test.jsonl",)
+
+# Structural leakage guard: if a row's parsed question text contains one of
+# these, normalize_mcq_record's option-block regex failed to strip the
+# trailing "Answer: X" / "Correct answer: X" line -- fail loudly rather than
+# silently score Pass 1 on a gold-contaminated prompt.
+_LEAKAGE_MARKERS = ("answer:", "correct answer")
+
+
+class GoldLeakageError(ValueError):
+    """Raised when a parsed question appears to still contain the gold answer."""
+
+
+def check_not_sealed(path: str | Path) -> Path:
+    resolved = Path(path)
+    as_posix = resolved.as_posix()
+    for fragment in SEALED_PATH_FRAGMENTS:
+        if fragment in as_posix:
+            raise SystemExit(f"refusing to read sealed test path: {path}")
+    return resolved
+
 
 def build_question_messages(item: dict[str, Any]) -> list[dict[str, str]]:
     question_text = (
@@ -75,6 +110,13 @@ def build_question_messages(item: dict[str, Any]) -> list[dict[str, str]]:
         f"C. {item['C']}\n"
         f"D. {item['D']}"
     )
+    lowered = question_text.lower()
+    if any(marker in lowered for marker in _LEAKAGE_MARKERS):
+        raise GoldLeakageError(
+            f"question_id={item.get('question_id')!r}: parsed question/options text still "
+            f"contains a gold-answer marker ({_LEAKAGE_MARKERS!r}) -- refusing to build a "
+            "Pass-1 prompt that may leak the gold letter"
+        )
     return [{"role": "user", "content": question_text}]
 
 
@@ -180,7 +222,45 @@ def build_parser() -> argparse.ArgumentParser:
         help="Use diagnostics full-precision (bf16) model loading instead of 4-bit NF4.",
     )
     parser.add_argument("--verbose", action="store_true")
+    parser.add_argument(
+        "--verify-determinism",
+        action="store_true",
+        help="I2 check: rerun each scored item's 2-pass generation+scoring a second time "
+        "and assert the trace text and per-letter logprobs are identical.",
+    )
     return parser
+
+
+def verify_item_determinism(
+    model,
+    tokenizer,
+    item: dict[str, Any],
+    letter_ids: dict[str, int],
+    score_symbol,
+    max_trace_tokens: int,
+    device: str,
+    seed: int,
+) -> dict[str, Any]:
+    """Rerun Pass 1 + Pass 2 for one item and compare against a first run.
+    Returns a small report dict; raises AssertionError on any mismatch."""
+    first_generated, first_trace, _, _ = generate_trace(model, tokenizer, item, max_trace_tokens, device, seed)
+    first_logprobs = score_with_trace(model, tokenizer, item, first_trace, letter_ids, score_symbol, device)
+
+    second_generated, second_trace, _, _ = generate_trace(model, tokenizer, item, max_trace_tokens, device, seed)
+    second_logprobs = score_with_trace(model, tokenizer, item, second_trace, letter_ids, score_symbol, device)
+
+    trace_match = first_generated == second_generated
+    logprob_match = first_logprobs == second_logprobs
+    if not trace_match or not logprob_match:
+        raise AssertionError(
+            f"question_id={item.get('question_id')!r}: determinism check failed "
+            f"(trace_match={trace_match}, logprob_match={logprob_match})"
+        )
+    return {
+        "question_id": item["question_id"],
+        "trace_match": trace_match,
+        "logprob_match": logprob_match,
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -191,6 +271,8 @@ def main(argv: list[str] | None = None) -> int:
         level=logging.INFO if args.verbose else logging.WARNING,
         format="%(asctime)s %(levelname)s %(message)s",
     )
+
+    check_not_sealed(args.dataset)  # I2: sealed-path denylist, before any file IO
 
     helpers = import_diagnostics_helpers(Path(args.diagnostics_dir))
     rows = helpers["load_benchmark"](args.dataset)
@@ -205,6 +287,19 @@ def main(argv: list[str] | None = None) -> int:
     )
     letter_ids = helpers["get_letter_token_ids"](tokenizer)
     score_symbol = helpers["score_symbol"]
+
+    if args.verify_determinism:
+        log.info("Verifying determinism on %d items (2x generation+scoring each)", len(records))
+        reports = [
+            verify_item_determinism(
+                model, tokenizer, item, letter_ids, score_symbol, args.max_trace_tokens, args.device, args.seed
+            )
+            for item in records
+        ]
+        print(f"determinism_verified=True n_items={len(reports)}")
+        for report in reports:
+            print(f"  {report['question_id']}: trace_match={report['trace_match']} logprob_match={report['logprob_match']}")
+        return 0
 
     per_item: list[dict[str, Any]] = []
     log.info("Scoring %d MCQ rows (2-pass, trace-conditioned) from %s", len(records), args.dataset)
