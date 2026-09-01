@@ -51,6 +51,9 @@ wandb/
 .mcp.json
 CHANGELOG.md
 
+# Local reference material (PDFs, converted notes) — scratch, not project content
+docs/
+
 # MCQ generation pipeline: run logs, LLM judge response caches, and per-topic/
 # per-batch intermediate output are regenerable scratch (rerunning the pipeline
 # recreates them) — only the pipeline code, prompts, rubrics, and final merged
