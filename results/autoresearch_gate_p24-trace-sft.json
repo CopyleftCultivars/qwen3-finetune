@@ -1,0 +1,49 @@
+{
+  "baseline_primary": -0.7751536917130241,
+  "candidate_primary": -0.6975032389960023,
+  "decision": "reject",
+  "format": "autoresearch_gate_decision_v1",
+  "parallel_tracks": {
+    "trace_conditioned": {
+      "baseline": {
+        "argmax_accuracy": 0.7876106194690266,
+        "delta_trace_positive_fraction": 0.6637168141592921,
+        "empty_trace_argmax_accuracy": 0.7168141592920354,
+        "mean_delta_trace": 0.16704207832351922,
+        "mean_trace_option_set_gold_logprob": -0.5354196009103621,
+        "model": "outputs/merged-model-p6-lr5e5-r2",
+        "scored_mcq_rows": 113,
+        "source": "results/mcq_trace_ll_v5_clean.json"
+      },
+      "candidate": {
+        "argmax_accuracy": 0.7522123893805309,
+        "delta_trace_positive_fraction": 0.4690265486725664,
+        "empty_trace_argmax_accuracy": 0.7256637168141593,
+        "mean_delta_trace": -0.04076539989125166,
+        "mean_trace_option_set_gold_logprob": -0.722220783607117,
+        "model": "outputs/merged-model-p24-trace-sft",
+        "scored_mcq_rows": 113,
+        "source": "results/mcq_trace_ll_p24-trace-sft.json"
+      },
+      "candidate_delta_trace_positive_fraction": 0.4690265486725664,
+      "format": "autoresearch_trace_parallel_track_v1",
+      "note": "This block never influences 'decision'/'recommended_action' above. objective_weights_v3.json's promotion_gate.status is 'parallel_track_not_yet_gating'; this script only reports the track, it does not decide promotion.",
+      "policy": "autoresearch/objective_weights_v3.json",
+      "role": "informational_only_not_gating",
+      "step8_majority_positive_clears": false,
+      "trace_primary_delta": -0.18680118269675483
+    }
+  },
+  "primary_delta": 0.07765045271702176,
+  "primary_delta_standard_errors": 0.3882522635851088,
+  "primary_delta_threshold": 0.4,
+  "primary_standard_error": 0.2,
+  "reasons": {
+    "metric": [
+      "primary_delta_not_significant delta=0.0776504527 threshold=0.4000000000"
+    ],
+    "pause_guardrails": [],
+    "reject_guardrails": []
+  },
+  "recommended_action": "revert_candidate"
+}

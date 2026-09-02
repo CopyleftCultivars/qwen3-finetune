@@ -38,45 +38,44 @@ Companion plan: `TRACE_EVAL_REASONING_SFT_RLM_PLAN.md`.
 - **I10** Evaluate plus gate vs trace-LL baseline.
   Accept: primary delta reported; `delta_trace > 0` majority; rubric clean. Dep: I5, I9.
 
-## Milestone M3 - Minimal RLM slice, Flutter (parallel with M2 after I11)
+## Milestone M3 - Qwen3 RLM model proof (parallel with M2)
 
-- **I11** Cactus Flutter API recon -> `docs/cactus_flutter_api.md`.
-  Accept: load / generate / KV / embedding APIs documented.
-- **I12** `RlmController` 2-pass in Dart. Accept: same 2-pass shape as I1 on a sample. Dep: I11.
-- **I13** Optional on-device RAG memory. Accept: top-k retrieval injected; toggle to disable. Dep: I12.
-- **I14** Latency and memory budget harness on Pixel 7 plus single-pass fallback.
+- **I11** Qwen3/v5clean reference-runtime recon.
+  Accept: generation / 2-pass / KV / embedding interfaces documented; no Cactus changes.
+- **I12** Qwen3/v5clean 2-pass RLM reference test.
+  Accept: reproducible outputs and quality metrics versus frozen v5clean. Dep: I11.
+- **I13** Qwen3/v5clean external RAG-memory test.
+  Accept: top-k retrieval injected; toggle to disable; quality delta reported. Dep: I12.
+- **I14** Qwen3 RLM latency and memory reference benchmark.
   Accept: ms and MB reported; fallback triggers over budget. Dep: I12.
-- **I15** Device-to-server parity test plus hide-trace UI.
-  Accept: outputs match on golden set; trace hidden by default. Dep: I12, I14.
+- **I15** RLM model-quality gate versus frozen v5clean.
+  Accept: primary, trace benefit, rubric/forgetting guards, and pass/reject reported. Dep: I12, I13, I14.
 
-## Milestone M4 - Cactus fork spike, gated (depends on M1-M3 results)
+## Milestone M4 - Qwen3 Metis-style model proof and integration gate
 
-- **I16** Cactus capability report `docs/cactus_fork_feasibility.md` (Metis + true multi-stream).
-  Accept: both questions answered with effort estimates.
-- **I17** Go / no-go decision. Accept: written decision referencing M1-M3 results. Dep: I16, I10, I15.
+- **I16** Qwen3 Metis-style memory experiment versus v5clean.
+  Accept: reproducible mechanism plus quality/resource deltas and pass/reject; no Cactus changes. Dep: I11.
+- **I17** Go / no-go for Cactus integration after a model win.
+  Accept: GO only if I15 or I16 materially and cleanly beats frozen v5clean; otherwise NO-GO.
+  Dep: I16, I10, I15.
 
 ## Blocker chain (summary)
 
 - I1 -> I2 -> (I3) -> I4 -> I5 -> I10.
 - I1 -> I6 -> I7 -> I8 -> I9 -> I10.
 - I11 -> I12 -> {I13, I14} -> I15.
-- {I10, I15} -> I16 -> I17.
+- I11 -> I16.
+- {I10, I15, I16} -> I17.
 
 ## Review notes
 
-1. M1 and the recon issue I11 can start immediately and in parallel.
-2. M2 and M3 run in parallel after their first dependency clears.
-3. M4 stays closed until M1-M3 produce results.
+1. M1 and the Qwen3 reference-runtime recon I11 can start immediately and in parallel.
+2. M2 and the model-first M3/M4 experiments run without Cactus modifications.
+3. Flutter, Pixel, and Cactus work stays closed until a candidate beats frozen v5clean.
 
 ## Chainlink issue map
 
-Epic issue #105, with I1-I17 created as its subissues #106-#122 (in order) and
+Epic issue #105, with I1-I18 created as its subissues #106-#123 (in order) and
 grouped into milestones #1 (M1), #2 (M2), #3 (M3), #4 (M4). Blocks were set
-from each issue's own `Dep:` line. `chainlink issue ready` confirms exactly
-#106 (I1), #116 (I11), #121 (I16) are unblocked, matching review note 1.
-
-**Discrepancy found and left unresolved**: the blocker-chain summary above
-lists `I11 -> I12 -> {I13, I14} -> I15`, implying I15 depends on both I13 and
-I14, but I15's own line only states `Dep: I12, I14`. The chainlink block was
-set from the per-issue line (I15 blocked by I12 and I14 only, not I13). If
-I15 was meant to also wait on I13, run `chainlink issue block 120 118`.
+from the model-first dependency chain above. I18 (#123) is the bounded Phase24
+failure analysis and starts after I10 records its final evaluation result.

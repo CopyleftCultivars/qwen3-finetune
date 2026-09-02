@@ -1,6 +1,6 @@
 {
   "format": "autoresearch_trace_primary_objective_policy_v1",
-  "status": "parallel_track_not_yet_gating",
+  "status": "parallel_track_evaluated_not_promoted",
   "parallel_to": "autoresearch/objective_weights.json (format autoresearch_primary_objective_policy_v2, UNCHANGED -- still the sole accept/revert signal until this track is explicitly promoted)",
   "formula": "trace_primary = 1.0 * mcq_trace_mean_option_set_gold_logprob",
   "mcq_trace_metric": "mean_trace_option_set_gold_logprob",
@@ -13,9 +13,11 @@
     "unlock_condition": "delta_trace_positive_fraction > 0.5 (a clear majority) AND the free-form rubric guard stays clean"
   },
   "promotion_gate": {
-    "status": "not_yet_evaluated",
-    "decided_by": "chainlink #110 (I5) -- gate.py PARALLEL track integration",
-    "rule": "TRACE_EVAL_REASONING_SFT_RLM_PLAN.md Part 1 / Plan A step 8: accept this track only when (a) delta_trace > 0 on a clear majority of items, and (b) the free-form rubric guard stays clean. Record the decision here and in program.md's Objective and gate rule section once made -- do not silently flip 'status' above without that record."
+    "status": "evaluated_rejected_phase24",
+    "decided_by": "chainlink #115 (I10) using the #110 gate.py PARALLEL-track wrapper",
+    "rule": "TRACE_EVAL_REASONING_SFT_RLM_PLAN.md Part 1 / Plan A step 8: accept this track only when (a) delta_trace > 0 on a clear majority of items, and (b) the free-form rubric guard stays clean.",
+    "decision": "Do not promote the trace-conditioned track. Phase24's rubric guard was clean, but delta_trace_positive_fraction=0.4690 failed the required >0.5 majority and trace_primary_delta=-0.1868 versus v5clean.",
+    "evidence": "results/autoresearch_gate_p24-trace-sft.json"
   },
   "baseline_reference": {
     "champion": "v5clean (outputs/merged-model-p6-lr5e5-r2)",
