@@ -1,0 +1,1250 @@
+{
+ "A": [
+  {
+   "question_id": "row_000009",
+   "arm": "A",
+   "trace": "Guilds are defined as a group of perennial plants arranged in a circular pattern around a central tree or shrub, with each guild occupying a specific ecological niche and growing in close proximity to support beneficial interactions. In permaculture, guilds are central to the food forest and edible forest garden design, which are both food production systems and ecological mimicry systems that replicate the complexity of natural forest ecosystems. Monocultures (A) and row-crop systems (D) lack the guild structure, and decorative botanical gardens (C) focus more on aesthetic or secondary features rather than functional ecological relationships. The food forest and edible forest garden directly emulate forest ecosystems by creating these layered, self-supporting guilds that mimic the diversity, interdependence, and regeneration potential of natural forests.",
+   "truncated": false,
+   "logprobs": {
+    "A": -6.21875,
+    "B": -2.84375,
+    "C": -7.46875,
+    "D": -4.09375
+   },
+   "gold": "B",
+   "top_letter": "B",
+   "option_set_gold_logprob": -0.2855747813284117,
+   "correct": true,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 162,
+   "latency_ms": 3876.164,
+   "per_call_ms": [
+    3834.647,
+    41.517
+   ]
+  },
+  {
+   "question_id": "row_000013",
+   "arm": "A",
+   "trace": "Zone analysis organizes permaculture design elements by frequency of human interaction, energy expenditure, and resource needs\u2014such as direct pruning, mulching, or irrigation scheduling\u2014rather than predicting specific microclimate temperatures. While zone analysis does recognize the importance of microclimates and how they vary by location, the primary goal is not to calculate individual temperature values, which requires precise climate modeling tools not typically part of a zoning framework. The other options directly align with zone analysis principles: zones organize elements by need frequency, save time and energy through efficient planning, and determine the homesteader's exact microclimate conditions through this approach.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.46875,
+    "B": -5.84375,
+    "C": -2.71875,
+    "D": -0.212891
+   },
+   "gold": "D",
+   "top_letter": "D",
+   "option_set_gold_logprob": -0.08655174738946553,
+   "correct": true,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 131,
+   "latency_ms": 2846.526,
+   "per_call_ms": [
+    2816.923,
+    29.603
+   ]
+  },
+  {
+   "question_id": "row_000015",
+   "arm": "A",
+   "trace": "USDA organic standards require land to be free of prohibited substances for harvest duration to ensure soil fertility and microbial health for certified organic products, with the general rule that land must be free of prohibited substances for at least two years before harvest. This two-year requirement is the minimum standard, and longer durations (three, five, or more years) would result in certification delays or the requirement for land to be free of prohibited substances for those extended periods. Options A and C are too short, while option D is not USDA-specific, and the definition emphasizes \"general\" rather than \"specific\" standards.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.09375,
+    "B": -6.96875,
+    "C": -4.46875,
+    "D": -4.46875
+   },
+   "gold": "B",
+   "top_letter": "C",
+   "option_set_gold_logprob": -3.4621609904626625,
+   "correct": false,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 125,
+   "latency_ms": 2727.118,
+   "per_call_ms": [
+    2694.785,
+    32.333
+   ]
+  },
+  {
+   "question_id": "row_000016",
+   "arm": "A",
+   "trace": "Tiger Worm is specifically highlighted as the most efficient worm species for vermicomposting in a bin environment due to its rapid reproduction rate and high decomposition capacity, making it ideal for urban composting systems. While Earthworms like Red Wiggler and Common Earthworm are effective decomposers, they require more space and energy to reproduce and thrive. Nightcrawler, although predatory and efficient at controlling pest populations, is not specifically noted as the preferred worm species for vermicomposting in bins, and European Earthworm is too large for bin-scale applications. Tiger Worm's efficiency and adaptability to bin environments make it the answer to the question.",
+   "truncated": false,
+   "logprobs": {
+    "A": -3.15625,
+    "B": -5.78125,
+    "C": -1.53125,
+    "D": -3.15625
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.34223246057208595,
+   "correct": true,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 136,
+   "latency_ms": 3068.129,
+   "per_call_ms": [
+    3038.11,
+    30.019
+   ]
+  },
+  {
+   "question_id": "row_000021",
+   "arm": "A",
+   "trace": "Ricin is a potent neurotoxic compound found in the seeds of Castor beans, making them one of the most historically devastating plant toxins due to their high ricin content. While castor beans also contain atropine (used in antifreeze sprays and as a stimulant to humans), cyanide (present in some legumes) and atropine (found in castor bean seeds) are not the primary toxic components that distinguish them from other Castor bean varieties, and none of these compounds are the most commonly recognized pathogenic toxins in the context of this question. Ricin is the unique and historically significant toxin associated with this plant.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.0625,
+    "B": -4.8125,
+    "C": -1.046875,
+    "D": -1.796875
+   },
+   "gold": "A",
+   "top_letter": "C",
+   "option_set_gold_logprob": -4.430083790740487,
+   "correct": false,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 139,
+   "latency_ms": 3148.511,
+   "per_call_ms": [
+    3118.388,
+    30.123
+   ]
+  },
+  {
+   "question_id": "row_000026",
+   "arm": "A",
+   "trace": "Protozoa and nematodes are parasitic microorganisms that consume bacteria, fungi, and other soil microbes, thereby reducing their biomass and increasing the availability of their metabolites for plant uptake. This microbial grazing leads to enhanced nutrient availability\u2014particularly ammonium and other nitrogen compounds\u2014that plants can absorb more efficiently, thereby increasing plant growth and reducing the need for synthetic fertilizers. Options A and D are incorrect because protozoa and nematodes actually increase soil fertility, while option C is contradicted by the description, which states that protozoa and nematodes enhance fungal dominance rather than reduce it.",
+   "truncated": false,
+   "logprobs": {
+    "A": -6.75,
+    "B": -8.5,
+    "C": -0.001938,
+    "D": -8.125
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.0016722338931449616,
+   "correct": true,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 128,
+   "latency_ms": 2958.269,
+   "per_call_ms": [
+    2928.112,
+    30.156
+   ]
+  },
+  {
+   "question_id": "row_000030",
+   "arm": "A",
+   "trace": "AACT is specifically noted as a microbial soil amendment that enhances soil biodiversity and vitality by promoting the growth of beneficial soil microorganisms, making it a cornerstone of natural farming practices. While AACT may provide short-term nutrient availability (option B) or serve as a foliar spray (option D), its primary function in the guide is to improve soil health through microbial activity, rather than as a synthetic nutrient supplement or for weed control. This definition aligns with the principles of natural farming, which emphasize the use of indigenous microorganisms and fermented plant extracts to support ecosystem health and plant resilience.",
+   "truncated": false,
+   "logprobs": {
+    "A": -11.125,
+    "B": -0.001892,
+    "C": -6.625,
+    "D": -7.5
+   },
+   "gold": "B",
+   "top_letter": "B",
+   "option_set_gold_logprob": -0.0018963928647060724,
+   "correct": true,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 123,
+   "latency_ms": 2664.322,
+   "per_call_ms": [
+    2634.269,
+    30.053
+   ]
+  },
+  {
+   "question_id": "row_000031",
+   "arm": "A",
+   "trace": "The detritusphere is a central concept in soil ecology that describes the area around the base of plant roots, where organic matter decomposes and nutrients are exchanged between soil organisms and plant roots. This zone is crucial for understanding how soil life supports plant growth and ecosystem function. Options A, C, and D describe localized effects or intermediate stages of decomposition, rather than the detritusphere's primary ecological role. The detritusphere is a key framework for understanding the interdependencies between soil, plant roots, and other soil biota, making it essential for soil conservation and management practices.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.46875,
+    "B": -6.34375,
+    "C": -0.480469,
+    "D": -0.980469
+   },
+   "gold": "A",
+   "top_letter": "C",
+   "option_set_gold_logprob": -5.46835273714682,
+   "correct": false,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 125,
+   "latency_ms": 2696.914,
+   "per_call_ms": [
+    2667.425,
+    29.489
+   ]
+  },
+  {
+   "question_id": "row_000034",
+   "arm": "A",
+   "trace": "Soil structure is defined by the spatial organization of soil solids (clay, sand, silt particles) and the voids (pores) between them, which are the primary physical features that determine soil's functional capacity. This distinction is critical because soil structure is what allows soil to perform its essential agronomic functions\u2014porous space for water infiltration, aeration for root growth, and drainage for plant health, as well as the arrangement of organic matter, minerals, and organisms within these pores. While chemical nutrients and ions are important soil functions, they are not the primary structural component of soil. Organism interactions and atmospheric gases are secondary to soil structure's physical framework.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.96875,
+    "B": -6.59375,
+    "C": -0.480469,
+    "D": -0.980469
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.47802070722942747,
+   "correct": true,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 142,
+   "latency_ms": 3075.784,
+   "per_call_ms": [
+    3045.575,
+    30.21
+   ]
+  },
+  {
+   "question_id": "row_000035",
+   "arm": "A",
+   "trace": "Forest gardens are designed with a concept of managed intensity based on human access frequency\u2014zones of use categorize the garden into intensities of management that decrease as users move away from the planting area. This design principle is central to forest garden theory, where less intensive management (e.g., regular weeding, pruning) allows for more space for biodiversity and ecosystem resilience. While zones of use is a practical outcome of this design approach, the term is not related to temperature hardiness zones, which are agricultural land-use attributes, or legal zoning regulations. The definition captures the functional ecological principle that forest gardens create a network of interdependent, low-maintenance zones that support natural processes and community resilience.",
+   "truncated": false,
+   "logprobs": {
+    "A": -4.25,
+    "B": -2.265625,
+    "C": -5.375,
+    "D": -0.136719
+   },
+   "gold": "B",
+   "top_letter": "D",
+   "option_set_gold_logprob": -2.260487642282117,
+   "correct": false,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 144,
+   "latency_ms": 3108.679,
+   "per_call_ms": [
+    3078.795,
+    29.884
+   ]
+  },
+  {
+   "question_id": "row_000054",
+   "arm": "A",
+   "trace": "Biological nitrogen fixation requires specific conditions to occur, with active pink-colored root nodules indicating nitrogen-fixing bacteria (Nitrosomycetes) and the presence of correct inoculants to initiate the symbiotic process. Active nodules are directly linked to the fixation mechanism, making them favorable conditions. In contrast, very low soil pH is actually unfavorable because high pH promotes nitrification and mineral nitrogen cycling, not the reduction of atmospheric N\u2082 to plant-available forms. The absence of high-mineral-N\u2082 levels is essential for the fixation process, as it indicates the presence of the right microbial community and environmental conditions for N\u2082 fixation to proceed.",
+   "truncated": false,
+   "logprobs": {
+    "A": -3.875,
+    "B": -5.0,
+    "C": -1.257812,
+    "D": -0.882812
+   },
+   "gold": "B",
+   "top_letter": "D",
+   "option_set_gold_logprob": -4.6789478999947445,
+   "correct": false,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 136,
+   "latency_ms": 2940.857,
+   "per_call_ms": [
+    2909.717,
+    31.141
+   ]
+  },
+  {
+   "question_id": "row_000063",
+   "arm": "A",
+   "trace": "Darcy's Law is the fundamental equation describing the flow of water through saturated porous media, with the general form Q = -K\u00b7A\u00b7\u0394P/\u0394y, where Q is flow rate, K is Darcy coefficient, A is cross-sectional area, \u0394P is pressure gradient, and \u0394y is hydraulic gradient. It accounts for water moving through soil pores and is independent of Bernoulli's principle (which governs aerodynamic flow), Laplace's equation (used in electrostatics and potential theory), and Poiseuille's law (applied to laminar flow in pipes). This law directly models saturated soil water movement, making it the correct answer to the question.",
+   "truncated": false,
+   "logprobs": {
+    "A": -9.8125,
+    "B": -8.9375,
+    "C": -0.199219,
+    "D": -1.820312
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.1805779793864848,
+   "correct": true,
+   "passes": 1,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 146,
+   "latency_ms": 3159.19,
+   "per_call_ms": [
+    3129.4,
+    29.79
+   ]
+  }
+ ],
+ "R_model": [
+  {
+   "question_id": "row_000009",
+   "arm": "R",
+   "trace": "Guilds in permaculture design represent the central organizing unit that mimics the hierarchical structure of a forest ecosystem, where the \"tree\" represents the permaculture designer, and guilds are the smaller, living components that support and integrate with it. This approach is particularly effective in food forests and edible forest gardens, which are designed to create self-sustaining, regenerative ecosystems that mimic natural forest patterns. In contrast, monoculture orchards, row-crop vegetable gardens, and decorative botanical gardens lack the guild structure and are more focused on single-species production or aesthetic appeal rather than creating a closed-loop, regenerative system that replicates forest ecosystem principles.",
+   "truncated": false,
+   "logprobs": {
+    "A": -6.8125,
+    "B": -0.071777,
+    "C": -7.3125,
+    "D": -2.828125
+   },
+   "gold": "B",
+   "top_letter": "B",
+   "option_set_gold_logprob": -0.06337090915775496,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 188,
+   "latency_ms": 4081.042,
+   "per_call_ms": [
+    1044.264,
+    3007.388,
+    29.39
+   ],
+   "retrieval_query": "permaculture design process",
+   "retrieval_mode": "search",
+   "retrieval_ms": 355.5,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Permaculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000013",
+   "arm": "R",
+   "trace": "Zone analysis in permaculture organizes elements based on their frequency of need and design efficiency, which is why it's a cornerstone of permaculture's zone-based design philosophy. By organizing elements by frequency of need, designers can prioritize areas with the highest demand for attention and energy\u2014such as water harvesting systems, shade protection, and food production areas. The other options contradict zone analysis: \"saving time and energy\" is actually what zone analysis is intended for, not what it's designed to exclude. The concept of zones doesn't determine microclimate temperature directly, as zone analysis focuses on spatial organization rather than precise climate metrics.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.25,
+    "B": -6.75,
+    "C": -3.875,
+    "D": -0.496094
+   },
+   "gold": "D",
+   "top_letter": "D",
+   "option_set_gold_logprob": -0.04365855132785752,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 175,
+   "latency_ms": 3758.98,
+   "per_call_ms": [
+    913.15,
+    2816.403,
+    29.427
+   ],
+   "retrieval_query": "zone analysis in permaculture",
+   "retrieval_mode": "search",
+   "retrieval_ms": 517.5,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Permaculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000015",
+   "arm": "R",
+   "trace": "The USDA Organic Standards require land to be free of prohibited substances for at least two years before harvest, which is the minimum regulatory requirement to ensure the absence of contaminants that could affect organic certification. This two-year rule is in contrast to the shorter one-year requirements of commercial and industrial agriculture, which are more common in commercial farming operations. The five-year requirement (A) is not applicable here, while one year (B) and two years (C) are both too short and too long relative to the actual agricultural production cycle.",
+   "truncated": false,
+   "logprobs": {
+    "A": -2.78125,
+    "B": -6.03125,
+    "C": -3.15625,
+    "D": -3.03125
+   },
+   "gold": "B",
+   "top_letter": "A",
+   "option_set_gold_logprob": -4.1682345493139845,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 125,
+   "latency_ms": 2709.271,
+   "per_call_ms": [
+    305.718,
+    2374.473,
+    29.08
+   ],
+   "retrieval_query": "USDA organic standards crop certification requirements",
+   "retrieval_mode": "search",
+   "retrieval_ms": 458.9,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Agroecology",
+    "Organic_Farming",
+    "Regenerative_Agriculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000016",
+   "arm": "R",
+   "trace": "Tiger worms are specifically noted for their efficiency in bin environments due to their rapid reproduction rate and ability to thrive in compact, low-temperature conditions, making them ideal for vermicomposting facilities. While European nightcrawler and red wigglers are also effective, they are less common and have slower reproduction rates compared to tiger worms. Common earthworms, although ecologically diverse, are slower-reproducing and less suited to the compact space of bin systems.",
+   "truncated": false,
+   "logprobs": {
+    "A": -2.4375,
+    "B": -4.8125,
+    "C": -0.314453,
+    "D": -2.1875
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.2503321368587878,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 147,
+   "latency_ms": 3159.422,
+   "per_call_ms": [
+    1028.63,
+    2101.718,
+    29.075
+   ],
+   "retrieval_query": "worm species for vermicomposting",
+   "retrieval_mode": "search",
+   "retrieval_ms": 373.5,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Soil_Science_and_Microbiology"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000021",
+   "arm": "R",
+   "trace": "Castor beans contain ricin, a potent neurotoxin that acts on the nervous system and can cause severe respiratory distress and even death within minutes of consumption. While the other listed compounds are indeed toxic to humans, ricin is specifically identified as the primary psychoactive component in the seeds of the Castor Bean, making it one of the deadliest plants. The question highlights the unique mechanism of ricin's action, which is not found in most other plant-based psychoactive substances. This distinction from other beans (e.g., mints, nightshades) is why ricin is particularly dangerous.",
+   "truncated": false,
+   "logprobs": {
+    "A": -4.4375,
+    "B": -5.6875,
+    "C": -2.671875,
+    "D": -3.296875
+   },
+   "gold": "A",
+   "top_letter": "C",
+   "option_set_gold_logprob": -2.3282969406296594,
+   "correct": false,
+   "passes": 2,
+   "notes": [
+    "query_unparseable:fell_back_to_question",
+    "fallback_to_vsearch"
+   ],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 174,
+   "latency_ms": 3754.377,
+   "per_call_ms": [
+    1025.96,
+    2698.602,
+    29.815
+   ],
+   "retrieval_query": "What is the primary toxic component found in the seeds of the Castor Bean Plant, making it one of the deadliest plants?",
+   "retrieval_mode": "vsearch",
+   "retrieval_ms": 5243.7,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Indigenous_and_Traditional_Knowledge",
+    "Organic_Farming",
+    "Permaculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [
+    "fallback_to_vsearch"
+   ],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000026",
+   "arm": "R",
+   "trace": "Protozoa and nematodes are key decomposers in the soil food web, actively breaking down organic matter and converting it into plant-available nutrients. By grazing on bacteria, these microorganisms release ammonium and other nitrogen compounds\u2014specifically labile forms of nitrogen\u2014that plants can easily absorb. This nutrient availability is directly linked to plant growth and productivity, making option A the correct answer. Options B, C, and D are not affected by this microbial grazing process, as protozoa and nematodes primarily influence microbial populations rather than plant health directly.",
+   "truncated": false,
+   "logprobs": {
+    "A": -2.90625,
+    "B": -5.65625,
+    "C": -0.287109,
+    "D": -4.15625
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.09385447500101975,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 167,
+   "latency_ms": 3586.92,
+   "per_call_ms": [
+    1028.059,
+    2529.518,
+    29.342
+   ],
+   "retrieval_query": "soil food web explanation",
+   "retrieval_mode": "search",
+   "retrieval_ms": 531.0,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Agroecology",
+    "Permaculture",
+    "Soil_Science_and_Microbiology",
+    "Sustainable_Water_Management"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000030",
+   "arm": "R",
+   "trace": "Actively aerated compost tea is specifically designed to be a microbial soil amendment, where the aerobic mixtures of beneficial fungi, bacteria, and other microbes created from composted organic matter are applied directly to soil or as a liquid to enhance soil health and plant vitality. This microbial activity improves soil structure, increases nutrient availability, and supports a diverse range of beneficial soil organisms, making it a cornerstone of natural farming and soil science. Options A, C, and D describe secondary uses of compost tea that are not its primary purpose, while option B is inaccurate as compost tea is not intended for foliar application or as a herbicide.",
+   "truncated": false,
+   "logprobs": {
+    "A": -8.75,
+    "B": -0.004333,
+    "C": -7.5,
+    "D": -5.625
+   },
+   "gold": "B",
+   "top_letter": "B",
+   "option_set_gold_logprob": -0.004327484858833833,
+   "correct": true,
+   "passes": 2,
+   "notes": [
+    "query_unparseable:fell_back_to_question"
+   ],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 180,
+   "latency_ms": 3845.55,
+   "per_call_ms": [
+    1023.392,
+    2793.209,
+    28.949
+   ],
+   "retrieval_query": "What is the primary purpose of Actively Aerated Compost Tea (AACT) as described in the field guide?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1313.7,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Soil_Science_and_Microbiology"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000031",
+   "arm": "R",
+   "trace": "The detritusphere is a defining concept in soil ecology that represents the zone of influence around plant roots, where organic matter is directly decomposed and mineralized by soil organisms. This is the foundation of the soil food web, linking plant nutrition to microbial activity and nutrient cycling. Options A, C, and D describe other soil functional domains\u2014nitrogen fixation, earthworm activity, and microbial populations\u2014that are distinct from the detritusphere's primary ecological role. The detritusphere's significance lies in its direct biological impact on soil health and plant nutrition, making it the core framework for understanding how soil biodiversity contributes to biogeochemical cycles.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.34375,
+    "B": -6.34375,
+    "C": -2.71875,
+    "D": -0.09375
+   },
+   "gold": "A",
+   "top_letter": "D",
+   "option_set_gold_logprob": -5.326607024377424,
+   "correct": false,
+   "passes": 2,
+   "notes": [
+    "query_unparseable:fell_back_to_question"
+   ],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 186,
+   "latency_ms": 3964.674,
+   "per_call_ms": [
+    1023.984,
+    2911.615,
+    29.075
+   ],
+   "retrieval_query": "What is the significance of the 'detritusphere' in soil ecology?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 779.6,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Agroecology",
+    "Regenerative_Agriculture",
+    "Soil_Science_and_Microbiology"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000034",
+   "arm": "R",
+   "trace": "Soil structure is defined by the arrangement of soil solids (clay, sand, silt) and the voids (pores) between them, which are the primary physical features that determine how water, air, and other elements move and interact within the soil profile. This arrangement is fundamental to soil fertility management, as soil structure affects water infiltration, root availability, and aeration\u2014key factors that Voroney and others emphasize are crucial for plant growth and ecosystem health. While soil organisms play a significant role in soil health and fertility, their interactions are more related to ecological processes than to physical soil properties. Atmospheric gases and nutrients are more closely related to soil biology and plant nutrition than to soil structure itself.",
+   "truncated": false,
+   "logprobs": {
+    "A": -6.28125,
+    "B": -7.03125,
+    "C": -0.402344,
+    "D": -1.148438
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.39091631561851725,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 196,
+   "latency_ms": 4174.847,
+   "per_call_ms": [
+    1020.49,
+    3125.231,
+    29.125
+   ],
+   "retrieval_query": "Voroney, Soil Science",
+   "retrieval_mode": "search",
+   "retrieval_ms": 334.5,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Agroecology",
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Soil_Science_and_Microbiology"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000035",
+   "arm": "R",
+   "trace": "Forest gardens are fundamentally designed to maximize biodiversity and ecological resilience by organizing the planting of multiple species in a way that mimics natural forest structure. The concept of 'zones of use' is central to this design, as it refers to the different levels of management intensity and human interaction frequency within the garden. This approach allows for the creation of a network where plants are managed at various levels\u2014from the low-traffic, herb-levels to the higher-intensity, tree-levels, and even the canopy-levels that define the forest garden's ecological framework. Unlike the other options, which describe physical characteristics of the forest (brick sizes, climate zones, or legal regulations), 'zones of use' is a functional design principle that defines the organizational hierarchy and management strategies of a forest garden.",
+   "truncated": false,
+   "logprobs": {
+    "A": -2.78125,
+    "B": -2.53125,
+    "C": -3.03125,
+    "D": -0.28125
+   },
+   "gold": "B",
+   "top_letter": "D",
+   "option_set_gold_logprob": -2.4742725812339748,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 210,
+   "latency_ms": 4424.404,
+   "per_call_ms": [
+    1005.305,
+    3389.744,
+    29.355
+   ],
+   "retrieval_query": "zones of use",
+   "retrieval_mode": "search",
+   "retrieval_ms": 518.4,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Organic_Farming",
+    "Permaculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000054",
+   "arm": "R",
+   "trace": "Biological nitrogen fixation requires specific conditions that are not favorable for the symbiotic relationship between legumes and their nitrogen-fixing bacteria. Active pink-colored root nodules are the hallmark of this process, indicating the presence of functional nitrogen-fixing bacteria and healthy plant roots. Option A is correct because legume nodules require high levels of nitrogen-fixing bacteria, not their absence. Options C and D are not the only conditions that are unfavorable: legumes thrive in soils with low pH, high nitrogen availability, and appropriate soil structure, not poor pH or mineral nitrogen deficiency. The absence of high mineral nitrogen (option A) is actually the opposite of what is needed for fixation, as legumes require nitrogen to initiate and sustain the symbiotic relationship.",
+   "truncated": false,
+   "logprobs": {
+    "A": -4.59375,
+    "B": -5.09375,
+    "C": -1.226562,
+    "D": -1.476562
+   },
+   "gold": "B",
+   "top_letter": "C",
+   "option_set_gold_logprob": -4.473798314502563,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 171,
+   "latency_ms": 3617.058,
+   "per_call_ms": [
+    338.705,
+    3249.51,
+    28.843
+   ],
+   "retrieval_query": "Which of the following conditions is NOT favorable for biological nitrogen fixation?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1098.0,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Regenerative_Agriculture",
+    "Soil_Science_and_Microbiology",
+    "Sustainable_Water_Management"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  },
+  {
+   "question_id": "row_000063",
+   "arm": "R",
+   "trace": "Darcy's Law is the fundamental equation describing the flow of water through saturated porous media, accounting for the resistance of soil pores and the hydraulic gradient that governs water movement. While Laplace's equation is a partial differential equation governing fluid potential in soil and plant systems, it describes the distribution of water potential rather than flow rates. Poiseuille's law, though applicable to laminar flow in pipes, is not directly related to soil water movement. Bernoulli's principle is a kinematic equation, not a flow law, and the other options either describe different phenomena or are not the primary equation governing saturated soil water dynamics.",
+   "truncated": false,
+   "logprobs": {
+    "A": -10.6875,
+    "B": -8.9375,
+    "C": -0.09082,
+    "D": -2.46875
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.08884500011981057,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 2,
+   "forward_calls": 1,
+   "generated_tokens": 147,
+   "latency_ms": 3111.116,
+   "per_call_ms": [
+    299.068,
+    2783.017,
+    29.031
+   ],
+   "retrieval_query": "water movement in saturated soil",
+   "retrieval_mode": "search",
+   "retrieval_ms": 676.8,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Sustainable_Water_Management"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "model"
+  }
+ ],
+ "R_question": [
+  {
+   "question_id": "row_000009",
+   "arm": "R",
+   "trace": "Guilds are the central organizing unit in permaculture design, representing the functional relationships and ecological processes that create the sustainable, productive whole. In the context of the forest ecosystem, guilds are the primary producers and key interactions that define the food web\u2014plants, animals, fungi, and microorganisms. When designing permaculture systems, guilds are intentionally arranged to reflect these functional guilds, creating the necessary interconnections for a healthy ecosystem. Options A and D describe simpler, row-crop systems with fewer guilds, while option C describes decorative botanical gardens lacking the functional guild-based design required for permaculture's primary goal of creating productive, self-sustaining landscapes.",
+   "truncated": false,
+   "logprobs": {
+    "A": -6.9375,
+    "B": -0.193359,
+    "C": -8.1875,
+    "D": -3.9375
+   },
+   "gold": "B",
+   "top_letter": "B",
+   "option_set_gold_logprob": -0.024859568435992255,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 143,
+   "latency_ms": 3031.124,
+   "per_call_ms": [
+    3002.173,
+    28.951
+   ],
+   "retrieval_query": "In the permaculture design process, guilds are part of what larger system that aims to mimic a forest ecosystem?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1892.0,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Permaculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000013",
+   "arm": "R",
+   "trace": "Zone analysis in permaculture organizes landscape elements based on their frequency of human interaction and ecological needs, not by direct measurements of local climate or specific energy/area requirements. This approach prioritizes areas with the highest human impact (daily chores, harvesting) and those requiring attention (water harvesting, pollinator habitats), allowing designers to optimize space and resources accordingly. Options A, B, and C all describe typical functions of zone analysis\u2014organizing elements by need, improving efficiency, and saving energy\u2014directly supported by permaculture principles. The exception lies in the definition of what zone analysis actually captures: it's not a tool for precise climate or temperature measurement, but rather a framework for organizing landscape elements based on their ecological and functional importance relative to human activity.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.9375,
+    "B": -5.6875,
+    "C": -1.929688,
+    "D": -0.179688
+   },
+   "gold": "D",
+   "top_letter": "D",
+   "option_set_gold_logprob": -0.16635046482632782,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 160,
+   "latency_ms": 3381.24,
+   "per_call_ms": [
+    3351.69,
+    29.55
+   ],
+   "retrieval_query": "Which of the following is NOT a typical purpose of zone analysis in permaculture?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1471.9,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Permaculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000015",
+   "arm": "R",
+   "trace": "The USDA Organic Standards require land to be free of prohibited substances for at least two years before harvest, which is the minimum regulatory requirement to ensure the absence of contaminants that could affect organic certification. This two-year rule is in place to allow for proper soil recovery and to meet the USDA's requirement for certified organic products to be free of prohibited substances. Options A, C, and D are not in compliance with USDA organic certification standards, as they represent longer periods (three or five years) that exceed the regulatory minimum.",
+   "truncated": false,
+   "logprobs": {
+    "A": -0.550781,
+    "B": -4.1875,
+    "C": -1.921875,
+    "D": -1.796875
+   },
+   "gold": "B",
+   "top_letter": "A",
+   "option_set_gold_logprob": -4.086388255692317,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 109,
+   "latency_ms": 2311.802,
+   "per_call_ms": [
+    2283.169,
+    28.634
+   ],
+   "retrieval_query": "According to USDA organic standards, how long must land be free of prohibited substances before harvest for crop certification?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1041.2,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Organic_Farming",
+    "miso"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000016",
+   "arm": "R",
+   "trace": "Red worms (Eisenia fetida) are specifically noted for their high efficiency in vermicomposting bins due to their rapid worm activity and ability to thrive in moist, warm conditions, making them ideal for the bin environment described. While European nightcrawler and red wigglers are also effective, they are not the most popular species for this purpose. Tiger worms, though efficient, are not commonly used in vermicomposting systems, and common earthworms, though ecologically beneficial, are not the preferred worm species for this bin-specific application.",
+   "truncated": false,
+   "logprobs": {
+    "A": -3.828125,
+    "B": -3.828125,
+    "C": -0.071289,
+    "D": -3.703125
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.07062862953165205,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 117,
+   "latency_ms": 2466.088,
+   "per_call_ms": [
+    2436.814,
+    29.274
+   ],
+   "retrieval_query": "Which worm species is specifically noted as being the most popular and efficient for vermicomposting in a bin environment?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1604.7,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Permaculture",
+    "Regenerative_Agriculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000021",
+   "arm": "R",
+   "trace": "Castor beans contain ricin, a potent neurotoxin that acts on the nervous system and can cause severe respiratory distress and even death within minutes of consumption. While the other listed compounds are indeed toxic to humans, ricin is specifically identified as the primary psychoactive component in the seeds of the Castor Bean, making it one of the deadliest plants. The question highlights the unique mechanism of ricin's action, which is not found in most other plant-based psychoactive substances. This distinction from other beans (e.g., mints, nightshades) is why ricin is particularly dangerous.",
+   "truncated": false,
+   "logprobs": {
+    "A": -4.4375,
+    "B": -5.6875,
+    "C": -2.671875,
+    "D": -3.296875
+   },
+   "gold": "A",
+   "top_letter": "C",
+   "option_set_gold_logprob": -2.3282969406296594,
+   "correct": false,
+   "passes": 2,
+   "notes": [
+    "fallback_to_vsearch"
+   ],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 126,
+   "latency_ms": 2658.33,
+   "per_call_ms": [
+    2629.703,
+    28.627
+   ],
+   "retrieval_query": "What is the primary toxic component found in the seeds of the Castor Bean Plant, making it one of the deadliest plants?",
+   "retrieval_mode": "vsearch",
+   "retrieval_ms": 5243.7,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Indigenous_and_Traditional_Knowledge",
+    "Organic_Farming",
+    "Permaculture"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [
+    "fallback_to_vsearch"
+   ],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000026",
+   "arm": "R",
+   "trace": "Protozoa and nematodes are predatory soil organisms that feed on bacteria, fungi, protozoa, and nematodes, respectively, which makes them highly specialized for this ecological niche. This predation leads to a reduction in their populations, thereby decreasing the microbial diversity and abundance that support the soil food web. Options A and C are incorrect because protozoa and nematodes primarily affect microbial populations rather than directly influencing plant health or soil aeration. Option D is also incorrect as these organisms primarily graze on microbial communities rather than directly releasing nutrients for plant uptake.",
+   "truncated": false,
+   "logprobs": {
+    "A": -4.78125,
+    "B": -6.40625,
+    "C": -0.015991,
+    "D": -5.90625
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.0128814423980598,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 122,
+   "latency_ms": 2584.172,
+   "per_call_ms": [
+    2554.678,
+    29.494
+   ],
+   "retrieval_query": "In the soil food web explanation, what is the result of protozoa and nematodes grazing on bacteria?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1247.1,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Soil_Science_and_Microbiology"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000030",
+   "arm": "R",
+   "trace": "Actively aerated compost tea is specifically designed to be a microbial soil amendment, where the aerobic mixtures of beneficial fungi, bacteria, and other microbes created from composted organic matter are applied directly to soil or as a liquid to enhance soil health and plant vitality. This microbial activity improves soil structure, increases nutrient availability, and supports a diverse range of beneficial soil organisms, making it a cornerstone of natural farming and soil science. Options A, C, and D describe secondary uses of compost tea that are not its primary purpose, while option B is inaccurate as compost tea is not intended for foliar application or as a herbicide.",
+   "truncated": false,
+   "logprobs": {
+    "A": -8.75,
+    "B": -0.004333,
+    "C": -7.5,
+    "D": -5.625
+   },
+   "gold": "B",
+   "top_letter": "B",
+   "option_set_gold_logprob": -0.004327484858833833,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 132,
+   "latency_ms": 2780.451,
+   "per_call_ms": [
+    2751.84,
+    28.611
+   ],
+   "retrieval_query": "What is the primary purpose of Actively Aerated Compost Tea (AACT) as described in the field guide?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1313.7,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Soil_Science_and_Microbiology"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000031",
+   "arm": "R",
+   "trace": "The detritusphere is a defining concept in soil ecology that represents the zone of influence around plant roots, where organic matter is directly decomposed and mineralized by soil organisms. This is the foundation of the soil food web, linking plant nutrition to microbial activity and nutrient cycling. Options A, C, and D describe other soil functional domains\u2014nitrogen fixation, earthworm activity, and microbial populations\u2014that are distinct from the detritusphere's primary ecological role. The detritusphere's significance lies in its direct biological impact on soil health and plant nutrition, making it the core framework for understanding how soil biodiversity contributes to biogeochemical cycles.",
+   "truncated": false,
+   "logprobs": {
+    "A": -5.34375,
+    "B": -6.34375,
+    "C": -2.71875,
+    "D": -0.09375
+   },
+   "gold": "A",
+   "top_letter": "D",
+   "option_set_gold_logprob": -5.326607024377424,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 138,
+   "latency_ms": 2916.061,
+   "per_call_ms": [
+    2887.28,
+    28.781
+   ],
+   "retrieval_query": "What is the significance of the 'detritusphere' in soil ecology?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 779.6,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Agroecology",
+    "Regenerative_Agriculture",
+    "Soil_Science_and_Microbiology"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000034",
+   "arm": "R",
+   "trace": "Soil structure is defined by the spatial arrangement of soil solids (clay, sand, silt particles) and the voids (pores) between them, which are the primary mechanisms through which Voroney's classification of soil structure distinguishes different functional roles. This distinction is crucial for understanding soil fertility, erosion control, and plant growth, as soil structure directly influences water infiltration, root availability, and microbial activity. While soil organisms and their food webs (A) are important ecological functions, they are not structural features; chemical nutrients and ions (B) are macroscopic soil components, and atmospheric gases (D) are invisible soil properties that describe environmental conditions rather than structural relationships.",
+   "truncated": false,
+   "logprobs": {
+    "A": -8.625,
+    "B": -8.25,
+    "C": -0.11377,
+    "D": -2.234375
+   },
+   "gold": "C",
+   "top_letter": "C",
+   "option_set_gold_logprob": -0.11373298733705015,
+   "correct": true,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 143,
+   "latency_ms": 3005.319,
+   "per_call_ms": [
+    2976.558,
+    28.761
+   ],
+   "retrieval_query": "According to Voroney, soil structure relates to the spatial arrangement of what?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 645.8,
+   "retrieval_hits": 2,
+   "retrieval_collections": [
+    "Agroecology",
+    "Organic_Farming"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000035",
+   "arm": "R",
+   "trace": "The zones of use concept in forest gardens organizes the landscape into distinct management levels based on human interaction frequency and activity intensity, allowing for flexible design and planning. This approach acknowledges that forest gardeners manage different parts of the landscape\u2014edges, understory, canopy, and wildlife habitats\u2014depending on how often they interact with the area. Unlike temperature-hardiness zones (A), legal regulations (C), or canopy structure (D), which are more about physical conditions, zones of use directly addresses the practical needs of gardeners who manage different parts of their landscape. This design principle is central to forest garden philosophy, enabling efficient use of space and resources while supporting biodiversity and ecosystem health.",
+   "truncated": false,
+   "logprobs": {
+    "A": -4.96875,
+    "B": -1.828125,
+    "C": -3.953125,
+    "D": -0.206055
+   },
+   "gold": "B",
+   "top_letter": "D",
+   "option_set_gold_logprob": -1.8287744425860253,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 142,
+   "latency_ms": 3004.075,
+   "per_call_ms": [
+    2975.232,
+    28.843
+   ],
+   "retrieval_query": "In the context of forest gardens, what does the term 'zones of use' refer to?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1537.2,
+   "retrieval_hits": 4,
+   "retrieval_collections": [
+    "Permaculture"
+   ],
+   "retrieval_cached": false,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000054",
+   "arm": "R",
+   "trace": "Biological nitrogen fixation requires specific conditions that are not favorable for the symbiotic relationship between legumes and their nitrogen-fixing bacteria. Active pink-colored root nodules are the hallmark of this process, indicating the presence of functional nitrogen-fixing bacteria and healthy plant roots. Option A is correct because legume nodules require high levels of nitrogen-fixing bacteria, not their absence. Options C and D are not the only conditions that are unfavorable: legumes thrive in soils with low pH, high nitrogen availability, and appropriate soil structure, not poor pH or mineral nitrogen deficiency. The absence of high mineral nitrogen (option A) is actually the opposite of what is needed for fixation, as legumes require nitrogen to initiate and sustain the symbiotic relationship.",
+   "truncated": false,
+   "logprobs": {
+    "A": -4.59375,
+    "B": -5.09375,
+    "C": -1.226562,
+    "D": -1.476562
+   },
+   "gold": "B",
+   "top_letter": "C",
+   "option_set_gold_logprob": -4.473798314502563,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 155,
+   "latency_ms": 3268.45,
+   "per_call_ms": [
+    3239.555,
+    28.896
+   ],
+   "retrieval_query": "Which of the following conditions is NOT favorable for biological nitrogen fixation?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1098.0,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Organic_Farming",
+    "Regenerative_Agriculture",
+    "Soil_Science_and_Microbiology",
+    "Sustainable_Water_Management"
+   ],
+   "retrieval_cached": true,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  },
+  {
+   "question_id": "row_000063",
+   "arm": "R",
+   "trace": "Darcy's Law is the fundamental equation describing the flow of water through porous soils and other saturated media, stating that the flow rate is proportional to the hydraulic gradient and the hydraulic conductivity of the medium. It is expressed as Q = -K\u00b7A\u00b7(\u0394P/2\u00b7S), where Q is the flow rate, K is the hydraulic conductivity, A is the cross-sectional area, \u0394P is the pressure difference, and S is the hydraulic gradient. This law is essential for understanding water movement in saturated soils and is widely taught in soil mechanics and hydrology courses.\n\nWhile Poiseuille's Law and Laplace's equation are related to groundwater flow and are used in groundwater modeling, they describe different phenomena: Poiseuille's Law specifically governs flow through cylindrical pipes and is a direct consequence of the continuum theory of soil mechanics, while Laplace's equation describes the potential field in an infinite, isotropic porous medium. Bernoulli's principle is a conservation law that describes energy conservation in fluid flow but does not provide the specific flow rate equation for porous media. Darcy's Law is the most direct and widely applicable equation for saturated soil water flow, making it the answer expected in the context of the principles of soil and plant water relations.",
+   "truncated": true,
+   "logprobs": {
+    "A": -6.8125,
+    "B": -7.0625,
+    "C": -1.296875,
+    "D": -0.550781
+   },
+   "gold": "C",
+   "top_letter": "D",
+   "option_set_gold_logprob": -1.1365191467808682,
+   "correct": false,
+   "passes": 2,
+   "notes": [],
+   "decode_calls": 1,
+   "forward_calls": 1,
+   "generated_tokens": 256,
+   "latency_ms": 5376.74,
+   "per_call_ms": [
+    5346.928,
+    29.812
+   ],
+   "retrieval_query": "According to the principles of water movement in saturated soil, which of the following laws describes the flow of water through porous media?",
+   "retrieval_mode": "search",
+   "retrieval_ms": 1882.1,
+   "retrieval_hits": 5,
+   "retrieval_collections": [
+    "Natural_Fertilizers",
+    "Permaculture",
+    "Soil_Science_and_Microbiology",
+    "Sustainable_Water_Management"
+   ],
+   "retrieval_cached": false,
+   "retrieval_notes": [],
+   "retrieval_query_mode": "question"
+  }
+ ]
+}

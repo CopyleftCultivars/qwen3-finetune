@@ -19,10 +19,12 @@ of items" is the single most likely way this comparison could mislead.
 from __future__ import annotations
 
 import math
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
 from rlm_slice.model_host import DecodeStats, ModelHost
+from rlm_slice.retrieval import DEFAULT_K, retrieve
 from rlm_slice.rlm_arm import (
     DEFAULT_BASE_URL,
     build_rlm,
@@ -34,7 +36,7 @@ from rlm_slice.rlm_arm import (
 DEFAULT_MAX_TRACE_TOKENS = 256
 LETTERS = ("A", "B", "C", "D")
 
-ARMS = ("A", "B", "C")
+ARMS = ("A", "B", "C", "R")
 
 
 @dataclass
@@ -260,7 +262,111 @@ def arm_c(
     return _finalize(host, item, "C", revised, truncated, passes=3, stats=stats, notes=notes)
 
 
-ARM_FUNCS = {"A": arm_a, "B": arm_b, "C": arm_c}
+# -- Arm R (RAG) -----------------------------------------------------------
+
+# Prefilling the assistant turn up to the open paren is what makes the champion
+# author a query: given "```repl\nprint(retrieve(" it produced
+# '"permaculture guilds role in ecosystem design"))' unprompted (#127). Asking it
+# to *decide* to retrieve produces nothing at all.
+_QUERY_PREFILL = "```repl\nprint(retrieve("
+_QUERY_SYSTEM = (
+    "You answer agronomy questions using a Python REPL. `retrieve(query)` returns "
+    "reference snippets from a library of agronomy books. Write one ```repl block."
+)
+_MAX_QUERY_CHARS = 200
+
+
+def _model_authored_query(host: ModelHost, item: dict[str, Any]) -> tuple[str, list[str]]:
+    """Have the model write the retrieval query, with the call site prefilled.
+
+    Returns (query, notes). Falls back to the raw question text when the model
+    writes something unusable -- a bad query is a degraded arm, not a failure.
+    """
+    notes: list[str] = []
+    prompt = host.tokenizer.apply_chat_template(
+        [
+            {"role": "system", "content": _QUERY_SYSTEM},
+            {"role": "user", "content": _question_text(item)},
+        ],
+        tokenize=False,
+        add_generation_prompt=True,
+        enable_thinking=False,
+    )
+    raw, _ = host.generate_raw(prompt + _QUERY_PREFILL, max_new_tokens=48)
+
+    # Take the first quoted string the model emitted inside retrieve(...).
+    match = re.search(r"[\"'\u201c\u2018]([^\"'\u201d\u2019]{4,%d})" % _MAX_QUERY_CHARS, raw)
+    if match:
+        return match.group(1).strip(), notes
+    notes.append("query_unparseable:fell_back_to_question")
+    return item["question"], notes
+
+
+def arm_r(
+    host: ModelHost,
+    item: dict[str, Any],
+    max_trace_tokens: int = DEFAULT_MAX_TRACE_TOKENS,
+    k: int = DEFAULT_K,
+    query_mode: str = "model",
+    retrieval_mode: str = "search",
+) -> ArmResult:
+    """Retrieval-augmented 2-pass (sec.3.3.4).
+
+    The controller owns the call site; the model only supplies the query string
+    when query_mode="model" (sec.3.3's fixed pipeline, and the only shape #127
+    showed this champion can actually drive). query_mode="question" retrieves on
+    the raw question text, which isolates how much the model-authored query is
+    worth.
+
+    Note on comparability: the snippets enter Pass 1 only. The Pass-2 prompt is
+    still built by the frozen `build_trace_prompt`, identical to every other arm,
+    so retrieval can influence the score only through the trace it produced. Any
+    other choice would change the scored prompt and break sec.2.3.
+    """
+    host.take_stats()
+    stats = DecodeStats()
+    notes: list[str] = []
+
+    if query_mode == "model":
+        query, query_notes = _model_authored_query(host, item)
+        notes.extend(query_notes)
+    elif query_mode == "question":
+        query = item["question"]
+    else:
+        raise ValueError(f"unknown query_mode {query_mode!r}")
+
+    result = retrieve(query, k=k, mode=retrieval_mode)
+    notes.extend(result.notes)
+    context = result.as_context()
+
+    if not context:
+        # No snippets means this is just Arm A with extra latency. Say so, rather
+        # than letting an empty-context row average in as a working RAG item.
+        notes.append("no_context:degraded_to_bare_2pass")
+        _raw, trace, truncated, _n = host.generate_trace(item, max_trace_tokens=max_trace_tokens)
+    else:
+        messages = [
+            {
+                "role": "user",
+                "content": (
+                    f"Reference material:\n{context}\n\n"
+                    f"Using the reference material where relevant, answer:\n{_question_text(item)}"
+                ),
+            }
+        ]
+        raw, _ = host.generate_chat(messages, max_new_tokens=max_trace_tokens, enable_thinking=True)
+        trace, truncated = host.scorer.extract_trace(raw)
+        if not trace.strip():
+            notes.append("empty_trace:fell_back_to_bare_2pass")
+            _raw, trace, truncated, _n = host.generate_trace(item, max_trace_tokens=max_trace_tokens)
+
+    row = _finalize(host, item, "R", trace, truncated, passes=2, stats=stats, notes=notes)
+    row.stats.update(result.as_dict())
+    row.stats["retrieval_query_mode"] = query_mode
+    return row
+
+
+ARM_FUNCS = {"A": arm_a, "B": arm_b, "C": arm_c, "R": arm_r}
 
 
 def run_arm(arm: str, host: ModelHost, item: dict[str, Any], **kwargs: Any) -> ArmResult:
