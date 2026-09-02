@@ -65,25 +65,21 @@ This plan restores a reasoning surface without breaking the CROP scored-artifact
 
 ---
 
-## Part 2 - Minimal RLM slice (Flutter application)
+## Part 2 - Qwen3 RLM model proof (reference runtime)
 
-Design: depth-1, no Python, no graph change. A Dart controller wraps the Cactus Flutter plugin and
-runs the same 2-pass shape as the eval. Training and deployment then match.
+Design: depth-1, no graph or engine change. Prove the two-pass behavior directly on Qwen3 against
+the frozen v5clean champion before doing any Flutter, device, or Cactus integration.
 
-1. Recon (required first): confirm the latest Cactus Flutter plugin API. Record model load,
-   `generate(prompt)`, streaming, KV-cache reuse, and any embedding API.
-   Write `docs/cactus_flutter_api.md`.
-2. Add `RlmController` (Dart). Pass 1: generate reasoning trace (think-on).
-   Pass 2: generate the final user answer (think-off), conditioned on the trace.
-3. Optional on-device memory (RAG, "Metis-lite"): a small local embedding store of agronomy notes.
-   Retrieve top-k and inject into the Pass-1 context. Use the Cactus embedding API if present;
-   otherwise use a small separate embedder.
-4. Budget harness: measure latency (ms) and peak memory (MB) on a Pixel 7. Set a hard latency budget.
-   Add a single-pass fallback path when the 2-pass path exceeds the budget.
-5. UI: hide the reasoning trace by default. Show the final answer only.
-   Add a debug toggle to show the trace.
-6. Parity test: run a golden item set through both the device 2-pass path and the server Plan A eval.
-   Confirm the outputs match.
+1. Document the current Qwen3 reference-runtime interfaces for model load, generation, two-pass
+   prompting, KV-cache reuse (if available), and embeddings.
+2. Implement the RLM controller shape in the reference runtime. Pass 1 generates a reasoning trace
+   (think-on); Pass 2 generates the final answer (think-off), conditioned on that trace.
+3. Test optional external RAG memory ("Metis-lite"): retrieve top-k agronomy notes and inject them
+   into Pass 1, with a toggle that restores the exact no-memory baseline.
+4. Measure quality, latency, and peak memory for single-pass and two-pass Qwen3 paths. Define and
+   test a resource fallback, but defer Pixel-specific optimization.
+5. Gate the RLM candidate against frozen v5clean using trace-conditioned MCQ, standard primary,
+   forgetting, and rubric guards. Continue to integration work only after a material, guard-clean win.
 
 Note on the RLM speed claim: RLM lowers cost only when the input context is long.
 The Q/A prompts here are short, so the 2-pass path adds latency.
@@ -91,24 +87,23 @@ Justify Part 2 by answer quality, not speed. Budget for about 2x decode time.
 
 ---
 
-## Part 3 - Cactus fork spike (Metis + true multi-stream) - gated, recon-first
+## Part 3 - Qwen3 Metis-style model proof, then integration gate
 
-1. Recon the latest Cactus engine: architecture support matrix, custom-op / kernel extension points,
-   GGUF format and converter, backends (CPU / GPU / NPU), and Qwen3.5-hybrid support.
-2. Write a capability report `docs/cactus_fork_feasibility.md`. Answer two questions:
-   (a) Can Cactus hold a persistent memory-state buffer plus a Gated Delta Network update kernel
-   (Metis)? (b) Can Cactus run a cross-stream mask plus multi-token-per-step decode
-   (true multi-stream)?
-3. Go / no-go gate: start a fork only if the effort and fork-maintenance cost are acceptable AND the
-   Part 1 / Part 2 results justify the added capability. Otherwise keep the external surrogate
-   (Plan B) and the RLM slice (Part 2).
+1. Test an external/persistent-memory surrogate directly against Qwen3 in the reference runtime.
+   Keep the mechanism reproducible and independently disableable.
+2. Compare it with frozen v5clean under the same quality and resource gates used in Part 2.
+3. Do not modify Cactus or begin native Metis kernels, true multi-stream decoding, Flutter, or device
+   work unless the model-level candidate materially and cleanly beats v5clean.
+4. Only after such a win, open a separate integration-feasibility phase covering Cactus architecture,
+   custom kernels, model conversion, supported backends, device budgets, and maintenance cost.
 
-## Difficulty summary (Cactus)
+## Difficulty summary
 
 | Item | Engine change | Effort | Deploy risk |
 | --- | --- | --- | --- |
-| RLM minimal slice (Flutter host controller) | None | LOW | LOW |
+| RLM model proof (Qwen3 reference runtime) | None | LOW | LOW |
 | Multi-stream surrogate (reasoning SFT) | None (data) | LOW | LOW |
-| External RAG memory ("Metis-lite") | None (app) | LOW-MEDIUM | LOW |
-| True model-level multi-stream | Engine fork | HIGH | HIGH |
-| Metis native memory | Engine fork + custom kernels + base swap | VERY HIGH | VERY HIGH |
+| External RAG / persistent-memory surrogate | None (reference runtime) | LOW-MEDIUM | LOW |
+| Cactus/device integration after a model win | Integration work | MEDIUM-HIGH | MEDIUM |
+| True model-level multi-stream | Deferred engine fork | HIGH | HIGH |
+| Metis native memory | Deferred engine fork + custom kernels + base swap | VERY HIGH | VERY HIGH |

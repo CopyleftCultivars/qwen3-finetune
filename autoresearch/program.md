@@ -96,11 +96,16 @@ hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
   `data/val_v3.jsonl`: `mean_trace_option_set_gold_logprob=-0.535`, `mean_delta_trace=+0.167`,
   `delta_trace_positive_fraction=66.4%` (75/113) -- clears the "clear majority positive" half
   of the step 8 gate. Trace-conditioning also lifted argmax accuracy (78.8% vs. 71.7%
-  empty-trace) and truncation was negligible (1/113 items hit `max_trace_tokens=256`). The
-  free-form rubric-guard half of the gate is not yet evaluated (chainlink #110 / I5).
+  empty-trace) and truncation was negligible (1/113 items hit `max_trace_tokens=256`).
 - Promotion requires (a) `delta_trace > 0` on a clear majority of items and (b) the free-form
-  rubric guard staying clean (Plan A step 8, `TRACE_EVAL_REASONING_SFT_RLM_PLAN.md`). Not yet
-  evaluated -- that decision is chainlink #110 (I5)'s `gate.py` PARALLEL track integration.
+  rubric guard staying clean (Plan A step 8, `TRACE_EVAL_REASONING_SFT_RLM_PLAN.md`). Phase24
+  (`outputs/merged-model-p24-trace-sft`) was evaluated on 2026-09-01/02 (chainlink #115 / I10):
+  trace primary delta was `-0.187` versus v5clean, mean `delta_trace=-0.041`, and only 46.9%
+  (53/113) of items had positive delta. Its rubric guard stayed clean (59.79% versus 60.80%,
+  a 1.01-point drop), and the general-knowledge probe improved (45.83% versus 41.67%), but the
+  required trace-benefit majority failed. The standard primary delta was only `+0.078`, below
+  the existing `+0.4` gate. Decision: reject Phase24, keep v5clean champion, and leave this
+  objective as a non-gating parallel track. Evidence: `results/autoresearch_gate_p24-trace-sft.json`.
 
 ## Guardrails
 
