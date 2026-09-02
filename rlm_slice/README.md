@@ -119,3 +119,48 @@ Consequence for I13 (#118): the QMD collections are still reachable, and the
 model can still supply the query -- the controller just has to own the call
 site. Model-driven tool calling with this champion is not reachable by
 prompting alone.
+
+## Arm R: controller-owned retrieval (L10 / #133)
+
+`retrieval.py` implements `retrieve(query, k)` per CORPUS_DECISION.md: `qmd
+search` with over-fetch (n = 4k) and docid dedupe, `vsearch` fallback when BM25
+returns nothing, disk cache keyed by (mode, k, query). Snippet locators
+(`@@ -12,2 @@ ...`) are stripped -- useful to a human reading QMD output, pure
+noise in a 0.6B's context window.
+
+`controller.arm_r` is the benchmark-flow integration. Two query modes:
+`query_mode="model"` prefills the assistant turn with ` ```repl\nprint(retrieve( `
+and parses the query the model writes; `query_mode="question"` retrieves on the
+raw question text and exists to measure whether the model-authored query is
+worth its extra decode call.
+
+**Comparability**: snippets enter Pass 1 only. Pass 2 still goes through the
+frozen `build_trace_prompt`, byte-identical to every other arm, so retrieval can
+move the score only through the trace it produced. Injecting snippets into the
+Pass-2 prompt would change the scored sequence and break sec.2.3.
+
+### Mechanism check (12 items -- a smoke test, NOT a result)
+
+| Arm | Accuracy | Mean gold LL | Delta vs A | Improved | Mean ms |
+| --- | --- | --- | --- | --- | --- |
+| A | 0.583 | -1.8064 | - | - | 3023 |
+| R (model query) | 0.583 | -1.6422 | +0.1642 | 8/12 | 3682 |
+| R (question query) | 0.500 | -1.6311 | +0.1753 | 7/12 | 3065 |
+
+Retrieval cache hit: 0.13 ms. Model-authored queries came out clean and
+on-topic -- "zone analysis in permaculture", "worm species for vermicomposting",
+"soil food web explanation" -- with the prefill working on 5/6 of an earlier
+sample and falling back to the question text otherwise.
+
+Three things to carry into #134, none of them settled at n=12:
+
+1. The gold-LL gain is real in sign but the **accuracy did not move** (7/12 both
+   ways). A Pass-2 log-likelihood shift that never crosses a decision boundary
+   does not become a better answer on a phone.
+2. **The model-authored query does not beat the raw question** (+0.164 vs
+   +0.175). The prefill mechanism works, but on this evidence it costs an extra
+   decode call and ~600 ms to do slightly worse. `query_mode="question"` is the
+   cheaper default until a full run says otherwise.
+3. The delta is the same order as sec.6.4's existing `delta_trace` (+0.167), so
+   the sec.3.5 gate question is whether retrieval adds anything *on top of* the
+   trace the champion already writes -- not whether it beats a no-trace baseline.
