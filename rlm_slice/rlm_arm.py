@@ -34,6 +34,49 @@ RLM_PACKAGE_PATH = (
 
 DEFAULT_BASE_URL = "http://127.0.0.1:8000/v1"
 
+# The stock RLM_SYSTEM_PROMPT is written for long-context haystack tasks: it
+# describes `context` as "potentially very long information" and tells the model
+# to probe it before answering. A 4-option MCQ gives it nothing to probe, and the
+# 0.6B champion responded to the mismatch literally -- "I am not able to interact
+# with the context" for six straight iterations, emitting zero ```repl blocks.
+#
+# This replacement keeps the RLM machinery (REPL, iterate-until-answer, custom
+# tools) and drops the long-context framing. Notes on its shape:
+#   * `{custom_tools_section}` is required: build_rlm_system_prompt() calls
+#     .format() on this string, so the placeholder must exist and any literal
+#     brace must be doubled.
+#   * The fence must be exactly ```repl -- find_code_blocks() matches
+#     r"```repl\s*\n(.*?)\n```" and nothing else.
+#   * One worked example, because a 0.6B model copies format far more reliably
+#     than it follows a format description.
+#   * orchestrator=False is passed alongside this, dropping ORCHESTRATOR_ADDENDUM
+#     -- that addendum pushes work into llm_query sub-calls, which is the
+#     multi-agent behaviour we do not want in the minimal slice (sec.3.2.2).
+MCQ_SYSTEM_PROMPT = """You are answering a multiple-choice question with the help of a Python REPL.
+
+The variable `context` holds the question and its four options as a string.
+The REPL persists across turns. Only `print(...)` output is shown back to you.
+{custom_tools_section}
+
+To run code, write exactly one block per turn using the ```repl fence:
+
+```repl
+print(context)
+```
+
+Work in short turns:
+1. Print the question and read it carefully.
+2. Use the REPL to note what each option claims and rule options out.
+3. When you are confident, submit inside a ```repl block:
+
+```repl
+answer["content"] = "<your reasoning>. The best option is <LETTER>."
+answer["ready"] = True
+```
+
+Submit your reasoning AND the single best option letter. Always use the ```repl
+fence when you want code to run -- text outside a fence is never executed."""
+
 
 def ensure_rlm_importable(package_path: Path | str = RLM_PACKAGE_PATH):
     """Put the vendored `rlm` package on sys.path and return the RLM class."""
@@ -75,6 +118,8 @@ def build_rlm(
     max_errors: int = 3,
     custom_tools: dict[str, Any] | None = None,
     verbose: bool = False,
+    orchestrator: bool = False,
+    system_prompt: str | None = MCQ_SYSTEM_PROMPT,
 ):
     """Construct the depth-1 RLM controller pointed at the local server."""
     RLM = ensure_rlm_importable()
@@ -93,8 +138,50 @@ def build_rlm(
         custom_tools=agronomy_tools() if custom_tools is None else custom_tools,
         # sec.2.5: greedy, or the arm is not comparable to the v5clean baseline.
         sampling_args={"temperature": 0},
+        # orchestrator=False drops ORCHESTRATOR_ADDENDUM, which instructs the
+        # model to decompose work into llm_query sub-calls. The minimal slice
+        # wants the REPL, not a multi-agent tree (sec.3.2.2).
+        orchestrator=orchestrator,
+        custom_system_prompt=system_prompt,
+        # log_dir=None keeps the trajectory in memory only. Without a logger the
+        # RLM returns metadata=None, and Arm B's REPL-usage telemetry below
+        # would have nothing to read.
+        logger=_in_memory_logger(),
         verbose=verbose,
     )
+
+
+def _in_memory_logger():
+    ensure_rlm_importable()
+    from rlm.logger import RLMLogger
+
+    return RLMLogger(log_dir=None)
+
+
+def repl_telemetry(result: Any) -> dict[str, Any]:
+    """Summarize what the RLM actually did, for the per-item record.
+
+    This exists because Arm B's first run looked healthy -- non-empty response,
+    no errors, notes=[] -- while emitting zero code blocks across every
+    iteration. Without `repl_blocks` and `subcalls` on each row, I12 (#117)
+    would report a degenerate Arm B as a working one.
+    """
+    metadata = getattr(result, "metadata", None) or {}
+    iterations = metadata.get("iterations", []) or []
+    blocks = 0
+    subcalls = 0
+    for iteration in iterations:
+        code_blocks = iteration.get("code_blocks") or []
+        blocks += len(code_blocks)
+        for block in code_blocks:
+            code = block.get("code", "") if isinstance(block, dict) else str(block)
+            subcalls += code.count("llm_query") + code.count("rlm_query")
+    return {
+        "rlm_iterations": len(iterations),
+        "repl_blocks": blocks,
+        "repl_subcalls": subcalls,
+        "submitted_answer": any(it.get("final_answer") for it in iterations),
+    }
 
 
 def reset_server_stats(base_url: str = DEFAULT_BASE_URL) -> None:

@@ -27,6 +27,7 @@ from rlm_slice.rlm_arm import (
     DEFAULT_BASE_URL,
     build_rlm,
     fetch_server_stats,
+    repl_telemetry,
     reset_server_stats,
 )
 
@@ -164,14 +165,24 @@ def arm_b(
         notes.append("server_stats_unavailable")
 
     trace = ""
+    telemetry: dict[str, Any] = {}
     try:
         result = client.completion(
             _ARM_B_INSTRUCTION + _question_text(item),
             root_prompt=_question_text(item),
         )
         trace = (getattr(result, "response", "") or "").strip()
+        telemetry = repl_telemetry(result)
     except Exception as exc:  # noqa: BLE001 -- an arm failure must not kill the sweep
         notes.append(f"rlm_error:{type(exc).__name__}")
+
+    # A non-empty response is NOT evidence the arm worked: the first Arm B run
+    # returned clean prose having never opened the REPL. Flag that explicitly so
+    # I12 cannot mistake a degenerate run for a working one.
+    if telemetry and telemetry.get("repl_blocks", 0) == 0:
+        notes.append("no_repl_blocks:degenerate_arm_b")
+    if telemetry and not telemetry.get("submitted_answer"):
+        notes.append("no_submitted_answer:iterations_exhausted")
 
     if "server_stats_unavailable" not in notes:
         try:
@@ -188,7 +199,9 @@ def arm_b(
         notes.append("empty_rlm_response:fell_back_to_bare_2pass")
         _raw, trace, truncated, _n = host.generate_trace(item, max_trace_tokens=max_trace_tokens)
 
-    return _finalize(host, item, "B", trace, truncated, passes=2, stats=stats, notes=notes)
+    result_row = _finalize(host, item, "B", trace, truncated, passes=2, stats=stats, notes=notes)
+    result_row.stats.update(telemetry)
+    return result_row
 
 
 # -- Arm C ----------------------------------------------------------------

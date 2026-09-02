@@ -79,3 +79,43 @@ sec.6.1 predicted 2-3x the decode time; Arm B is closer to 7x on decode calls.
 That is a cost the sec.3.5 gate has to be worth, and it is the number to carry
 into the sec.3.5.3 Pixel-7 estimate. Real per-arm quality numbers come from I12
 (#117), over all 113 scorable rows.
+
+## Arm B finding: the champion cannot initiate tool calls (2026-09-02)
+
+Investigated under #127 after the first Arm B run returned clean prose while
+never opening the REPL. Four probes against the champion, greedy, via the local
+server:
+
+| Probe | Emits ```repl fence? |
+| --- | --- |
+| Stock `RLM_SYSTEM_PROMPT`, think-on | no (0 blocks over 7 iterations) |
+| MCQ-shaped system prompt, `orchestrator=False`, think-on | no (0 blocks, 4/4 items) |
+| MCQ-shaped system prompt, think-off | no |
+| "Copy this exactly: ```repl print(context)```" | **yes**, exactly |
+
+So the capability is present at the token level and the *instruction-following
+to invoke it* is absent. v5clean is a 0.6B SFT'd on question-in / agronomy-prose
+-and-MCQ-answer-out; anything shaped like a question triggers that reflex and
+the system prompt loses. Retuning the prompt does not fix this -- three
+framings, zero blocks -- so the `orchestrator=False` + `MCQ_SYSTEM_PROMPT`
+retune is kept (it is strictly better framing) but it is not sufficient.
+
+The useful half. Prefilling the assistant turn changes the picture:
+
+```
+prefill "```repl\n"                  -> model restates the question (useless)
+prefill "```repl\nprint(retrieve("   -> '"permaculture guilds role in ecosystem
+                                        design"))' -- a well-formed, on-topic
+                                        retrieval query, correctly closed
+```
+
+The model cannot decide *to* call a tool, but it authors a good *argument* when
+the call scaffolding is placed for it. That is precisely the split
+LOCAL_RLM_SLICE_PLAN.md sec.3.3 predicted: "Prefer a fixed-pipeline retrieve
+step first (controller calls `retrieve`, not the model). Only test model-driven
+tool calls after the fixed pipeline shows value."
+
+Consequence for I13 (#118): the QMD collections are still reachable, and the
+model can still supply the query -- the controller just has to own the call
+site. Model-driven tool calling with this champion is not reachable by
+prompting alone.
