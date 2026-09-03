@@ -1,0 +1,32 @@
+{
+  "label": "v5clean",
+  "model": "outputs/merged-model-p6-lr5e5-r2",
+  "benchmark": "[LOCAL_PATH]",
+  "n": 210,
+  "correct": 164,
+  "accuracy": 0.781,
+  "wilson95": [
+    0.7202,
+    0.8316
+  ],
+  "ambiguous": 0,
+  "ambiguous_rate": 0.0,
+  "enable_thinking": false,
+  "temperature": 0.0,
+  "seed": 42,
+  "mean_latency_ms": 56.3,
+  "by_difficulty": {
+    "easy": {
+      "n": 175,
+      "accuracy": 0.8286
+    },
+    "hard": {
+      "n": 33,
+      "accuracy": 0.5455
+    },
+    "moderate": {
+      "n": 2,
+      "accuracy": 0.5
+    }
+  }
+}
