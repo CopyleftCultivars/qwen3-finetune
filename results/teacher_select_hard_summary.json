@@ -1,0 +1,50 @@
+[
+  {
+    "model": "claude-opus-4-6",
+    "difficulty": "hard",
+    "n": 33,
+    "correct": 14,
+    "accuracy": 0.4242,
+    "wilson95": [
+      0.2724,
+      0.5919
+    ],
+    "ambiguous": 16
+  },
+  {
+    "model": "claude-opus-4-7",
+    "difficulty": "hard",
+    "n": 33,
+    "correct": 0,
+    "accuracy": 0.0,
+    "wilson95": [
+      0.0,
+      0.1043
+    ],
+    "ambiguous": 33
+  },
+  {
+    "model": "claude-opus-4-8",
+    "difficulty": "hard",
+    "n": 33,
+    "correct": 0,
+    "accuracy": 0.0,
+    "wilson95": [
+      0.0,
+      0.1043
+    ],
+    "ambiguous": 33
+  },
+  {
+    "model": "claude-opus-5",
+    "difficulty": "hard",
+    "n": 33,
+    "correct": 0,
+    "accuracy": 0.0,
+    "wilson95": [
+      0.0,
+      0.1043
+    ],
+    "ambiguous": 33
+  }
+]
