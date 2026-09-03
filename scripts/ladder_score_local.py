@@ -51,6 +51,59 @@ def wilson(correct: int, n: int, z: float = 1.96) -> tuple[float, float]:
     return (max(0.0, centre - half), min(1.0, centre + half))
 
 
+def _load_4bit_host(model_path: str, device: str, seed: int):
+    """ModelHost equivalent for a model that will not fit at fp16.
+
+    ModelHost delegates loading to the diagnostics helper, which has no
+    quantization path, so this builds the same duck-typed surface directly.
+    Only generate_chat is exercised by this script.
+    """
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+
+    sys.path.insert(0, str(REPO_ROOT))
+    from rlm_slice.guards import set_determinism
+    from rlm_slice.model_host import DecodeStats
+
+    quant = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.bfloat16,
+        bnb_4bit_use_double_quant=True,
+    )
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_path, quantization_config=quant, device_map={"": 0}, dtype=torch.bfloat16
+    )
+    model.eval()
+    set_determinism(seed)
+
+    class _Quantized:
+        """Minimal ModelHost-compatible shim."""
+
+        def __init__(self):
+            self.model, self.tokenizer = model, tokenizer
+            self.model_path, self.device, self.seed = model_path, device, seed
+            self.stats = DecodeStats()
+
+        def generate_chat(self, messages, max_new_tokens=256, enable_thinking=True):
+            torch.manual_seed(self.seed)
+            prompt = self.tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True,
+                enable_thinking=enable_thinking,
+            )
+            inputs = self.tokenizer(prompt, return_tensors="pt").to(self.model.device)
+            with torch.no_grad():
+                out = self.model.generate(
+                    **inputs, max_new_tokens=max_new_tokens, do_sample=False,
+                    pad_token_id=self.tokenizer.pad_token_id or self.tokenizer.eos_token_id,
+                )
+            new = out[0][inputs["input_ids"].shape[1]:]
+            return self.tokenizer.decode(new, skip_special_tokens=True), int(new.shape[0])
+
+    return _Quantized()
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", required=True, help="HF path or hub id")
@@ -63,6 +116,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--enable-thinking", action="store_true",
                         help="Qwen3 think mode. Off by default: the prompt says 'Do not explain'")
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--load-4bit", action="store_true",
+                        help="NF4 quantized load, for models too large for 12GB at fp16 "
+                             "(Qwen3-8B fp16 needs ~16GB). Matches how Ollama served qwen3:8b, "
+                             "which is Q4_K_M by default, so the reference row is also 4-bit.")
     parser.add_argument("--out-prefix", default="results/ladder210")
     args = parser.parse_args(argv)
 
@@ -75,7 +132,10 @@ def main(argv: list[str] | None = None) -> int:
         rows = rows[: args.limit]
     print(f"{len(rows)} ladder items from {Path(args.benchmark).name}", flush=True)
 
-    host = ModelHost(model_path=args.model, device=args.device, seed=args.seed)
+    if args.load_4bit:
+        host = _load_4bit_host(args.model, args.device, args.seed)
+    else:
+        host = ModelHost(model_path=args.model, device=args.device, seed=args.seed)
     per_item: list[dict[str, Any]] = []
     out_path = Path(f"{args.out_prefix}_{args.label}.jsonl")
     out_path.parent.mkdir(parents=True, exist_ok=True)
