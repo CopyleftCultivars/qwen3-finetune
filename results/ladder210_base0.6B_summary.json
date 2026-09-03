@@ -1,0 +1,32 @@
+{
+  "label": "base0.6B",
+  "model": "unsloth/Qwen3-0.6B",
+  "benchmark": "[LOCAL_PATH]",
+  "n": 210,
+  "correct": 90,
+  "accuracy": 0.4286,
+  "wilson95": [
+    0.3635,
+    0.4962
+  ],
+  "ambiguous": 0,
+  "ambiguous_rate": 0.0,
+  "enable_thinking": false,
+  "temperature": 0.0,
+  "seed": 42,
+  "mean_latency_ms": 173.7,
+  "by_difficulty": {
+    "easy": {
+      "n": 175,
+      "accuracy": 0.4686
+    },
+    "hard": {
+      "n": 33,
+      "accuracy": 0.2424
+    },
+    "moderate": {
+      "n": 2,
+      "accuracy": 0.0
+    }
+  }
+}
