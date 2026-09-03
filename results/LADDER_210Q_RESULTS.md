@@ -78,3 +78,56 @@ be quoted alongside this table**: different question set, different answer key
 (42/98 disagreement), and a different temperature default. See
 `results/LADDER_98Q_PROTOCOL.md`. In particular the old on-device 28.6% row is
 not the base-model floor -- the base 0.6B scores 0.4286 here.
+
+---
+
+# Amendment: same-harness qwen3-8b (2026-09-03)
+
+Ollama is absent (no binary; the two surviving docker volumes hold only
+embedding models -- `mxbai-embed-large`, `qwen3-embedding` -- and the
+nvidia-container-toolkit is not installed, so a dockerised Ollama would be
+CPU-only). Instead qwen3-8b was scored through **this same script**, NF4-4bit via
+bitsandbytes: identical prompt, parser, temperature, seed and harness. Ollama
+serves qwen3:8b at Q4_K_M by default, so the original reference row was also
+4-bit.
+
+| Model | Accuracy | Wilson 95% | easy | hard |
+| --- | --- | --- | --- | --- |
+| qwen3-8b (IRT, other harness) | 0.8952 | 0.8465-0.9298 | - | - |
+| **qwen3-8b (same harness)** | **0.8571** | **0.8034-0.8981** | 0.9371 | **0.4545** |
+| **v5clean (0.6B)** | **0.7810** | **0.7202-0.8316** | 0.8286 | **0.5455** |
+| base Qwen3-0.6B | 0.4286 | 0.3635-0.4962 | 0.4686 | 0.2424 |
+
+**The target line shrinks from 11.4 pp to 7.6 pp**, and the intervals now
+overlap (v5clean tops at 0.8316, the 8B's lower bound is 0.8034). McNemar on the
+paired items is still significant overall (26 vs 10 discordant, chi2 = 6.25),
+so the 8B is genuinely ahead -- but by less than the cross-harness comparison
+implied. **Use 0.8571, not 0.8952, as the F8 target.** The 3.8 pp difference
+between the two qwen3-8b rows is the harness effect the earlier caveat warned
+about, now measured instead of assumed.
+
+## The finding that changes Part B: the teacher is worse on hard items
+
+| Tier | n | v5clean | qwen3-8b | discordant (8B-only / v5clean-only) |
+| --- | --- | --- | --- | --- |
+| easy | 175 | 0.8286 | **0.9371** | 25 / 6 |
+| **hard** | **33** | **0.5455** | **0.4545** | **1 / 4** |
+
+**The champion beats the 8B on the hard tier.** The 8B's entire advantage is on
+easy items. This **reverses the F5 targeting advice given earlier in this
+document** ("weight teacher data toward hard-tier content"): distilling
+qwen3-8b's hard-tier behaviour would import a *worse* policy than the student
+already has. The hard-tier n is only 33 (4 vs 1 discordant), so this is
+suggestive rather than settled -- but it is the opposite sign from the
+assumption Part B was built on, and it must not be designed around blindly.
+
+**Corrected guidance for F5 (#142):**
+1. Weight teacher data toward **easy/mid-difficulty** content, where the teacher
+   is demonstrably better (25 vs 6 discordant).
+2. On hard items, prefer **gold-filtered** teacher outputs only (plan B.5
+   already requires gold matching) and consider excluding hard items where the
+   teacher disagrees with gold, rather than treating teacher output as truth.
+3. The realistic ceiling is bounded: v5clean is wrong on 46 items, and the
+   teacher is right on only **26** of those. Even perfect distillation of this
+   teacher's knowledge caps the champion near **0.9048** (164+26 of 210), and
+   the hard tier contributes almost none of it.

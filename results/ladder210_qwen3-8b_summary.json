@@ -1,0 +1,32 @@
+{
+  "label": "qwen3-8b",
+  "model": "Qwen/Qwen3-8B",
+  "benchmark": "[LOCAL_PATH]",
+  "n": 210,
+  "correct": 180,
+  "accuracy": 0.8571,
+  "wilson95": [
+    0.8034,
+    0.8981
+  ],
+  "ambiguous": 0,
+  "ambiguous_rate": 0.0,
+  "enable_thinking": false,
+  "temperature": 0.0,
+  "seed": 42,
+  "mean_latency_ms": 123.3,
+  "by_difficulty": {
+    "easy": {
+      "n": 175,
+      "accuracy": 0.9371
+    },
+    "hard": {
+      "n": 33,
+      "accuracy": 0.4545
+    },
+    "moderate": {
+      "n": 2,
+      "accuracy": 0.5
+    }
+  }
+}
