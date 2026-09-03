@@ -1,0 +1,18 @@
+{
+  "benchmark": "[LOCAL_PATH]",
+  "n_items": 210,
+  "splits": [
+    "data/train_v3.jsonl",
+    "data/train_v6.jsonl",
+    "data/val_v3.jsonl"
+  ],
+  "ngram_n": 8,
+  "jaccard_alarm": 0.6,
+  "n_exact": 0,
+  "n_near": 0,
+  "n_source_document_hits": 0,
+  "contaminated_question_ids": [],
+  "exact": [],
+  "near": [],
+  "source_document_hits": []
+}
