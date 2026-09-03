@@ -7,9 +7,19 @@ Companion plan: `LADDER_AND_DISTILLATION_PLAN.md`.
 
 ## Epic
 
-- **Epic F:** "Quantify the size gap on the 98-question ladder, then distill toward it."
+- **Epic F:** "Quantify the size gap on the 210-item ladder, then distill toward it."
+  (Retitled 2026-09-03: the 98-question ladder is legacy and unrecoverable -- see below.)
 - Goal: place v5clean on the ladder (Part A), then run one contamination-guarded, Cactus-safe
   distillation lever aimed at the target line (Part B).
+
+> **Amendment 2026-09-03 (F1 / #138).** The 98-question dataset no longer exists and the
+> published ladder is unreproducible (42/98 answer-key disagreement with the surviving file;
+> eval predates the repo; file never tracked). M1 retargets to the 210-item
+> `natural_fertilizers_benchmark_v1_graded.jsonl` with `--temperature 0`, using the 9
+> key-verified models in `quality/irt/responses/` as references (qwen3-8b 0.895 = target
+> line). F3's "expect ~28.6% for base 0.6B" harness check is dropped: it cannot separate a
+> harness bug from the changed answer key. Milestones #5/#6 keep their original titles
+> because the CLI has no milestone-rename; read "98-question" there as "210-item".
 
 ## Milestone M1 - Ladder measurement (Part A)
 

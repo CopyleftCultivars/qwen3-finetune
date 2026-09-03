@@ -31,11 +31,29 @@ Companion: `results/I14_GATE_VERDICT.md` (M3 NO-GO), `autoresearch/levers.md` (o
 ## Part A - Score v5clean on the 98-question ladder
 
 ### A.0 Assumptions and constraints
-1. The ladder file is `benchmark-workspace/EVALUATION_RESULTS.md` (Natural Fertilizer MCQ
-   Benchmark v1, 98 questions, 2026-02-25).
+
+> **AMENDED 2026-09-03 (F1 / #138). The 98-question ladder is LEGACY and does not exist.**
+> `benchmark-workspace/EVALUATION_RESULTS.md` (2026-02-25) reports 90.8 / 89.8 / 73.5 / 28.6,
+> but the dataset file it scored is gone: `BENCHMARK_PATH` in `evaluate.py` points at a
+> missing path, `benchmarks/` is gitignored so the file was never tracked, and the eval
+> predates the repo's first commit (2026-03-25). The surviving 210-row graded file contains
+> all 98 ids but disagrees with the published answer key on **42/98** and difficulty on
+> **33/98**, so the published row is neither reproducible nor extendable and must not be
+> quoted as a target line.
+>
+> **The ladder is now the 210-item
+> `benchmarks/natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl`**, where
+> `quality/irt/responses/*_natural_fertilizers.jsonl` already holds 9 models whose answer
+> keys agree with that file 210/210 (qwen3-8b **0.895**, opus-4-6 0.938, haiku-4-5 0.905,
+> llama-3.1-8b 0.805). Target line = the champion-to-qwen3-8b gap. See
+> `results/LADDER_98Q_PROTOCOL.md` for the protocol and the evidence.
+
+1. ~~The ladder file is `benchmark-workspace/EVALUATION_RESULTS.md` (Natural Fertilizer MCQ
+   Benchmark v1, 98 questions, 2026-02-25).~~ Superseded -- see the amendment above.
 2. The protocol is generative answer-parsing with an "ambiguous" bucket, not option-set-normalized
    log-likelihood. Do not compare the two metrics.
-3. Decode is deterministic: temperature = 0 (greedy), fixed seed.
+3. Decode is deterministic: temperature = 0 (greedy), fixed seed. `evaluate.py` defaults
+   `--temperature` to 1.0, so this must be passed explicitly.
 4. Never read any sealed split. Do not train on the 98 questions.
 
 ### A.1 Locate the harness and dataset
