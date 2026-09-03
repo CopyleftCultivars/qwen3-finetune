@@ -177,3 +177,19 @@ forgetting/regression guardrail for this tier, never the accept/reject signal.
   module set, weight decay, and sequence packing~~ — done.
 - ~~`train.py` has no eval loop during training (`eval_strategy="no"`)~~ — early-stopping
   now enables epoch-aligned eval and `EarlyStoppingCallback`.
+
+## M3 local RLM slice — negative result (2026-09-03, #119)
+
+- ~~Inference-time controllers (RLM LocalREPL, self-refine, controller-owned RAG) as a
+  lever on the frozen champion~~ — **exhausted, NO-GO**. All three lose to the bare
+  2-pass path on the 113-row MCQ track: A 0.7522 > R 0.7080 > B 0.6549 > C 0.5841,
+  with the free-form rubric reproducing the same ordering. `delta_trace` = +0.1964
+  says the champion already extracts what its own reasoning affords. Closing the
+  remaining size gap has to come from the training side, not the inference harness.
+  See `results/I14_GATE_VERDICT.md`.
+- **Open lever, newly identified:** no fine-tuned checkpoint has ever been scored on
+  `benchmark-workspace/EVALUATION_RESULTS.md`'s 98-question set, where qwen3:8b scores
+  90.8% and the base 0.6B on-device scores 28.6%. The champion's 113-row option-set-LL
+  numbers are not comparable to it, so the size gap this program targets is currently
+  unquantified. Scoring v5clean there with the same generative protocol would give the
+  program a real target line.
