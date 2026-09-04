@@ -4,7 +4,7 @@
     "autoresearch/build_guardrails.py": {
       "kind": "file",
       "note": "frozen guardrail-input assembly code feeding the gate",
-      "sha256": "c3db754ba9059769cf173d9b6ed766b4728bd6d2ce497a77a49aad06bbae8d67"
+      "sha256": "5242fbdadab202fda2a71878b0d0cafbb23ca82e6d1942a58e66d28cdaa65688"
     },
     "autoresearch/configs/phase20-verification/p20-proposed-answer-audit.yaml": {
       "kind": "file",
@@ -24,7 +24,7 @@
     "autoresearch/gate.py": {
       "kind": "file",
       "note": "frozen accept/reject/pause gate code",
-      "sha256": "2ffc3e055d1367af07415033e210a2c7b4ba041d0965b8f5f9d9d7ab01192ad5"
+      "sha256": "bf4f78d4a39f1a11eddbbc987d6a852c53a99ddd70665a1f079430e1455e6c8f"
     },
     "autoresearch/gate_config.json": {
       "kind": "file",
@@ -182,5 +182,5 @@
       "sha256": "21845560329b947586b23af5cad88360d617ddb800c56ac1ec809d89520e082a"
     }
   },
-  "generated_at": "2026-09-04T14:17:28+00:00"
+  "generated_at": "2026-09-04T17:42:48+00:00"
 }

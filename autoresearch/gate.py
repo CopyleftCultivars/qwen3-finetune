@@ -100,7 +100,13 @@ def guardrail_reasons(
     if bias is None:
         reject.append("missing_bias_guard")
     else:
-        reference = config["bias_guard"]["reference_distribution"]
+        # Guard-version change (2026-09-04): the null for letter-position bias
+        # is the eval's GOLD letter marginals, not a uniform reference. A
+        # candidate calibrated to a skewed-gold eval (e.g. val_v3's A=15/113)
+        # deviates from uniform without being biased. build_guardrails.py now
+        # emits the gold marginals as reference_distribution; fall back to the
+        # config's uniform reference only for legacy guardrail payloads.
+        reference = bias.get("reference_distribution") or config["bias_guard"]["reference_distribution"]
 
         def deviation(distribution: dict[str, Any]) -> float:
             return max(
@@ -117,7 +123,8 @@ def guardrail_reasons(
         elif baseline_dist is not None:
             # Relative rule (2026-07-18 policy): the guard exists to prevent
             # REINTRODUCING letter bias, so a candidate may not sit further
-            # from uniform than the champion baseline plus a noise tolerance.
+            # from the gold reference than the champion baseline plus a noise
+            # tolerance.
             baseline_dev = deviation(baseline_dist)
             allowed = baseline_dev + float(
                 config["bias_guard"]["max_deviation_increase_vs_baseline"]
@@ -302,6 +309,40 @@ def run_self_test(config: dict[str, Any]) -> None:
                 config,
             ),
             "reject",
+        ),
+        (
+            "bias_gold_reference_biased_reject",
+            decide(
+                synthetic_primary(0.0),
+                synthetic_primary(threshold + 0.1),
+                {
+                    **passing_guardrails(),
+                    "bias": {
+                        "letter_distribution": {"A": 0.45, "B": 0.23, "C": 0.20, "D": 0.12},
+                        "baseline_letter_distribution": {"A": 0.13, "B": 0.23, "C": 0.38, "D": 0.26},
+                        "reference_distribution": {"A": 0.13, "B": 0.23, "C": 0.38, "D": 0.26},
+                    },
+                },
+                config,
+            ),
+            "reject",
+        ),
+        (
+            "bias_gold_reference_calibrated_accept",
+            decide(
+                synthetic_primary(0.0),
+                synthetic_primary(threshold + 0.1),
+                {
+                    **passing_guardrails(),
+                    "bias": {
+                        "letter_distribution": {"A": 0.13, "B": 0.23, "C": 0.38, "D": 0.26},
+                        "baseline_letter_distribution": {"A": 0.13, "B": 0.23, "C": 0.38, "D": 0.26},
+                        "reference_distribution": {"A": 0.13, "B": 0.23, "C": 0.38, "D": 0.26},
+                    },
+                },
+                config,
+            ),
+            "accept",
         ),
         (
             "rubric_guard_reject",

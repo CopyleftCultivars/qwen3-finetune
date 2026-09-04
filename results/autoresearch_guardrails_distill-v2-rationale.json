@@ -13,6 +13,13 @@
       "C": 0.3185840707964602,
       "D": 0.25663716814159293
     },
+    "reference_distribution": {
+      "A": 0.13274336283185842,
+      "B": 0.23008849557522124,
+      "C": 0.3805309734513274,
+      "D": 0.25663716814159293
+    },
+    "reference_source": "gold_letter_marginals_of_scored_eval",
     "source": "results/mcq_gold_ll_distill-v2-rationale.json"
   },
   "compute": {

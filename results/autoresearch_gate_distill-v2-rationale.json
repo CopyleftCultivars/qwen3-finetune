@@ -12,9 +12,7 @@
       "primary_delta_not_significant delta=0.2185864417 threshold=0.4000000000"
     ],
     "pause_guardrails": [],
-    "reject_guardrails": [
-      "bias_reintroduced observed=0.1173 baseline=0.0597 allowed=0.1097"
-    ]
+    "reject_guardrails": []
   },
   "recommended_action": "revert_candidate"
 }
