@@ -1,0 +1,32 @@
+{
+  "label": "distill-v2-rationale",
+  "model": "outputs/merged-model-distill-v2-rationale",
+  "benchmark": "[LOCAL_PATH]",
+  "n": 210,
+  "correct": 183,
+  "accuracy": 0.8714,
+  "wilson95": [
+    0.8194,
+    0.9101
+  ],
+  "ambiguous": 0,
+  "ambiguous_rate": 0.0,
+  "enable_thinking": false,
+  "temperature": 0.0,
+  "seed": 42,
+  "mean_latency_ms": 54.7,
+  "by_difficulty": {
+    "easy": {
+      "n": 175,
+      "accuracy": 0.9029
+    },
+    "hard": {
+      "n": 33,
+      "accuracy": 0.7273
+    },
+    "moderate": {
+      "n": 2,
+      "accuracy": 0.5
+    }
+  }
+}
