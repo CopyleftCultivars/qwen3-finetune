@@ -39,31 +39,33 @@ gate alone would not promote — but this is a clear improvement, not a regressi
 | Guard | Result |
 | --- | --- |
 | Forgetting (general probe, 24 items) | **pass** — 0.7500 vs 0.4167 baseline (improvement) |
-| Bias (letter marginals) | **flag** — A under-predicted: 0.1327 vs 0.25 reference |
+| Bias (letter marginals) | **false positive** — see `F8_BIAS_FLAG_FALSE_POSITIVE.md` |
 | Rubric / grader-anchor | carried forward (not measured this batch) |
 
-**The bias flag is real and marginal.** Candidate A-deviation 0.1173 vs the
-allowed 0.1097 (baseline 0.0597 + 0.05 tolerance). The training data is
-letter-balanced (25/25/25/25 via cyclic shift), so the A-aversion most likely
-comes from the teacher rationale text referencing option letters ("Option A
-is…") that go stale after the cyclic shift rotates the options.
+**The bias flag is a guard miscalibration, not a model bias.** val_v3's 113
+MCQ rows have skewed gold letters (A=15, C=43); the candidate predicts A exactly
+15 times. The guard compared against a uniform 0.25 reference and flagged the
+candidate for being calibrated. Fixed in `ac6888e` (gold-marginal reference +
+positive controls); re-gating clears the bias reason, leaving only the primary.
 
 ## 4. Gate decision
 
-`results/autoresearch_gate_distill-v2-rationale.json`: **REJECT**, for two
-independent reasons:
+`results/autoresearch_gate_distill-v2-rationale.json`: **REJECT**, on a single
+reason after the bias-guard fix:
 1. `primary_delta_not_significant` (delta +0.2186 < threshold 0.4).
-2. `bias_reintroduced` (observed 0.1173 > allowed 0.1097).
+
+The bias rejection (`bias_reintroduced`) was a guard miscalibration and is
+cleared by `ac6888e`; it no longer appears in `reject_guardrails`.
 
 ## Verdict
 
 The distillation lever **works on its actual target** — the ladder gap to an
 8B is closed (0.7810 -> 0.8714, above the 0.8571 target), and the hard tier
-doubles the champion's improvement against the teacher. But it does **not**
-pass the autoresearch gate as-is: the loop's 2-SE primary bar is not cleared
-(+1.09 SE), and a letter-bias side effect (A-aversion) trips the bias guard.
+doubles the champion's improvement against the teacher. The only remaining
+blocker is the loop's 2-SE primary bar (+1.09 SE vs 2 SE): the MCQ gold-LL
+improved (+0.2186) but not by enough to clear the promotion threshold.
 
-Recommended follow-up (F8 pass path): regenerate the teacher rationale to be
-letter-invariant (no "Option A/B/C/D" references), rebuild the distillation
-dataset, and retrain — this targets the bias flag directly and should leave
-the ladder gain intact.
+Recommended follow-up (F8 pass path): a stronger distillation signal to lift
+the primary — letter-invariant rationale (cleaner training signal), more
+teacher items, a hard-tier teacher (opus), or more epochs — then re-evaluate
+with the full guardrail suite (rubric/grader-anchor measured, trace track run).
