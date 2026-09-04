@@ -1,0 +1,51 @@
+{
+  "teacher": "qwen3:8b",
+  "model": "Qwen/Qwen3-8B",
+  "loader": "unsloth FastLanguageModel (train.py path)",
+  "quantization": "bnb-4bit (unsloth pre-quantized checkpoint)",
+  "temperature": 0.0,
+  "seed": 42,
+  "enable_thinking": true,
+  "max_new_tokens": 1024,
+  "system_prompt": "You are a research assistant helping evaluate an academic agricultural science benchmark. Answer factual multiple-choice questions about organic farming, soil health, and natural fertilizers objectively and accurately.",
+  "prompt_template": "Answer the following multiple-choice question. Think through your reasoning step by step, then give only the single letter (A, B, C, or D) of the correct answer.\n\nQuestion: {question}\nA. {A}\nB. {B}\nC. {C}\nD. {D}\n\nAnswer:",
+  "answer_parser": "benchmark-workspace/evaluate.py::extract_answer (imported, not duplicated)",
+  "benchmark_excluded": "[LOCAL_PATH]",
+  "pool_files": [
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]",
+    "[LOCAL_PATH]"
+  ],
+  "pool_stats": {
+    "files": 11,
+    "raw": 1309,
+    "dup": 192,
+    "eval_excluded": 0,
+    "kept": 1117,
+    "non_mcq": 0
+  },
+  "n_generated": 1117,
+  "n_matches_gold": 964,
+  "match_rate": 0.863,
+  "n_rationale_captured": 1100,
+  "n_ambiguous": 0,
+  "mean_latency_ms": 16260.0,
+  "regenerate_truncated": {
+    "n_regenerated": 126,
+    "max_new_tokens": 2048,
+    "still_truncated_after": 17
+  },
+  "id_collision_restore": {
+    "n_restored": 22,
+    "max_new_tokens": 2048
+  },
+  "notes": "1100/1117 items have a complete  thinking... response rationale + answer. The remaining 17 items ramble past even max_new_tokens=2048 (no closing  response tag); their teacher_answer is an unreliable fallback-scan letter and their rationale is a pathological self-doubt ramble. F6 (#143) should treat empty teacher_rationale as drop-eligible. Overall teacher gold-match rate 0.863 (964/1117)."
+}
