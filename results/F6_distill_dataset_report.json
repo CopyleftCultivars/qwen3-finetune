@@ -1,0 +1,17 @@
+{
+  "input": 1117,
+  "kept": 871,
+  "dropped": 246,
+  "drop_rate": 0.2202,
+  "eval_overlap": 0,
+  "val_overlap": 93,
+  "freeform_overlap": 0,
+  "gold_dropped": 150,
+  "pathological_dropped": 3,
+  "overlap_counts": {
+    "data/val_v3.jsonl": 93
+  },
+  "source": "data/sources/teacher_distill_qwen3-8b.jsonl",
+  "train_rows": 6437,
+  "val_rows": 716
+}
