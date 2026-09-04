@@ -133,3 +133,37 @@ Companion: `results/I14_GATE_VERDICT.md` (M3 NO-GO), `autoresearch/levers.md` (o
 2. Student capacity. A 0.6B model may not absorb 8B knowledge fully.
 3. Objective trade. A ladder gain may cost the frozen MCQ primary. Gate on both.
 4. Quantization loss. The on-device score may drop below the GPU score.
+
+---
+
+## D. Promotion policy for deploy-shaped levers (2026-09-04, #160)
+
+AMENDED after the F8 gate could not express the distill result (ladder 0.8714
+vs target 0.8571, but primary +0.2186 = +1.09 SE < the 2-SE bar).
+
+**Decision: option (B).** For deploy-shaped levers (cross-approach changes such
+as distillation — new data source / new teacher), the generative ladder is the
+promotion gate; the frozen MCQ primary is demoted to a non-regression guard
+(reject only on a *negative* primary delta beyond its noise bound). Same-lineage
+loop promotions keep the existing 2-SE primary bar unchanged.
+
+Grounding:
+- The 2-SE bar is real and consistently enforced (every recorded accept dse >=
+  2.186; champion p6-lr5e5 at 7-8 SE), so it is not lowered — the primary is
+  recognised as the wrong gate for this lever, not fudged.
+- `objective_weights.json` already routes cross-approach quality to generation
+  accuracy ("...not by ref-LL"); the option-set-LL primary is the
+  `first_c3_climbable_objective`, a same-lineage loop signal.
+- The primary is letter-surface-suppressed for this lever: the distill
+  candidate's unnormalized gold logprob rose +1.54 and argmax +13.3 pp, while
+  the option-set-normalized share rose +0.219 — the normalization scores the
+  letter surface the cyclic shift exists to remediate (teacher gold 58% B).
+
+Precondition before the policy is finalised: close the ladder provenance gap
+(map ladder `source_document` to the training pool's `source_passage`; the
+lexical seal is already strong at max 8-gram Jaccard 0.09 vs 0.6 alarm).
+
+Supporting diagnostics (not promotion arms): 8-epoch retrain; 2-3-seed
+replication of the distill config.
+
+Full analysis: `results/F8_PROMOTION_POLICY_RECOMMENDATION.md`.
