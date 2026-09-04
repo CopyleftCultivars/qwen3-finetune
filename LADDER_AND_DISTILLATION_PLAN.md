@@ -148,9 +148,11 @@ promotion gate; the frozen MCQ primary is demoted to a non-regression guard
 loop promotions keep the existing 2-SE primary bar unchanged.
 
 Grounding:
-- The 2-SE bar is real and consistently enforced (every recorded accept dse >=
-  2.186; champion p6-lr5e5 at 7-8 SE), so it is not lowered — the primary is
-  recognised as the wrong gate for this lever, not fudged.
+- The 2-SE bar is real and is **necessary but not sufficient**: every recorded
+  accept has dse >= 2.186 (champion p6-lr5e5 at 7-8 SE), and six strong-primary
+  rejects (dse 2.118-3.542) were killed by guardrails, not the primary. So it
+  is not lowered — the primary is recognised as the wrong gate for this lever,
+  not fudged.
 - `objective_weights.json` already routes cross-approach quality to generation
   accuracy ("...not by ref-LL"); the option-set-LL primary is the
   `first_c3_climbable_objective`, a same-lineage loop signal.

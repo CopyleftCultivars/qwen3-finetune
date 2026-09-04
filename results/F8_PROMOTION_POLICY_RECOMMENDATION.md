@@ -13,17 +13,21 @@ gate decision (`results/autoresearch_gate_*.json`, n=72):
 | Decision | n | dse range |
 | --- | --- | --- |
 | accept | 10 | **2.186 … 7.845** |
-| reject | 61 | −10.03 … 1.997 |
+| reject | 61 | −10.03 … 3.542 |
 | pause | 1 | −0.018 |
 
 Every accepted lever cleared 2 SE; the lowest accepted dse is 2.186
 (`p5real6-d01-r4`), and the champion promotion (`p6-lr5e5*`) sat at 7.0–7.8 SE.
-No accept is below the bar, and no reject above it. The bar is noise-limited,
-not n-limited: commit `45413bc` (2026-07-18, #72) set `standard_error = 0.20`
-from the measured paired item SE 0.152 plus run-to-run SD 0.128 (combined
-0.198), so `min_delta_standard_errors = 2.0` → threshold 0.40. This is a real,
-consistently-enforced bar, not a soft one. **The distill candidate's +0.2186
-(+1.09 SE) is genuinely below every historically-accepted move.**
+The primary bar is **necessary but not sufficient**: no accept sits below 2 SE,
+yet six rejects exceeded 2 SE (dse 2.118–3.542 — `p5accept-ep4_full` 3.542,
+`p5real6-d01-r3` 3.428, `p5real6-d01` 2.765, `p5real2-epochs` 2.410,
+`p5real6-d025` 2.262, `p5real6-d01-r2` 2.118) and were all killed by
+**guardrails** (rubric drop, compute budget, bias drift), not the primary.
+The bar is noise-limited, not n-limited: commit `45413bc` (2026-07-18, #72)
+set `standard_error = 0.20` from the measured paired item SE 0.152 plus
+run-to-run SD 0.128 (combined 0.198), so `min_delta_standard_errors = 2.0`
+→ threshold 0.40. **The distill candidate's +0.2186 (+1.09 SE) is genuinely
+below every historically-accepted move.**
 
 ### 2. Is the ladder sealed w.r.t. the distill training data?
 
