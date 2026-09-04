@@ -1,0 +1,2102 @@
+[
+  {
+    "ladder_qid": "NF-0001",
+    "ladder_question": "According to the excerpt from 'Building Soils for Better Crops', what is a primary purpose of using animal manures?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0002",
+    "ladder_question": "What is a recommended practice for managing animal manure according to the 'Composting' excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0003",
+    "ladder_question": "How does the 'Organic Gardener's Composting' excerpt describe well-made finished compost?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0004",
+    "ladder_question": "What is the general rule-of-thumb for the daily consumption rate of compost worms, as stated in the 'Manual of On-Farm Vermicomposting and Vermiculture'?",
+    "ladder_answer": "C",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": "NF-TRAIN-0009",
+    "closest_jaccard": 0.069,
+    "closest_distill_question": "In the 'Manual of On-Farm Vermicomposting and Vermiculture,' what is the goal of vermicomposting with respect to manure?"
+  },
+  {
+    "ladder_qid": "NF-0005",
+    "ladder_question": "What environmental risk is associated with large quantities of organic wastes like animal manures, according to the 'Vermiculture Technology' excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0006",
+    "ladder_question": "In sustainable agriculture, what role does nature play regarding animal manures?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0007",
+    "ladder_question": "According to the table of contents from 'GARDENING organic Geoff Hamilton', animal manure is categorized as what type of material?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0008",
+    "ladder_question": "What is a suggested use for manure from animals fed on healthy vegetation, according to 'gardening when it counts'?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0009",
+    "ladder_question": "What important caution is given about using raw rabbit manure indoors, according to 'True Living Organics'?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0010",
+    "ladder_question": "What are earthworm castings described as containing, according to the 'Acknowledgments' excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0011",
+    "ladder_question": "What is a dietary characteristic of compost worms, as noted in the 'Manual of On-Farm Vermicomposting and Vermiculture'?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": "NF-TRAIN-0009",
+    "closest_jaccard": 0.0909,
+    "closest_distill_question": "In the 'Manual of On-Farm Vermicomposting and Vermiculture,' what is the goal of vermicomposting with respect to manure?"
+  },
+  {
+    "ladder_qid": "NF-0012",
+    "ladder_question": "Beyond providing products like meat and milk, what additional contribution do livestock make in some agroforestry systems?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0013",
+    "ladder_question": "What was a condition of the soil on a property previously used as a horse stud, according to the 'GARDENING' excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0014",
+    "ladder_question": "What is a potential negative effect of using certain pest controls and growth-enhancing compounds, as mentioned in 'MARIJUANA CULTIVATION RECONSIDERED'?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0015",
+    "ladder_question": "The chapter title 'Dung ho!' in the 'Organic Gardening DUMLES' excerpt most likely refers to enthusiasm for what?",
+    "ladder_answer": "B",
+    "ladder_topic": "animal_manure",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0016",
+    "ladder_question": "According to the excerpt on assessing co-composted biochar compost, when did phosphorus release begin after the initial decrease?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0017",
+    "ladder_question": "What is a negative consequence of using inexpensive chemical fertilizers that dissolve quickly, as described in the gardening excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0018",
+    "ladder_question": "What practice is suggested to improve nutrient management by aligning fertilizer use with plant needs?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0019",
+    "ladder_question": "What effect did increased application rates of aqueous vermicompost extracts have on certain pests?",
+    "ladder_answer": "C",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0020",
+    "ladder_question": "For annual crops like corn and vegetables, when is the best time to apply manures according to the excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0021",
+    "ladder_question": "Based on the evidence presented, when should phosphorus fertilizers for annual crops largely be applied?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0022",
+    "ladder_question": "What is the recommended timing for fertilizer application on lighter, sandy soils for the crop described?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0023",
+    "ladder_question": "What factor related to green manure establishment can sometimes affect the required seed rate?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0024",
+    "ladder_question": "What is one management option for manipulating nutrient release patterns from biomass?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0025",
+    "ladder_question": "What approximate application rate of DAP is mentioned for the crop on lighter, sandy soils?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0026",
+    "ladder_question": "According to the excerpt, what can the presence of foam on the surface of compost tea indicate?",
+    "ladder_answer": "C",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0027",
+    "ladder_question": "What is a consequence of repeated application of chemical fertilizers and other substances to soil, as mentioned in the JADAM excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0028",
+    "ladder_question": "Why are young seedlings of most annual crops sensitive to phosphorus availability, according to the excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0029",
+    "ladder_question": "What can accelerate the decomposition of incorporated biomass?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0030",
+    "ladder_question": "What is a potential issue with applying manures that have a high amount of bedding?",
+    "ladder_answer": "B",
+    "ladder_topic": "application_rates_timing",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0031",
+    "ladder_question": "According to the excerpts, what is a primary mechanism by which Plant-Growth-Promoting Rhizobacteria (PGPR) promote plant growth?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0032",
+    "ladder_question": "What is the defined process of vermicomposting?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0033",
+    "ladder_question": "What is one key driver for the interest in alternative, non-toxic inputs in agriculture?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0034",
+    "ladder_question": "What role do proteases play in the soil, as mentioned in the context of nutrient cycling?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0035",
+    "ladder_question": "How can land-use changes affect soil microbial communities?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0036",
+    "ladder_question": "What is a potential consequence of large-scale use of synthetic N fertilizers in modern agriculture?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0037",
+    "ladder_question": "According to the excerpts, what is a common issue with soil fertility in many farmed areas of the tropics?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0038",
+    "ladder_question": "What is a stated benefit of the process described in vermicomposting?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0039",
+    "ladder_question": "What types of organic wastes are listed as potential inputs for vermiculture technology?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0040",
+    "ladder_question": "What is emphasized as critical for success in managing soil and plant health in the 'Teaming with Microbes' excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0041",
+    "ladder_question": "What can stormwater carry with it as pollutants, according to the Practical Permaculture excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0042",
+    "ladder_question": "What is a potential negative outcome of unsustainable land use mentioned in the historical context?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0043",
+    "ladder_question": "What is a general consequence of nutrient deficiency symptoms appearing in crops?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0044",
+    "ladder_question": "What is a potential consequence of farm land contamination mentioned in the Sustainable Agriculture excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0045",
+    "ladder_question": "What is a key function of fungi in ecosystems, particularly in the context of forestry?",
+    "ladder_answer": "B",
+    "ladder_topic": "bio_fertilizers",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0046",
+    "ladder_question": "According to the excerpt, what are the two basic methods of making compost?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0047",
+    "ladder_question": "What is a key characteristic of anaerobic composting as described in the excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0048",
+    "ladder_question": "What is the primary purpose of the document described as a 'quick reference' for small scale livestock owners?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0049",
+    "ladder_question": "In the context of compost tea brewing, what does the quality of the source compost influence?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0050",
+    "ladder_question": "Based on the excerpt, what must be extracted from compost during tea brewing?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0051",
+    "ladder_question": "According to the excerpt, what is a key principle for many organic gardeners regarding nutrients?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0052",
+    "ladder_question": "What distinguishes 'compost' from 'composted manure' that is not completely composted, according to the excerpt?",
+    "ladder_answer": "C",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0053",
+    "ladder_question": "What does the table of contents from 'The Composting Process' list as a key topic?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0054",
+    "ladder_question": "What is the title of the manual authored by Glenn Munroe of the Organic Agriculture Centre of Canada?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0055",
+    "ladder_question": "According to the excerpt, what is needed for soil to support plant life beyond just minerals?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0056",
+    "ladder_question": "What kind of information is provided in the charts and tables for small scale livestock owners?",
+    "ladder_answer": "A",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0057",
+    "ladder_question": "How is the book 'Composting' described in its subtitle?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0058",
+    "ladder_question": "In permaculture ethics, what is an example of reinvesting surpluses into the system?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0059",
+    "ladder_question": "According to the excerpt, what constitutes a small but significant portion of the weight in the upper layer of good agricultural soil?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0060",
+    "ladder_question": "What is the focus of the document titled 'Composting' intended for small scale livestock owners?",
+    "ladder_answer": "B",
+    "ladder_topic": "composting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0061",
+    "ladder_question": "According to the hydroponics excerpt, what is advised regarding formulation recommendations for specific crops?",
+    "ladder_answer": "C",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0062",
+    "ladder_question": "How does the Cornell Soil Health Test interpret measured nutrient levels?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0063",
+    "ladder_question": "Why does the book 'BUILDING SOILS FOR BETTER CROPS' avoid giving exact, recipe-type answers for specific farms?",
+    "ladder_answer": "C",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0064",
+    "ladder_question": "What structural feature allows a document to be searched either for individual crops or for specific subjects, according to Excerpt 6?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0065",
+    "ladder_question": "What is the basic principle of a fertilizer program for a bearing citrus orchard, as described in the excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0066",
+    "ladder_question": "For which type of crops is tissue or plant analysis frequently used as the basis for fertilizer recommendations?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0067",
+    "ladder_question": "Which of the following is explicitly listed as an example of a crop that requires one or more years to mature and thus uses tissue analysis for fertilizer recommendations?",
+    "ladder_answer": "C",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0068",
+    "ladder_question": "What is the primary difference between a greenhouse and an outside garden regarding soil nutrients?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0069",
+    "ladder_question": "In traditional sustainable agriculture, what inputs are typically used for fertilizers and pest control?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0070",
+    "ladder_question": "According to the excerpt on Diagnosis and Remediation in Citrus, what is the likely outcome of applying extra fertilizer beyond basic needs?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0071",
+    "ladder_question": "What does the excerpt from 'ORGANISATION FOR ECONOMIC CO-OPERATION AND DEVELOPMENT' suggest about the structure of its document regarding crops?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0072",
+    "ladder_question": "The 'GREEN MANURES' excerpt includes a table with which of the following headings?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0073",
+    "ladder_question": "In the context of the 'Diagnosis and Remediation of Nutrient Constraints in Citrus' excerpt, what is the fundamental goal of a fertilizer program for a bearing orchard?",
+    "ladder_answer": "B",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0074",
+    "ladder_question": "The excerpt from 'CONVERSION FACTORS' states that plant analysis is used as a basis for fertilizer recommendations for crops requiring one or more years to mature. Which of the following is NOT listed as an example?",
+    "ladder_answer": "D",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0075",
+    "ladder_question": "The 'BUILDING SOILS FOR BETTER CROPS' excerpt explicitly states the book avoids what type of approach?",
+    "ladder_answer": "C",
+    "ladder_topic": "crop_specific_recommendations",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0076",
+    "ladder_question": "According to the excerpt, what is a primary cause of human impact on global climate?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0077",
+    "ladder_question": "What environmental benefit do trees planted on a hillslope provide, according to the text?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0078",
+    "ladder_question": "What is a consequence of reduced biomass production on farmland?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0079",
+    "ladder_question": "How is permaculture described in relation to natural resource management?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0080",
+    "ladder_question": "According to the excerpt, what is a potential issue with economic calculations regarding environmental consequences?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0081",
+    "ladder_question": "What is a risk associated with the misuse and overuse of water resources?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0082",
+    "ladder_question": "What is one environmental benefit of applying biochar to soils?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0083",
+    "ladder_question": "What problem does the text associate with annual peasant crops?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0084",
+    "ladder_question": "According to the excerpt, what is a consequence of farm land contamination?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0085",
+    "ladder_question": "What is a key argument made about sustainable soil management and economic motivations?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0086",
+    "ladder_question": "What is a potential outcome of reduced vegetation biomass on farmland?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0087",
+    "ladder_question": "What role do nitrogen-fixing trees play in the soil, according to the text?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0088",
+    "ladder_question": "What is identified as a solution to problems besetting tropical forests?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0089",
+    "ladder_question": "What is a characteristic of the soil microbial world, as described in the excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0090",
+    "ladder_question": "What is a potential consequence of not internalizing environmental costs into economic decisions?",
+    "ladder_answer": "B",
+    "ladder_topic": "environmental_impact",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0091",
+    "ladder_question": "According to the corpus, what is the primary purpose of growing green manures and cover crops?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0092",
+    "ladder_question": "How are green manures and cover crops described in relation to each other?",
+    "ladder_answer": "C",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0093",
+    "ladder_question": "What practice involves planting a living mulch that gets turned into the soil?",
+    "ladder_answer": "C",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0094",
+    "ladder_question": "Crops grown specifically to be turned into the soil as a living mulch are often called what?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0095",
+    "ladder_question": "What is one stated purpose of planting cover crops?",
+    "ladder_answer": "A",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0096",
+    "ladder_question": "What environmental problem were winter green manures studied to help reduce?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0097",
+    "ladder_question": "What potential negative outcome can occur if green manures produce more nitrogen than a crop needs?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0098",
+    "ladder_question": "According to the text, what can slow the rate of nitrogen release from cover crops?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0099",
+    "ladder_question": "What type of soil benefits greatly from the addition of liberal quantities of well-rotted compost or manure?",
+    "ladder_answer": "C",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0100",
+    "ladder_question": "Adding bulky organic matter to soil helps improve its structure by doing what?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0101",
+    "ladder_question": "What is described as an off-season exercise to add organic matter to a large garden?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0102",
+    "ladder_question": "In the context of secondary cultivation, what is one use of light digging?",
+    "ladder_answer": "A",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0103",
+    "ladder_question": "What is a common constraint of sandy soils that the addition of composts or manures can help address?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0104",
+    "ladder_question": "What can happen to soil organic matter when you supply very high rates of crop residues, manures, composts, or grow cover crops?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0105",
+    "ladder_question": "What is one method mentioned for using a cover crop on a farm scale?",
+    "ladder_answer": "B",
+    "ladder_topic": "green_manures_cover_crops",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0106",
+    "ladder_question": "According to the excerpts, what is the approximate NPK content of most seedmeals?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0107",
+    "ladder_question": "What are the NPK numbers mentioned for an all-purpose liquid TLO nutrient?",
+    "ladder_answer": "C",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0108",
+    "ladder_question": "How is the ppm contribution of a fertilizer calculated, according to the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0109",
+    "ladder_question": "What must you be able to measure to figure out the ppm of your fertilizer or mix?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0110",
+    "ladder_question": "What do the three numbers on the side of a fertilizer bag represent?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0111",
+    "ladder_question": "Which of the following is described as 'very high in protein and rich in NPK'?",
+    "ladder_answer": "C",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0112",
+    "ladder_question": "The nutrient content of commercial guano products can vary considerably based on what major factor?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0113",
+    "ladder_question": "What is the C/N ratio mentioned for cottonseed meal?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0114",
+    "ladder_question": "Which organic nutrients are mentioned as giving marijuana plants a 'delicious fruity, pungent' taste?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0115",
+    "ladder_question": "What type of decomposition is characterized by microbes that require oxygen?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0116",
+    "ladder_question": "Seedmeals are mainly used as what?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0117",
+    "ladder_question": "The liquid organic nutrient with NPK 3-3-0.3 is described as being made with bat guano and what other ingredient?",
+    "ladder_answer": "C",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0118",
+    "ladder_question": "What is noted about the NPK numbers of the bat guano and earthworm casting tea compared to many liquid organic nutrients?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0119",
+    "ladder_question": "What is one major factor, besides diet, that affects the nutrient content of guano?",
+    "ladder_answer": "B",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0120",
+    "ladder_question": "To calculate the ppm contribution, you need the percent content numbers from the fertilizer bag and the ability to measure:",
+    "ladder_answer": "C",
+    "ladder_topic": "nutrient_content_npk",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0121",
+    "ladder_question": "According to the excerpts, what is the primary purpose of national and state organic programs?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0122",
+    "ladder_question": "What must organic producers ensure regarding materials like shredded paper or cardboard used for vermiculture bedding?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0123",
+    "ladder_question": "Why might fortified fish emulsion not meet the definition of 'organic' according to certification authorities?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0124",
+    "ladder_question": "What should a grower do if they are uncertain about the components of a potting mix for organic production?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0125",
+    "ladder_question": "What major change in organic certification occurred in the United States in October 2002?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0126",
+    "ladder_question": "What do the USDA National Organic Program rules prohibit for a crop to be sold as certified organic?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0127",
+    "ladder_question": "What is one function of organic certification bodies as mentioned in the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0128",
+    "ladder_question": "According to the excerpts, what is a key requirement for a product to be acceptable for organic use?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0129",
+    "ladder_question": "What do the national regulations adopted by the USDA in 2002 prohibit the sale of?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0130",
+    "ladder_question": "To sell a crop as certified organic in Iowa, what must a producer do?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0131",
+    "ladder_question": "What was the system for organic certification in the US prior to October 2002?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0132",
+    "ladder_question": "What is one reason the organics movement is gaining popularity according to the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0133",
+    "ladder_question": "What must a producer in Iowa avoid to certify their crop as organic?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0134",
+    "ladder_question": "What is the role of a certification agent in organic production, as implied in the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0135",
+    "ladder_question": "What document must a producer follow to sell a crop as certified organic?",
+    "ladder_answer": "A",
+    "ladder_topic": "organic_certification",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0136",
+    "ladder_question": "According to the composting excerpt, which of the following is a recommended practice to reduce the amount of organic material to be composted?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0137",
+    "ladder_question": "What is one suggested use for finished compost mentioned in the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0138",
+    "ladder_question": "How should compost be applied to a lawn based on the provided information?",
+    "ladder_answer": "C",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0139",
+    "ladder_question": "According to the 'True Living Organics' excerpt, what made it possible for plants to evolve from the seas onto land?",
+    "ladder_answer": "C",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0140",
+    "ladder_question": "The food web in soil that helps feed plants is primarily supported by what?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0141",
+    "ladder_question": "What does the 'Teaming with Microbes' excerpt advise regarding inputs for soil?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0142",
+    "ladder_question": "What is the consequence of constant applications of toxic pesticides and inorganic fertilizers, as implied in the 'Teaming Microbes' excerpt?",
+    "ladder_answer": "C",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0143",
+    "ladder_question": "The 'Hydroponics' excerpt describes the guidebook's focus on what primary technique?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0144",
+    "ladder_question": "Based on the excerpts, which of the following is explicitly mentioned as a component of the 'food web' that feeds plants?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0145",
+    "ladder_question": "What is the recommended approach if there is 'no information' about how a material impacts soil life?",
+    "ladder_answer": "C",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0146",
+    "ladder_question": "The 'True Living Organics' and 'Teaming with Microbes' excerpts both emphasize the importance of what in soil?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0147",
+    "ladder_question": "According to the composting excerpt, what is one direct benefit of using compost on a lawn?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0148",
+    "ladder_question": "The 'Teaming with Microbes' excerpt suggests using what to help soil 'recruits'?",
+    "ladder_answer": "C",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0149",
+    "ladder_question": "What historical event does the 'True Living Organics' excerpt cite as a key development for plant evolution?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0150",
+    "ladder_question": "What is the primary goal of the advice to 'Win back your soil's health' in the 'Teaming with Microbes' excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "other",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0151",
+    "ladder_question": "According to Excerpt 1, what is a stated goal of Organic Gardening DUMLES?",
+    "ladder_answer": "A",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0152",
+    "ladder_question": "In the context of permaculture, what is listed as one of the 'services' or yields provided by a chicken?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0153",
+    "ladder_question": "Based on Excerpt 3, which numbered chapter or section in the referenced document deals directly with pest control?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0154",
+    "ladder_question": "What does the JADAM Organic Farming excerpt suggest individuals can make themselves?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0155",
+    "ladder_question": "What is one of the five major principles of the natural farming way proposed in Excerpt 9?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0156",
+    "ladder_question": "According to Excerpt 10, which chapter in the referenced hydroponics text is specifically dedicated to pest control?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0157",
+    "ladder_question": "As stated in Excerpt 14, what is one purported benefit of hydroponics regarding pests?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0158",
+    "ladder_question": "What unintended effect of some pest controls and growth-enhancing compounds is mentioned in Excerpt 15?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0159",
+    "ladder_question": "According to Excerpt 16, what is one of the main categories of problems addressed in the 'Cannabis Care manual'?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0160",
+    "ladder_question": "Where can information on controlling pest damage on indoor-grown plants be found, according to Excerpt 17?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0161",
+    "ladder_question": "What does Excerpt 19 suggest about some popular pesticides?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0162",
+    "ladder_question": "In the table of contents from Excerpt 20, what topic is listed on page 198?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0163",
+    "ladder_question": "Based on Excerpt 13, what characteristic of water can influence the types of organisms grown for compost tea?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0164",
+    "ladder_question": "What does Excerpt 19 identify as a particular concern regarding certain pesticides?",
+    "ladder_answer": "A",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0165",
+    "ladder_question": "What is the primary emphasis of the literature mentioned in Excerpt 6 regarding greenhouse pests?",
+    "ladder_answer": "B",
+    "ladder_topic": "pest_control",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0166",
+    "ladder_question": "According to the excerpt, hoof and horn meal is similar in nutrient composition to which of the following?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0167",
+    "ladder_question": "What effect does cottonseed meal have on soil?",
+    "ladder_answer": "C",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0168",
+    "ladder_question": "Based on the excerpt, what is a primary role of animal gut microbes in relation to plant-animal byproducts?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0169",
+    "ladder_question": "According to the excerpt, what is a characteristic of most animal manures as fertilizers?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0170",
+    "ladder_question": "What is mentioned as a use for black soldier fly larvae in processing organic waste?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0171",
+    "ladder_question": "The excerpt suggests that early observations about natural fertilizers likely involved which materials?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0172",
+    "ladder_question": "What is described as the 'real alchemy' in the transformation of organic matter into plant food?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0173",
+    "ladder_question": "Which of the following is listed as a commonly available organic fertilizer from animals, fish, or birds?",
+    "ladder_answer": "A",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0174",
+    "ladder_question": "According to the excerpt, what makes corn gluten an excellent ingredient for organic fertilizers?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0175",
+    "ladder_question": "The excerpt states that antioxidants in plants and animal tissues are capable of counteracting the damaging effects of what?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0176",
+    "ladder_question": "What is hoof and horn meal primarily a powerful source of?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0177",
+    "ladder_question": "The excerpt on black soldier fly larvae mentions the concept was initially proposed how long ago?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0178",
+    "ladder_question": "Based on the excerpt, what do soil animals help reduce, contributing to nutrient cycling?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0179",
+    "ladder_question": "The excerpt on hoof and horn meal compares it to other materials derived from what type of sources?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0180",
+    "ladder_question": "What specific property of corn gluten is mentioned in relation to its breakdown?",
+    "ladder_answer": "B",
+    "ladder_topic": "plant_animal_byproducts",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0181",
+    "ladder_question": "What is 'active carbon' defined as in the context of soil health?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0182",
+    "ladder_question": "According to the excerpts, what directly affects the activity of soil enzymes like lignocellulose-degrading enzymes?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0183",
+    "ladder_question": "What group of organisms is stated to dominate the world of soil invertebrates in terms of biomass and overall activity?",
+    "ladder_answer": "D",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0184",
+    "ladder_question": "How does reduced tillage affect the relative importance of fungi and bacteria in soil?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0185",
+    "ladder_question": "What is a described benefit of using molasses in compost teas?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0186",
+    "ladder_question": "What is one of the potential benefits of adding biochar to soil, as mentioned in the excerpts?",
+    "ladder_answer": "C",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0187",
+    "ladder_question": "What is one of the roles of Plant-Growth-Promoting Rhizobacteria (PGPR)?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0188",
+    "ladder_question": "What is a characteristic of compost tea's shelf life?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0189",
+    "ladder_question": "What is cited as the most probable mechanism for the plant hormone\u2013like activity of humic acids from vermicomposts?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0190",
+    "ladder_question": "Based on the excerpt from 'JADAM Organic Farming', what is one goal for farmers using its methods?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0191",
+    "ladder_question": "What is a key point about the interaction between soil and aerial environments mentioned in 'Soil Microbiology and Sustainable Crop Production'?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0192",
+    "ladder_question": "According to the 'Soil Biology Primer', which group dominates soil invertebrates?",
+    "ladder_answer": "D",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0193",
+    "ladder_question": "What is one of the applications of molasses in soil management, as indicated in the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0194",
+    "ladder_question": "What is a technique mentioned for culturing beneficial microorganisms?",
+    "ladder_answer": "B",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0195",
+    "ladder_question": "What does the excerpt from 'Building Soils for Better Crops' suggest about soil management and biological composition?",
+    "ladder_answer": "C",
+    "ladder_topic": "soil_health_microbial_activity",
+    "source_shared": false,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0196",
+    "ladder_question": "What type of process is vermicomposting?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0197",
+    "ladder_question": "What is the primary product of the vermicomposting process?",
+    "ladder_answer": "C",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0198",
+    "ladder_question": "According to the excerpts, what is a potential benefit of using vermicompost in agriculture?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0199",
+    "ladder_question": "Which specific type of earthworm is recommended for worm composting (vermicomposting) over common nightcrawlers?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0200",
+    "ladder_question": "What are the two bio-fertilizers produced by the vermicomposting technology, as mentioned in one excerpt?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0201",
+    "ladder_question": "What effect can substituting vermicompost into soil-less plant growth media have, based on greenhouse experiments?",
+    "ladder_answer": "C",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0202",
+    "ladder_question": "How is vermicompost physically described in one of the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0203",
+    "ladder_question": "What happens to earthworm casts (vermicompost) after they are deposited in the soil?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0204",
+    "ladder_question": "According to the excerpt, what can vermicomposting be considered as?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0205",
+    "ladder_question": "What was reported about humification rates in paper-pulp mill sludge worked by the earthworm *Eisenia andrei*?",
+    "ladder_answer": "C",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0206",
+    "ladder_question": "What is a key characteristic of the vermicomposting process regarding temperature?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0207",
+    "ladder_question": "What does the excerpt from 'Organic Gardener's Composting' suggest about some composters?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0208",
+    "ladder_question": "What is the primary role of microbes in the vermicomposting process?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0209",
+    "ladder_question": "What is the overall environmental stance on vermicompost presented in the excerpts?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  },
+  {
+    "ladder_qid": "NF-0210",
+    "ladder_question": "What does the excerpt from 'EFFECT OF VERMICOMPOST AND COMPOST ON LETTUCE PRODUCTION' suggest about organic waste?",
+    "ladder_answer": "B",
+    "ladder_topic": "vermicomposting",
+    "source_shared": true,
+    "closest_distill_qid": null,
+    "closest_jaccard": 0.0,
+    "closest_distill_question": null
+  }
+]
