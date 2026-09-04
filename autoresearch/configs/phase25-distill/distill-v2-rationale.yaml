@@ -1,0 +1,44 @@
+schema_version: 1
+
+# F7 (#144): distillation run, Variant 2 (rationale-augmented).
+#
+# Single lever = the dataset. Trains unsloth/Qwen3-0.6B on the F6 distillation
+# splits (gold-filtered qwen3:8b teacher rationale + bare-letter answer) with
+# the settled v5clean Tier-1 hyperparameters unchanged, so the dataset is the
+# only thing that moved vs the champion.
+#
+#   - train/val: data/train_distill.jsonl / data/val_distill.jsonl (#143)
+#   - v5clean hyperparameters (chainlink #90): lr 5e-5, epochs 4, r32/alpha64,
+#     dropout 0.025, all 7 target modules, cosine, warmup 0.05
+#   - sequence-level SFT only (B.3.3): no logit/soft-label distillation
+run_name: distill-v2-rationale
+output_root: outputs
+dataset_output_dir: data
+seed: 42
+training_seed: 42
+prepared_train_data: data/train_distill.jsonl
+prepared_val_data: data/val_distill.jsonl
+
+lr: 0.00005
+lr_scheduler: cosine
+warmup_ratio: 0.05
+epochs: 4
+early_stop_patience:
+batch_size: 4
+grad_accum: 4
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.025
+target_modules: q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
+weight_decay: 0.01
+max_seq_len: 2048
+packing: false
+chat_template_variant: hardcoded-v1
+train_order: shuffled
+
+model: unsloth/Qwen3-0.6B
+merge_base: Qwen/Qwen3-0.6B
+merge_dtype: float16
+force_peft: false
+wandb: false
+resume: false
