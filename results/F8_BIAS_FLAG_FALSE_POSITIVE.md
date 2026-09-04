@@ -49,3 +49,26 @@ The candidate's remaining off-diagonal mass is a B/C confusion (33 vs 26 and
   cap the primary — but this is a hypothesis to test, not a measured bias to fix.
 - The bias guard reference (uniform) should be recalibrated against val_v3's
   actual gold letter distribution before it is used to reject any candidate.
+
+## Fix applied (guard-version change)
+
+`build_guardrails.py` now emits `bias.reference_distribution` = the scored
+eval's gold letter marginals (computed from the per-item `gold` field), and
+`gate.py` uses that as the deviation reference, falling back to the config's
+uniform `reference_distribution` only for legacy guardrail payloads.
+
+Positive controls added to `gate.py --self-test`:
+- `bias_gold_reference_biased_reject` — a candidate predicting A at 0.45
+  against a gold A-marginal of 0.13 still rejects.
+- `bias_gold_reference_calibrated_accept` — a candidate matching the gold
+  marginals accepts.
+
+**Comparability note:** prior bias-guard numbers were computed against the
+uniform reference and are not directly comparable to numbers under the gold
+reference. The thresholds (`max_abs_letter_frequency_deviation` 0.1,
+`max_deviation_increase_vs_baseline` 0.05) are unchanged; only the reference
+moved. Frozen manifest regenerated for `gate.py` / `build_guardrails.py`.
+
+**Re-gate result:** with the corrected reference the distill candidate's bias
+rejection disappears (`reject_guardrails` is now empty). Its only remaining
+F8 blocker is the primary delta +0.2186 (+1.09 SE) against the 2-SE (0.4) bar.

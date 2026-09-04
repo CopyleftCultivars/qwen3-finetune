@@ -89,6 +89,22 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(f"{path}: no per_item rows")
         return {letter: counts.get(letter, 0) / total for letter in LETTERS}
 
+    def gold_marginals(path: str) -> dict[str, float]:
+        """Gold answer-letter marginals of the scored eval.
+
+        Guard-version change (2026-09-04): the null for letter-position bias is
+        the eval's gold marginals, not a uniform reference. val_v3's 113 rows
+        are skewed (A=15, C=43), so a candidate calibrated to gold deviates from
+        uniform and was falsely flagged. The gold marginal is the same whichever
+        model scored it, so this is computed from the candidate's per_item gold.
+        """
+        mcq = json.loads(Path(path).read_text(encoding="utf-8"))
+        counts = Counter(row["gold"] for row in mcq["per_item"])
+        total = sum(counts.values())
+        if total == 0:
+            raise SystemExit(f"{path}: no per_item rows")
+        return {letter: counts.get(letter, 0) / total for letter in LETTERS}
+
     def accuracy(path: str) -> float:
         mcq = json.loads(Path(path).read_text(encoding="utf-8"))
         return float(mcq["summary"]["argmax_accuracy"])
@@ -135,6 +151,8 @@ def main(argv: list[str] | None = None) -> int:
         "bias": {
             "letter_distribution": candidate_dist,
             "baseline_letter_distribution": letter_marginals(args.baseline_mcq),
+            "reference_distribution": gold_marginals(args.candidate_mcq),
+            "reference_source": "gold_letter_marginals_of_scored_eval",
             "source": args.candidate_mcq,
             "baseline_source": args.baseline_mcq,
         },
