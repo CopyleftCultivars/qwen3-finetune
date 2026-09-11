@@ -3,7 +3,13 @@
 ## Dataset
 
 This repo's current share target is the **v5clean natural-farming SFT training
-set** used by the promoted champion documented in `autoresearch/program.md`.
+set** used by v5clean, the GPU autoresearch training-lever loop's champion
+documented in `autoresearch/program.md`. Note: the model actually shipped in
+the Natural Farming Chat app is a separate deployment-track champion,
+distill-v2-rationale (calibrated conversion) -- see `autoresearch/program.md`'s
+"Deployed (on-device) champion" section and chainlink #163/#169. Its training
+data is F6's gold-filtered qwen3:8b teacher rationales (see F5/F6/F7,
+`results/F8_DISTILLATION_RESULTS.md`), not the v5clean split below.
 
 Recommended Hugging Face Datasets payload:
 

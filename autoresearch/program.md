@@ -3,7 +3,30 @@
 This is the human-edited search manual for the Phase 4 loop. The loop should be
 hypothesis-driven: one lever, one smallest viable edit, one measured verdict.
 
-## Current champion
+## Deployed (on-device) champion
+
+- **distill-v2-rationale, calibrated conversion** (`outputs/merged-model-distill-v2-rationale`,
+  trained in F7 on the F6 dataset: 871 gold-filtered qwen3:8b teacher rationales, v5clean's
+  hyperparameters) replaces v5clean as the model shipped in the Natural Farming Chat app, per
+  chainlink #163 (decided 2026-09-08) and deployed in #169. This is a **deployment-track**
+  promotion, separate from the GPU autoresearch-loop's lever-search promotions below: it did not
+  go through the rubric/primary-objective gate (F5-F9 is its own distillation lever, milestone
+  #6 M2), and it is judged on the on-device MCQ ladder rather than the loop's usual criteria.
+- Promotion basis: GPU-side, distill-v2-rationale scored 0.8714 on the 210-item ladder vs
+  v5clean's 0.7810 (+9.0pp, `results/F8_DISTILLATION_RESULTS.md`), but that edge did not survive
+  quantized on-device deployment at first measurement (statistically indistinguishable from
+  v5clean, `results/F9_ON_DEVICE_LADDER_RESULTS.md`). A calibrated GPTQ-Hessian conversion
+  (chainlink #165) recovered most of the gap: calibrated distill scores 0.8381 on-device vs
+  calibrated v5clean's 0.7810 (+5.7pp, two-proportion z=1.49). The residual -3.3pp vs its own GPU
+  score is attributed to irreducible INT4 precision loss (ruled out termination/verbosity via
+  #166/#167's constrained-decoding check). Root-cause analysis: #164,
+  `results/QUANT_SENSITIVITY_ROOTCAUSE_164.md`.
+- **v5clean remains the base/champion for the GPU autoresearch training-lever loop** (see below)
+  -- this deployment promotion does not reset the rubric sample-size growth policy or the lever
+  search's champion lineage. Future lever-search candidates are still compared against v5clean
+  until a lever-search promotion (not a distillation/deployment promotion) supersedes it.
+
+## Current champion (GPU autoresearch training-lever loop)
 
 - **v5clean** (`outputs/merged-model-p6-lr5e5-r2`) supersedes v4clean as of chainlink #90,
   2026-07-21. Settings: v4clean's mix, `epochs=4`, `lora_dropout=0.025`, **`lr=5e-5`** (see
