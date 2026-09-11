@@ -1,0 +1,66 @@
+{
+  "model": "unsloth/qwen3-8b-unsloth-bnb-4bit",
+  "dataset": "data/val_v3.jsonl",
+  "seed": 42,
+  "n_records": 113,
+  "arms": [
+    {
+      "arm": "A",
+      "n_items": 113,
+      "accuracy": 0.371681,
+      "mean_trace_option_set_gold_logprob": -2.362152,
+      "mean_delta_trace": 0.388715,
+      "delta_trace_positive_fraction": 0.504425,
+      "mean_decode_calls": 1,
+      "mean_latency_ms": 7392.244726,
+      "total_latency_s": 835.3,
+      "note_counts": {},
+      "sweep_wall_s": 844.1
+    },
+    {
+      "arm": "C",
+      "n_items": 113,
+      "accuracy": 0.212389,
+      "mean_trace_option_set_gold_logprob": -2.325419,
+      "mean_delta_trace": 0.425448,
+      "delta_trace_positive_fraction": 0.39823,
+      "mean_decode_calls": 3,
+      "mean_latency_ms": 16257.485407,
+      "total_latency_s": 1837.1,
+      "note_counts": {},
+      "sweep_wall_s": 1845.8
+    },
+    {
+      "arm": "R",
+      "n_items": 113,
+      "accuracy": 0.539823,
+      "mean_trace_option_set_gold_logprob": -1.763832,
+      "mean_delta_trace": 0.987035,
+      "delta_trace_positive_fraction": 0.637168,
+      "mean_decode_calls": 1,
+      "mean_latency_ms": 7273.710885,
+      "total_latency_s": 821.9,
+      "note_counts": {
+        "fallback_to_vsearch": 12
+      },
+      "sweep_wall_s": 831.4
+    },
+    {
+      "arm": "B",
+      "n_items": 113,
+      "accuracy": 0.699115,
+      "mean_trace_option_set_gold_logprob": -1.265382,
+      "mean_delta_trace": 1.485484,
+      "delta_trace_positive_fraction": 0.814159,
+      "mean_decode_calls": 10.079646,
+      "mean_latency_ms": 58172.226965,
+      "total_latency_s": 6573.5,
+      "note_counts": {
+        "no_repl_blocks": 6,
+        "no_submitted_answer": 1,
+        "empty_rlm_response": 1
+      },
+      "sweep_wall_s": 3335.5
+    }
+  ]
+}
