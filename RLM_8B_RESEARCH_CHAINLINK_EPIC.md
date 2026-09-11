@@ -28,7 +28,8 @@ Companion plan: `RLM_8B_RESEARCH_PLAN.md`.
 
 ## Milestone M1 - Baseline Qwen3-8B (Phase 0)
 
-- **G1** Serve Qwen3-8B (vLLM, OpenAI-compatible) and wire the Epic F harness to it.
+- **G1** Serve Qwen3-8B through the existing Ollama server (OpenAI-compatible;
+  vLLM is optional) and wire the Epic F harness to it.
   Accept: the harness scores one sample item end to end.
 - **G2** Baseline prompted Qwen3-8B on the 210-item ladder and `val_v3`.
   Accept: scores with a 95% confidence interval recorded. Dep: G1.
@@ -84,7 +85,7 @@ Blocks were set from the dependency chain above. #147 is linked as *related* to 
 
 | Issue | Item | Blocked by |
 | --- | --- | --- |
-| #148 | G1 serve Qwen3-8B (vLLM) + wire the Epic F harness | - |
+| #148 | G1 serve Qwen3-8B (Ollama/OpenAI-compatible) + wire the Epic F harness | - |
 | #149 | G2 baseline prompted 8B on the 210-item ladder + val_v3 | #148 |
 | #150 | G3 rlm_slice arms A/B/R/C + adaptability metrics | #148 |
 | #151 | G4 Phase-1 kill/go gate | #149, #150 |
