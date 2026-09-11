@@ -1,0 +1,60 @@
+{
+  "model": "unsloth/qwen3-8b-unsloth-bnb-4bit",
+  "dataset": "data/val_v3.jsonl",
+  "seed": 42,
+  "n_records": 2,
+  "arms": [
+    {
+      "arm": "A",
+      "n_items": 2,
+      "accuracy": 0.0,
+      "mean_trace_option_set_gold_logprob": -2.683238,
+      "mean_delta_trace": -0.591643,
+      "delta_trace_positive_fraction": 0.5,
+      "mean_decode_calls": 1,
+      "mean_latency_ms": 7351.334,
+      "total_latency_s": 14.7,
+      "note_counts": {},
+      "sweep_wall_s": 14.9
+    },
+    {
+      "arm": "C",
+      "n_items": 2,
+      "accuracy": 0.0,
+      "mean_trace_option_set_gold_logprob": -2.86415,
+      "mean_delta_trace": -0.772555,
+      "delta_trace_positive_fraction": 0.5,
+      "mean_decode_calls": 3,
+      "mean_latency_ms": 16076.018,
+      "total_latency_s": 32.2,
+      "note_counts": {},
+      "sweep_wall_s": 32.3
+    },
+    {
+      "arm": "R",
+      "n_items": 2,
+      "accuracy": 0.5,
+      "mean_trace_option_set_gold_logprob": -0.743103,
+      "mean_delta_trace": 1.348493,
+      "delta_trace_positive_fraction": 1.0,
+      "mean_decode_calls": 1,
+      "mean_latency_ms": 7211.3025,
+      "total_latency_s": 14.4,
+      "note_counts": {},
+      "sweep_wall_s": 14.6
+    },
+    {
+      "arm": "B",
+      "n_items": 2,
+      "accuracy": 1.0,
+      "mean_trace_option_set_gold_logprob": -0.272805,
+      "mean_delta_trace": 1.818791,
+      "delta_trace_positive_fraction": 1.0,
+      "mean_decode_calls": 13,
+      "mean_latency_ms": 82546.015,
+      "total_latency_s": 165.1,
+      "note_counts": {},
+      "sweep_wall_s": 83.6
+    }
+  ]
+}
