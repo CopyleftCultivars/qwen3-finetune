@@ -1,0 +1,19 @@
+{
+  "label": "qwen3-8b-g2-baseline",
+  "model": "qwen3:8b",
+  "base_url": "http://127.0.0.1:11434/v1",
+  "benchmark": "[LOCAL_PATH]",
+  "n": 210,
+  "correct": 185,
+  "accuracy": 0.881,
+  "wilson95": [
+    0.8302,
+    0.9181
+  ],
+  "ambiguous": 0,
+  "ambiguous_rate": 0.0,
+  "enable_thinking": false,
+  "temperature": 0.0,
+  "seed": 42,
+  "mean_latency_ms": 673.8
+}

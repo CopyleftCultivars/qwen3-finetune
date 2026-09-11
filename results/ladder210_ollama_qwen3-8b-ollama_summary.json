@@ -1,0 +1,19 @@
+{
+  "label": "qwen3-8b-ollama",
+  "model": "qwen3:8b",
+  "base_url": "http://127.0.0.1:11434/v1",
+  "benchmark": "[LOCAL_PATH]",
+  "n": 1,
+  "correct": 1,
+  "accuracy": 1.0,
+  "wilson95": [
+    0.2065,
+    1.0
+  ],
+  "ambiguous": 0,
+  "ambiguous_rate": 0.0,
+  "enable_thinking": false,
+  "temperature": 0.0,
+  "seed": 42,
+  "mean_latency_ms": 4393.0
+}
