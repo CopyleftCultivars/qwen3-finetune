@@ -35,7 +35,9 @@ Status: research probe. This track is SEPARATE from the deployment track
 
 ## Phase 0 - Baseline Qwen3-8B (no RLM)
 
-1. Serve Qwen3-8B through an OpenAI-compatible endpoint (vLLM).
+1. Serve Qwen3-8B through the existing Ollama server. Its OpenAI-compatible
+   `/v1/chat/completions` endpoint is sufficient for the RLM client; vLLM is an
+   optional alternative, not a prerequisite.
 2. Score prompted Qwen3-8B on the 98-question ladder and on `val_v3`, using the Epic F harness.
 3. Record the baseline with a 95% confidence interval.
 
@@ -75,7 +77,9 @@ Status: research probe. This track is SEPARATE from the deployment track
 
 ## Compute and infrastructure
 
-1. Phase 0 and Phase 1: 8B inference through vLLM. A single GPU is adequate.
+1. Phase 0 and Phase 1: 8B inference through Ollama on the existing GPU setup.
+   A single GPU is adequate. vLLM remains an optional alternative if Ollama
+   becomes a throughput bottleneck.
 2. Phase 2 Rung 1: 8B LoRA SFT. Feasible on the GPU cluster.
 3. Phase 2 Rung 2: prime-rl + verifiers + a vLLM inference server + a subprocess REPL. Multi-GPU
    and heavier.
