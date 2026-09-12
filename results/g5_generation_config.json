@@ -1,0 +1,25 @@
+{
+  "model": "unsloth/qwen3-8b-unsloth-bnb-4bit",
+  "backend": "rlm LocalREPL (rlm_slice.rlm_arm.build_rlm), max_depth=1, temperature=0",
+  "seed": 42,
+  "domain_source": "data/train_v3.jsonl",
+  "total_mcq_records_in_source": 1107,
+  "eval_denylist_sources": [
+    "data/val_v3.jsonl",
+    "eval_freeform/dev.jsonl"
+  ],
+  "eval_denylist_size": 579,
+  "clean_pool_size": 1107,
+  "n_sampled": 200,
+  "n_generated": 200,
+  "n_correct": 136,
+  "n_repl_engaged": 192,
+  "n_submitted_answer": 200,
+  "n_kept_after_quality_filter": 131,
+  "quality_filter": "correct AND repl_blocks > 0 (causal verification + REPL-engagement)",
+  "eval_overlap_excluded": true,
+  "eval_overlap_count": 0,
+  "raw_output": "results/g5_trajectories_qwen3-8b.jsonl",
+  "filtered_output": "results/g5_trajectories_qwen3-8b_filtered.jsonl",
+  "wall_s": 6080.1
+}
