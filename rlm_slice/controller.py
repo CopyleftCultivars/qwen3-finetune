@@ -24,6 +24,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from rlm_slice.model_host import DecodeStats, ModelHost
+from rlm_slice.multi_tool_context import build_multi_tool_context
 from rlm_slice.retrieval import DEFAULT_K, retrieve
 from rlm_slice.rlm_arm import (
     DEFAULT_BASE_URL,
@@ -36,7 +37,7 @@ from rlm_slice.rlm_arm import (
 DEFAULT_MAX_TRACE_TOKENS = 256
 LETTERS = ("A", "B", "C", "D")
 
-ARMS = ("A", "B", "C", "R")
+ARMS = ("A", "B", "C", "R", "M", "N")
 
 
 @dataclass
@@ -368,7 +369,90 @@ def arm_r(
     return row
 
 
-ARM_FUNCS = {"A": arm_a, "B": arm_b, "C": arm_c, "R": arm_r}
+# -- Arm M / Arm N (multi-tool, #172/#175) ---------------------------------
+#
+# Same fixed-pipeline contract as Arm R (the controller decides, the model
+# never has to self-initiate a tool call -- #127/G9 established this
+# champion cannot reliably do that). Both arms always retrieve, exactly as
+# Arm R does; they differ only in whether the two domain tools (#174) are
+# gated by tool_router's Cactus-ported ranking (Arm M) or always attempted
+# (Arm N). The R/M/N triple is what answers #175's central question: does
+# routing beat no-routing, and does either beat retrieval alone (i.e. is the
+# added context signal or noise).
+
+
+def _arm_multi_tool(
+    host: ModelHost,
+    item: dict[str, Any],
+    arm_name: str,
+    top_k: int | None,
+    max_trace_tokens: int = DEFAULT_MAX_TRACE_TOKENS,
+    query_mode: str = "model",
+) -> ArmResult:
+    host.take_stats()
+    stats = DecodeStats()
+    notes: list[str] = []
+
+    if query_mode == "model":
+        query, query_notes = _model_authored_query(host, item)
+        notes.extend(query_notes)
+    elif query_mode == "question":
+        query = item["question"]
+    else:
+        raise ValueError(f"unknown query_mode {query_mode!r}")
+
+    ctx = build_multi_tool_context(query, top_k=top_k)
+    context = ctx.as_context()
+    if not any(c.executed for c in ctx.tool_calls) and context == ctx.retrieval_context:
+        notes.append("no_domain_tool_fired")
+
+    messages = [
+        {
+            "role": "user",
+            "content": (
+                f"Reference material:\n{context}\n\n"
+                f"Using the reference material where relevant, answer:\n{_question_text(item)}"
+            ),
+        }
+    ]
+    raw, _ = host.generate_chat(messages, max_new_tokens=max_trace_tokens, enable_thinking=True)
+    trace, truncated = host.scorer.extract_trace(raw)
+    if not trace.strip():
+        notes.append("empty_trace:fell_back_to_bare_2pass")
+        _raw, trace, truncated, _n = host.generate_trace(item, max_trace_tokens=max_trace_tokens)
+
+    row = _finalize(host, item, arm_name, trace, truncated, passes=2, stats=stats, notes=notes)
+    row.stats.update(ctx.as_dict())  # per-question tool-selection record, #175's accept criterion
+    row.stats["retrieval_query_mode"] = query_mode
+    return row
+
+
+def arm_m(
+    host: ModelHost,
+    item: dict[str, Any],
+    max_trace_tokens: int = DEFAULT_MAX_TRACE_TOKENS,
+    query_mode: str = "model",
+) -> ArmResult:
+    """Routed: retrieval (always) + the router's single best-matching domain tool."""
+    return _arm_multi_tool(host, item, "M", top_k=1, max_trace_tokens=max_trace_tokens, query_mode=query_mode)
+
+
+def arm_n(
+    host: ModelHost,
+    item: dict[str, Any],
+    max_trace_tokens: int = DEFAULT_MAX_TRACE_TOKENS,
+    query_mode: str = "model",
+) -> ArmResult:
+    """Unrouted: retrieval (always) + both domain tools attempted on every item.
+
+    The noise-robustness contrast arm: whatever Arm M's routing buys, this
+    measures it by removing the routing decision entirely rather than by
+    inference from Arm M alone.
+    """
+    return _arm_multi_tool(host, item, "N", top_k=None, max_trace_tokens=max_trace_tokens, query_mode=query_mode)
+
+
+ARM_FUNCS = {"A": arm_a, "B": arm_b, "C": arm_c, "R": arm_r, "M": arm_m, "N": arm_n}
 
 
 def run_arm(arm: str, host: ModelHost, item: dict[str, Any], **kwargs: Any) -> ArmResult:

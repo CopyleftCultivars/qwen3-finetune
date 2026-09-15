@@ -137,7 +137,7 @@ def main(argv: list[str] | None = None) -> int:
     summaries = []
     for arm in arms:
         arm_kwargs: dict[str, Any] = {"max_trace_tokens": args.max_trace_tokens}
-        if arm == "R":
+        if arm in ("R", "M", "N"):
             arm_kwargs["query_mode"] = args.query_mode
         if arm == "B":
             from rlm_slice.rlm_arm import DEFAULT_BASE_URL, build_rlm
