@@ -37,6 +37,21 @@ OVERFETCH_FACTOR = 4
 QMD_TIMEOUT_S = 120
 MAX_SNIPPET_CHARS = 600
 
+# chainlink #171: a retrieval miss must reach the model as an explicit signal,
+# not silence. Cross-project finding (apart-incident-hackathon-workspace,
+# chainlink #93/#99 in that workspace): a Qwen3 agent that gets nothing back
+# from a failed tool call has no way to distinguish "nothing relevant exists"
+# from "the tool wasn't tried", and cannot adapt. A bare rejection there was
+# replaced with an informative one revealing what the agent could actually do
+# next; the same principle applies here even though this call site is
+# single-shot (no retry loop) -- the model should still know retrieval
+# happened and came up empty, rather than silently reasoning as if it had
+# never been offered reference material at all.
+NO_HITS_MESSAGE = (
+    "No reference material was found for this query. Answer from your own "
+    "knowledge; do not claim to have consulted reference material."
+)
+
 CACHE_DIR = Path(__file__).resolve().parent / ".retrieval_cache"
 
 # QMD prefixes each snippet with a unified-diff style locator, e.g.
@@ -69,12 +84,20 @@ class RetrievalResult:
     notes: list[str] = field(default_factory=list)
 
     def as_context(self, max_chars: int = MAX_SNIPPET_CHARS) -> str:
-        """Render snippets for injection into the Pass-1 prompt (sec.3.3.4)."""
+        """Render snippets for injection into the Pass-1 prompt (sec.3.3.4).
+
+        Never returns an empty string when retrieval was actually attempted:
+        a miss renders as NO_HITS_MESSAGE rather than "", so the model gets an
+        explicit signal instead of an absence indistinguishable from
+        "retrieval wasn't offered at all" (chainlink #171).
+        """
         blocks = []
         for i, snippet in enumerate(self.snippets, start=1):
             text = snippet.text[:max_chars].strip()
             if text:
                 blocks.append(f"[{i}] {snippet.title}: {text}")
+        if not blocks:
+            return NO_HITS_MESSAGE
         return "\n\n".join(blocks)
 
     def as_dict(self) -> dict[str, Any]:

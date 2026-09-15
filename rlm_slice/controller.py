@@ -339,26 +339,28 @@ def arm_r(
     notes.extend(result.notes)
     context = result.as_context()
 
-    if not context:
-        # No snippets means this is just Arm A with extra latency. Say so, rather
-        # than letting an empty-context row average in as a working RAG item.
-        notes.append("no_context:degraded_to_bare_2pass")
+    if not result.snippets:
+        # No snippets: say so for methodological bookkeeping (do not let a
+        # miss row silently average in as a working RAG item), but still show
+        # the model the informative miss message rather than reverting to a
+        # plain Arm-A prompt that never mentions retrieval happened at all
+        # (chainlink #171 -- a miss should be a signal, not silence).
+        notes.append("no_hits:informative_miss_message_used")
+
+    messages = [
+        {
+            "role": "user",
+            "content": (
+                f"Reference material:\n{context}\n\n"
+                f"Using the reference material where relevant, answer:\n{_question_text(item)}"
+            ),
+        }
+    ]
+    raw, _ = host.generate_chat(messages, max_new_tokens=max_trace_tokens, enable_thinking=True)
+    trace, truncated = host.scorer.extract_trace(raw)
+    if not trace.strip():
+        notes.append("empty_trace:fell_back_to_bare_2pass")
         _raw, trace, truncated, _n = host.generate_trace(item, max_trace_tokens=max_trace_tokens)
-    else:
-        messages = [
-            {
-                "role": "user",
-                "content": (
-                    f"Reference material:\n{context}\n\n"
-                    f"Using the reference material where relevant, answer:\n{_question_text(item)}"
-                ),
-            }
-        ]
-        raw, _ = host.generate_chat(messages, max_new_tokens=max_trace_tokens, enable_thinking=True)
-        trace, truncated = host.scorer.extract_trace(raw)
-        if not trace.strip():
-            notes.append("empty_trace:fell_back_to_bare_2pass")
-            _raw, trace, truncated, _n = host.generate_trace(item, max_trace_tokens=max_trace_tokens)
 
     row = _finalize(host, item, "R", trace, truncated, passes=2, stats=stats, notes=notes)
     row.stats.update(result.as_dict())
