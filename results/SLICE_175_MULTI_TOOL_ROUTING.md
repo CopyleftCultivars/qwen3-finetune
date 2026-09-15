@@ -105,25 +105,74 @@ deliberately used for this specific comparison.
   experiment is underpowered to confirm *why* (genuine robustness vs. a real
   but small effect vs. a broken router that never gets to prove itself).
 
-## Recommendation
+## Update 2026-09-15: router fix + re-run
 
-Two concrete follow-ups before treating Tier 1 as settled, not yet done here:
+The owner chose "fix the router, then re-run" over a score-threshold
+calibration (see `multi_tool_context.py`'s module docstring for why a score
+threshold was tried and rejected: on-topic queries didn't even score higher
+than off-topic ones on cosine/BM25 at this scale). The fix: run every tool
+whose arguments are available (both are cheap, local, deterministic lookups)
+and gate selection on whether it actually found real content, rather than on
+the router's score. Full rationale in `rlm_slice/multi_tool_context.py`.
 
-1. **Fix the router's forced-pick design** -- add a real `min_score`
-   reject-all threshold (calibrated against real query score distributions;
-   the raw RRF scores observed during development cluster tightly with only
-   2 candidates, so this needs its own small calibration pass, not a guessed
-   constant) so Arm M can actually decline to inject anything, rather than
-   defaulting to "always inject one."
-2. **Re-run at higher power** if this is going to gate a real decision --
-   n=113 cannot resolve effects smaller than several points of accuracy; the
-   210-item ladder or a larger held-out slice would roughly double n and
-   McNemar's power with it, though may still not be enough to detect a small
-   true effect.
+Re-run on the same `val_v3` 113 items, same `query_mode=question`:
+`results/slice_175b_{A,R,M,N}.jsonl`, log `results/slice_175b.log`.
 
-Given #175 was scoped to gate #176 (tier-2 mid-generation triggering) and
-#177 (on-device port): the noise-robustness question has been *measured*, as
-required, with a "no detected harm" answer -- not a "no detected benefit
-either" verdict. Whether that's sufficient to open the gate, or whether the
-two follow-ups above should run first, is a call on acceptable risk/cost that
-the epic owner should make explicitly rather than have it default one way.
+| Arm | Accuracy | mean delta_trace | note_counts |
+| --- | ---: | ---: | --- |
+| A | 0.7522 | 0.1964 | -- |
+| R | 0.7080 | 0.2043 | fallback_to_vsearch: 12 |
+| M | 0.6991 | 0.2037 | no_domain_tool_fired: 101 |
+| N | 0.6991 | 0.2037 | no_domain_tool_fired: 101 |
+
+**M and N are now numerically identical** -- every per-item row matches.
+Checking why: of the 113 items, **0 had two domain tools simultaneously
+viable**. 101 had none viable (correctly rejected -- the fix's whole point),
+12 had exactly one. With only one viable tool ever in play at a time, "pick
+the top-1 viable tool" (Arm M) and "use every viable tool" (Arm N) can never
+diverge -- confirmed directly: `M and N selected different tool sets on 0/113
+items`. **This dataset cannot exercise the actual routing decision #175 set
+out to test** (choosing among *multiple* relevant tools), because the two
+domain tools' relevance conditions essentially never co-occur on the same
+`val_v3` question. Answering "does routing beat no-routing" needs either more
+tools with overlapping relevance, or a dataset enriched with dual-relevant
+items -- neither of which val_v3 (a general natural-farming validation set)
+provides.
+
+What the fix *did* verify: the forced-pick failure mode from the first sweep
+is gone. Previously 66% of Arm M items picked a tool with nothing to execute;
+now `no_domain_tool_fired` correctly reads 101/113 (89%) -- a materially more
+credible number, since it now means "neither tool found real content" rather
+than "the router picked something, but it happened to lack arguments."
+
+On the 12 items where a domain tool actually fired (all `regional_recipe_lookup`
+except two `bioaccumulator_ratio` items), restricting the comparison to just
+those: R accuracy 0.667 vs M accuracy 0.583, one item flipped from correct to
+incorrect (`row_000332`, `bioaccumulator_ratio`). **n=12 is far too small to
+call this anything but anecdotal** -- one flip either way and the numbers
+invert.
+
+McNemar/z on the full 113 (A vs R, A vs M, R vs M): all still far below
+significance (max chi2=1.786, A vs M) -- consistent with the first sweep, now
+for the right reason (a correctly-gated router) rather than a broken
+forced-pick artifact.
+
+### Revised recommendation
+
+The router fix worked as intended and is worth keeping regardless of what
+happens next. But **val_v3 structurally cannot answer #175's routing
+question** with only two domain tools this rarely co-relevant. Two honest
+paths forward, neither started here:
+
+1. **Build a small held-out eval slice weighted toward genuinely dual-relevant
+   questions** (both a named crop+plant *and* a region/recipe angle in the
+   same item) -- the only way to actually exercise Arm M vs Arm N's
+   disagreement, since val_v3 never does.
+2. **Accept the current finding as sufficient**: no detected harm from
+   domain-tool injection (gated or not), the forced-pick defect is fixed, and
+   the routing-vs-no-routing question is deferred as "untestable at this
+   tool-set size on general-purpose data" rather than "answered no."
+
+Which of these -- or whether to proceed to #176/#177 on the current
+evidence -- is again a call for the epic owner, not a default this report
+should pick on its own.
