@@ -403,7 +403,7 @@ def _arm_multi_tool(
 
     ctx = build_multi_tool_context(query, top_k=top_k)
     context = ctx.as_context()
-    if not any(c.executed for c in ctx.tool_calls) and context == ctx.retrieval_context:
+    if not any(c.selected_by_router for c in ctx.tool_calls):
         notes.append("no_domain_tool_fired")
 
     messages = [

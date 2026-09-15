@@ -11,12 +11,30 @@ self-initiates a tool call) to the two new domain tools. The controller:
      same closed vocabularies bioaccumulator_ratio/regional_recipe_lookup
      already validate against);
   3. scores every domain tool against the query via tool_router's Cactus-
-     ported hybrid ranking;
-  4. executes and injects only tools that are BOTH selected by the router
-     AND have the arguments to actually run -- a tool ranked relevant but
-     missing required arguments is recorded, not silently skipped, so the
-     eventual eval can distinguish "router said no" from "router said yes,
-     but there was nothing to call it with".
+     ported hybrid ranking (kept purely for the audit record and for
+     ranking among viable tools -- see below, not as a reject-all gate);
+  4. determines *viability* by actually running each tool whose arguments
+     are available (both are cheap, local, deterministic lookups) and
+     checking whether it produced real content -- then selects/injects only
+     among viable tools.
+
+Why viability isn't decided by the router's score: Cactus's own
+`select_relevant_tools` (cactus-engine/src/rag.cpp, faithfully ported in
+tool_router.py) always returns exactly top_k tools by RRF rank -- there is
+no minimum-score floor, no "return nothing if nothing clears a threshold"
+branch. #175's first sweep found this meant Arm M was forced to commit to
+one of the two domain tools on 100% of items, and 66% of the time the
+picked tool had no extractable arguments at all. A score-based reject-all
+threshold was tried next and rejected: pulling real cosine/BM25 distributions
+across the 113 val_v3 queries, split by whether `bioaccumulator_ratio`'s
+arguments were actually extractable, showed the "on-topic" group did not
+even score higher than the "off-topic" group (mean cosine 0.249 vs 0.290) --
+the router's relevance signal and "does this query name an actual crop+plant
+pair" are only loosely correlated at this scale, so any threshold fit to
+that data would be arbitrary. Running the (cheap, local) tool and checking
+its actual output is a strictly more reliable signal than predicting
+relevance from a score beforehand, and mirrors retrieval.py's own principle
+that a miss should be a signal, not silence.
 
 This is what answers #175's central question: does adding this context (on
 top of Arm R's retrieval) help or add noise, and does routing (vs. always
@@ -32,7 +50,7 @@ from typing import Any, Callable
 from rlm_slice.domain_data import load_crop_requirements, load_local_plants_by_region, load_plant_mineral_profiles
 from rlm_slice.domain_tools import TOOL_DEFINITIONS, TOOL_REGISTRY
 from rlm_slice.retrieval import RetrievalResult, retrieve
-from rlm_slice.tool_router import select_relevant_tools
+from rlm_slice.tool_router import RoutingResult, select_relevant_tools
 
 
 @lru_cache(maxsize=1)
@@ -75,8 +93,9 @@ def _find_in_text(text: str, vocab: list[str]) -> str | None:
 class ToolCallRecord:
     name: str
     rrf_score: float
-    selected_by_router: bool
     args_available: bool
+    viable: bool
+    selected_by_router: bool
     executed: bool
     args: dict[str, Any] = field(default_factory=dict)
     result: Any = None
@@ -89,10 +108,16 @@ class MultiToolContext:
     tool_calls: list[ToolCallRecord] = field(default_factory=list)
 
     def as_context(self) -> str:
-        """Retrieval context (Arm R, unchanged) + any executed domain-tool blocks."""
+        """Retrieval context (Arm R, unchanged) + any *selected* domain-tool blocks.
+
+        Gated on selected_by_router, not merely executed: a tool can execute
+        cleanly but turn up nothing (not viable) or be viable but lose out to
+        another tool under top_k -- only a selected tool's result is actually
+        injected.
+        """
         blocks = [self.retrieval_context]
         for call in self.tool_calls:
-            if call.executed:
+            if call.selected_by_router:
                 blocks.append(f"[{call.name}] {call.result}")
         return "\n\n".join(blocks)
 
@@ -103,8 +128,9 @@ class MultiToolContext:
                 {
                     "name": c.name,
                     "rrf_score": round(c.rrf_score, 6),
-                    "selected_by_router": c.selected_by_router,
                     "args_available": c.args_available,
+                    "viable": c.viable,
+                    "selected_by_router": c.selected_by_router,
                     "executed": c.executed,
                     "args": c.args,
                 }
@@ -130,6 +156,18 @@ def extract_args(tool_name: str, query: str) -> dict[str, Any] | None:
     return None
 
 
+def _has_real_content(tool_name: str, result: dict[str, Any]) -> bool:
+    """Did this (already-executed) tool call actually find something worth
+    injecting, as opposed to running cleanly but turning up empty?"""
+    if "error" in result:
+        return False
+    if tool_name == "bioaccumulator_ratio":
+        return bool(result.get("ratios_ppm_per_requirement_unit"))
+    if tool_name == "regional_recipe_lookup":
+        return bool(result.get("region_matches") or result.get("regions_growing_crop") or result.get("matching_recipes"))
+    return True
+
+
 def build_multi_tool_context(
     query: str,
     top_k: int | None = None,
@@ -138,7 +176,15 @@ def build_multi_tool_context(
     embed_fn: Callable[[list[str]], list[list[float]]] | None = None,
     retrieve_fn: Callable[[str, int], RetrievalResult] | None = None,
 ) -> MultiToolContext:
-    """Controller-owned: always retrieve, then route+extract+execute domain tools.
+    """Controller-owned: always retrieve, then extract+run+gate+route domain tools.
+
+    Selection order matters (see module docstring for why): every tool whose
+    arguments are available gets *run* first (cheap, local, deterministic),
+    and only tools that actually found real content are "viable" candidates.
+    The router's ranking then decides which viable tool(s) to keep (top_k /
+    min_score) -- it is never asked to justify picking a tool that has
+    nothing to say, so "select nothing" is a real, reachable outcome instead
+    of the forced top-1 pick the first #175 sweep found.
 
     `embed_fn` defaults to tool_router's real all-MiniLM-L6-v2 singleton;
     `retrieve_fn` defaults to retrieval.retrieve (shells out to `qmd`). Tests
@@ -150,25 +196,21 @@ def build_multi_tool_context(
     ctx = MultiToolContext(query=query, retrieval_context=retrieval_result.as_context())
 
     routing = select_relevant_tools(query, TOOL_DEFINITIONS, embed_fn=embed_fn)
-    selected_names = set(routing.selected(top_k=top_k, min_score=min_score))
 
+    records: dict[str, ToolCallRecord] = {}
     for score in routing.scores:
-        selected = score.name in selected_names
-        args = extract_args(score.name, query) if selected else None
-        args_available = bool(args) and all(v for v in args.values() if not isinstance(v, str) or v)
-        # regional_recipe_lookup's `problem` is always the raw query, so it is
-        # "available" whenever selected; bioaccumulator_ratio needs both slots filled.
-        if score.name == "regional_recipe_lookup":
-            args_available = args is not None
+        args = extract_args(score.name, query)
+        args_available = args is not None
         record = ToolCallRecord(
             name=score.name,
             rrf_score=score.rrf_score,
-            selected_by_router=selected,
             args_available=args_available,
+            viable=False,
+            selected_by_router=False,
             executed=False,
             args=args or {},
         )
-        if selected and args_available:
+        if args_available:
             fn = TOOL_REGISTRY[score.name]
             kwargs = dict(args)
             if score.name == "regional_recipe_lookup":
@@ -176,6 +218,14 @@ def build_multi_tool_context(
             result = fn(**kwargs)
             record.executed = "error" not in result
             record.result = result
-        ctx.tool_calls.append(record)
+            record.viable = record.executed and _has_real_content(score.name, result)
+        records[score.name] = record
 
+    viable_scores = [s for s in routing.scores if records[s.name].viable]
+    viable_result = RoutingResult(query=query, scores=viable_scores)
+    selected_names = set(viable_result.selected(top_k=top_k, min_score=min_score))
+    for name in selected_names:
+        records[name].selected_by_router = True
+
+    ctx.tool_calls = [records[s.name] for s in routing.scores]
     return ctx

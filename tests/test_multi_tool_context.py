@@ -41,49 +41,97 @@ class ArgExtractionTests(unittest.TestCase):
         self.assertIsNone(mtc.extract_args("not_a_real_tool", "anything"))
 
 
+class HasRealContentTests(unittest.TestCase):
+    """chainlink #175 v2: viability is decided by running the (cheap, local)
+    tool and checking its actual output, not by a router score threshold --
+    see multi_tool_context.py's module docstring for why a score-based
+    threshold was tried and rejected (the on-topic/off-topic score
+    distributions from the first sweep didn't separate cleanly)."""
+
+    def test_error_result_is_never_real_content(self):
+        self.assertFalse(mtc._has_real_content("bioaccumulator_ratio", {"error": "no match"}))
+
+    def test_bioaccumulator_ratio_with_ratios_is_real_content(self):
+        result = {"ratios_ppm_per_requirement_unit": {"phosphorus": 1.2}}
+        self.assertTrue(mtc._has_real_content("bioaccumulator_ratio", result))
+
+    def test_bioaccumulator_ratio_with_empty_ratios_is_not_real_content(self):
+        result = {"ratios_ppm_per_requirement_unit": {}, "not_comparable": ["nitrogen", "phosphorus", "potassium"]}
+        self.assertFalse(mtc._has_real_content("bioaccumulator_ratio", result))
+
+    def test_regional_recipe_lookup_with_any_nonempty_field_is_real_content(self):
+        self.assertTrue(mtc._has_real_content("regional_recipe_lookup", {"region_matches": [{"Location": "x"}]}))
+        self.assertTrue(mtc._has_real_content("regional_recipe_lookup", {"regions_growing_crop": ["x"]}))
+        self.assertTrue(mtc._has_real_content("regional_recipe_lookup", {"matching_recipes": [{"recipe_name": "x"}]}))
+
+    def test_regional_recipe_lookup_with_all_empty_fields_is_not_real_content(self):
+        result = {"region_matches": [], "regions_growing_crop": [], "matching_recipes": []}
+        self.assertFalse(mtc._has_real_content("regional_recipe_lookup", result))
+
+
 class BuildMultiToolContextTests(unittest.TestCase):
     """Stubs both retrieval and embedding so this exercises only the
-    controller-owned routing/extraction/execution logic, not qmd/torch."""
+    controller-owned extraction/execution/viability/routing logic, not
+    qmd/torch."""
 
-    def test_bioaccumulator_query_selects_and_executes_the_ratio_tool(self):
+    def test_bioaccumulator_query_is_viable_and_selected(self):
         ctx = mtc.build_multi_tool_context(
             "What ratio of Comfrey should I add for Corn's nitrogen needs?",
             embed_fn=_stub_embed_fn,
             retrieve_fn=_stub_retrieve_fn,
         )
         by_name = {c.name: c for c in ctx.tool_calls}
-        self.assertIn("bioaccumulator_ratio", by_name)
         record = by_name["bioaccumulator_ratio"]
         self.assertTrue(record.args_available)
-        if record.selected_by_router:
-            self.assertTrue(record.executed)
-            self.assertIsNotNone(record.result)
+        self.assertTrue(record.executed)
+        self.assertTrue(record.viable)
+        self.assertTrue(record.selected_by_router)
+        self.assertIsNotNone(record.result)
 
-    def test_off_topic_query_still_records_every_tool_even_if_none_executed(self):
+    def test_off_topic_query_still_records_every_tool_even_if_none_selected(self):
         ctx = mtc.build_multi_tool_context(
             "What is the boiling point of water?",
             embed_fn=_stub_embed_fn,
             retrieve_fn=_stub_retrieve_fn,
         )
         self.assertEqual(len(ctx.tool_calls), 2)
+        self.assertFalse(any(c.selected_by_router for c in ctx.tool_calls))
 
-    def test_selected_but_missing_args_is_recorded_not_silently_dropped(self):
-        # "Comfrey" alone gives regional_recipe_lookup nothing structured but the
-        # problem fallback keeps it runnable; bioaccumulator_ratio has no crop,
-        # so if the router selects it anyway, args_available must be False.
+    def test_missing_args_means_never_viable_or_selected_even_with_top_k_2(self):
+        # No crop named -> bioaccumulator_ratio can never be viable/selected,
+        # regardless of top_k -- this is the "real select-nothing" behavior
+        # the first #175 sweep's forced top-1 pick did not have.
         ctx = mtc.build_multi_tool_context(
             "Tell me about Comfrey as a bioaccumulator",
-            top_k=2,  # force both tools to be "selected" regardless of score
+            top_k=2,
             embed_fn=_stub_embed_fn,
             retrieve_fn=_stub_retrieve_fn,
         )
         by_name = {c.name: c for c in ctx.tool_calls}
         ratio_record = by_name["bioaccumulator_ratio"]
-        self.assertTrue(ratio_record.selected_by_router)
         self.assertFalse(ratio_record.args_available)
         self.assertFalse(ratio_record.executed)
+        self.assertFalse(ratio_record.viable)
+        self.assertFalse(ratio_record.selected_by_router)
 
-    def test_as_context_includes_retrieval_and_executed_tool_results_only(self):
+    def test_executed_but_empty_result_is_not_viable_or_selected(self):
+        # regional_recipe_lookup always has a `problem` fallback (args_available
+        # is trivially true), so it always executes -- but an empty result must
+        # not be selected/injected just because it ran.
+        ctx = mtc.build_multi_tool_context(
+            "What is the boiling point of water?",
+            top_k=2,
+            embed_fn=_stub_embed_fn,
+            retrieve_fn=_stub_retrieve_fn,
+        )
+        by_name = {c.name: c for c in ctx.tool_calls}
+        recipe_record = by_name["regional_recipe_lookup"]
+        self.assertTrue(recipe_record.args_available)
+        self.assertTrue(recipe_record.executed)
+        self.assertFalse(recipe_record.viable)
+        self.assertFalse(recipe_record.selected_by_router)
+
+    def test_as_context_includes_retrieval_and_selected_tool_results_only(self):
         ctx = mtc.build_multi_tool_context(
             "What ratio of Comfrey should I add for Corn's nitrogen needs?",
             top_k=2,
@@ -91,9 +139,13 @@ class BuildMultiToolContextTests(unittest.TestCase):
             retrieve_fn=_stub_retrieve_fn,
         )
         text = ctx.as_context()
-        executed_names = [c.name for c in ctx.tool_calls if c.executed]
-        for name in executed_names:
+        selected_names = [c.name for c in ctx.tool_calls if c.selected_by_router]
+        not_selected_names = [c.name for c in ctx.tool_calls if not c.selected_by_router]
+        self.assertTrue(selected_names)  # this query should select at least one tool
+        for name in selected_names:
             self.assertIn(f"[{name}]", text)
+        for name in not_selected_names:
+            self.assertNotIn(f"[{name}]", text)
 
     def test_as_dict_is_json_serializable_for_the_per_question_audit_record(self):
         import json
