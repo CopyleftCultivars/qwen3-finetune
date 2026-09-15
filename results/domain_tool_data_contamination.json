@@ -1,0 +1,24 @@
+{
+  "format": "domain_tool_data_contamination_v1",
+  "n_domain_records": 898,
+  "domain_source_files": [
+    "crop_requirements.json",
+    "enriched_recipes.json",
+    "local_plants_by_region.json",
+    "plant_mineral_profiles.json"
+  ],
+  "eval_sources": {
+    "eval_freeform/test.jsonl": "[LOCAL_PATH]",
+    "ladder_210": "[LOCAL_PATH]"
+  },
+  "n_eval_items": {
+    "eval_freeform/test.jsonl": 60,
+    "ladder_210": 210
+  },
+  "ngram_n": 8,
+  "jaccard_alarm": 0.6,
+  "n_exact": 0,
+  "n_near": 0,
+  "exact": [],
+  "near": []
+}
