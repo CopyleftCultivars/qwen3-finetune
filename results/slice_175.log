@@ -1,0 +1,112 @@
+The tokenizer you are loading from 'outputs/merged-model-p6-lr5e5-r2' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Skipping import of cpp extensions due to incompatible torch version. Please upgrade to torch >= 2.11.0 (found 2.10.0+cu128).
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+113 scorable MCQ rows from data/val_v3.jsonl
+=== arm A ===
+  [A] 10/113
+  [A] 20/113
+  [A] 30/113
+  [A] 40/113
+  [A] 50/113
+  [A] 60/113
+  [A] 70/113
+  [A] 80/113
+  [A] 90/113
+  [A] 100/113
+  [A] 110/113
+{
+  "arm": "A",
+  "n_items": 113,
+  "accuracy": 0.752212,
+  "mean_trace_option_set_gold_logprob": -0.789818,
+  "mean_delta_trace": 0.196389,
+  "delta_trace_positive_fraction": 0.681416,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2682.226584,
+  "total_latency_s": 303.1,
+  "note_counts": {},
+  "sweep_wall_s": 306.3
+}
+=== arm R ===
+  [R] 10/113
+  [R] 20/113
+  [R] 30/113
+  [R] 40/113
+  [R] 50/113
+  [R] 60/113
+  [R] 70/113
+  [R] 80/113
+  [R] 90/113
+  [R] 100/113
+  [R] 110/113
+{
+  "arm": "R",
+  "n_items": 113,
+  "accuracy": 0.707965,
+  "mean_trace_option_set_gold_logprob": -0.781925,
+  "mean_delta_trace": 0.204283,
+  "delta_trace_positive_fraction": 0.628319,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2742.697637,
+  "total_latency_s": 309.9,
+  "note_counts": {
+    "fallback_to_vsearch": 12
+  },
+  "sweep_wall_s": 466.8
+}
+=== arm M ===
+  [M] 10/113
+  [M] 20/113
+  [M] 30/113
+  [M] 40/113
+  [M] 50/113
+  [M] 60/113
+  [M] 70/113
+  [M] 80/113
+  [M] 90/113
+  [M] 100/113
+  [M] 110/113
+{
+  "arm": "M",
+  "n_items": 113,
+  "accuracy": 0.699115,
+  "mean_trace_option_set_gold_logprob": -0.738337,
+  "mean_delta_trace": 0.247871,
+  "delta_trace_positive_fraction": 0.628319,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2712.671425,
+  "total_latency_s": 306.5,
+  "note_counts": {
+    "no_domain_tool_fired": 75
+  },
+  "sweep_wall_s": 314.5
+}
+=== arm N ===
+  [N] 10/113
+  [N] 20/113
+  [N] 30/113
+  [N] 40/113
+  [N] 50/113
+  [N] 60/113
+  [N] 70/113
+  [N] 80/113
+  [N] 90/113
+  [N] 100/113
+  [N] 110/113
+{
+  "arm": "N",
+  "n_items": 113,
+  "accuracy": 0.716814,
+  "mean_trace_option_set_gold_logprob": -0.729815,
+  "mean_delta_trace": 0.256393,
+  "delta_trace_positive_fraction": 0.637168,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2653.755133,
+  "total_latency_s": 299.9,
+  "note_counts": {},
+  "sweep_wall_s": 303.7
+}
+wrote results/slice_175_summary.json
+
