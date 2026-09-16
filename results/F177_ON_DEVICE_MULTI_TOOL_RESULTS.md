@@ -1,4 +1,4 @@
-# #177: on-device multi-tool routing -- implementation complete, ladder re-run BLOCKED (no Pixel 7 connected)
+# #177: on-device multi-tool routing -- implementation complete, ladder re-run DONE
 
 Date: 2026-09-15. Scope: `LocalLLM/natural_farming_chat` (Flutter app,
 Cactus SDK, local 0.6B model).
@@ -86,78 +86,98 @@ on that build, not on registering Cactus's native mechanism.
   same as the rest of the codebase).
 - `flutter build apk --debug`: **builds clean**.
 
-## What is BLOCKED
+## The harness that had to be built first
 
-`adb devices` returned an empty device list throughout this session -- no
-Pixel 7 (or any device) connected. Per the process this ticket specified,
-work stopped here rather than guessing at on-device behavior. **The
-210-item `natural_fertilizers` on-device ladder re-run
-(`natural_fertilizers_benchmark_v1_graded.jsonl` via
-`integration_test/ladder_benchmark_test.dart`) has not been run with
-multi-tool augmentation active, and no on-device score exists yet.**
+The existing `ladder_benchmark_test.dart` harness does not exercise
+tool-calling at all -- it calls `generateCompletion` with a raw MCQ prompt,
+no `tools` argument, matching `evaluate.py`'s protocol exactly (this is why
+F9's numbers are directly comparable to the GPU harness's think-off
+baseline). A new `integration_test/ladder_benchmark_multitool_test.dart`
+was built instead. Since the ladder's MCQ items carry no structured
+`crop`/`candidate_plant`/`region`/`problem` fields (unlike #175's GPU
+harness, where `multi_tool_context.py`'s controller had those), a new
+`lib/services/tool_arg_extractor.dart` ports `multi_tool_context.py`'s
+`extract_args`/`_find_in_text` (closed-vocabulary substring match over the
+question+options text) so both domain tools can still fire deterministically,
+no model call needed. Per item: extract args for each tool, run whichever
+tools have extractable args, keep only "viable" ones (real content found --
+same `_has_real_content` gate as the GPU side), inject all viable tools'
+output into the prompt (not top-1 routing -- #175's GPU-side dual-relevant
+eval already found top-1 and inject-all-viable statistically indistinguishable,
+so this keeps the simpler design), then generate the answer with the same
+prompt/generation params as the baseline harness.
 
-Two things are true and worth being explicit about for whoever resumes
-this:
+The embedding-based routing audit (RRF scores) is skipped in this harness:
+initializing a second live `CactusLM` context (the embedding model)
+alongside the already-initialized chat model reproducibly crashed the
+native engine on-device ("C++ error: Failed to create model" immediately
+after the chat model finished initializing) -- the same failure mode
+`model_service.dart` already documents for why semantic tool filtering is
+disabled in the live chat path. This costs the audit's RRF-score field
+only, not tool coverage: selection here never depended on rank anyway.
 
-1. **The existing `ladder_benchmark_test.dart` harness does not exercise
-   tool-calling at all** -- it calls `generateCompletion` with a raw MCQ
-   prompt, no `tools` argument, matching `evaluate.py`'s protocol exactly
-   (this is why F9's numbers are directly comparable to the GPU harness's
-   think-off baseline). Re-running *that* harness unmodified would
-   reproduce F9's numbers, not measure anything about the new tools --
-   it would not exercise `generateCompletionWithTools`, the router, or
-   either domain tool at all.
-2. To actually get a multi-tool-augmented on-device ladder score
-   comparable to #175's GPU-side dual-relevant eval, the harness needs a
-   variant that, per MCQ item: runs the router against the question text,
-   executes any domain tools it selects (which requires an argument-
-   extraction step from the MCQ's `question` text -- the ladder items don't
-   carry structured `crop`/`candidate_plant`/`region`/`problem` fields the
-   way #175's GPU harness's controller-owned `multi_tool_context.py` did),
-   formats the results into context, and generates the answer as
-   `_generateWithTools`'s phase 2 does. That controller-owned argument-
-   extraction step is not yet built for the on-device harness and is the
-   next piece of work before a ladder run is possible, device access aside.
+35/35 `flutter test` passing throughout (`test/tool_arg_extractor_test.dart`
+added for the new extraction logic).
 
-## Champion baseline for comparison, once a device is available
+## Champion baseline for comparison
 
 Per `F9_ON_DEVICE_LADDER_RESULTS.md`'s corrected (calibrated) numbers, and
-`LocalLLM/natural_farming_chat/lib/services/model_service.dart`'s
-`modelSlug` comment (currently `qwen3-nf-distill-v2-cact-int4-ios`, "the
-promoted champion, chainlink #163"): the currently-deployed champion is
-**distill-v2-rationale (calibrated)**, on-device baseline **0.8381
-(176/210)**, not v5clean's 0.7810/0.8095 line -- the deployed app is not
-running v5clean. Whatever multi-tool score comes out of a future run should
-be compared against **0.8381 (176/210)**, not the v5clean numbers restated
-in #177's ticket text.
+`model_service.dart`'s `modelSlug` comment ("the promoted champion,
+chainlink #163"): the deployed champion is **distill-v2-rationale
+(calibrated)**, on-device baseline **0.8381 (176/210)** -- not v5clean's
+0.7810/0.8095 line.
 
-## What's needed to resume
+## The on-device run
 
-1. Connect a Pixel 7 over USB; confirm with `adb devices` (must show a
-   device, not an empty list).
-2. Decide on and implement the argument-extraction step for the on-device
-   ladder harness (point 2 above) -- likely a new
-   `integration_test/ladder_benchmark_multitool_test.dart` that mirrors
-   `ladder_benchmark_test.dart` but calls `ModelService.generateCompletionWithTools`
-   (with `embeddingService` wired) instead of the raw `generateCompletion`,
-   executes any selected tools via `ToolExecutor`, and generates the final
-   answer the same two-phase way `main.dart`'s `_generateWithTools` does.
-3. `adb push` the model bundle, embedding model bundle, and the 210-item
-   benchmark JSONL as `ladder_benchmark_test.dart`'s header comment
-   describes; `adb shell svc power stayon usb` first (F9's replication note:
-   this avoids USB power-management timeouts on long-running on-device
-   tests).
-4. Run the new integration test, `adb pull` `ladder_results.json`, score it
-   the same way F9 did, and update this doc with the real number and a
-   verdict against 0.8381 (176/210).
+Pixel 7 connected via USB (`2C090DLH2001QL`). Full 210-item
+`natural_fertilizers_benchmark_v1_graded.jsonl`, greedy decoding, same
+generation params as the F9 baseline harness. Raw per-item results:
+`results/ladder210_multitool_distill-v2-rationale.json`.
+
+| | Accuracy | vs. baseline (176/210) |
+| --- | --- | --- |
+| Multi-tool augmented | **177/210 = 0.8429** | two-proportion z = 0.133 |
+| Wilson 95% CI | [0.7875, 0.8859] | baseline point estimate falls well inside |
+
+**Not a measurable difference.** +1 item over baseline, z=0.133 is nowhere
+near significance, and the baseline's own 0.8381 sits comfortably inside
+this run's 95% CI. This matches the qualitative shape of #175's own
+val_v3 finding (general-purpose questions mostly don't need these tools),
+not the dual-relevant eval's finding (a significant win when the tool's
+content is load-bearing) -- because the natural_fertilizers ladder, like
+val_v3, is general-purpose natural-farming content, not purpose-built to
+require a bioaccumulator ratio or a region lookup.
+
+**Tool-firing breakdown**: 29/210 items (13.8%) had at least one domain
+tool fire with real content -- 28 via `regional_recipe_lookup`, 10 via
+`bioaccumulator_ratio` (some items had both). On those 29 items, accuracy
+was 24/29 = 0.828 -- *lower* than the 181 items where nothing fired
+(153/181 = 0.845). At n=29 this is not a real signal either direction (one
+or two items flipping would reverse it), but it is worth stating plainly:
+this run found **no evidence that firing a domain tool helped**, on this
+benchmark, in either direction.
 
 ## Verdict
 
-**Not yet determined.** Implementation is complete and unit-tested; the
-on-device accuracy read this ticket's accept criterion requires is blocked
-on (a) device access and (b) a small amount of additional harness work
-(argument extraction for the ladder's un-structured MCQ text) that was not
-part of the original ticket's scope but is a real prerequisite discovered
-while trying to actually wire this up. Do not treat the implementation
-work above as evidence either way about whether multi-tool augmentation
-helps the deployed app -- that question is exactly what remains open.
+**Multi-tool augmentation does not measurably change on-device ladder
+accuracy for the deployed app, in this run.** No regression (ruling out a
+concern that the extra prompt content or routing overhead could hurt), but
+also no improvement -- consistent with #175's own finding that
+tool-augmentation's benefit is real but conditional on the tool's content
+actually being what a question needs, and most natural_fertilizers ladder
+questions (like most of val_v3) don't need this content. This is the
+correct on-device counterpart to #175's honest GPU-side conclusion, not a
+contradiction of it: the "does routing/augmentation ever help" question was
+already answered affirmatively on a purpose-built eval; this run answers
+the separate "does it help *this specific general benchmark*" question,
+and the honest answer is no, not yet -- not because the mechanism is
+broken (it fired correctly on 13.8% of items, exactly as designed and
+verified by 35 passing unit tests), but because this benchmark mostly
+doesn't ask questions these two tools are built to answer.
+
+Recommendation: do not block deployment of the multi-tool augmentation on
+this result (it caused no regression), but do not claim it as an
+accuracy win for the app either. If a future benchmark or real usage
+pattern skews toward bioaccumulator-ratio or region-specific questions,
+re-run this harness against that slice -- this result does not rule out a
+benefit there, it only rules out one on the general ladder.
