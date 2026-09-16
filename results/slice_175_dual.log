@@ -1,0 +1,74 @@
+The tokenizer you are loading from 'outputs/merged-model-p6-lr5e5-r2' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Skipping import of cpp extensions due to incompatible torch version. Please upgrade to torch >= 2.11.0 (found 2.10.0+cu128).
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+24 scorable MCQ rows from results/dual_relevant_eval_175.jsonl
+=== arm A ===
+  [A] 10/24
+  [A] 20/24
+{
+  "arm": "A",
+  "n_items": 24,
+  "accuracy": 0.333333,
+  "mean_trace_option_set_gold_logprob": -2.619258,
+  "mean_delta_trace": -0.459821,
+  "delta_trace_positive_fraction": 0.5,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2905.574542,
+  "total_latency_s": 69.7,
+  "note_counts": {},
+  "sweep_wall_s": 70.4
+}
+=== arm R ===
+  [R] 10/24
+  [R] 20/24
+{
+  "arm": "R",
+  "n_items": 24,
+  "accuracy": 0.208333,
+  "mean_trace_option_set_gold_logprob": -2.957672,
+  "mean_delta_trace": -0.798235,
+  "delta_trace_positive_fraction": 0.375,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2848.859417,
+  "total_latency_s": 68.4,
+  "note_counts": {
+    "fallback_to_vsearch": 4
+  },
+  "sweep_wall_s": 69.1
+}
+=== arm M ===
+  [M] 10/24
+  [M] 20/24
+{
+  "arm": "M",
+  "n_items": 24,
+  "accuracy": 0.541667,
+  "mean_trace_option_set_gold_logprob": -1.393868,
+  "mean_delta_trace": 0.765569,
+  "delta_trace_positive_fraction": 0.708333,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2438.34675,
+  "total_latency_s": 58.5,
+  "note_counts": {},
+  "sweep_wall_s": 62.5
+}
+=== arm N ===
+  [N] 10/24
+  [N] 20/24
+{
+  "arm": "N",
+  "n_items": 24,
+  "accuracy": 0.541667,
+  "mean_trace_option_set_gold_logprob": -1.50505,
+  "mean_delta_trace": 0.654387,
+  "delta_trace_positive_fraction": 0.708333,
+  "mean_decode_calls": 1,
+  "mean_latency_ms": 2506.007958,
+  "total_latency_s": 60.1,
+  "note_counts": {},
+  "sweep_wall_s": 61.0
+}
+wrote results/slice_175_dual_summary.json
+
