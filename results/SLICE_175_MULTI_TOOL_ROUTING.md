@@ -176,3 +176,121 @@ paths forward, neither started here:
 Which of these -- or whether to proceed to #176/#177 on the current
 evidence -- is again a call for the epic owner, not a default this report
 should pick on its own.
+
+## Update 2026-09-15 (2): dual-relevant eval slice built and run
+
+The owner chose "build a dual-relevant eval slice." Two things surfaced
+while building it, ahead of the sweep itself:
+
+**A real bug in `bioaccumulator_ratio` (#174), unrelated to routing.**
+`_parse_range`'s regex allowed a leading `-?` on every matched number, which
+misread a range string's own separating hyphen as a unary minus: `"30-70"`
+parsed via `findall` as `[30, -70]` instead of `[30, 70]`, so every NPK bound
+-- and therefore every ratio the tool has ever computed since #174 shipped --
+was silently wrong-signed. Found because the first eval-design attempt (ask
+whether a plant's phosphorus ratio was above or below 1 relative to a crop's
+requirement) produced 20/20 identical "Lower" answers; fixed in
+`rlm_slice/domain_tools.py`, regression-tested in `tests/test_domain_tools.py`.
+
+**The ratio-based question design doesn't work even after the fix.**
+Re-tried at full scale -- 1,319 crop x plant pairs sampled across the *entire*
+dataset, not just a hand-picked few -- and the phosphorus ratio classifies as
+"higher than the crop's requirement" **100% of the time**. This is a genuine
+property of the two data sources (tissue ppm concentration vs. an agronomic
+NPK requirement index are different unit systems, exactly as
+`bioaccumulator_ratio`'s own `unit_caveat` says), not a sampling artifact --
+no amount of pair selection produces real variation on this axis. A
+phosphorus-vs-potassium framing was tried next and found equally degenerate
+(potassium wins across the same 1,319 pairs) for the same underlying reason.
+Abandoned both in favor of ground truth from `regional_recipe_lookup`'s own
+`regions_growing_crop` field (which region a crop is documented as growing
+in) -- genuinely per-crop-varying structured data, not a unit artifact.
+`scripts/build_dual_relevant_eval_175.py` builds this: 24 items, each naming
+a crop + a bioaccumulator plant (so `bioaccumulator_ratio` extracts and
+executes) and asking which of 4 named regions the crop grows in (so
+`regional_recipe_lookup`'s answer is the graded fact). All 24 verified
+dual-viable; answer distribution balanced (A=7, B=5, C=8, D=4). Contamination
+check against `eval_freeform/test.jsonl` + the 210-item ladder: 0 exact, 0
+near matches.
+
+### Results
+
+| Arm | Accuracy | vs A (McNemar chi2) | vs R (McNemar chi2) |
+| --- | ---: | ---: | ---: |
+| A (no tools) | 0.333 | -- | -- |
+| R (retrieval only) | 0.208 | 0.800 | -- |
+| M (routed, top-1 viable) | 0.542 | 3.200 | **6.125\*** |
+| N (unrouted, all viable) | 0.542 | -- | -- |
+
+\* significant at p<0.05 (chi2 >= 3.84): **R vs M, 0 items where R alone was
+correct and M wrong, 8 items where M was correct and R wasn't.**
+
+**This is the clearest signal the whole #175 investigation has produced: when
+a question's answer genuinely requires the domain tool's content (not
+retrievable from the generic QMD corpus, not answerable from the model's own
+knowledge), injecting that content measurably and significantly helps over
+retrieval-alone.** A vs M (chi2=3.200) is suggestive in the same direction
+but just short of significance at this n. Generic retrieval (R) actually
+underperformed the no-tool baseline here (0.208 vs 0.333, not significant) --
+consistent with the QMD corpus simply not having region-specific growing
+facts indexed, and irrelevant retrieved snippets adding mild noise rather
+than help.
+
+### The routing question, finally testable -- and still a null result
+
+Every one of the 24 items had both tools viable, and **M and N selected
+different tool sets on all 24/24 items** (M: `regional_recipe_lookup` alone,
+every time -- the router consistently ranked it above `bioaccumulator_ratio`
+for these region-framed queries; N: both). So routing (Arm M) and
+no-routing (Arm N) finally had a real chance to diverge, unlike the val_v3
+sweep. They did diverge at the item level -- 2 items flipped (one each
+direction: `dual175_007` M-correct/N-wrong, `dual175_016` M-wrong/N-correct)
+-- but landed on **identical aggregate accuracy (13/24 each)**. McNemar
+chi2=0.500, not significant.
+
+**Honest reading**: routing away `bioaccumulator_ratio`'s content (irrelevant
+to this particular question) neither helped nor hurt, net, at n=24 -- the
+one item it would have helped on and the one item it would have hurt on
+canceled out. This is not "routing doesn't matter" so much as "this
+particular noise source (one extra structured-data block, itself accurate
+just off-topic) is mild enough that whether it's filtered out barely
+registers" -- a materially weaker noise source than an adversarial or
+verbose irrelevant context might be. Untangling "no real effect" from "real
+but small effect, still below n=24's resolution" would need a larger
+dual-relevant set, which was not built here.
+
+## Final accept-criteria checkoff (#175)
+
+- **Per-question tool-selection record**: done, both sweeps.
+- **Accuracy vs Arm R baseline**: done, and this time with a significant
+  result (R vs M, chi2=6.125) on a slice built specifically so the
+  comparison is meaningful.
+- **Accuracy vs no-tool baseline (Arm A)**: done; suggestive but not
+  significant at this n (chi2=3.200).
+- **Noise-robustness question**: answered on two different slices. On
+  general natural-farming questions (val_v3), domain-tool content was
+  irrelevant on ~89% of items and correctly suppressed by the fixed router,
+  with no measurable harm from the ~11% where a tool did fire. On the
+  dual-relevant slice built to force routing decisions, unrouted dual-tool
+  injection (Arm N) also caused no measurable harm relative to routed
+  single-tool injection (Arm M) -- both now positive, not merely untested,
+  answers to "does more context hurt."
+
+## Final recommendation
+
+Tier 1 (#175) is measured to a defensible stopping point:
+1. Domain-tool content helps, significantly, exactly where it should
+   (questions the tool's content is actually needed to answer).
+2. No noise-driven harm was found from unrouted dual-tool injection on
+   either slice tested.
+3. The router's forced-pick defect is fixed and verified.
+4. Routing-vs-no-routing remains a genuine null result at current sample
+   sizes (n=24 for the only slice that can even test it) -- real, but not
+   large enough to detect further without a bigger dual-relevant set.
+
+This is enough to open the gate for #176 (tier-2) and #177 (on-device port)
+on the evidence available, with the caveat carried forward explicitly: the
+routing mechanism itself (as opposed to tool-augmentation generally) has not
+been shown to help, only shown not to measurably hurt. Whether to treat that
+as sufficient, or to invest in a larger dual-relevant set first, remains the
+epic owner's call.
