@@ -5,6 +5,26 @@ import unittest
 from rlm_slice import domain_tools
 
 
+class ParseRangeTests(unittest.TestCase):
+    """chainlink #175: _parse_range's regex used to allow a leading `-?` on
+    each matched number, which misread a range string's separating hyphen as
+    a unary minus -- "30-70" parsed as [30, -70] instead of [30, 70],
+    silently making every ratio negative. Discovered building #175's
+    dual-relevant eval, where every generated ratio came out negative."""
+
+    def test_range_separator_is_not_read_as_a_minus_sign(self):
+        self.assertEqual(domain_tools._parse_range("30-70"), (30.0, 70.0))
+        self.assertEqual(domain_tools._parse_range("150-200"), (150.0, 200.0))
+
+    def test_single_value_still_parses(self):
+        self.assertEqual(domain_tools._parse_range("42"), (42.0, 42.0))
+
+    def test_ratio_is_positive_for_a_real_pair(self):
+        result = domain_tools.bioaccumulator_ratio("Corn", "Comfrey")
+        for ratio in result["ratios_ppm_per_requirement_unit"].values():
+            self.assertGreater(ratio, 0)
+
+
 class BioaccumulatorRatioTests(unittest.TestCase):
     """chainlink #174."""
 

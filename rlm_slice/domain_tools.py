@@ -33,7 +33,12 @@ from rlm_slice.domain_data import (
 )
 from rlm_slice.retrieval import retrieve
 
-_RANGE_RE = re.compile(r"-?\d+(?:\.\d+)?")
+# No leading "-?": crop_requirements.json's NPK ranges are strings like
+# "30-70", where the hyphen is a range separator, not a sign. A leading `-?`
+# here misparses "30-70" as [30, -70] (findall matches "30", then treats the
+# separator's "-" as a unary minus on "70") -- discovered via #175's dual-
+# relevant eval construction, where every generated ratio came out negative.
+_RANGE_RE = re.compile(r"\d+(?:\.\d+)?")
 
 # plant_mineral_profiles.json tracks trace minerals (P, K, Ca, Fe, ...) per
 # USDA composition data; it does not track nitrogen (N is protein-bound, not
