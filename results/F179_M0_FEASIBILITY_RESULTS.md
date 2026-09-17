@@ -336,3 +336,77 @@ competitive logits at generation time. A logit-bias/ban on `151670..151935`
 (`set_vocab_bias`, or the banned-token sampling planned in #187) is required, and
 should be verified on-device — per the #172 landmine, do not assume the bias hook
 is wired until a real generate confirms it.
+
+---
+
+## #184 (P0.5 GATE) — Decision: **GO on the reserved-token trick (convert-time-baked form)**
+
+**Decision: GO**, with the trick's mechanism confirmed viable for the first
+implementation without forking Cactus — provided two corrections to the Phase 1
+plan are accepted (below). Runtime per-session row updates are the one capability
+that genuinely needs a (small) engine fork; that is deferred to M5 and does not
+gate the epic.
+
+### Why GO (what is proven)
+
+1. **Reserved IDs are real and addressable.** 266 vocab IDs
+   (`151670..151935`) can never be produced by the tokenizer and never occur in
+   training data (#183), and raw token IDs are injectable through the exported
+   `cactus_submit` + `cactus_batch_start/stop` path (#180). So referencing
+   reserved IDs in a prompt requires **no tokenizer change and no fork**.
+2. **The vector half can be delivered by the embedding table without a prefill
+   fork.** The decoder graph already does an in-graph `aten.embedding` lookup into
+   `token_embeddings.weights` (#181), and that table can be edited *before
+   conversion* by writing the learned memory vectors into source
+   `model.embed_tokens.weight` rows `151670..151935`. Convert then bakes them into
+   the bundle exactly like every other embedding row. No FFI embedding hook and no
+   graph surgery needed.
+3. **The model is small and the path is cheap.** Qwen3-0.6B + the existing
+   on-device MCQ/multi-tool deployment already works (#146/#163/#169/#177); adding
+   reserved-row vectors is a convert-time data change, not a runtime change.
+
+### Required corrections to the Phase 1 plan (discovered in M0)
+
+- **#185's "N embedding rows held at FP16" is not implementable.** There is no
+  row-range precision override in `cactus convert` (#182), and the runtime's
+  per-tensor single-precision buffer + whole-file precision check make
+  mixed-precision rows unrepresentable even with a convert patch (#181). Re-scope
+  #185 to one of:
+  - **(a) recommended:** keep the table CQ4 and make the memory vectors survive
+    quantization (train quantization-aware — this is what #194 was always going
+    to need), or
+  - **(b) fallback:** hold the **entire** embedding table at FP16 (≈ 311 MB vs
+    ≈ 80 MB, +231 MB) and measure that memory delta at #188; use only if (a)
+    fails the recall bar in #193.
+- **#186's "write random vectors into reserved rows, generate" must be a
+  bake-then-convert test**, not a runtime write: patch the merged model's
+  `embed_tokens` rows, reconvert, and confirm `generate()` output changes.
+- **Verify the vocab-bias suppression hook with a real generate** before #187 is
+  marked done (the #172 lesson: source-visible ≠ wired). The tied head means the
+  reserved IDs otherwise compete in the output distribution.
+- **The hidden-state alternative is a fork, not a hook.** If the epic later wants
+  to feed encoder-produced vectors directly (rather than via baked embedding
+  rows), that is the `cactus_graph_set_input`/`inputs_embeds` route (#180) and
+  requires the fork option.
+
+### The one capability that needs a fork (deferred, not gating)
+
+**Per-session / on-device mutation of memory rows is impossible with the stock
+engine.** The table is a read-only mmap (`PROT_READ`) of a CQ4 blob (#181), so
+updating a slot at runtime needs an engine change: hold an owned writable copy of
+the embedding tensor, expose a "set rows" entry point, and re-quantize rows to
+CQ4 (or keep an FP16 side-table). Because the trick avoids touching the prefill
+path, this is a **minimal** fork (embedding buffer + one API), materially smaller
+than forking prefill/generate. It should be scoped only if/when M5's amortized
+update path (#201/#202) is required. Until then, memory is fixed at convert time —
+fine for M1–M4, and consistent with the epic's own staged structure.
+
+### Rejected alternatives
+
+- **NO-GO / stop the epic:** rejected — the core mechanism (reserved IDs + baked
+  rows) is verified end-to-end at the artifact/source level, and the safe ID pool
+  exists.
+- **GO straight to a full Cactus prefill fork:** unnecessary for M1–M4 and much
+  larger than the trick; keep as the contingency for the hidden-state-injection
+  variant or for runtime writes if they become mandatory.
+
