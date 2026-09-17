@@ -1,0 +1,29 @@
+{
+  "milestone": "#12 Epic 179 / M1 - Plumbing spike (Phase 1)",
+  "gate_issue": "#188",
+  "decision": "GO to M2",
+  "conditional": true,
+  "date": "2026-09-17",
+  "overhead": {
+    "bundle_dir_bytes_shipped": 348060177,
+    "bundle_dir_bytes_injected": 348060333,
+    "delta_bytes": 156,
+    "non_embedding_weights_identical": true,
+    "embedding_tensor_bytes": 80196480,
+    "embedding_precision": "CQ4 (whole table, unchanged)",
+    "init_sec": 2.0,
+    "gen_16tok_sec_shipped": [23.2, 25.7, 24.7],
+    "gen_16tok_sec_injected": [23.2, 25.6, 24.7],
+    "device_measurement": "pending Pixel 7 (adb empty); paired qemu numbers used"
+  },
+  "findings": {
+    "185_baseline_unchanged": "PASS - 182/210 vs 182/210, 0/210 items differ",
+    "186_injection_changes_output": "PASS - via special_tokens.json + cactus_complete (cactus_submit is broken)",
+    "187_suppression": "FAIL - no banned-token mechanism in stock Cactus; norm-8 rows leak 16/16"
+  },
+  "carry_forward": [
+    "Use the special_tokens.json reserved-ID mapping + cactus_complete, not cactus_submit.",
+    "Solve reserved-ID suppression: train logits low (validate #193/#194) and/or add a sampler banned-token list.",
+    "Per-session runtime writes still require the M0-deferred minimal fork (M5)."
+  ]
+}
