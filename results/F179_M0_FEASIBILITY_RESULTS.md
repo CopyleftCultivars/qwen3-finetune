@@ -89,3 +89,93 @@ embeddings. It must reference reserved **token IDs**, and those IDs must resolve
 to pre-existing rows in the embedding table. Raw token IDs *are* injectable
 (`cactus_submit`, exported), so the "reference the reserved IDs" half of the trick
 is live. The "learned vector values" half must be carried by the embedding table.
+
+---
+
+## #181 (P0.2) — Is the embedding table mmap'd + mutable, or baked immutable?
+
+**Answer: it is mmap'd, but the mapping is `PROT_READ` (read-only) and the tensor
+is CQ4-quantized at convert time. It is effectively baked immutable. Reserved
+rows cannot be overwritten post-load without an engine change.**
+
+### How `token_embeddings.weights` is loaded
+
+The deployed bundle's `components/manifest.json` binds the embedding as a graph
+**input** node with `kind: "embedding"`:
+
+```
+lm_encoder_step          node_id 3   -> token_embeddings.weights  (module.backbone.embed_tokens.weight)
+decoder_step             node_id 312 -> token_embeddings.weights  (module.backbone.embed_tokens.weight_1)
+decoder_prefill_chunk    node_id 312 -> token_embeddings.weights
+lm_encoder_text_chunk    node_id 3   -> token_embeddings.weights
+```
+
+The Qwen3 text path performs the lookup in-graph: `lm_encoder_step/raw_ir.json`
+contains `aten.embedding.default` (`padding_idx: 151654`) taking the weight
+constant and `input_ids`. `Model::load_component_graph` (`model.cpp:762-790`)
+loops over `bound_constant_bindings` and calls
+`comp.graph->bind_mmap_weights(node_id, path)` for every binding — the `kind`
+field (`"embedding"` vs `"weight"`) is **not** branched on.
+
+### `bind_mmap_weights` maps the file and points the node at it
+
+`cactus-graph/src/io.cpp:523-607`:
+
+```cpp
+auto mapped_file = std::make_unique<GraphFile::MappedFile>(resolved_filename);
+...
+set_external_input(node_id, const_cast<void*>(mapped_file->data()), precision);
+```
+
+i.e. the graph input node's data pointer *is* the mapped file. The mapping is
+created in the `MappedFile` constructor (`io.cpp:860-885`):
+
+```cpp
+fd_ = open(filename.c_str(), O_RDONLY);          // io.cpp:862
+mapped_data_ = mmap(nullptr, file_size_, PROT_READ, MAP_SHARED, fd_, 0);  // io.cpp:874
+```
+
+`PROT_READ` means any write through that pointer faults; the process never
+`mprotect`s or re-maps it writable. `MAP_SHARED` is irrelevant for in-process
+writes here because the protection forbids them (it would only matter if some
+*other* process modified the file, which is not a supported/app-store-safe path).
+`mmap_embeddings` (`io.cpp:399-460`) uses the identical `PROT_READ` pattern.
+
+### It is also quantized (baked), not raw FP16
+
+Parsed the deployed file header directly:
+
+```
+token_embeddings.weights: magic 0x54434143  flags 0x6 (orthogonal | interleaved_4row)
+dims [151936, 1024]  precision enum 6 = CQ4  group_size 1024  num_groups 1
+byte_size 77,791,232 (4-bit packed)  scales_bytes 2,405,152   file 80,196,480 B
+```
+
+`Precision` enum is `INT8=0, FP16=1, FP32=2, CQ1..CQ4=3..6`
+(`cactus-kernels/cactus_kernels.h:10-18`). So the table is a single CQ4 blob
+(codebook + per-group input scales + per-row norms), **not** an fp16 array.
+
+### Why per-row precision is impossible in the current runtime format
+
+A graph tensor carries exactly one scalar `precision` (`BufferDesc.precision`,
+`cactus_graph.h:226`), and `bind_mmap_weights` rejects any file whose precision
+differs from the pre-built node's precision and whose shape differs
+(`io.cpp:539-544`). The `aten.embedding` node reads the whole table at one
+precision. There is no per-row / per-range precision concept anywhere in the
+`.weights` header or the graph buffer descriptor.
+
+### Runtime-write paths that exist (all require a fork)
+
+The graph API could point a node at a different buffer
+(`cactus_graph_set_external_input`) or at an in-memory tensor
+(`cactus_graph_embedding_from_tensor`), so a fork *could* hold an owned writable
+copy and rewrite rows. But the model FFI does not expose the component graphs, and
+re-quantizing a CQ4 row in place means recomputing the per-row norm and writing
+packed 4-bit codes — not a drop-in `memcpy`. The app-level alternative (rewrite
+`token_embeddings.weights` on disk and rely on `MAP_SHARED` coherency) depends on
+the model living in a writable location and is fragile/unsupported.
+
+**Consequence for the epic:** reserved-row vectors must be **baked at convert
+time** (edit the merged model's `embed_tokens` rows, then convert) unless the
+engine is forked to support a writable embedding buffer. Per-session in-place
+overwrite of reserved rows is **not** possible with the stock engine.
