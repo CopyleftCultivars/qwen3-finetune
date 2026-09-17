@@ -264,3 +264,75 @@ is not achievable via the existing convert options, and cannot be done by the
 current runtime format even with a convert patch. It has to be re-scoped to
 "whole-tensor precision" (CQ4-trained rows, or FP16 whole table) or to
 "convert + engine fork for mixed precision".
+
+---
+
+## #183 (P0.4) — Tied embeddings, and the safe reserved vocab IDs
+
+**Answer: embeddings are tied (verified against the actual weight file, not just
+`config.json`). The unused, tokenizer-unreachable vocab range is
+`[151670, 151935]` — N = 266 IDs — and that is the reservation pool.**
+
+### Tied-embedding verification (weight file + manifest, not the config flag)
+
+Parsed the safetensors header of
+`outputs/merged-model-distill-v2-rationale/model.safetensors`:
+
+```
+num tensors: 310
+model.embed_tokens.weight   shape [151936, 1024]  dtype BF16   <- the only embedding/head tensor
+lm_head.weight              ABSENT
+config.json tie_word_embeddings: true
+```
+
+`conversion_manifest.json` (deployed bundle) likewise has **310 entries, 0
+containing `lm_head`**, with `components: {embedding: 1, language: 309}`. The
+single embedding entry is:
+
+```
+hf_name      model.embed_tokens.weight
+output_file  token_embeddings.weights
+policy       convert      precision  CQ4      shape [151936, 1024]
+```
+
+So `lm_head` is tied to `model.embed_tokens.weight` — one physical table, used
+both for input embedding lookup and (transposed) for output logits. Two
+implications: (a) baking reserved rows also changes the output head for those IDs,
+and (b) the reserved IDs must be suppressed from sampling or the model could emit
+memory tokens into its visible text (the engine already has a vocab-bias hook,
+`Model::set_vocab_bias` / `clear_vocab_bias`, `engine.h:760-763`; that is the
+lever for M1 #187).
+
+### Enumeration of unused vocab IDs
+
+Analyzed the actual tokenizer of both the merged model and the deployed bundle
+(they are identical):
+
+| Source | IDs | Count |
+|---|---|---|
+| `vocab.json` base BPE vocab | `0 … 151642` | 151643 |
+| `tokenizer.json` / `added_tokens.json` special/added tokens | `151643 … 151669` | 27 |
+| **union (everything the tokenizer can emit)** | `0 … 151669` | 151670 |
+| `config.json vocab_size` (embedding rows) | `0 … 151935` | 151936 |
+| **unused / unreachable** | **`151670 … 151935`** | **266** |
+
+- Every base BPE token (including all 256 byte fallbacks) lives in `0…151642`.
+- The only added tokens are the 27 in `added_tokens.json`, max id `151669`
+  (`<|PAD_TOKEN|>`); see also bundle `special_tokens.json` (`vocab_size: 151670`).
+- Therefore no tokenizer call can produce any id in `151670…151935`, so no such
+  id can appear in training/eval data built with this tokenizer.
+- The rows physically exist in the tied table and are non-zero but untrained-scale
+  (bf16 row L2 norms ≈ 0.30–0.36 across the whole range, vs ≈ 0.9–1.0 for real
+  base rows), consistent with never having been indexed. Overwriting them is safe.
+
+**Concrete reservation list: 266 IDs, `151670..151935` inclusive.** A smaller
+working subset (e.g. `151670..151701` for N=32, matching PersonaMem's N=32) is the
+first N of these. Note these IDs are reachable as raw prompt tokens via the
+exported `cactus_submit` path (#180), which is what makes the reserved-token trick
+addressable without any tokenizer change.
+
+**Caveat for Phase 1:** because the head is tied, reserved IDs may receive
+competitive logits at generation time. A logit-bias/ban on `151670..151935`
+(`set_vocab_bias`, or the banned-token sampling planned in #187) is required, and
+should be verified on-device — per the #172 landmine, do not assume the bias hook
+is wired until a real generate confirms it.
