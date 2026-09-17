@@ -119,3 +119,161 @@ grow when the rows carry real (larger) memory vectors — which is the point of
 The reserved rows are quantized to CQ4 with the rest of the table, per M0's
 correction to this issue. Whether CQ4 fidelity is enough for *learned* memory
 vectors is deferred to #193/#194 (M3), as planned.
+
+---
+
+## #186 (P1.2) — Injection changes output, end to end
+
+**Result: PASS — but NOT through the FFI path the M0 writeup assumed. The M0
+claim that raw token IDs are injectable via `cactus_submit` is true at the symbol
+level but false at runtime (#172 pattern again). A working, fork-free transport
+was found instead: a reserved-ID entry in the bundle's `special_tokens.json`, fed
+through the normal `cactus_complete` path.**
+
+### Part A — `cactus_submit` (the M0-proposed transport) is broken
+
+Real calls on the shipped `distill-calibrated-deploy` with the same chat prompt
+("The capital of France is", rendered with `cactus_render_prompt`, tokenized with
+`cactus_tokenize`):
+
+| transport | result |
+|---|---|
+| `cactus_complete` | `"The capital of France is **Paris**."` (coherent) |
+| `cactus_batch_start(1)` + `cactus_submit` + `cactus_batch_stop` | deterministic gibberish: `athinghem delkeley *riculum…` (`gen_ids [43561, 29032, 1594, …]`) |
+
+Reproduced with: raw (non-templated) prompt tokens, chat-templated tokens, a
+`cactus_reset` first, and on a different bundle (`distill-arm64-cact-int4`). When a
+`cactus_complete` call is made first in the same process, the subsequent
+`cactus_submit` output becomes an echo of the prompt instead of gibberish — still
+not a correct continuation. The likely mechanism is that `cactus_submit` drives
+`Model::decode_step_batch` (`model.cpp:1029`) through `encoder_=lm_encoder_step` +
+`decoder_=decoder_media_step` **without the chunked prefill** that
+`cactus_complete` performs first (`model.cpp:1308`), leaving the step route
+incorrectly conditioned; the root cause was not fixed (out of M1 scope).
+
+The Python convenience `cactus_decode_tokens` (the other raw-token-looking entry)
+is also dead — no backing C symbol (M0 #180). So **there is no usable raw-token
+generation FFI entry in the shipped engine.**
+
+### Part B — a fork-free transport: reserved IDs as bundle special tokens
+
+The engine's BPE tokenizer loads a string→id special-token map from
+`<bundle>/special_tokens.json` (`load_special_tokens_map`, `tokenizer.cpp:272-317`)
+and matches those strings during encode
+(`split_with_special_tokens`, `tokenizer.cpp:319`). Adding entries
+
+```json
+"special_tokens": { "151670": "<|mem0|>", … "151675": "<|mem5|>", … }
+```
+
+makes the reserved IDs referenceable from ordinary prompt text. Verified on the
+real ARM engine:
+
+```
+cactus_tokenize("<|mem0|>") == [151670]
+cactus_tokenize("The capital of France is <|mem0|>") == [785, 6722, 315, 9625, 374, 220, 151670]
+```
+
+No engine change, no fork — only a tiny bundle-file edit (+156 bytes, see #188).
+Baseline (non-reserved) tokenization and generation are unaffected.
+
+### Part C — the injection proof (real ARM engine)
+
+`outputs/r179-m1/p186grad-deploy`: the shipped bundle with reserved rows
+`151670..151675` holding distinctive vectors of norms `[0.5, 1.0, 1.5, 2.0, 3.0,
+4.0]` (same directions as p186, scaled) and the `<|memN|>` special tokens added.
+Greedy, `temperature 0`, same base prompt with vs without one reserved token:
+
+| base prompt | no reserved token | `+ <|mem5|>` (norm 4.0) | `+ <|mem0|>` (norm 0.5) |
+|---|---|---|---|
+| The best fertilizer for tomatoes is | a combination of nutrients that supports | **biofertilizers** | **well-rounded, balanced nutrients** |
+| In one word, farming is | the art and science of cultivating | **farming**. | **farming**. |
+| My favorite color is | Your favorite color is a delightful way to express your creativity | Your favorite color, while not directly relevant to the bioaccum | Your favorite color, which is a vibrant shade of green, |
+| One fact about soil: | Soil is a critical component of the ecosystem, providing essential | Soil is a complex ecosystem that supports plant growth, regulates | Soil is a critical component of our ecosystem, providing essential |
+
+Injecting a reserved ID deterministically changes the continuation, and the change
+is **row-specific** (different reserved IDs carry different vectors → different
+outputs). This is the load-bearing M1 proof that the reserved-token mechanism
+works end to end. The magnitude also steers style (norm-4 `mem5` pulls
+"bioaccum…" into an unrelated prompt), as expected for a soft-prompt-like vector.
+
+### Consequence
+
+The epic's mechanism is viable **without** the `cactus_submit` path, via a
+`special_tokens.json` mapping. Any M2+ work should use `cactus_complete` (or the
+same tokenizer mapping) and treat `cactus_submit` as unavailable/broken.
+
+---
+
+## #187 (P1.3) — Reserved IDs never leak into output
+
+**Result: FAIL. The stock engine has no way to suppress reserved IDs at sampling.
+The `set_vocab_bias` hook M0 pointed at is dead, positive-only, and keyed by
+tokenizer strings that cannot name the reserved IDs.**
+
+Source-level, fully cross-checked:
+
+- `Model::set_vocab_bias` / `clear_vocab_bias` (`engine.h:760-763`) has exactly one
+  caller: `apply_custom_vocabulary_options` (`utils.h:1219-1226`), and **that
+  function itself has no callers anywhere in the engine** (`grep` over
+  `src/*.cpp`/`src/*.h`). It is dead code.
+- Even if called, the builder `build_token_bias_map` (`utils.h:1186-1202`) clamps
+  the boost to `[0, 20]` and only ever **adds** bias (the sampler does
+  `value += vocab_it->second`, `model.cpp:1931-1932`). There is no negative/ban
+  path. `parse_inference_options_json` (`utils.h:1404-1473`) does not parse
+  `custom_vocabulary` / `vocabulary_boost` either, so there is no FFI options route.
+- The bias is keyed by `tokenizer->encode(word)` — reserved IDs are by definition
+  unproducible by the tokenizer, so they cannot even be named as strings.
+
+Real-generate evidence (no source-read-only claim): the **p186** bundle (reserved
+rows norm 8.0) emits reserved IDs for **16/16 generated tokens**
+(`[151671, 151670, 151670, …]`) even with **no reserved ID in the prompt** — with
+tied embeddings the large rows dominate the head. Through `cactus_complete` the
+responses are empty strings because those IDs have no decoded text. There is no
+FFI knob that changes this.
+
+There is, however, a usable magnitude threshold: the p186grad bundle (norms ≤ 4.0)
+produced **no** reserved-ID leak on the four tested prompts. So leak risk is a
+function of learned vector norm, not an inevitability — but the engine provides no
+guarantee. **Mitigations to carry forward:** (a) train the LPM so reserved-token
+logits stay below real tokens and verify at #193/#194, and/or (b) add a small
+banned-token-id list to the sampler (a minimal engine change). #187's literal
+acceptance ("never appear") is not met by stock Cactus.
+
+---
+
+## #188 (P1.4 GATE) — Decision: **GO to M2, conditional on reserved-ID suppression**
+
+### Overhead (the stated gate criterion): effectively zero
+
+- Bundle `p186grad-deploy` vs shipped `distill-calibrated-deploy`: all 309
+  non-embedding `.weights` files byte-identical; `token_embeddings.weights`
+  identical size (80,196,480 B); the only delta is `special_tokens.json`
+  7893 → 8049 B = **+156 bytes**. No new graph, no new component, no precision
+  change (whole table stays CQ4, as M0 required).
+- Latency: paired ARM-engine runs are indistinguishable (init ≈ 2 s;
+  ≈ 23–26 s per 16-token greedy generate under qemu for both baseline and injected
+  bundles). Absolute on-device numbers still need the Pixel 7 (not attached via
+  `adb devices`) — reuse `ladder_benchmark_test.dart` for the real measurement in
+  the next device session.
+
+### Decision
+
+**GO to M2.** The reserved-token mechanism is proven end-to-end on the real engine
+(injection changes output, row-specifically), with zero plumbing overhead and no
+Cactus fork. M2 (encoder + LPM) is where the actual research value is; the
+plumbing no longer blocks it.
+
+**Two conditions carried into M2:**
+
+1. **Transport.** Use the `special_tokens.json` reserved-ID mapping + the normal
+   `cactus_complete` path. Do **not** build on `cactus_submit` — it does not
+   produce coherent generations (#186 Part A).
+2. **Suppression.** Stock Cactus cannot ban reserved IDs (#187 FAIL). Either
+   (a) train the LPM to hold reserved-token logits below real tokens and validate
+   no-leak at #193 (preferred; p186grad shows norms ≤ 4.0 already don't leak), or
+   (b) add a minimal banned-token-id list at the sampler. If both are rejected and
+   a fork is ruled out, this gate must be revisited.
+
+The gate does **not** block on the M0-deferred per-session runtime-write fork
+(still M5) or on the per-row FP16 question (still M3/#193/#194).
