@@ -179,3 +179,88 @@ the model living in a writable location and is fragile/unsupported.
 time** (edit the merged model's `embed_tokens` rows, then convert) unless the
 engine is forked to support a writable embedding buffer. Per-session in-place
 overwrite of reserved rows is **not** possible with the stock engine.
+
+---
+
+## #182 (P0.3) — Does cactus convert expose a per-tensor exclude/precision override?
+
+**Answer: no. Granularity stops at whole-tensor / whole-component policy. There is
+no row-range override, no per-tensor-name config/rules file, and the existing
+per-component `--embedding-bits` flag is actually dead for this model because the
+embedding policy hardcodes CQ4.**
+
+### What the project's wrapper exposes
+
+`conversion/convert_to_cactus.sh` accepts only `--merged-model`, `--output`,
+`--bits {1,2,3,4}`, `--cache-context-length`, `--cactus-dir` (`:11-17`), and shells
+out to `cactus convert ... --bits "$BITS" --reconvert ...` (`:104-111`). No
+per-tensor or per-range option.
+
+### What the underlying CLI exposes
+
+`cactus-sdk/python/cactus/convert/cli.py` `build_parser()` (`:584-611`):
+
+```
+--bits / --language-bits / --vision-bits / --audio-bits / --embedding-bits   (choices 1-4)
+--calibration-manifest  --device  --model-family  --strict  --force
+--max-*-examples  --hessian-cache-in/out  --calibration-batch-size ...
+```
+
+`_bits_for_component(component, args)` (`cli.py:122-131`) maps a *component*
+(whole tensor group) to a bit width. The convert loop applies this to every tensor
+of that component (`cli.py:439-440`, `:498-499`). **There is no**
+`--precision-map`, `--policy-file`, `--exclude`, or `name -> precision` config
+anywhere in the pipeline (`grep` over `cactus/convert/**` finds no such loader;
+the only `json.load` sites are hessian/provenance/config passthrough).
+
+### The policy is hardcoded per tensor-type in Python
+
+`cactus-sdk/python/cactus/convert/model_adapters/policy.py:20` —
+`policy_for_tensor(match, shape, user_bits, family) -> TensorPolicy` is the single
+decision point, a hardcoded `if/elif` ladder over output name / shape / family.
+`TensorPolicy` (`policy.py:8-17`) has `action, precision, bits, component,
+use_gptq, rotation, fallback_reason, layout` — **no row/range field**.
+
+The embedding branch (`policy.py:62-71`) is:
+
+```python
+if component == "embedding" or output_head_or_tied_embedding:
+    ...
+    return TensorPolicy("convert", "CQ4", 4, component, False, "orthogonal", layout=layout)
+```
+
+It returns `CQ4`/`4` **unconditionally and ignores `user_bits`**. For this Qwen3
+bundle the embedding component is exactly `"embedding"`, so `--embedding-bits 3`
+(or any value) still produces a CQ4 tensor — the flag is a no-op here. There is
+also no way via the CLI to request FP16 for the embedding: a `fallback`/`FP16`
+policy can only be produced by the hardcoded branches (norms, biases, non-2D,
+positions, etc.).
+
+### Where row-range support would have to be added
+
+1. **Policy.** Extend `TensorPolicy` and `policy_for_tensor`
+   (`model_adapters/policy.py:8-17`, `:20`) to carry a row range / segment list
+   (e.g. `segments: [(start, end, precision, bits)]`), or add a user-supplied
+   `name -> segments` rules file and a matching `--precision-map` CLI flag in
+   `cli.py:build_parser()` (`:584-611`).
+2. **Emit/quantize.** In the convert emit loop (`cli.py:487-535`), split the
+   tensor into row segments, call the quantizers per segment
+   (`quantization/cq.py:quantize_orthogonal` `:296`,
+   `quantize_hadamard` `:245`) and write each segment
+   (`quantization/cq.py:write_cq_tensor` `:321`; FP16 segments go through
+   `cli.py:_save_fallback_tensor` `:198`). This means a per-segment file layout,
+   or a new container.
+3. **Runtime.** Even with (1)+(2), the `.weights` header and graph buffer carry a
+   single precision, and `bind_mmap_weights` rejects whole-file precision
+   mismatch (`cactus-graph/src/io.cpp:539-544`) — so mixed-precision rows inside
+   one tensor are **not representable at runtime** without an accompanying engine
+   change (see #181). A cleaner fork-free alternative for the epic: keep the whole
+   table at one precision — either accept CQ4 for the memory rows (train them
+   quantization-aware) or hold the **entire** embedding tensor at FP16
+   (`151936*1024*2 ≈ 311 MB` vs the current ≈ 80 MB, i.e. ≈ +231 MB bundle size).
+
+**Consequence for the epic:** Phase 1's planned "N embedding rows held at FP16"
+is not achievable via the existing convert options, and cannot be done by the
+current runtime format even with a convert patch. It has to be re-scoped to
+"whole-tensor precision" (CQ4-trained rows, or FP16 whole table) or to
+"convert + engine fork for mixed precision".
