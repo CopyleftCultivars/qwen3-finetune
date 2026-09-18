@@ -71,6 +71,21 @@ class ProjectionNetwork(nn.Module):
         )
         self.dropout = nn.Dropout(config.dropout)
 
+    def project_slots(self, slots: torch.Tensor) -> torch.Tensor:
+        """W_V applied per head, then (optionally) projected onto the norm ball.
+
+        Shape [B, H, N, d_model]. The same tensor feeds the dynamic value path
+        and `LPMModule.bake_vectors`, so the guaranteed-bounded vectors are
+        exactly what M3 bakes. The radial projection is differentiable, so
+        gradients still flow when a vector is clamped.
+        """
+        projected = torch.stack(
+            [self.w_v[h](slots[:, h]) for h in range(self.config.n_heads)], dim=1
+        )
+        if self.config.clamp_memory_norm:
+            projected = project_to_ball(projected, self.config.max_vector_norm)
+        return projected
+
     def forward(self, query_emb: torch.Tensor, slots: torch.Tensor) -> dict[str, torch.Tensor]:
         """query_emb [B, d_model], slots [B, H, N, d_mem].
 
@@ -78,14 +93,14 @@ class ProjectionNetwork(nn.Module):
         and ``projected_slots`` [B, H, N, d_model] (the bake vectors).
         """
         scale = math.sqrt(self.config.d_key)
+        projected = self.project_slots(slots)  # [B, H, N, d_model]
         prompts: list[torch.Tensor] = []
         attentions: list[torch.Tensor] = []
-        projected: list[torch.Tensor] = []
         for head in range(self.config.n_heads):
             slot_h = slots[:, head]  # [B, N, d_mem]
+            values = projected[:, head]  # [B, N, d_model] (bounded)
             query = self.w_q[head](query_emb)  # [B, d_key]
             keys = self.w_k[head](slot_h)  # [B, N, d_key]
-            values = self.w_v[head](slot_h)  # [B, N, d_model]
             scores = (query.unsqueeze(1) @ keys.transpose(1, 2)).squeeze(1) / scale  # [B, N]
             attn = torch.softmax(scores, dim=-1)  # [B, N]
             p_tilde = attn.unsqueeze(1) @ values  # [B, 1, d_model]
@@ -93,11 +108,10 @@ class ProjectionNetwork(nn.Module):
             p = self.out_ln[head](p_tilde + self.mlp(p_tilde))
             prompts.append(self.dropout(p))
             attentions.append(attn)
-            projected.append(values)
         return {
             "prompts": torch.stack(prompts, dim=1),  # [B, H, d_model]
             "attention": torch.stack(attentions, dim=1),  # [B, H, N]
-            "projected_slots": torch.stack(projected, dim=1),  # [B, H, N, d_model]
+            "projected_slots": projected,  # [B, H, N, d_model]
         }
 
 
@@ -106,11 +120,33 @@ def _entropy(attention: torch.Tensor, eps: float = 1e-9) -> torch.Tensor:
     return -(attention * torch.log(attention + eps)).sum(dim=-1)
 
 
-def magnitude_penalty(vectors: torch.Tensor, max_norm: float) -> torch.Tensor:
-    """Mean squared hinge on the L2 norm above ``max_norm`` (M1 #186 safe zone)."""
-    norms = vectors.norm(dim=-1)
-    excess = torch.relu(norms - max_norm)
-    return (excess**2).mean()
+def project_to_ball(vectors: torch.Tensor, max_norm: float, eps: float = 1e-6) -> torch.Tensor:
+    """Differentiable radial clamp: scale each vector to norm <= ``max_norm``.
+
+    Scaling factor is ``min(1, max_norm/||v||)``, so gradients still flow when a
+    vector is clamped (unlike a hard ``clamp``/``renorm`` with a straight-through
+    hack). This is what guarantees the M1 #186 norm<=4.0 safe zone for the baked
+    rows rather than merely penalising exceedances.
+    """
+    norms = vectors.norm(dim=-1, keepdim=True)
+    scale = torch.clamp(max_norm / norms.clamp(min=eps), max=1.0)
+    return vectors * scale
+
+
+def magnitude_penalty(vectors: torch.Tensor, max_norm: float, mode: str = "max") -> torch.Tensor:
+    """Squared hinge on the L2 norm above ``max_norm`` (M1 #186 safe zone).
+
+    ``mode="max"`` (default, #192) penalises only the largest excess so a few
+    drifting vectors cannot hide behind the mean over H*N slot vectors;
+    ``mode="mean"`` is the #190 average; ``mode="none"`` disables the term.
+    """
+    if mode == "none":
+        return vectors.new_zeros(())
+    if mode not in ("max", "mean"):
+        raise ValueError(f"unknown magnitude penalty mode: {mode!r}")
+    excess = torch.relu(vectors.norm(dim=-1) - max_norm)
+    squared = excess**2
+    return squared.amax() if mode == "max" else squared.mean()
 
 
 class LPMModule(nn.Module):
@@ -137,7 +173,9 @@ class LPMModule(nn.Module):
         entropy_penalty = torch.relu(target - entropy) * self.config.alpha_entropy
 
         projected = out["projected_slots"]
-        mag_penalty = magnitude_penalty(projected, self.config.max_vector_norm)
+        mag_penalty = magnitude_penalty(
+            projected, self.config.max_vector_norm, self.config.mag_penalty_mode
+        )
         out.update(
             {
                 "entropy": entropy,
@@ -159,9 +197,7 @@ class LPMModule(nn.Module):
         baking is a deployment operation.
         """
         slots = self.slot_memory(persona_ids)
-        vectors = torch.stack(
-            [self.projection.w_v[h](slots[:, h]) for h in range(self.config.n_heads)], dim=1
-        )
+        vectors = self.projection.project_slots(slots)
         return vectors.detach() if detach else vectors
 
     def loss_terms(self, out: dict[str, Any]) -> dict[str, torch.Tensor]:

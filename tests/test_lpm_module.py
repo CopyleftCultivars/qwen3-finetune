@@ -20,7 +20,7 @@ from lpm.data import PersonaIndex, filter_records, group_by_persona, select_subs
 try:
     import torch  # noqa: E402
 
-    from lpm.memory import LPMModule, magnitude_penalty  # noqa: E402
+    from lpm.memory import LPMModule, magnitude_penalty, project_to_ball  # noqa: E402
 
     HAVE_TORCH = True
 except Exception:  # noqa: BLE001 -- broken/missing torch must skip, not fail
@@ -138,13 +138,29 @@ class ModuleTests(unittest.TestCase):
         self.assertGreater(float(module.projection.w_v[0].weight.grad.norm()), 0.0)
 
     def test_bake_vectors_match_projector(self):
-        config = LPMConfig()
         module = self._module()
         ids = torch.tensor([3])
         bake = module.bake_vectors(ids)
-        slots = module.slot_memory(ids)
-        manual = torch.stack([module.projection.w_v[h](slots[:, h]) for h in range(config.n_heads)], dim=1)
+        manual = module.projection.project_slots(module.slot_memory(ids))
         self.assertTrue(torch.allclose(bake, manual, atol=1e-6))
+
+    def test_project_to_ball_bounds_norm_and_is_differentiable(self):
+        vectors = (torch.randn(4, 8, 32, 1024) * 10.0).requires_grad_(True)
+        bounded = project_to_ball(vectors, 4.0)
+        self.assertLessEqual(float(bounded.norm(dim=-1).amax()), 4.0 + 1e-4)
+        self.assertGreater(float(bounded.norm(dim=-1).max()), 3.0)
+        bounded.sum().backward()
+        self.assertIsNotNone(vectors.grad)
+
+    def test_max_mode_penalty_tracks_worst_vector_not_mean(self):
+        # One severe vector among many mild ones: mean mode hides it, max mode does not.
+        vectors = torch.full((1, 1, 128, 8), 0.1)
+        vectors[0, 0, 0, 0] = 10.0  # single severe vector
+        max_pen = float(magnitude_penalty(vectors, 4.0, mode="max"))
+        mean_pen = float(magnitude_penalty(vectors, 4.0, mode="mean"))
+        self.assertGreater(max_pen, 30.0)
+        self.assertLess(mean_pen, 0.5)
+        self.assertEqual(float(magnitude_penalty(vectors, 4.0, mode="none")), 0.0)
 
     def test_uniform_attention_meets_entropy_target(self):
         # A uniform distribution over 32 slots has entropy ln(32) > 0.4*ln(32),

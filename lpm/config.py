@@ -98,8 +98,14 @@ class LPMConfig:
 
     # Magnitude constraint toward the M1-observed norm<=4.0 safe zone. Applied
     # to the deployable slot projections; see lpm.memory.LPMModule.
+    # (#192 dry run: a mean-hinge penalty at lambda_mag=1e-2 let projected_norm_max
+    # reach 5.9. Default now = max-hinge penalty AND a differentiable projection
+    # of every slot vector onto the norm ball, so the baked rows are guaranteed
+    # <= max_vector_norm, not merely nudged.)
     lambda_mag: float = 1e-2
     max_vector_norm: float = M1_SAFE_NORM
+    mag_penalty_mode: str = "max"  # "max" | "mean" | "none"
+    clamp_memory_norm: bool = True
 
     # Training-objective decision for #191's is_first_chunk records. False =
     # drop them from the NTP loss (default: a t=0 record's prompt IS its target,
@@ -142,6 +148,8 @@ class LPMConfig:
             "entropy_target": self.entropy_target,
             "lambda_mag": self.lambda_mag,
             "max_vector_norm": self.max_vector_norm,
+            "mag_penalty_mode": self.mag_penalty_mode,
+            "clamp_memory_norm": self.clamp_memory_norm,
             "include_first_chunk": self.include_first_chunk,
             "total_slots": self.total_slots,
             "reserved_id_start": self.reserved_id_start,
