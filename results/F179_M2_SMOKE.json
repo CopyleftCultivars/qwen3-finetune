@@ -1,0 +1,76 @@
+{
+  "device": "cuda",
+  "smoke": {
+    "prompts_shape": [
+      8,
+      8,
+      1024
+    ],
+    "attention_shape": [
+      8,
+      8,
+      32
+    ],
+    "bake_shape": [
+      8,
+      8,
+      32,
+      1024
+    ],
+    "attention_sum_max_abs_err": 1.1920928955078125e-07,
+    "entropy": 3.4655656814575195,
+    "entropy_target": 1.3862943649291992,
+    "projected_norm_mean": 1.2251213788986206,
+    "projected_norm_max": 1.2720730304718018,
+    "mag_penalty": 0.0,
+    "entropy_penalty": 0.0,
+    "slot_grad_norm": 0.0001198583486257121,
+    "projection_grad_norm": 2.599082472443115e-05,
+    "reserved_ids_used": 256,
+    "reserved_id_range": [
+      151670,
+      151925
+    ],
+    "slot_0_0_id": 151670,
+    "slot_h1_0_id": 151702,
+    "slot_last_id": 151925,
+    "bake_matches_forward_max_abs_diff": 0.0,
+    "n_personas": 4,
+    "n_records": 8,
+    "n_slots_per_head": 32,
+    "module_trainable_params": 6059520,
+    "slot_params_per_persona": 65536,
+    "encoder_frozen_params": 249969152,
+    "encoder_trainable_params": 0
+  },
+  "encoder_probe": {
+    "n_train_personas": 40,
+    "n_eval_personas": 20,
+    "n_layers": 6,
+    "probe_steps": 150,
+    "frozen": {
+      "arm": "frozen",
+      "eval_top1": 0.35,
+      "final_train_loss": 3.0254,
+      "steps": 150,
+      "seconds": 9.34,
+      "seconds_per_step": 0.0623,
+      "trainable_params": 1049600,
+      "peak_gpu_mb": 673.8
+    },
+    "finetuned": {
+      "arm": "finetuned",
+      "eval_top1": 0.35,
+      "final_train_loss": 2.9176,
+      "steps": 150,
+      "seconds": 13.08,
+      "seconds_per_step": 0.0872,
+      "trainable_params": 16781568,
+      "peak_gpu_mb": 1993.9
+    },
+    "eval_representation_cosine_to_frozen": 1.0,
+    "eval_representation_relative_l2_shift": 0.0048,
+    "decision": "frozen",
+    "decision_reason": "same weights back the 28-layer NTP forward; fine-tuning the stub changes the encoder the module reads from only if the shared early layers move, and the drift + cost below quantify that risk"
+  }
+}
