@@ -1,93 +1,95 @@
 # F179 / M2 — #192 LPM training results
 
-Status: **dry run complete; full run pending approval** (per the #192 brief:
-validate wiring on a few hundred steps, then treat the multi-hour run as a
-second, separately-approved step).
+Status: **complete** — dry run validated the wiring, the magnitude gap it found
+was fixed, and the full run produced a loadable checkpoint. #193 (M3 bf16-vs-CQ4)
+is unblocked.
 
 ## Wiring
 
 `scripts/lpm_train.py`. Frozen `Qwen3-0.6B` backbone (gradient checkpointing on
-so gradients can reach the soft prompts without holding 28 layers of
-activations); frozen `Qwen3EarlyLayerEncoder` (`lpm/encoder.py`, 6 layers);
-`LPMModule.forward` → `prompts [B,8,1024]` prepended to the tokenized
-`target_text` `inputs_embeds`; cross-entropy over target positions only (8 soft
-positions and target padding masked to −100). Only the LPM module (per-persona
-slots + shared projection) is optimized; the backbone is never updated.
+so gradients reach the soft prompts without holding 28 layers of activations);
+frozen 6-layer `Qwen3EarlyLayerEncoder`; `LPMModule.forward` → `prompts [B,8,1024]`
+prepended to the tokenized `target_text` `inputs_embeds`; cross-entropy over
+target positions only (8 soft positions + padding masked to −100). Only the LPM
+module (per-persona slots + shared projection) is optimized; the backbone is
+never updated. Loss = NTP CE + `entropy_penalty` + `lambda_mag * mag_penalty`,
+each component logged separately alongside entropy, projected norms and the
+slot/projection grad norms.
 
-Loss = NTP CE + `entropy_penalty` + `lambda_mag * mag_penalty`, all three logged
-separately plus `entropy` and `projected_norm_mean/max` and the slot/projection
-grad norms.
+Subset (`include_first_chunk=False`, ≥3 cross-chunk records): **273 personas,
+1488 records** → 1215 fit + 273 held-out within-persona probes. Per-persona
+slots: 65536 × 273 = 17.9M; shared projection 5.8M.
 
-Subset (`include_first_chunk=False`, ≥3 cross-chunk records): **1488 records /
-273 personas** (slot params 17.9M; shared projection 5.8M). `query_emb` is
-precomputed once because the encoder is frozen.
+## Magnitude gap found by the dry run — fixed
 
-## Dry-run results (2 configs, 1000 steps each, batch 2, max_length 192)
+The dry run showed the #190 mean-hinge penalty did not hold the M1 #186 safe
+zone: `projected_norm_max` reached **5.91** at `lambda_mag=0.01` and **4.34** at
+`lambda_mag=0.5`. Fix (approved): `lpm/memory.py` now (a) defaults
+`mag_penalty_mode="max"` (penalise the worst vector, not the mean) and (b) applies
+a differentiable radial clamp `min(1, 4/||v||)` to every projected slot vector, so
+the **baked rows are guaranteed ≤4.0**, not merely nudged. The same clamped
+vectors feed the dynamic value path and `bake_vectors()`, so training and
+deployment agree. Unit-tested (`project_to_ball` bound + gradient; max-vs-mean
+penalty).
 
-Both configs: NTP loss falls from 8.90 (step 1) into the ~1.4–3.9 band, and
-gradients reach `slot_memory.slots` and `projection.w_v` at every logged step.
-Wall clock ~110 s, peak GPU 5.81 GB, **0.03 GPU-hours per 1000 steps** — the
-frozen backbone makes this far cheaper than the "few GPU-hours" budget.
+## Full run
 
-| | `lambda_mag=0.01` (#190 default) | `lambda_mag=0.5` |
-|---|---|---|
-| final NTP loss | 3.07 | 2.81 |
-| projected norm mean | 2.35 | 2.21 |
-| projected norm max | **5.91** | **4.34** |
-| steps with max > 4.0 | many (500+) | 3 (700/900/1000) |
-| entropy | 3.47 → 1.30 (penalty fires when < 1.386) | 3.47 → 1.84 |
-| val recall@1 (20 personas, chance 0.05) | 0.10 / 0.10 / 0.40 / 0.20 | 0.35 (500) / 0.25 (1000) |
+4000 steps, batch 2, max_length 192, lr 1e-3, seed 0, `lambda_mag=0.01`,
+`mag_penalty_mode=max`, `clamp_memory_norm=true`. 273 personas / 1215 fit
+records. Wall clock **560.6 s = 0.156 GPU-hours**, peak GPU 5.18 GB.
 
-## Headline finding — the magnitude constraint is not actually holding the M1 safe zone
+| metric | value |
+|---|---|
+| NTP loss | 9.14 (step 1) → ~2.8–3.7 band, 2.92 final (batch-2 variance) |
+| projected norm max | **4.00, 0 steps above** (0 leakage-watch triggers) |
+| projected norm mean | 1.20 → 3.65 (near the cap by the end) |
+| entropy | 3.47 → 1.55 (target 1.386; penalty fires on 7/41 logged steps) |
+| slot grad norm | 0.031 … 0.124 throughout |
+| projection grad norm | 0.0024 … 0.016 throughout |
+| val TTP recall@1 (24 personas, chance 0.042) | 0.29, 0.38, 0.42, 0.29, 0.33, 0.33, 0.33, 0.33 → mean **0.339** |
+| within-persona held-out probe recall@1 (48-way, chance 0.021) | 0.04, 0.10, 0.08, 0.25, 0.13, 0.21, 0.15, 0.15 → mean **0.14** |
 
-The 4.0 norm cap is a **mean squared hinge** over 273×256 projected slot vectors,
-so a handful of drifting vectors barely move the mean. At the #190 default
-`lambda_mag=0.01`, `projected_norm_max` climbs to **5.91** by step 1000 — past
-M1 #186's observed safe zone (≤4.0 no leak, ~8.0 leaked on 16/16 tokens).
-Raising `lambda_mag` to 0.5 cuts the max to 4.34 but still crosses 4.0. **Flagged
-loudly per the #192 brief: the constraint as designed neither bounds the max nor
-guarantees the safe zone.** Note the learned direction may behave differently
-from M1's random-direction probe and M1's measurement was at bf16, not CQ4 —
-#193 must re-measure leakage on the actual baked/quantized vectors. Options for
-the full run (owner's call):
-1. keep the mean hinge and use a larger `lambda_mag` + monitor (values already
-   exceed the cap, so this is only a partial mitigation);
-2. add a max-based penalty (`relu(||v||-4)^2 .amax()`) or a hard clamp with a
-   straight-through gradient on the deployable `bake_vectors` — the only way to
-   *guarantee* ≤4.0;
-3. rely on #193's post-quantization leakage measurement rather than training-time
-   clamping.
+Both recall proxies sit ~7–8× chance, so the module learns persona-discriminative
+memory rather than only lowering the loss; the val (persona-disjoint,
+test-time-personalization) curve is the more stable of the two.
 
-## Recall proxy caveat
+## Checkpoint
 
-The val proxy is test-time personalization (freeze the trained projection, fit
-each persona-disjoint val persona's slots for 30 steps, then B×B NTP-loss
-recall@1). It runs at 4–8× chance but is **noisy** (12–20 personas, one held-out
-probe each, targets truncated at 192 of ~560 median tokens). It is good enough to
-confirm the module learns persona-discriminative memory, not good enough to rank
-runs. The full run should use ≥40 val personas and report the mean over several
-probe draws.
+`outputs/lpm-persona-memory-192/checkpoint.pt` (gitignored, 95 MB). Verified
+loadable: strict `load_state_dict` into a fresh `LPMModule`, `slots
+[273,8,32,256]`, `bake_vectors` norm max 4.0. Contents: `module_state_dict`,
+`config` (LPMConfig), `persona_to_slot_index`, `reserved_id_map` (slot→
+151670..151925), `subset`, `step`, `summary`. Curves:
+`results/F179_M2_TRAINING_CURVES.json` (per-step loss components + entropy +
+norm stats + all eval records).
 
-## Checkpoint format
+## What #193 must now do
 
-`outputs/lpm-persona-memory-192-dryrun/checkpoint.pt` (94.8 MB, gitignored) —
-`module_state_dict`, `config` (LPMConfig), `persona_to_slot_index`,
-`reserved_id_map` (slot→ID), `subset`, `step`, `summary`. Curves:
-`results/F179_M2_TRAINING_CURVES_DRYRUN.json` (`lambda_mag=0.5` run; per-step
-loss components + entropy + projected-norm stats + eval records).
+- Bake one persona's `bake_vectors()[0,h,n]` into row `151670+32h+n`, CQ4-convert,
+  and re-measure reserved-ID leakage. M1's ≤4.0 observation was for random-
+  direction vectors at bf16; here the vectors are **learned and the mean norm is
+  3.65 (many pinned at the 4.0 clamp)**, so CQ4 quantization fidelity and
+  suppression need a fresh measurement, not an assumption.
+
+## Honest caveats
+
+- The recall proxies are weak in absolute terms and noisy (batch 2; only 24 val
+  personas have ≥2 chunks, so val chance is 1/24; targets truncated at 192 of a
+  ~560-token median). They validate that memory is persona-discriminative; they
+  do not rank hyperparameters.
+- Mean projected norm rising to 3.65 means the clamp is active for much of the
+  memory — capacity may be squeezed. If #193 finds recall-limited-by-norm, the
+  safe zone or a larger slot budget is the lever.
+- 4000 steps is well inside the budget; longer training / larger batch is cheap
+  (0.156 GPU-h here) if #193 wants a stronger checkpoint.
 
 ## Reproduction
 
 ```
 PYTORCH_ALLOC_CONF=expandable_segments:True \
 [LOCAL_PATH] scripts/lpm_train.py \
-    --steps 1000 --batch-size 2 --max-length 192 --lambda-mag 0.5 \
-    --eval-every 500 --val-personas 20 --val-fit-steps 30 \
-    --out-dir outputs/lpm-persona-memory-192-dryrun \
-    --curve-out results/F179_M2_TRAINING_CURVES_DRYRUN.json
+    --steps 4000 --batch-size 2 --max-length 192 --eval-every 500 \
+    --val-personas 40 --val-fit-steps 40 --probe-personas 48 \
+    --out-dir outputs/lpm-persona-memory-192 \
+    --curve-out results/F179_M2_TRAINING_CURVES.json
 ```
-
-Proposed full run (pending approval): 3000–5000 steps, `lambda_mag` per the
-decision above, `--val-personas 40 --val-fit-steps 40`, into
-`outputs/lpm-persona-memory-192/`. At the measured 0.03 GPU-h/1000 steps this is
-well under an hour of wall clock.

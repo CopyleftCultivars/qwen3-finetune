@@ -168,6 +168,69 @@ def build_train_batches(
     return batches
 
 
+def split_fit_probe(
+    records: list[dict[str, Any]], *, probes_per_persona: int = 1
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Reserve the last ``probes_per_persona`` cross-chunk records of each persona.
+
+    The probe records are never trained on, so their recall@1 measures genuine
+    within-persona generalization on a stable, large set of train personas
+    (unlike the persona-disjoint val proxy, which needs test-time slot fitting).
+    """
+    groups = group_by_persona(records)
+    fit: list[dict[str, Any]] = []
+    probes: list[dict[str, Any]] = []
+    for pid in sorted(groups):
+        group = groups[pid]
+        if len(group) <= probes_per_persona:
+            fit.extend(group)
+            continue
+        fit.extend(group[: -probes_per_persona])
+        probes.extend(group[-probes_per_persona:])
+    return fit, probes
+
+
+def compute_recall_at1(
+    module: LPMModule,
+    model: Any,
+    tokenizer: Any,
+    probe_records: list[dict[str, Any]],
+    probe_query_emb: torch.Tensor,
+    persona_ids: list[int],
+    *,
+    max_length: int,
+    device: torch.device,
+    target_chunk: int = 8,
+) -> tuple[float, torch.Tensor]:
+    """B x B NTP-loss recall@1: own soft prompts should predict own target best.
+
+    ``persona_ids[j]`` is the slot-memory index for probe j (train probes come
+    from arbitrary personas, so position in the list is not the slot index). The
+    B x B matrix is filled in target chunks and one source at a time so the
+    [chunk, T, vocab] logits never blow up GPU memory.
+    """
+    n = len(probe_records)
+    target_enc = TargetEncoder(tokenizer, probe_records, max_length)
+    loss_matrix = torch.zeros(n, n)
+    module.eval()
+    with torch.no_grad():
+        for source in range(n):
+            source_id = torch.tensor([persona_ids[source]], device=device)
+            prompts = module(source_id, probe_query_emb[source : source + 1])["prompts"]
+            for start in range(0, n, target_chunk):
+                stop = min(start + target_chunk, n)
+                expanded = prompts.expand(stop - start, -1, -1)
+                loss_matrix[start:stop, source] = forward_ntp(
+                    model,
+                    expanded,
+                    target_enc.input_ids[start:stop].to(device),
+                    target_enc.attention_mask[start:stop].to(device),
+                    return_per_sample=True,
+                ).cpu()
+    recall = (loss_matrix.argmin(dim=1) == torch.arange(n)).float().mean().item()
+    return recall, loss_matrix
+
+
 def evaluate_val_recall(
     train_module: LPMModule,
     encoder: Any,
@@ -235,24 +298,15 @@ def evaluate_val_recall(
         optimizer.step()
 
     val_module.eval()
-    probe_targets = TargetEncoder(tokenizer, probes, max_length)
     probe_query = encoder.encode_texts(
         tokenizer, [r["prompt_text"] for r in probes], max_length=max_length, trainable=False
     ).float()
-    tid = probe_targets.input_ids.to(device)
-    tam = probe_targets.attention_mask.to(device)
     n = len(probes)
-    loss_matrix = torch.zeros(n, n)
-    with torch.no_grad():
-        for source in range(n):
-            source_id = torch.tensor([source], device=device)
-            prompts = val_module(source_id, probe_query[source : source + 1])["prompts"]
-            prompts = prompts.expand(n, -1, -1)
-            loss_matrix[:, source] = forward_ntp(
-                model, prompts, tid, tam, return_per_sample=True
-            ).cpu()
+    recall, loss_matrix = compute_recall_at1(
+        val_module, model, tokenizer, probes, probe_query, list(range(n)),
+        max_length=max_length, device=device,
+    )
     own = loss_matrix.diagonal()
-    recall = (loss_matrix.argmin(dim=1) == torch.arange(n)).float().mean().item()
     return {
         "val_personas": n,
         "val_fit_steps": fit_steps,
@@ -282,6 +336,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--eval-every", type=int, default=200)
     parser.add_argument("--log-every", type=int, default=20)
     parser.add_argument("--val-personas", type=int, default=12)
+    parser.add_argument(
+        "--probe-personas", type=int, default=32,
+        help="Size of the within-persona held-out recall probe (train personas).",
+    )
     parser.add_argument("--val-fit-steps", type=int, default=20)
     parser.add_argument("--grad-clip", type=float, default=1.0)
     parser.add_argument(
@@ -340,17 +398,22 @@ def main(argv: list[str] | None = None) -> int:
     train_all = load_corpus(args.train_corpus)
     train_records = select_train_records(train_all, config, args.min_chunks)
     train_index = PersonaIndex.build(train_records)
+    fit_records, probe_records = split_fit_probe(train_records, probes_per_persona=1)
     print(
         f"train subset: {len(train_records)} records, {len(train_index)} personas "
-        f"(>= {args.min_chunks} cross-chunk records)"
+        f"(>= {args.min_chunks} cross-chunk records); "
+        f"fit {len(fit_records)} / held-out probes {len(probe_records)}"
     )
 
     encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
     with torch.no_grad():
         query_emb = encoder.encode_texts(
-            tokenizer, [r["prompt_text"] for r in train_records], max_length=args.max_length
+            tokenizer, [r["prompt_text"] for r in fit_records], max_length=args.max_length
         ).float().to(device)
-    targets = TargetEncoder(tokenizer, train_records, args.max_length)
+        probe_query_emb = encoder.encode_texts(
+            tokenizer, [r["prompt_text"] for r in probe_records], max_length=args.max_length
+        ).float().to(device)
+    targets = TargetEncoder(tokenizer, fit_records, args.max_length)
 
     module = LPMModule(n_personas=len(train_index), config=config).to(device)
     optimizer = torch.optim.Adam(module.parameters(), lr=args.lr)
@@ -364,7 +427,7 @@ def main(argv: list[str] | None = None) -> int:
 
     while step < args.steps:
         batches = build_train_batches(
-            train_records, train_index, query_emb, targets,
+            fit_records, train_index, query_emb, targets,
             batch_size=args.batch_size, generator=generator,
         )
         for batch in batches:
@@ -409,11 +472,23 @@ def main(argv: list[str] | None = None) -> int:
                 print(json.dumps(record))
 
             if step % args.eval_every == 0:
+                # Stable within-persona recall: held-out chunks of train
+                # personas, their slots trained on the rest of the persona.
+                probe_n = min(args.probe_personas, len(probe_records))
+                probe_slice = probe_records[:probe_n]
+                train_recall, _ = compute_recall_at1(
+                    module, model, tokenizer, probe_slice, probe_query_emb[:probe_n],
+                    [train_index.id_of(r["persona_id"]) for r in probe_slice],
+                    max_length=args.max_length, device=device,
+                )
+                # Persona-disjoint transfer: test-time slot personalization on val.
                 eval_out = evaluate_val_recall(
                     module, encoder, model, tokenizer, val_records, config,
                     n_personas=args.val_personas, fit_steps=args.val_fit_steps,
                     lr=args.lr, max_length=args.max_length, device=device, generator=generator,
                 )
+                eval_out["train_probe_recall_at1"] = round(train_recall, 4)
+                eval_out["train_probe_personas"] = probe_n
                 eval_out["step"] = step
                 eval_out["wall_seconds"] = round(time.time() - start_wall, 1)
                 curves.append({"step": step, "eval": eval_out})
@@ -429,8 +504,12 @@ def main(argv: list[str] | None = None) -> int:
         "max_length": args.max_length,
         "min_chunks": args.min_chunks,
         "train_records": len(train_records),
+        "fit_records": len(fit_records),
+        "held_out_probes": len(probe_records),
         "train_personas": len(train_index),
         "module_params": module.trainable_parameter_count(),
+        "mag_penalty_mode": config.mag_penalty_mode,
+        "clamp_memory_norm": config.clamp_memory_norm,
         "slot_params": config.total_slots * config.d_mem * len(train_index),
         "wall_seconds": round(wall, 1),
         "gpu_hours": round(wall / 3600, 3) if device.type == "cuda" else 0.0,
@@ -447,7 +526,12 @@ def main(argv: list[str] | None = None) -> int:
         "config": config.to_dict(),
         "persona_to_slot_index": dict(train_index.persona_to_id),
         "reserved_id_map": {str(k): list(v) for k, v in reserved_id_map(config.n_heads, config.n_slots).items()},
-        "subset": {"min_chunks": args.min_chunks, "train_records": len(train_records)},
+        "subset": {
+            "min_chunks": args.min_chunks,
+            "train_records": len(train_records),
+            "fit_records": len(fit_records),
+            "held_out_probes": len(probe_records),
+        },
         "step": step,
         "summary": summary,
     }
