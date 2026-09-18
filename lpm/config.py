@@ -7,7 +7,7 @@ M3 and M4 need, and it is imported by tests that must run without a GPU.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 # --------------------------------------------------------------------------- #
 # Reserved vocab IDs (M0 #183): the unused, tokenizer-unreachable range of the
@@ -143,6 +143,7 @@ class LPMConfig:
             "d_model": self.d_model,
             "d_key": self.d_key,
             "mlp_hidden": self.mlp_hidden,
+            "dropout": self.dropout,
             "alpha_entropy": self.alpha_entropy,
             "entropy_fraction": self.entropy_fraction,
             "entropy_target": self.entropy_target,
@@ -155,3 +156,24 @@ class LPMConfig:
             "reserved_id_start": self.reserved_id_start,
             "reserved_id_end": self.reserved_id_end,
         }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, object]) -> "LPMConfig":
+        """Rebuild from :meth:`to_dict` output (the checkpoint's ``config`` field).
+
+        ``to_dict`` renames ``n_slots`` -> ``n_slots_per_head`` and adds the
+        computed-only ``entropy_target`` / ``total_slots``; both are handled here
+        so a checkpoint can be reloaded in a fresh process without hand-mapping.
+        Unknown keys are rejected rather than silently dropped, so a stale or
+        malformed checkpoint fails loudly.
+        """
+        data = dict(payload)
+        if "n_slots_per_head" in data:
+            data["n_slots"] = data.pop("n_slots_per_head")
+        for computed_only in ("entropy_target", "total_slots"):
+            data.pop(computed_only, None)
+        known = {field.name for field in fields(cls)}
+        unknown = sorted(set(data) - known)
+        if unknown:
+            raise ValueError(f"unknown LPMConfig field(s) in dict: {unknown}")
+        return cls(**data)  # type: ignore[arg-type]

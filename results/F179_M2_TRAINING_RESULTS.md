@@ -55,9 +55,12 @@ test-time-personalization) curve is the more stable of the two.
 
 ## Checkpoint
 
-`outputs/lpm-persona-memory-192/checkpoint.pt` (gitignored, 95 MB). Verified
-loadable: strict `load_state_dict` into a fresh `LPMModule`, `slots
-[273,8,32,256]`, `bake_vectors` norm max 4.0. Contents: `module_state_dict`,
+`outputs/lpm-persona-memory-192/checkpoint.pt` (gitignored, 95 MB). Reload it in
+a fresh process with `lpm.checkpoint.load_lpm_checkpoint(path)` — it applies
+`LPMConfig.from_dict` (handles the `n_slots_per_head` rename and the
+computed-only keys), rebuilds the module, and strict-loads the state dict, so no
+hand-mapping is needed. Verified: `slots [273,8,32,256]`, `bake_vectors` norm
+max 4.0. Contents: `module_state_dict`,
 `config` (LPMConfig), `persona_to_slot_index`, `reserved_id_map` (slot→
 151670..151925), `subset`, `step`, `summary`. Curves:
 `results/F179_M2_TRAINING_CURVES.json` (per-step loss components + entropy +
