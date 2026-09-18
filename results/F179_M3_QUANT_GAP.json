@@ -1,0 +1,86 @@
+{
+  "issue": 193,
+  "milestone": "M3 (Epic #179)",
+  "method": {
+    "engine_loss_metric": "IMPOSSIBLE: cactus_score_window is a stub (model.cpp score_tokens_window_logprob returns 0.0, tokens_scored=0); verified with a real ARM-engine call -> {success:true, logprob:0, tokens:0}.",
+    "quant_gap_path": "dynamic soft-prompt recall (#192 TTP proxy) in HF, bf16 vs QDQ-reconstructed CQ4 weights, identical settings; isolates backbone quantization from the tied-head row-patching confound.",
+    "oracle": "per #203 workaround: trained module attention argmax slot per head selects which baked rows to inject; NOT a deployable selection mechanism.",
+    "engine_use": "real ARM engine (docker arm64 qemu) only for the injection + reserved-ID leakage generate() test, per M1 #186/#187."
+  },
+  "dynamic_recall_gap": {
+    "settings": "12 val personas per slice (24 total, 2 disjoint slices), fit_steps=20, fit_max_length=96, max_length=160, chunk=8",
+    "chance": 0.0833,
+    "bf16": {
+      "offset0": 0.3333,
+      "offset12": 0.1667,
+      "aggregate_24": 0.25,
+      "own_ntp_loss": [
+        2.3665,
+        3.2878
+      ],
+      "own_minus_offdiag": [
+        -0.2076,
+        -0.0352
+      ]
+    },
+    "cq4": {
+      "offset0": 0.25,
+      "offset12": 0.25,
+      "aggregate_24": 0.25,
+      "own_ntp_loss": [
+        2.4896,
+        3.4857
+      ],
+      "own_minus_offdiag": [
+        -0.1745,
+        -0.0309
+      ]
+    },
+    "recall_at1_delta": 0.0,
+    "own_ntp_loss_delta_range": [
+      0.123,
+      0.198
+    ],
+    "conclusion": "negligible recall gap; CQ4 raises own-memory NTP loss by ~0.12-0.20 nats"
+  },
+  "embedding_row_fidelity": {
+    "packed_rows": "151670..151861 (192)",
+    "bf16_norm_mean_max": [
+      3.2664,
+      4.0009
+    ],
+    "cq4_norm_mean_max": [
+      3.2497,
+      4.0197
+    ],
+    "cos_mean_min": [
+      0.9951,
+      0.9929
+    ],
+    "rel_l2_shift_mean_max": [
+      0.0993,
+      0.1193
+    ],
+    "rows_over_4_after_CQ4": "2/192",
+    "full_table_rel_mse": 0.02513
+  },
+  "tied_head_contamination": {
+    "no_memory_ntp_loss": {
+      "base_untouched": 1.8937,
+      "base_192_zero_rows": 4.15625,
+      "patched_192_learned_rows": 12.8456,
+      "patched_192_random_normmatched": 19.125,
+      "patched_8_learned_rows": 5.03125
+    },
+    "note": "single-vector test (192 zero rows) leaves loss unchanged; 8 learned rows ~ +0.87; 192 learned rows ~ +8-15. Tied lm_head denominator effect, independent of quantization.",
+    "engine_generate": {
+      "reserved_emitted": "16/16 in ALL conditions (none / 1 mem / 8 mem), 2 prompts",
+      "response": "empty string (reserved IDs have no decoded text)",
+      "transport": "special_tokens.json <|memK_H|> verified (151670 tokenizes)"
+    }
+  },
+  "gate": {
+    "bf16_vs_cq4_gap": "negligible",
+    "recommendation": "SKIP #194 (calibration pass) per its own criterion; bounded separate blocker is the tied-head row contamination, not quantization."
+  }
+}
