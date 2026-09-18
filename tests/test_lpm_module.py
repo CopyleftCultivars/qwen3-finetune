@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -20,11 +21,14 @@ from lpm.data import PersonaIndex, filter_records, group_by_persona, select_subs
 try:
     import torch  # noqa: E402
 
+    from lpm.checkpoint import load_lpm_checkpoint  # noqa: E402
     from lpm.memory import LPMModule, magnitude_penalty, project_to_ball  # noqa: E402
 
     HAVE_TORCH = True
 except Exception:  # noqa: BLE001 -- broken/missing torch must skip, not fail
     HAVE_TORCH = False
+
+REAL_CHECKPOINT = REPO_ROOT / "outputs" / "lpm-persona-memory-192" / "checkpoint.pt"
 
 
 def _record(persona: str, chunk: int, first: bool) -> dict:
@@ -72,6 +76,23 @@ class ConfigTests(unittest.TestCase):
     def test_validate_rejects_oversized_slot_pool(self):
         with self.assertRaises(ValueError):
             LPMConfig(n_heads=9, n_slots=32).validate()
+
+    def test_to_dict_from_dict_roundtrip(self):
+        config = LPMConfig(alpha_entropy=0.2, max_vector_norm=3.0, mag_penalty_mode="mean")
+        restored = LPMConfig.from_dict(config.to_dict())
+        self.assertEqual(restored, config)
+        # to_dict carries computed-only keys that from_dict must absorb.
+        payload = config.to_dict()
+        self.assertIn("entropy_target", payload)
+        self.assertIn("total_slots", payload)
+        self.assertIn("n_slots_per_head", payload)
+        self.assertNotIn("n_slots", payload)
+
+    def test_from_dict_rejects_unknown_fields(self):
+        payload = LPMConfig().to_dict()
+        payload["not_a_real_field"] = 1
+        with self.assertRaises(ValueError):
+            LPMConfig.from_dict(payload)
 
 
 class FirstChunkDecisionTests(unittest.TestCase):
@@ -178,6 +199,43 @@ class ModuleTests(unittest.TestCase):
         above = torch.zeros(1, 1, 1, 1024)
         above[..., 0] = 8.0
         self.assertAlmostEqual(float(magnitude_penalty(above, 4.0)), 16.0, places=4)
+
+    def test_load_lpm_checkpoint_roundtrip(self):
+        from lpm.config import reserved_id_map
+
+        config = LPMConfig()
+        module = LPMModule(n_personas=2, config=config)
+        payload = {
+            "module_state_dict": module.state_dict(),
+            "config": config.to_dict(),
+            "persona_to_slot_index": {"p0": 0, "p1": 1},
+            "reserved_id_map": {str(k): list(v) for k, v in reserved_id_map().items()},
+            "step": 7,
+            "summary": {"steps": 7},
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "checkpoint.pt"
+            torch.save(payload, path)
+            loaded = load_lpm_checkpoint(path)
+        self.assertEqual(loaded.step, 7)
+        self.assertEqual(loaded.config, config)
+        self.assertEqual(loaded.persona_to_slot_index, {"p0": 0, "p1": 1})
+        self.assertEqual(len(loaded.reserved_id_map), 256)
+        self.assertEqual(loaded.reserved_id_map[151670], (0, 0))
+        self.assertLessEqual(
+            float(loaded.module.bake_vectors(torch.tensor([0, 1])).norm(dim=-1).amax()), 4.0
+        )
+
+    @unittest.skipUnless(REAL_CHECKPOINT.exists(), "production #192 checkpoint not present")
+    def test_loads_real_192_checkpoint(self):
+        loaded = load_lpm_checkpoint(REAL_CHECKPOINT)
+        self.assertEqual(loaded.step, 4000)
+        self.assertEqual(len(loaded.persona_to_slot_index), 273)
+        self.assertEqual(loaded.config.clamp_memory_norm, True)
+        self.assertEqual(loaded.config.mag_penalty_mode, "max")
+        first = next(iter(loaded.persona_to_slot_index.values()))
+        bake = loaded.module.bake_vectors(torch.tensor([first]))
+        self.assertLessEqual(float(bake.norm(dim=-1).amax()), 4.0 + 1e-5)
 
 
 if __name__ == "__main__":
