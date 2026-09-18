@@ -1,0 +1,34 @@
+diff --git a/cactus-engine/src/model.cpp b/cactus-engine/src/model.cpp
+index 5383c89..cc2594e 100644
+--- a/cactus-engine/src/model.cpp
++++ b/cactus-engine/src/model.cpp
+@@ -3007,9 +3007,16 @@ void Model::prepare_sampling_context(float repetition_penalty) {
+     }
+     const std::vector<float>* tool_dense = tool_constrainer_.get_dense_bias();
+     const auto& tool_bias = tool_constrainer_.get_bias();
+-    if (tool_dense || !tool_bias.empty() || !vocab_bias_.empty()) {
++    if (tool_dense || !tool_bias.empty() || !vocab_bias_.empty() ||
++        !generation_suppressed_token_ids_.empty()) {
+         size_t n = tokenizer_ ? tokenizer_->get_vocab_size() : 0;
+         if (tool_dense && tool_dense->size() > n) n = tool_dense->size();
++        // Reserved generation-suppression IDs are unreachable embedding rows that
++        // sit AT or ABOVE the tokenizer vocab size, so a dense bias sized only to
++        // the tokenizer vocab would be zero-padded past them and silently no-op.
++        // Size the buffer to cover the largest suppressed id.
++        for (uint32_t id : generation_suppressed_token_ids_)
++            if (static_cast<size_t>(id) + 1 > n) n = static_cast<size_t>(id) + 1;
+         if (n > 0) {
+             if (tool_dense) samp_bias_dense_.assign(tool_dense->begin(), tool_dense->end());
+             else samp_bias_dense_.assign(n, 0.0f);
+@@ -3018,6 +3025,11 @@ void Model::prepare_sampling_context(float repetition_penalty) {
+                 if (kv.first < samp_bias_dense_.size()) samp_bias_dense_[kv.first] += kv.second;
+             for (const auto& kv : vocab_bias_)
+                 if (kv.first < samp_bias_dense_.size()) samp_bias_dense_[kv.first] += kv.second;
++            // Fold the set-based suppression into the dense bias (same mechanism
++            // as tool/vocab bias) so it survives the samp_ctx_active_ branch that
++            // otherwise only applies the scalar suppressed_token_id_.
++            for (uint32_t id : generation_suppressed_token_ids_)
++                if (id < samp_bias_dense_.size()) samp_bias_dense_[id] = -65504.0f;
+             samp_has_bias_ = true;
+         }
+     }
