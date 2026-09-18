@@ -1,0 +1,74 @@
+{
+  "issue": 205,
+  "milestone": "M3 (Epic #179)",
+  "worktree": "[LOCAL_PATH]",
+  "base_commit": "ba2ee756f940549b7a1cf355bcba5deb5ae3db85",
+  "tag": "v2.1.0",
+  "patch": {
+    "file": "results/F179_M3_SUPPRESS_PATCH.diff",
+    "sha256": "547be60660ef4f2f9d280971de5a1b39ba96b36ef5cda712dacd48457dde6618",
+    "target": "cactus-engine/src/model.cpp :: Model::prepare_sampling_context",
+    "summary": "fold generation_suppressed_token_ids_ into samp_bias_dense_ (-65504), set samp_has_bias_, and size dense buffer past tokenizer vocab to cover reserved ids"
+  },
+  "ndk_version": "29.0.14206865",
+  "android_home": "[LOCAL_PATH]",
+  "artifacts": {
+    "android_arm64_v8a": {
+      "path": "[LOCAL_PATH]",
+      "sha256": "3f81ad0fb2d06fdeb4c4b4b57d63e4782ecf72fa44ed808f265ab3cadfe724f4",
+      "deps": [
+        "liblog.so",
+        "libandroid.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "note": "bionic; cannot dlopen under glibc qemu harness"
+    },
+    "glibc_arm64_patched": {
+      "path": "[LOCAL_PATH]",
+      "sha256": "548575acdfa41c85fecbcf46e2151ea40ab5abeed38fa83293a43a0cfb3a60ce"
+    },
+    "glibc_arm64_vanilla_v210": {
+      "path": "[LOCAL_PATH]",
+      "sha256": "aa7801fe9d0f70bfcb79da5954f78c9dde7ba8d86d26f12fd252340a7d10f1bf"
+    }
+  },
+  "manifest_key": {
+    "value_range": [
+      151670,
+      151935
+    ],
+    "count": 266,
+    "verified_readback": true,
+    "bundle": "outputs/r179-m1/p193-suppress-deploy",
+    "bundle_diff_vs_p193_deploy": "only components/manifest.json (one inserted line)"
+  },
+  "qemu_init_seconds": {
+    "patched": {
+      "baseline": [
+        1.94,
+        1.83
+      ],
+      "p193_suppress": [
+        1.79,
+        1.79
+      ]
+    },
+    "vanilla_v210": {
+      "baseline": [
+        1.9,
+        1.84
+      ],
+      "p193_suppress": [
+        1.84,
+        1.81
+      ]
+    }
+  },
+  "not_claimed": [
+    "leak A/B suppression behavior (#206)",
+    "argmax parity (#206)",
+    "on-device Android behavior"
+  ]
+}
