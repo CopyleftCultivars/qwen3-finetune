@@ -1,0 +1,12 @@
+{
+  "arm": "bf16",
+  "model": "outputs/merged-model-distill-v2-rationale",
+  "K": 24,
+  "recall_at1": 0.0417,
+  "chance": 0.0417,
+  "own_ntp_loss_mean": 15.8073,
+  "offdiag_ntp_loss_mean": 15.8012,
+  "own_minus_offdiag": 0.0061,
+  "no_memory_loss_mean": 14.0625,
+  "own_vs_no_memory_delta": 1.7448
+}

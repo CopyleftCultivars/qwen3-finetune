@@ -1,0 +1,13 @@
+{
+  "arm": "bf16",
+  "path": "dynamic_soft_prompt",
+  "n_personas": 12,
+  "K": 12,
+  "recall_at1": 0.1667,
+  "chance": 0.0833,
+  "own_ntp_loss_mean": 3.2878,
+  "offdiag_ntp_loss_mean": 3.3229,
+  "own_minus_offdiag": -0.0352,
+  "no_memory_loss_mean": 9.1875,
+  "own_vs_no_memory_delta": -5.8997
+}
