@@ -26,6 +26,10 @@ Subcommands:
             into model-p193/ and write p193_pack.json.
   eval    : run the loss-based KxK recall@1 for a given HF model (bf16 or the
             dequantized CQ4 model) using the pack.
+  dynamic : #192's dynamic soft-prompt oracle recall (probe_q-conditioned).
+  s0      : #211 Gate 1 -- S0 bake-time fixed-query argmax slots + T0 always-on
+            injection, scored on both the dynamic path (matched to #193's 0.250)
+            and the reserved-row path (literal deployment form).
 """
 
 from __future__ import annotations
@@ -85,8 +89,15 @@ def fit_val_slots(
     fit_max_length: int,
     device: torch.device,
     seed: int,
-) -> tuple[LPMModule, list[str], list[dict[str, Any]], torch.Tensor]:
-    """TTP-fit persona-disjoint val slots with the trained projection (#192 method)."""
+) -> tuple[LPMModule, list[str], list[dict[str, Any]], torch.Tensor, torch.Tensor, list[int]]:
+    """TTP-fit persona-disjoint val slots with the trained projection (#192 method).
+
+    Returns ``(val_module, eligible, probes, probe_q, fit_q, fit_pid)``. The last
+    two are the *training-time* queries (each persona's non-held-out chunks,
+    ``fit_q``) and their persona index (``fit_pid``), which #211's S0 selector
+    mean-pools into a fixed bake-time query. They are deliberately the fitting
+    rows, never the held-out probe, so the S0 argmax never sees an eval query.
+    """
     records = filter_records(val_records, config)
     groups = group_by_persona(records)
     all_eligible = sorted(pid for pid, g in groups.items() if len(g) >= 2)
@@ -139,7 +150,7 @@ def fit_val_slots(
     probe_q = encoder.encode_texts(
         tokenizer, [r["prompt_text"] for r in probes], max_length=max_length, trainable=False
     ).float().to(device)
-    return val_module, eligible, probes, probe_q
+    return val_module, eligible, probes, probe_q, fit_q, fit_pid
 
 
 @torch.no_grad()
@@ -162,6 +173,46 @@ def oracle_pack(val_module: LPMModule, eligible: list[str], probes: list[dict[st
             "attn_max_per_head": [round(float(attn[k, h].max()), 4) for h in range(H)],
         })
     return {"K": K, "n_heads": H, "top": top.cpu(), "vectors": selected_vectors.cpu(), "personas": personas}
+
+
+@torch.no_grad()
+def s0_select(
+    val_module: LPMModule,
+    fit_q: torch.Tensor,
+    fit_pid: list[int],
+    n_personas: int,
+    device: torch.device,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """S0: bake-time, query-independent argmax slot per head (#211).
+
+    Unlike ``oracle_pack``, the query is **not** a held-out probe. For each
+    persona we mean-pool that persona's own *training-time* query encodings
+    (``fit_q`` rows) into one fixed vector, run the projection network exactly
+    once, and take ``attention.argmax`` per head. The result is a fixed
+    ``[K, H]`` slot-index set frozen before any eval query exists.
+
+    Returns ``(top, selected_vectors, attention)`` where ``selected_vectors`` is
+    ``[K, H, d_model]`` gathered exactly like ``oracle_pack``
+    (``bake[k, h, top[k, h]]``), so it drops straight into ``patch_model_dir``.
+    """
+    K = n_personas
+    fixed = torch.zeros(K, fit_q.size(-1), dtype=fit_q.dtype, device=device)
+    counts = torch.zeros(K, dtype=fit_q.dtype, device=device)
+    pid_t = torch.tensor(fit_pid, device=device)
+    fixed.index_add_(0, pid_t, fit_q.to(device))
+    counts.index_add_(0, pid_t, torch.ones_like(pid_t, dtype=fixed.dtype))
+    fixed = fixed / counts.clamp(min=1).unsqueeze(1)
+
+    ids = torch.arange(K, device=device)
+    out = val_module(ids, fixed)
+    attn = out["attention"]  # [K, H, N]
+    top = attn.argmax(dim=-1)  # [K, H]
+    bake = val_module.bake_vectors(ids)  # [K, H, N, d]
+    H = top.shape[1]
+    selected = torch.stack(
+        [bake[k, h, int(top[k, h])] for k in range(K) for h in range(H)]
+    ).reshape(K, H, -1)
+    return top, selected, attn
 
 
 def patch_model_dir(model_path: Path, out_dir: Path, vectors: torch.Tensor) -> None:
@@ -203,7 +254,7 @@ def stage_prepare(args: argparse.Namespace) -> None:
     encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
 
     t0 = time.time()
-    val_module, eligible, probes, probe_q = fit_val_slots(
+    val_module, eligible, probes, probe_q, _, _ = fit_val_slots(
         ck, encoder, model, tokenizer, load_corpus(args.val_corpus), config,
         n_personas=args.n_personas, persona_offset=args.persona_offset, fit_steps=args.fit_steps, lr=args.fit_lr,
         max_length=args.max_length, fit_max_length=args.fit_max_length, device=device, seed=args.seed,
@@ -374,6 +425,36 @@ def dynamic_recall_matrix(
     return M
 
 
+@torch.no_grad()
+def fixed_prompt_recall_matrix(
+    model: Any, tokenizer: Any, probes: list[dict[str, Any]], prompts: torch.Tensor,
+    *, max_length: int, device: torch.device, chunk: int = 8,
+) -> torch.Tensor:
+    """T0 recall on the dynamic soft-prompt path with S0-selected prompts.
+
+    Same scoring code as ``dynamic_recall_matrix`` (``forward_ntp`` per pair),
+    but the prompt for persona ``j`` is the S0-selected vector set
+    ``prompts[j]`` -- fixed once per persona, no eval query touches selection --
+    instead of the probe-conditioned attention mixture. This is the number
+    directly comparable to #193's 0.250 oracle-fit reference.
+    """
+    K = len(probes)
+    enc = tokenizer([r["target_text"] for r in probes], return_tensors="pt", padding=True, truncation=True, max_length=max_length)
+    tid = enc["input_ids"].to(device)
+    tam = enc["attention_mask"].to(device)
+    M = torch.zeros(K, K)
+    for j in range(K):
+        prompt_j = prompts[j : j + 1]
+        for s in range(0, K, chunk):
+            e = min(K, s + chunk)
+            M[s:e, j] = forward_ntp(
+                model, prompt_j.expand(e - s, -1, -1), tid[s:e], tam[s:e], return_per_sample=True
+            ).cpu()
+    if device.type == "cuda":
+        torch.cuda.empty_cache()
+    return M
+
+
 def stage_dynamic(args: argparse.Namespace) -> None:
     device = device_of(args.device)
     from transformers import AutoTokenizer
@@ -397,7 +478,7 @@ def stage_dynamic(args: argparse.Namespace) -> None:
         model.train()
 
     encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
-    val_module, eligible, probes, probe_q = fit_val_slots(
+    val_module, eligible, probes, probe_q, _, _ = fit_val_slots(
         ck, encoder, model, tokenizer, load_corpus(args.val_corpus), config,
         n_personas=args.n_personas, persona_offset=args.persona_offset, fit_steps=args.fit_steps, lr=args.fit_lr,
         max_length=args.max_length, fit_max_length=args.fit_max_length, device=device, seed=args.seed,
@@ -411,6 +492,95 @@ def stage_dynamic(args: argparse.Namespace) -> None:
     ).cpu()
     result = {"arm": args.arm, "path": "dynamic_soft_prompt", "n_personas": len(eligible), **summarize(M, no_mem)}
     out = REPO_ROOT / "results" / f"F179_M3_QUANT_GAP_dynamic_{args.arm}.json"
+    out.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps(result, indent=2))
+    print(f"wrote {out}")
+
+
+def stage_s0(args: argparse.Namespace) -> None:
+    """#211 Gate 1: S0 selection (bake-time fixed query) + T0 always-on injection.
+
+    Slot-fitting is byte-for-byte the same as ``dynamic``/``prepare`` -- only the
+    argmax query source changes (per-persona mean of training queries instead of
+    each probe's own held-out encoding). The S0 slots are scored on both paths:
+
+      * ``dynamic_soft_prompt``: the 8 selected vectors injected as soft prompts,
+        scored with the same ``forward_ntp`` code as #193's 0.250 -- the matched
+        comparison;
+      * ``reserved_rows``: the same 8 vectors written to reserved embedding rows
+        and scored with ``recall_matrix`` -- the literal T0 deployment form, which
+        carries the known tied-head contamination (#193 §4 / #204).
+    """
+    device = device_of(args.device)
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    ck = load_lpm_checkpoint(args.checkpoint, device=device)
+    config = ck.config
+    tokenizer = AutoTokenizer.from_pretrained(args.model)
+    model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=torch.bfloat16).to(device)
+    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.config.use_cache = False
+    model.train()
+    encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
+
+    t0 = time.time()
+    val_module, eligible, probes, probe_q, fit_q, fit_pid = fit_val_slots(
+        ck, encoder, model, tokenizer, load_corpus(args.val_corpus), config,
+        n_personas=args.n_personas, persona_offset=args.persona_offset, fit_steps=args.fit_steps, lr=args.fit_lr,
+        max_length=args.max_length, fit_max_length=args.fit_max_length, device=device, seed=args.seed,
+    )
+    print(f"fitted {len(eligible)} val personas in {time.time()-t0:.1f}s")
+
+    top, selected, attn = s0_select(val_module, fit_q, fit_pid, len(eligible), device)
+    model.eval()
+
+    enc = tokenizer([r["target_text"] for r in probes], return_tensors="pt", padding=True, truncation=True, max_length=args.max_length)
+    tid = enc["input_ids"].to(device)
+    tam = enc["attention_mask"].to(device)
+
+    # --- matched comparison to #193's 0.250: dynamic soft-prompt path ---------
+    prompts = selected.to(torch.bfloat16)
+    M_dyn = fixed_prompt_recall_matrix(
+        model, tokenizer, probes, prompts, max_length=args.max_length, device=device, chunk=args.chunk
+    )
+    zero_prompts = torch.zeros(len(probes), config.n_heads, config.d_model, device=device, dtype=torch.bfloat16)
+    with torch.no_grad():
+        no_mem_dyn = forward_ntp(model, zero_prompts, tid, tam, return_per_sample=True).float().cpu()
+    dyn = {"path": "dynamic_soft_prompt_s0", **summarize(M_dyn, no_mem_dyn)}
+
+    # Same fitted module + settings, but the #193 oracle query (probe_q): the
+    # matched control for the S0-vs-oracle selection gap at this fit budget.
+    M_oracle = dynamic_recall_matrix(
+        val_module, model, tokenizer, probes, probe_q, max_length=args.max_length, device=device, chunk=args.chunk
+    )
+    oracle = {"path": "dynamic_soft_prompt_oracle_probe_q", **summarize(M_oracle, no_mem_dyn)}
+
+    # --- literal T0 deployment form: reserved rows (tied-head confound) -------
+    embed = model.get_input_embeddings().weight.data
+    for k in range(len(eligible)):
+        for h in range(config.n_heads):
+            embed[PACK_BASE + k * config.n_heads + h] = selected[k, h].to(embed.dtype)
+    pack = {"K": len(eligible), "n_heads": config.n_heads, "probe_targets": [r["target_text"] for r in probes]}
+    M_res = recall_matrix(model, tokenizer, pack, max_length=args.max_length, device=device, chunk=args.chunk)
+    no_mem_res = no_memory_loss(model, tokenizer, pack, max_length=args.max_length, device=device)
+    res = {"path": "reserved_rows_s0", **summarize(M_res, no_mem_res)}
+
+    result = {
+        "issue": 211,
+        "arm": "bf16",
+        "n_personas": len(eligible),
+        "persona_offset": args.persona_offset,
+        "fit_steps": args.fit_steps,
+        "max_length": args.max_length,
+        "fit_max_length": args.fit_max_length,
+        "selection": "S0: per-persona mean of training-query encodings -> attention argmax per head",
+        "s0_top": [[int(top[k, h]) for h in range(config.n_heads)] for k in range(len(eligible))],
+        "attn_max_per_head": [[round(float(attn[k, h].max()), 4) for h in range(config.n_heads)] for k in range(len(eligible))],
+        **dyn,
+        "oracle_probe_q_dynamic": oracle,
+        "reserved_rows": res,
+    }
+    out = REPO_ROOT / "results" / f"D203_S0_BASELINE_offset{args.persona_offset}{args.out_tag}.json"
     out.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
     print(f"wrote {out}")
@@ -462,6 +632,23 @@ def build_parser() -> argparse.ArgumentParser:
     p_dyn.add_argument("--seed", type=int, default=0)
     p_dyn.add_argument("--device", default="auto")
     p_dyn.set_defaults(func=stage_dynamic)
+
+    p_s0 = sub.add_parser("s0")
+    p_s0.add_argument("--model", default=DEFAULT_MODEL)
+    p_s0.add_argument("--checkpoint", default=DEFAULT_CKPT)
+    p_s0.add_argument("--val-corpus", default=DEFAULT_VAL)
+    p_s0.add_argument("--encoder-layers", type=int, default=6)
+    p_s0.add_argument("--n-personas", type=int, default=12)
+    p_s0.add_argument("--persona-offset", type=int, default=0)
+    p_s0.add_argument("--fit-steps", type=int, default=40)
+    p_s0.add_argument("--fit-lr", type=float, default=1e-3)
+    p_s0.add_argument("--max-length", type=int, default=192)
+    p_s0.add_argument("--fit-max-length", type=int, default=128)
+    p_s0.add_argument("--chunk", type=int, default=8)
+    p_s0.add_argument("--seed", type=int, default=0)
+    p_s0.add_argument("--device", default="auto")
+    p_s0.add_argument("--out-tag", default="")
+    p_s0.set_defaults(func=stage_s0)
     return parser
 
 
