@@ -1,0 +1,33 @@
+init ok
+tokenize hello <|mem0_0|>: [14990, 220, 151670]
+tokenize mem0_0 mem1_0: [151670, 220, 151678]
+
+[none] prompt='The best fertilizer for tomatoes is'
+  text='The best fertilizer for tomatoes is a combination of nutrients that supports healthy growth and fruit'
+  gen_ids=[785, 1850, 64291, 369, 40513, 374, 264, 10601, 315, 36393, 429, 11554, 9314, 6513, 323, 13779]
+  reserved_emitted=0/16 []
+
+[1 mem] prompt='The best fertilizer for tomatoes is <|mem0_0|>'
+  text='The best fertilizer for tomatoes is **calcium and magnesium**. Both are essential'
+  gen_ids=[785, 1850, 64291, 369, 40513, 374, 3070, 26586, 2356, 323, 60833, 334, 13, 11733, 525, 7565]
+  reserved_emitted=0/16 []
+
+[8 mem] prompt='The best fertilizer for tomatoes is <|mem0_0|> <|mem1_0|> <|'
+  text='Creating a balanced fertilizer for tomatoes involves understanding their nutritional needs and utilizing local, sustainable'
+  gen_ids=[24973, 264, 23831, 64291, 369, 40513, 17601, 8660, 862, 42126, 3880, 323, 34888, 2205, 11, 21803]
+  reserved_emitted=0/16 []
+
+[none] prompt='One fact about soil:'
+  text='Soil is a critical component of the ecosystem, providing essential nutrients and water for'
+  gen_ids=[4416, 321, 374, 264, 9023, 3692, 315, 279, 24982, 11, 8241, 7565, 36393, 323, 3015, 369]
+  reserved_emitted=0/16 []
+
+[1 mem] prompt='One fact about soil: <|mem0_0|>'
+  text="One fact about soil is that it's a dynamic, living ecosystem that plays a"
+  gen_ids=[3966, 2097, 911, 17171, 374, 429, 432, 594, 264, 8741, 11, 5382, 24982, 429, 11088, 264]
+  reserved_emitted=0/16 []
+
+[8 mem] prompt='One fact about soil: <|mem0_0|> <|mem1_0|> <|mem2_0|> <|mem3'
+  text='I\'m sorry for the confusion. The phrase "I\'m sorry for the confusion'
+  gen_ids=[40, 2776, 14589, 369, 279, 21340, 13, 576, 17133, 330, 40, 2776, 14589, 369, 279, 21340]
+  reserved_emitted=0/16 []

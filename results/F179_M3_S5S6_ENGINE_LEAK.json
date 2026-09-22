@@ -1,0 +1,11 @@
+{
+  "issue": 207,
+  "part": "#193 engine leg with suppression enabled",
+  "bundle": "outputs/r179-m1/p193-suppress-deploy",
+  "engine": "v2.1.0+delta (patched glibc arm64)",
+  "conditions": 6,
+  "tokens": 96,
+  "reserved_emitted": 0,
+  "saturated": false,
+  "note": "Same bundle as #206 S3 (0/266 over 8708 tokens); injection still changes output (1mem/8mem differ from none). Recall-gap section 3 uses the dynamic soft-prompt HF path, which touches no reserved rows and no sampler, so suppression cannot affect it."
+}
