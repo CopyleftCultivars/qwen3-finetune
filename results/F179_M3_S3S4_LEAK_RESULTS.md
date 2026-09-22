@@ -62,16 +62,33 @@ negligible) is the next step. No F3/F4 escalation needed.
 
 ## Reproduce
 
+Two stages: engine-side generation (raw), then the host-side comparator (#208)
+that bucketed those raw files into the committed verdicts.
+
 ```
-# S4 parity (per condition; one engine/bundle per container invocation)
+# 1. S4 parity (per condition; one engine/bundle per container invocation)
 docker run --rm --platform linux/arm64 -e CACTUS_LIB_PATH=/work/lib.so \
   -v <v2.1.0-tree>:/src/cactus-sdk -v <engine.so>:/work/lib.so:ro \
   -v <bundle>:/work/bundle:ro -v scripts/cactus_engine_s3s4.py:/work/run.py:ro \
   cactus-arm64-convert:built python3 /work/run.py parity --max-tokens 12 --out /work/out/p.json
 # S3 leak (sharded): add --generations 512 --offset i --stride 16 --jsonl /work/out/s<i>.jsonl
+
+# 2. Host-side comparator (#208) -- raw parity_*/leak_* JSON -> verdict JSON.
+python scripts/cactus_engine_s3s4_verdict.py all
+#   -> outputs/r179-m1/s3s4/{parity_verdict,leak_verdict,patched_leak}.json
+#   byte-identical to results/F179_M3_S3S4_{PARITY_VERDICT,LEAK_VERDICT,PATCHED_LEAK}.json
+#   when run against the raw files on disk.
+#   Bucketing: comparison A is full-equality (compared += 12/prompt, mismatch
+#   per-prompt); B/C/D are reserved-prefix (each non-reserved control position
+#   counts, the first reserved control position increments
+#   control_reserved_positions once per prompt and stops that prompt).
+#   LEAK_VERDICT.patched sums the 16 base 512-gen shards; PATCHED_LEAK is the
+#   base+ext 560-gen total (passthrough of leak_patched_combined.json, or a
+#   base+ext shard reduction when that file is absent -- field-equal).
+#   Generic single comparison: `... pair --control F --test F --mode {full,reserved}`.
 ```
 
 Raw engine outputs (gitignored, under `outputs/r179-m1/s3s4/`):
-`parity_*.json`, `parity_verdict.json`, `leak_patched_s*.jsonl`,
-`leak_ext_*.jsonl`, `leak_c1_48.jsonl`, `leak_vanilla_48.jsonl`,
+`parity_*.json`, `parity_verdict.json`, `leak_patched_s*.json(l)`,
+`leak_ext_*.json(l)`, `leak_c1_48.json(l)`, `leak_vanilla_48.json(l)`,
 `leak_verdict.json`, `leak_patched_combined.json`.

@@ -22,7 +22,10 @@ import json
 import time
 from pathlib import Path
 
-from cactus.bindings import cactus as c
+try:
+    from cactus.bindings import cactus as c
+except ImportError:  # host-side import (e.g. the #208 comparator) only needs the constants below
+    c = None
 
 RESERVED_LO, RESERVED_HI = 151670, 151935
 
