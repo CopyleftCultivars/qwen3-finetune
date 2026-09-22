@@ -1,0 +1,23 @@
+{
+  "generations": 560,
+  "tokens": 8708,
+  "reserved": 0,
+  "by_variant": {
+    "8mem": {
+      "generations": 186,
+      "tokens": 2892,
+      "reserved": 0
+    },
+    "none": {
+      "generations": 187,
+      "tokens": 2908,
+      "reserved": 0
+    },
+    "1mem": {
+      "generations": 187,
+      "tokens": 2908,
+      "reserved": 0
+    }
+  },
+  "token_target_met": true
+}

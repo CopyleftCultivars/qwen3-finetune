@@ -1,0 +1,18 @@
+{
+  "patched": {
+    "generations": 512,
+    "tokens": 7961,
+    "reserved": 0
+  },
+  "c1_48": {
+    "generations": 48,
+    "tokens": 768,
+    "reserved": 768
+  },
+  "vanilla_48": {
+    "generations": 48,
+    "tokens": 768,
+    "reserved": 711
+  },
+  "acceptance": "0 reserved over 512x16=8192 tokens"
+}
