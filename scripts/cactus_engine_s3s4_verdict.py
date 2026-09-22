@@ -13,6 +13,15 @@ It is the reproducibility half of #206 that was originally run ad hoc; running i
 against outputs/r179-m1/s3s4/ reproduces the committed verdicts field-for-field.
 Host-side only, stdlib only.
 
+Verification method matters (#209): the primary leak path (when
+leak_patched_combined.json is present) reproduces all three committed verdicts
+BYTE-for-byte, so cmp is valid there. The no-combined fallback reduces the shards
+itself and is only STRUCTURALLY equal to PATCHED_LEAK -- its by_variant key order
+is natural insertion order (none, 1mem, 8mem), which does not match the committed
+file's historical 8mem/none/1mem order (an artifact of the original ad-hoc run,
+not derivable from anything in the repo). Compare the fallback with parsed-JSON
+equality, never cmp; tests/test_s3s4_verdict_fallback.py guards it.
+
 Parity bucketing rules (reverse-engineered from the committed verdicts):
   * mode "full"     : per prompt, compared += len(control ids); mismatch += 1 iff
                       the control and test id lists differ (per-prompt, not
@@ -172,7 +181,13 @@ def build_leak_verdicts(data_dir: Path) -> tuple[dict, dict]:
             "generations": totals["generations"],
             "tokens": totals["tokens"],
             "reserved": totals["reserved"],
-            "by_variant": {k: merged[k] for k in sorted(merged)},
+            # Natural first-seen insertion order (base shards then ext shards),
+            # i.e. the shard scan order = MEM_VARIANTS declaration order
+            # (none, 1mem, 8mem). Deterministic; does NOT match the committed
+            # file's historical 8mem/none/1mem order, which is not derivable
+            # from anything in the repo (see #209). Values are identical, so
+            # compare the fallback structurally, not with cmp.
+            "by_variant": merged,
             "token_target_met": totals["tokens"] >= 512 * 16,
         }
 

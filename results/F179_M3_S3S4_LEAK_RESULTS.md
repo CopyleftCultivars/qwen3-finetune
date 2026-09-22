@@ -76,15 +76,21 @@ docker run --rm --platform linux/arm64 -e CACTUS_LIB_PATH=/work/lib.so \
 # 2. Host-side comparator (#208) -- raw parity_*/leak_* JSON -> verdict JSON.
 python scripts/cactus_engine_s3s4_verdict.py all
 #   -> outputs/r179-m1/s3s4/{parity_verdict,leak_verdict,patched_leak}.json
-#   byte-identical to results/F179_M3_S3S4_{PARITY_VERDICT,LEAK_VERDICT,PATCHED_LEAK}.json
-#   when run against the raw files on disk.
+#   With leak_patched_combined.json present (the normal case) all three are
+#   BYTE-identical to results/F179_M3_S3S4_{PARITY_VERDICT,LEAK_VERDICT,PATCHED_LEAK}.json,
+#   so `cmp` is a valid check for the primary path.
 #   Bucketing: comparison A is full-equality (compared += 12/prompt, mismatch
 #   per-prompt); B/C/D are reserved-prefix (each non-reserved control position
 #   counts, the first reserved control position increments
 #   control_reserved_positions once per prompt and stops that prompt).
 #   LEAK_VERDICT.patched sums the 16 base 512-gen shards; PATCHED_LEAK is the
 #   base+ext 560-gen total (passthrough of leak_patched_combined.json, or a
-#   base+ext shard reduction when that file is absent -- field-equal).
+#   base+ext shard reduction when that file is absent).
+#   #209: the no-combined fallback is only STRUCTURALLY equal -- its by_variant
+#   key order is natural insertion order (none,1mem,8mem), not the committed
+#   file's historical 8mem/none/1mem (an artifact of the original ad-hoc run,
+#   not derivable from the repo). Compare the fallback with parsed-JSON equality,
+#   never cmp; tests/test_s3s4_verdict_fallback.py enforces this.
 #   Generic single comparison: `... pair --control F --test F --mode {full,reserved}`.
 ```
 
