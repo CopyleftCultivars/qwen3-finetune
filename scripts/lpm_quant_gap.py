@@ -37,6 +37,12 @@ Subcommands:
             ``p = out_ln[h](p_tilde + mlp(p_tilde))``. ``l1`` bakes BOTH objects
             for the same selected slots and scores them with the identical
             fixed_prompt_recall_matrix code, plus the matched soft oracle.
+  l1_sweep: #222 -- norm sweep of the corrected (post-transform) object. Reuses
+            the same S0 selection + fitted module, radially clamps
+            ``project_to_ball(transformed, cap)`` at each cap, and scores BOTH
+            the dynamic soft-prompt path and the literal reserved-row path at
+            every cap, to find the largest cap whose reserved-row recall still
+            survives (M1 #186 safe zone is norm<=4.0).
 """
 
 from __future__ import annotations
@@ -60,7 +66,7 @@ from lpm.checkpoint import load_lpm_checkpoint  # noqa: E402
 from lpm.config import LPMConfig, slot_to_reserved_id  # noqa: E402
 from lpm.data import filter_records, group_by_persona, load_corpus  # noqa: E402
 from lpm.encoder import load_encoder  # noqa: E402
-from lpm.memory import LPMModule  # noqa: E402
+from lpm.memory import LPMModule, project_to_ball  # noqa: E402
 from lpm_train import TargetEncoder, forward_ntp  # noqa: E402
 
 DEFAULT_MODEL = "outputs/merged-model-distill-v2-rationale"
@@ -380,6 +386,40 @@ def summarize(M: torch.Tensor, no_mem: torch.Tensor) -> dict[str, Any]:
         "no_memory_loss_mean": round(float(no_mem.mean()), 4),
         "own_vs_no_memory_delta": round(float(own.mean() - no_mem.mean()), 4),
     }
+
+
+@torch.no_grad()
+def score_reserved_rows(
+    model: Any, tokenizer: Any, pack: dict[str, Any], vectors: torch.Tensor,
+    *, max_length: int, device: torch.device, chunk: int,
+) -> dict[str, Any]:
+    """#222: write ``vectors`` [K,H,d] into the tied embedding rows and score.
+
+    This is the exact ``reserved_arm`` closure of ``stage_l1`` extracted so the
+    norm sweep can call it per cap without duplicating the write/score logic.
+    The rows are written in place (overwriting whatever was there); callers that
+    need the dynamic path afterwards must restore the original rows themselves.
+    """
+    embed = model.get_input_embeddings().weight.data
+    K, H = vectors.shape[0], vectors.shape[1]
+    for k in range(K):
+        for h in range(H):
+            embed[PACK_BASE + k * H + h] = vectors[k, h].to(embed.dtype)
+    M = recall_matrix(model, tokenizer, pack, max_length=max_length, device=device, chunk=chunk)
+    no_mem = no_memory_loss(model, tokenizer, pack, max_length=max_length, device=device)
+    return summarize(M, no_mem)
+
+
+def parse_caps(spec: str) -> list[float | None]:
+    """Parse a comma list like ``none,16,8,4,2,1`` into caps (``None`` = raw)."""
+    caps: list[float | None] = []
+    for tok in spec.split(","):
+        tok = tok.strip().lower()
+        if tok in ("", "none", "null", "unclamped"):
+            caps.append(None)
+        else:
+            caps.append(float(tok))
+    return caps
 
 
 def load_dequantized_cq4(weights_dir: Path, base_model: str, dtype: torch.dtype) -> Any:
@@ -809,6 +849,152 @@ def stage_l1(args: argparse.Namespace) -> None:
     print(f"wrote {out}")
 
 
+def stage_l1_sweep(args: argparse.Namespace) -> None:
+    """#222: norm sweep of the corrected post-transform object.
+
+    #216 established that the object the backbone was trained to read,
+    ``out_ln[h](v+mlp(v))``, carries real signal (dynamic-path recall@1
+    0.19-0.25, own-loss parity with the query-conditioned soft oracle) but has
+    norm ~37 -- far above M1 #186's norm<=4.0 tied-row safe zone -- and is
+    catastrophic when written into tied embedding rows (NTP ~380-400). This
+    stage asks whether *radially scaling that same object down* toward (and
+    below) 4.0 preserves the recall signal on the reserved-row path, or whether
+    recall collapses before the safe zone is reached.
+
+    Everything is paired within one fitted module: the SAME S0 selection,
+    ``l1_transform_selected`` object and fitted ``val_module`` are reused
+    unchanged, and each cap is scored on both the dynamic soft-prompt path
+    (``fixed_prompt_recall_matrix``) and the literal reserved-row deployment
+    form (``score_reserved_rows``, which mirrors #216's ``reserved_arm``). The
+    dynamic path is measured with the embedding table restored to its original
+    rows (the patched tied rows would otherwise perturb the lm_head logits even
+    for soft-prompt inputs); the reserved path's ``no_memory_loss`` is measured
+    *after* its own patch, so its explosion is the contamination signature.
+    """
+    device = device_of(args.device)
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    ck = load_lpm_checkpoint(args.checkpoint, device=device)
+    config = ck.config
+    tokenizer = AutoTokenizer.from_pretrained(args.model)
+    model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=torch.bfloat16).to(device)
+    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.config.use_cache = False
+    model.train()
+    encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
+
+    t0 = time.time()
+    val_module, eligible, probes, probe_q, fit_q, fit_pid = fit_val_slots(
+        ck, encoder, model, tokenizer, load_corpus(args.val_corpus), config,
+        n_personas=args.n_personas, persona_offset=args.persona_offset, fit_steps=args.fit_steps, lr=args.fit_lr,
+        max_length=args.max_length, fit_max_length=args.fit_max_length, device=device, seed=args.seed,
+    )
+    print(f"fitted {len(eligible)} val personas in {time.time()-t0:.1f}s")
+
+    top, selected, attn = s0_select(val_module, fit_q, fit_pid, len(eligible), device)
+    transformed = l1_transform_selected(val_module, selected)
+    model.eval()
+
+    caps = parse_caps(args.caps)
+    K, H = len(eligible), config.n_heads
+    pack = {"K": K, "n_heads": H, "probe_targets": [r["target_text"] for r in probes]}
+
+    # Dynamic-path no-memory baseline (zero soft prompt, ORIGINAL embedding rows).
+    enc = tokenizer([r["target_text"] for r in probes], return_tensors="pt", padding=True, truncation=True, max_length=args.max_length)
+    tid = enc["input_ids"].to(device)
+    tam = enc["attention_mask"].to(device)
+    zero_prompts = torch.zeros(K, H, config.d_model, device=device, dtype=torch.bfloat16)
+    with torch.no_grad():
+        no_mem_dyn = forward_ntp(model, zero_prompts, tid, tam, return_per_sample=True).float().cpu()
+
+    # Save the original tied rows so the dynamic path can be scored unpatched.
+    embed = model.get_input_embeddings().weight.data
+    reserved_ids = torch.tensor([PACK_BASE + k * H + h for k in range(K) for h in range(H)], device=device)
+
+    def restore_rows() -> None:
+        embed[reserved_ids] = original_rows.to(embed.dtype)
+
+    original_rows = embed[reserved_ids].clone()
+    restore_rows()
+
+    def clamp_at(cap: float | None) -> torch.Tensor:
+        return transformed if cap is None else project_to_ball(transformed, cap)
+
+    def norm_stats(v: torch.Tensor) -> tuple[float, float]:
+        n = v.norm(dim=-1)
+        return round(float(n.mean()), 4), round(float(n.amax()), 4)
+
+    # --- dynamic-path sweep (embedding table in its original state) ----------
+    sweep: list[dict[str, Any]] = []
+    for cap in caps:
+        clamped = clamp_at(cap)
+        restore_rows()
+        M = fixed_prompt_recall_matrix(
+            model, tokenizer, probes, clamped.to(torch.bfloat16),
+            max_length=args.max_length, device=device, chunk=args.chunk,
+        )
+        nmean, nmax = norm_stats(clamped)
+        sweep.append({
+            "cap": cap,
+            "norm_mean": nmean,
+            "norm_max": nmax,
+            "dynamic": {"path": "dynamic_fixed_prompt_s0_posttransform_clamped", **summarize(M, no_mem_dyn)},
+            "reserved": None,
+        })
+        print(f"cap={cap} norm_mean={nmean} dynamic_recall={sweep[-1]['dynamic']['recall_at1']} "
+              f"dynamic_own_ntp={sweep[-1]['dynamic']['own_ntp_loss_mean']}", flush=True)
+
+    # --- in-run raw (pre-transform) reference, dynamic path ------------------
+    restore_rows()
+    M_raw_dyn = fixed_prompt_recall_matrix(
+        model, tokenizer, probes, selected.to(torch.bfloat16),
+        max_length=args.max_length, device=device, chunk=args.chunk,
+    )
+    raw_dynamic = {"path": "dynamic_fixed_prompt_s0_raw_pretransform", **summarize(M_raw_dyn, no_mem_dyn)}
+
+    # --- reserved-row sweep (literal deployment form; tied-head confound) ----
+    for entry in sweep:
+        clamped = clamp_at(entry["cap"])
+        entry["reserved"] = {"path": "reserved_rows_s0_posttransform_clamped", **score_reserved_rows(
+            model, tokenizer, pack, clamped, max_length=args.max_length, device=device, chunk=args.chunk
+        )}
+        print(f"cap={entry['cap']} reserved_recall={entry['reserved']['recall_at1']} "
+              f"reserved_own_ntp={entry['reserved']['own_ntp_loss_mean']} "
+              f"reserved_no_mem={entry['reserved']['no_memory_loss_mean']}", flush=True)
+
+    raw_reserved = {"path": "reserved_rows_s0_raw_pretransform", **score_reserved_rows(
+        model, tokenizer, pack, selected, max_length=args.max_length, device=device, chunk=args.chunk
+    )}
+    restore_rows()
+
+    result = {
+        "issue": 222,
+        "arm": "bf16",
+        "n_personas": K,
+        "persona_offset": args.persona_offset,
+        "fit_steps": args.fit_steps,
+        "max_length": args.max_length,
+        "fit_max_length": args.fit_max_length,
+        "selection": "S0 (#211 math, recomputed in-run): per-persona mean of training-query encodings -> attention argmax per head",
+        "clamp_rule": "clamped = project_to_ball(out_ln[h](v+mlp(v)), cap); cap=None is the unclamped #216 object",
+        "caps": caps,
+        "s0_top": [[int(top[k, h]) for h in range(H)] for k in range(K)],
+        "attn_max_per_head": [[round(float(attn[k, h].max()), 4) for h in range(H)] for k in range(K)],
+        "raw_norm_mean": round(float(selected.norm(dim=-1).mean()), 4),
+        "raw_norm_max": round(float(selected.norm(dim=-1).amax()), 4),
+        "transformed_norm_mean": round(float(transformed.norm(dim=-1).mean()), 4),
+        "transformed_norm_max": round(float(transformed.norm(dim=-1).amax()), 4),
+        "no_memory_dynamic_baseline": round(float(no_mem_dyn.mean()), 4),
+        "raw_dynamic": raw_dynamic,
+        "raw_reserved": raw_reserved,
+        "sweep": sweep,
+    }
+    out = REPO_ROOT / "results" / f"D203_NORM_SWEEP_offset{args.persona_offset}{args.out_tag}.json"
+    out.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps({k: v for k, v in result.items() if k != "sweep"}, indent=2))
+    print(f"wrote {out}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="stage", required=True)
@@ -906,6 +1092,24 @@ def build_parser() -> argparse.ArgumentParser:
     p_l1.add_argument("--device", default="auto")
     p_l1.add_argument("--out-tag", default="")
     p_l1.set_defaults(func=stage_l1)
+
+    p_l1s = sub.add_parser("l1_sweep")
+    p_l1s.add_argument("--model", default=DEFAULT_MODEL)
+    p_l1s.add_argument("--checkpoint", default=DEFAULT_CKPT)
+    p_l1s.add_argument("--val-corpus", default=DEFAULT_VAL)
+    p_l1s.add_argument("--encoder-layers", type=int, default=6)
+    p_l1s.add_argument("--n-personas", type=int, default=12)
+    p_l1s.add_argument("--persona-offset", type=int, default=0)
+    p_l1s.add_argument("--fit-steps", type=int, default=40)
+    p_l1s.add_argument("--fit-lr", type=float, default=1e-3)
+    p_l1s.add_argument("--max-length", type=int, default=192)
+    p_l1s.add_argument("--fit-max-length", type=int, default=128)
+    p_l1s.add_argument("--chunk", type=int, default=8)
+    p_l1s.add_argument("--seed", type=int, default=0)
+    p_l1s.add_argument("--device", default="auto")
+    p_l1s.add_argument("--caps", default="none,32,24,16,12,8,6,4,3,2,1,0.5")
+    p_l1s.add_argument("--out-tag", default="")
+    p_l1s.set_defaults(func=stage_l1_sweep)
     return parser
 
 
