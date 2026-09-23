@@ -1,0 +1,36 @@
+{
+  "issue": 214,
+  "source_s0_json": "[LOCAL_PATH]",
+  "persona_offset": 0,
+  "persona_index": 0,
+  "persona_id": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+  "n_heads": 8,
+  "n_slots": 32,
+  "fit_steps": 40,
+  "fit_max_length": 128,
+  "max_length": 192,
+  "selected_slots": [
+    16,
+    31,
+    8,
+    19,
+    30,
+    9,
+    29,
+    26
+  ],
+  "random_slots": [
+    11,
+    7,
+    10,
+    11,
+    25,
+    31,
+    7,
+    13
+  ],
+  "random_seed": 20260923,
+  "packing": "slot 0 = PACK_BASE+0*8+h (<|mem0_h|>), slot 1 = PACK_BASE+1*8+h (<|mem1_h|>)",
+  "selected_norm_mean": 2.8959,
+  "random_norm_mean": 2.8637
+}
