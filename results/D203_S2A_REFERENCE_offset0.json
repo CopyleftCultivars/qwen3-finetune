@@ -1,0 +1,154 @@
+{
+  "issue": 212,
+  "arm": "bf16",
+  "n_personas": 12,
+  "persona_offset": 0,
+  "fit_steps": 40,
+  "max_length": 192,
+  "fit_max_length": 128,
+  "selection": "S2a: live probe_q -> attention argmax per head -> gather bake[k,h,top]",
+  "s2a_top": [
+    [
+      27,
+      4,
+      18,
+      3,
+      21,
+      31,
+      21,
+      5
+    ],
+    [
+      18,
+      25,
+      18,
+      3,
+      20,
+      10,
+      14,
+      20
+    ],
+    [
+      0,
+      10,
+      3,
+      31,
+      11,
+      26,
+      4,
+      11
+    ],
+    [
+      13,
+      24,
+      24,
+      17,
+      19,
+      1,
+      16,
+      0
+    ],
+    [
+      9,
+      22,
+      2,
+      1,
+      28,
+      14,
+      7,
+      31
+    ],
+    [
+      22,
+      8,
+      7,
+      6,
+      1,
+      26,
+      26,
+      12
+    ],
+    [
+      4,
+      28,
+      18,
+      29,
+      0,
+      4,
+      5,
+      24
+    ],
+    [
+      15,
+      9,
+      18,
+      25,
+      22,
+      8,
+      9,
+      28
+    ],
+    [
+      29,
+      23,
+      16,
+      24,
+      28,
+      23,
+      17,
+      15
+    ],
+    [
+      24,
+      29,
+      18,
+      5,
+      22,
+      26,
+      17,
+      20
+    ],
+    [
+      4,
+      8,
+      21,
+      22,
+      10,
+      0,
+      17,
+      28
+    ],
+    [
+      8,
+      18,
+      14,
+      11,
+      1,
+      22,
+      28,
+      7
+    ]
+  ],
+  "hard_selected_dynamic": {
+    "path": "dynamic_fixed_prompt_s2a_hard_argmax",
+    "K": 12,
+    "recall_at1": 0.0,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 3.1882,
+    "offdiag_ntp_loss_mean": 3.2401,
+    "own_minus_offdiag": -0.052,
+    "no_memory_loss_mean": 8.1849,
+    "own_vs_no_memory_delta": -4.9967
+  },
+  "soft_oracle_dynamic": {
+    "path": "dynamic_soft_prompt_oracle_probe_q",
+    "K": 12,
+    "recall_at1": 0.3333,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 2.3034,
+    "offdiag_ntp_loss_mean": 2.5632,
+    "own_minus_offdiag": -0.2598,
+    "no_memory_loss_mean": 8.1849,
+    "own_vs_no_memory_delta": -5.8815
+  }
+}

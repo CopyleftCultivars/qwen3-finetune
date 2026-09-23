@@ -1,0 +1,61 @@
+diff --git a/python/cactus/transpile/model_adapters.py b/python/cactus/transpile/model_adapters.py
+index fb6f099..ce03aa2 100644
+--- a/python/cactus/transpile/model_adapters.py
++++ b/python/cactus/transpile/model_adapters.py
+@@ -5538,7 +5538,12 @@ class Qwen3EmbedsCausalLMStepAdapter(torch.nn.Module):
+         self.model = model
+         self.backbone = model.model
+ 
+-    def _encode_hidden_states(self, inputs_embeds: torch.Tensor, position_ids: torch.Tensor) -> torch.Tensor:
++    def _encode_hidden_states(
++        self,
++        inputs_embeds: torch.Tensor,
++        position_ids: torch.Tensor,
++        num_layers: int | None = None,
++    ) -> torch.Tensor:
+         seq_len = int(inputs_embeds.shape[1])
+         allowed_positions = torch.tril(
+             torch.ones((seq_len, seq_len), dtype=torch.bool, device=inputs_embeds.device),
+@@ -5558,7 +5563,8 @@ class Qwen3EmbedsCausalLMStepAdapter(torch.nn.Module):
+         hidden_states = inputs_embeds
+         text_position_ids = position_ids.to(dtype=torch.int64)
+         position_embeddings = self.backbone.rotary_emb(hidden_states, text_position_ids)
+-        for decoder_layer in self.backbone.layers[: self.backbone.config.num_hidden_layers]:
++        layer_count = int(num_layers) if num_layers else int(self.backbone.config.num_hidden_layers)
++        for decoder_layer in self.backbone.layers[:layer_count]:
+             hidden_states = decoder_layer(
+                 hidden_states,
+                 position_embeddings=position_embeddings,
+@@ -5597,10 +5603,30 @@ class Qwen3EmbedsCausalLMPrefillChunkAdapter(Qwen3EmbedsCausalLMStepAdapter):
+ 
+ class Qwen3EmbedsCausalLMEmbedChunkAdapter(Qwen3EmbedsCausalLMStepAdapter):
+     """Like the prefill chunk, but emits the full-sequence last hidden state
+-    (no lm_head, no last-token slice) for embedding readout."""
++    (no lm_head, no last-token slice) for embedding readout.
++
++    #212: the LPM encoder stub is the first N transformer layers + the final
++    norm (lpm/encoder.py DEFAULT_N_LAYERS=6). CACTUS_QWEN_EMBED_LAYERS caps the
++    layer count for THIS component only, so a converted bundle can expose that
++    exact pooled hidden state via cactus_embed while decoder/prefill/step keep
++    the full stack. Unset -> full stack (no behavior change)."""
++
++    def __init__(self, model: torch.nn.Module):
++        super().__init__(model)
++        raw = os.environ.get("CACTUS_QWEN_EMBED_LAYERS")
++        self.embed_num_layers = int(raw) if raw else None
+ 
+     def forward(self, inputs_embeds: torch.Tensor, position_ids: torch.Tensor) -> torch.Tensor:
+-        return self._encode_hidden_states(inputs_embeds, position_ids)
++        return self._encode_hidden_states(inputs_embeds, position_ids, num_layers=self.embed_num_layers)
++
++    def get_transpile_metadata(self):
++        meta = super().get_transpile_metadata()
++        if self.embed_num_layers:
++            meta["graph"]["num_hidden_layers"] = int(self.embed_num_layers)
++            layer_types = meta["graph"].get("layer_types")
++            if layer_types:
++                meta["graph"]["layer_types"] = tuple(layer_types[: self.embed_num_layers])
++        return meta
+ 
+ 
+ def _build_qwen_causal_lm_component_specs(

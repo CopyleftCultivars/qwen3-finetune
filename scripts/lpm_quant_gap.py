@@ -586,6 +586,77 @@ def stage_s0(args: argparse.Namespace) -> None:
     print(f"wrote {out}")
 
 
+def stage_s2a(args: argparse.Namespace) -> None:
+    """#212 Gate 2: S2a exact-latent selector -- off-device reference.
+
+    The literal on-device-computable selector math: encode the live query with
+    the 6-layer encoder (``Qwen3EarlyLayerEncoder``), run w_q/w_k per-head
+    attention, take a HARD argmax slot per head, and gather that already-baked
+    vector (``oracle_pack``). #211 scored only the SOFT attention mixture via
+    ``dynamic_recall_matrix``; this scores the HARD gather via
+    ``fixed_prompt_recall_matrix`` (same ``forward_ntp`` code) and also reports
+    the matched soft-oracle control, so hard-vs-soft is an explicit comparison.
+    """
+    device = device_of(args.device)
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    ck = load_lpm_checkpoint(args.checkpoint, device=device)
+    config = ck.config
+    tokenizer = AutoTokenizer.from_pretrained(args.model)
+    model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=torch.bfloat16).to(device)
+    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.config.use_cache = False
+    model.train()
+    encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
+
+    t0 = time.time()
+    val_module, eligible, probes, probe_q, _, _ = fit_val_slots(
+        ck, encoder, model, tokenizer, load_corpus(args.val_corpus), config,
+        n_personas=args.n_personas, persona_offset=args.persona_offset, fit_steps=args.fit_steps, lr=args.fit_lr,
+        max_length=args.max_length, fit_max_length=args.fit_max_length, device=device, seed=args.seed,
+    )
+    print(f"fitted {len(eligible)} val personas in {time.time()-t0:.1f}s")
+
+    pack = oracle_pack(val_module, eligible, probes, probe_q, device)  # HARD argmax from live probe_q
+    model.eval()
+
+    enc = tokenizer([r["target_text"] for r in probes], return_tensors="pt", padding=True, truncation=True, max_length=args.max_length)
+    tid = enc["input_ids"].to(device)
+    tam = enc["attention_mask"].to(device)
+    zero_prompts = torch.zeros(len(probes), config.n_heads, config.d_model, device=device, dtype=torch.bfloat16)
+    with torch.no_grad():
+        no_mem = forward_ntp(model, zero_prompts, tid, tam, return_per_sample=True).float().cpu()
+
+    M_hard = fixed_prompt_recall_matrix(
+        model, tokenizer, probes, pack["vectors"].to(device=device, dtype=torch.bfloat16),
+        max_length=args.max_length, device=device, chunk=args.chunk,
+    )
+    hard = {"path": "dynamic_fixed_prompt_s2a_hard_argmax", **summarize(M_hard, no_mem)}
+
+    M_soft = dynamic_recall_matrix(
+        val_module, model, tokenizer, probes, probe_q, max_length=args.max_length, device=device, chunk=args.chunk
+    )
+    soft = {"path": "dynamic_soft_prompt_oracle_probe_q", **summarize(M_soft, no_mem)}
+
+    result = {
+        "issue": 212,
+        "arm": "bf16",
+        "n_personas": len(eligible),
+        "persona_offset": args.persona_offset,
+        "fit_steps": args.fit_steps,
+        "max_length": args.max_length,
+        "fit_max_length": args.fit_max_length,
+        "selection": "S2a: live probe_q -> attention argmax per head -> gather bake[k,h,top]",
+        "s2a_top": [[int(pack["top"][k, h]) for h in range(config.n_heads)] for k in range(len(eligible))],
+        "hard_selected_dynamic": hard,
+        "soft_oracle_dynamic": soft,
+    }
+    out = REPO_ROOT / "results" / f"D203_S2A_REFERENCE_offset{args.persona_offset}{args.out_tag}.json"
+    out.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps(result, indent=2))
+    print(f"wrote {out}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="stage", required=True)
@@ -649,6 +720,23 @@ def build_parser() -> argparse.ArgumentParser:
     p_s0.add_argument("--device", default="auto")
     p_s0.add_argument("--out-tag", default="")
     p_s0.set_defaults(func=stage_s0)
+
+    p_s2a = sub.add_parser("s2a")
+    p_s2a.add_argument("--model", default=DEFAULT_MODEL)
+    p_s2a.add_argument("--checkpoint", default=DEFAULT_CKPT)
+    p_s2a.add_argument("--val-corpus", default=DEFAULT_VAL)
+    p_s2a.add_argument("--encoder-layers", type=int, default=6)
+    p_s2a.add_argument("--n-personas", type=int, default=12)
+    p_s2a.add_argument("--persona-offset", type=int, default=0)
+    p_s2a.add_argument("--fit-steps", type=int, default=40)
+    p_s2a.add_argument("--fit-lr", type=float, default=1e-3)
+    p_s2a.add_argument("--max-length", type=int, default=192)
+    p_s2a.add_argument("--fit-max-length", type=int, default=128)
+    p_s2a.add_argument("--chunk", type=int, default=8)
+    p_s2a.add_argument("--seed", type=int, default=0)
+    p_s2a.add_argument("--device", default="auto")
+    p_s2a.add_argument("--out-tag", default="")
+    p_s2a.set_defaults(func=stage_s2a)
     return parser
 
 
