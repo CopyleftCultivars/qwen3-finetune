@@ -1,0 +1,154 @@
+{
+  "issue": 212,
+  "arm": "bf16",
+  "n_personas": 12,
+  "persona_offset": 12,
+  "fit_steps": 40,
+  "max_length": 192,
+  "fit_max_length": 128,
+  "selection": "S2a: live probe_q -> attention argmax per head -> gather bake[k,h,top]",
+  "s2a_top": [
+    [
+      11,
+      24,
+      26,
+      10,
+      23,
+      16,
+      6,
+      21
+    ],
+    [
+      16,
+      23,
+      14,
+      1,
+      16,
+      15,
+      8,
+      9
+    ],
+    [
+      7,
+      28,
+      21,
+      4,
+      23,
+      8,
+      21,
+      22
+    ],
+    [
+      16,
+      7,
+      8,
+      19,
+      21,
+      26,
+      31,
+      17
+    ],
+    [
+      6,
+      14,
+      31,
+      31,
+      15,
+      11,
+      16,
+      26
+    ],
+    [
+      18,
+      15,
+      30,
+      29,
+      0,
+      29,
+      1,
+      16
+    ],
+    [
+      18,
+      20,
+      20,
+      10,
+      10,
+      12,
+      14,
+      3
+    ],
+    [
+      18,
+      9,
+      13,
+      15,
+      3,
+      13,
+      27,
+      9
+    ],
+    [
+      16,
+      16,
+      21,
+      19,
+      15,
+      18,
+      14,
+      19
+    ],
+    [
+      19,
+      17,
+      28,
+      24,
+      18,
+      25,
+      25,
+      18
+    ],
+    [
+      3,
+      27,
+      16,
+      17,
+      6,
+      19,
+      15,
+      22
+    ],
+    [
+      6,
+      11,
+      4,
+      27,
+      8,
+      31,
+      6,
+      15
+    ]
+  ],
+  "hard_selected_dynamic": {
+    "path": "dynamic_fixed_prompt_s2a_hard_argmax",
+    "K": 12,
+    "recall_at1": 0.0833,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 4.4857,
+    "offdiag_ntp_loss_mean": 4.5291,
+    "own_minus_offdiag": -0.0434,
+    "no_memory_loss_mean": 9.1615,
+    "own_vs_no_memory_delta": -4.6758
+  },
+  "soft_oracle_dynamic": {
+    "path": "dynamic_soft_prompt_oracle_probe_q",
+    "K": 12,
+    "recall_at1": 0.25,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 3.2682,
+    "offdiag_ntp_loss_mean": 3.3295,
+    "own_minus_offdiag": -0.0613,
+    "no_memory_loss_mean": 9.1615,
+    "own_vs_no_memory_delta": -5.8932
+  }
+}

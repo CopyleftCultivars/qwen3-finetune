@@ -1,0 +1,28 @@
+{
+  "issue": 212,
+  "engine": "v2.1.0+delta glibc arm64 (qemu)",
+  "bundle_6L": "outputs/r179-m1/s2a/enc6b-deploy",
+  "bundle_28L": "outputs/r179-m1/p193-deploy",
+  "decoder_embed_chunk_node_count": {
+    "6L": 314,
+    "28L": 1392
+  },
+  "comparisons": [
+    {
+      "text": "I am in Washington State and grow heirloom corn",
+      "cos_engine_6L_vs_python6L": 0.98688,
+      "cos_engine_28L_vs_python6L": 0.03222
+    },
+    {
+      "text": "One fact about soil:",
+      "cos_engine_6L_vs_python6L": 0.98605,
+      "cos_engine_28L_vs_python6L": -0.01739
+    },
+    {
+      "text": "How do I increase potassium in my garden?",
+      "cos_engine_6L_vs_python6L": 0.98878,
+      "cos_engine_28L_vs_python6L": null
+    }
+  ],
+  "note": "engine bundle is CQ4; python encoder is bf16 -> residual ~1.3% cosine is quantization, not a layer mismatch (28L path is ~0.03)."
+}
