@@ -30,6 +30,13 @@ Subcommands:
   s0      : #211 Gate 1 -- S0 bake-time fixed-query argmax slots + T0 always-on
             injection, scored on both the dynamic path (matched to #193's 0.250)
             and the reserved-row path (literal deployment form).
+  l1      : #216 -- paired raw-vs-post-transform bake of the S0 selection.
+            Every prior selector gate baked the PRE-transform slot vector
+            (bake_vectors = project_slots output, the raw ``values`` of
+            ``ProjectionNetwork.forward``); the backbone was trained to read
+            ``p = out_ln[h](p_tilde + mlp(p_tilde))``. ``l1`` bakes BOTH objects
+            for the same selected slots and scores them with the identical
+            fixed_prompt_recall_matrix code, plus the matched soft oracle.
 """
 
 from __future__ import annotations
@@ -213,6 +220,37 @@ def s0_select(
         [bake[k, h, int(top[k, h])] for k in range(K) for h in range(H)]
     ).reshape(K, H, -1)
     return top, selected, attn
+
+
+@torch.no_grad()
+def l1_transform_selected(val_module: LPMModule, selected: torch.Tensor) -> torch.Tensor:
+    """#216: run hard-selected raw bake vectors through the trained post-transform.
+
+    ``bake_vectors`` / ``s0_select`` / ``oracle_pack`` gather
+    ``project_slots`` output -- the raw per-slot ``w_v[h]`` vector (the tensor
+    called ``values`` inside ``ProjectionNetwork.forward``), norm-clamped but
+    NEVER passed through the trained ``out_ln[head]`` / shared ``mlp``. The
+    object the backbone was trained to read as a memory prompt is
+    ``p = out_ln[h](p_tilde + mlp(p_tilde))`` with ``p_tilde`` the attention
+    mixture. This helper applies exactly that per-head transform to each
+    selected raw vector ``v``::
+
+        p_h = out_ln[h](v + mlp(v))
+
+    (``val_module`` is in eval mode after ``fit_val_slots`` and dropout=0.0, so
+    this matches ``forward``'s prompt up to the attention mixing itself.) For a
+    peaked head (attn max ~1) the transformed selected vector is the one-hot
+    limit of the trained mixture; for a flat head it is the in-distribution
+    transform of a wrong-but-plausible input. Either way it is the object the
+    reserved-row/static-bake mechanism SHOULD have been baking all along.
+    """
+    K, H, d = selected.shape
+    out = torch.empty_like(selected)
+    mlp = val_module.projection.mlp
+    for h in range(H):
+        v = selected[:, h]  # [K, d]
+        out[:, h] = val_module.projection.out_ln[h](v + mlp(v))
+    return out
 
 
 def patch_model_dir(model_path: Path, out_dir: Path, vectors: torch.Tensor) -> None:
@@ -657,6 +695,120 @@ def stage_s2a(args: argparse.Namespace) -> None:
     print(f"wrote {out}")
 
 
+def stage_l1(args: argparse.Namespace) -> None:
+    """#216: paired raw-vs-post-transform bake of the S0 selection.
+
+    Selector: #211's S0 (per-persona mean of training-query encodings ->
+    attention argmax per head), byte-for-byte the same ``s0_select`` math --
+    recomputed in-run because slot fitting is GPU-nondeterministic, so the
+    saved ``s0_top`` indices from #211's runs would not map onto a fresh fit.
+    WHICH slot is picked is not re-litigated; only WHAT gets baked changes:
+
+      * ``raw``      = bake[k, h, top[k, h]] (what #211/#212/#214 baked);
+      * ``transformed`` = l1_transform_selected(raw) = out_ln[h](v + mlp(v)).
+
+    Both are scored with the same ``fixed_prompt_recall_matrix`` (``forward_ntp``
+    code as #193's 0.250) on the same fitted module in the same run -- a direct
+    paired before/after, immune to cross-run GPU nondeterminism. The matched
+    soft oracle (``dynamic_recall_matrix``; already post-transform since
+    ``forward`` returns the out_ln/mlp output) is the internal reference and the
+    secondary sanity check against #193's 0.250. Reserved-row arms for both
+    objects (literal deployment form, known tied-head confound) are reported as
+    secondary data.
+    """
+    device = device_of(args.device)
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    ck = load_lpm_checkpoint(args.checkpoint, device=device)
+    config = ck.config
+    tokenizer = AutoTokenizer.from_pretrained(args.model)
+    model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=torch.bfloat16).to(device)
+    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.config.use_cache = False
+    model.train()
+    encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
+
+    t0 = time.time()
+    val_module, eligible, probes, probe_q, fit_q, fit_pid = fit_val_slots(
+        ck, encoder, model, tokenizer, load_corpus(args.val_corpus), config,
+        n_personas=args.n_personas, persona_offset=args.persona_offset, fit_steps=args.fit_steps, lr=args.fit_lr,
+        max_length=args.max_length, fit_max_length=args.fit_max_length, device=device, seed=args.seed,
+    )
+    print(f"fitted {len(eligible)} val personas in {time.time()-t0:.1f}s")
+
+    top, selected, attn = s0_select(val_module, fit_q, fit_pid, len(eligible), device)
+    transformed = l1_transform_selected(val_module, selected)
+    model.eval()
+
+    enc = tokenizer([r["target_text"] for r in probes], return_tensors="pt", padding=True, truncation=True, max_length=args.max_length)
+    tid = enc["input_ids"].to(device)
+    tam = enc["attention_mask"].to(device)
+    zero_prompts = torch.zeros(len(probes), config.n_heads, config.d_model, device=device, dtype=torch.bfloat16)
+    with torch.no_grad():
+        no_mem = forward_ntp(model, zero_prompts, tid, tam, return_per_sample=True).float().cpu()
+
+    # --- paired dynamic-path scores (the primary comparison) ---------------
+    M_raw = fixed_prompt_recall_matrix(
+        model, tokenizer, probes, selected.to(torch.bfloat16),
+        max_length=args.max_length, device=device, chunk=args.chunk,
+    )
+    raw = {"path": "dynamic_fixed_prompt_s0_raw_pretransform", **summarize(M_raw, no_mem)}
+
+    M_tf = fixed_prompt_recall_matrix(
+        model, tokenizer, probes, transformed.to(torch.bfloat16),
+        max_length=args.max_length, device=device, chunk=args.chunk,
+    )
+    tf = {"path": "dynamic_fixed_prompt_s0_posttransform", **summarize(M_tf, no_mem)}
+
+    # --- matched soft oracle (also the #216 secondary sanity check) --------
+    M_soft = dynamic_recall_matrix(
+        val_module, model, tokenizer, probes, probe_q, max_length=args.max_length, device=device, chunk=args.chunk
+    )
+    soft = {"path": "dynamic_soft_prompt_oracle_probe_q", **summarize(M_soft, no_mem)}
+
+    # --- reserved-row arms (secondary: literal deployment form) ------------
+    pack = {"K": len(eligible), "n_heads": config.n_heads, "probe_targets": [r["target_text"] for r in probes]}
+    embed = model.get_input_embeddings().weight.data
+
+    def reserved_arm(vectors: torch.Tensor, name: str) -> dict[str, Any]:
+        for k in range(len(eligible)):
+            for h in range(config.n_heads):
+                embed[PACK_BASE + k * config.n_heads + h] = vectors[k, h].to(embed.dtype)
+        M = recall_matrix(model, tokenizer, pack, max_length=args.max_length, device=device, chunk=args.chunk)
+        no_mem_r = no_memory_loss(model, tokenizer, pack, max_length=args.max_length, device=device)
+        return {"path": name, **summarize(M, no_mem_r)}
+
+    res_raw = reserved_arm(selected, "reserved_rows_s0_raw_pretransform")
+    res_tf = reserved_arm(transformed, "reserved_rows_s0_posttransform")
+
+    result = {
+        "issue": 216,
+        "arm": "bf16",
+        "n_personas": len(eligible),
+        "persona_offset": args.persona_offset,
+        "fit_steps": args.fit_steps,
+        "max_length": args.max_length,
+        "fit_max_length": args.fit_max_length,
+        "selection": "S0 (#211 math, recomputed in-run): per-persona mean of training-query encodings -> attention argmax per head",
+        "bake_rule": "raw = bake[k,h,top[k,h]] (pre-transform, as #211/#212/#214); transformed = out_ln[h](v + mlp(v))",
+        "s0_top": [[int(top[k, h]) for h in range(config.n_heads)] for k in range(len(eligible))],
+        "attn_max_per_head": [[round(float(attn[k, h].max()), 4) for h in range(config.n_heads)] for k in range(len(eligible))],
+        "raw_norm_mean": round(float(selected.norm(dim=-1).mean()), 4),
+        "raw_norm_max": round(float(selected.norm(dim=-1).amax()), 4),
+        "transformed_norm_mean": round(float(transformed.norm(dim=-1).mean()), 4),
+        "transformed_norm_max": round(float(transformed.norm(dim=-1).amax()), 4),
+        "raw_dynamic": raw,
+        "transformed_dynamic": tf,
+        "soft_oracle_dynamic": soft,
+        "raw_reserved": res_raw,
+        "transformed_reserved": res_tf,
+    }
+    out = REPO_ROOT / "results" / f"D203_L1_TRANSFORM_BAKE_offset{args.persona_offset}{args.out_tag}.json"
+    out.write_text(json.dumps(result, indent=2) + "\n")
+    print(json.dumps(result, indent=2))
+    print(f"wrote {out}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="stage", required=True)
@@ -737,6 +889,23 @@ def build_parser() -> argparse.ArgumentParser:
     p_s2a.add_argument("--device", default="auto")
     p_s2a.add_argument("--out-tag", default="")
     p_s2a.set_defaults(func=stage_s2a)
+
+    p_l1 = sub.add_parser("l1")
+    p_l1.add_argument("--model", default=DEFAULT_MODEL)
+    p_l1.add_argument("--checkpoint", default=DEFAULT_CKPT)
+    p_l1.add_argument("--val-corpus", default=DEFAULT_VAL)
+    p_l1.add_argument("--encoder-layers", type=int, default=6)
+    p_l1.add_argument("--n-personas", type=int, default=12)
+    p_l1.add_argument("--persona-offset", type=int, default=0)
+    p_l1.add_argument("--fit-steps", type=int, default=40)
+    p_l1.add_argument("--fit-lr", type=float, default=1e-3)
+    p_l1.add_argument("--max-length", type=int, default=192)
+    p_l1.add_argument("--fit-max-length", type=int, default=128)
+    p_l1.add_argument("--chunk", type=int, default=8)
+    p_l1.add_argument("--seed", type=int, default=0)
+    p_l1.add_argument("--device", default="auto")
+    p_l1.add_argument("--out-tag", default="")
+    p_l1.set_defaults(func=stage_l1)
     return parser
 
 
