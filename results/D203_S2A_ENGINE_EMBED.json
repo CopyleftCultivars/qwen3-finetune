@@ -10,17 +10,17 @@
   "comparisons": [
     {
       "text": "I am in Washington State and grow heirloom corn",
-      "cos_engine_6L_vs_python6L": 0.98688,
-      "cos_engine_28L_vs_python6L": 0.03222
+      "cos_engine_6L_vs_python6L": 0.98682,
+      "cos_engine_28L_vs_python6L": 0.03158
     },
     {
       "text": "One fact about soil:",
-      "cos_engine_6L_vs_python6L": 0.98605,
-      "cos_engine_28L_vs_python6L": -0.01739
+      "cos_engine_6L_vs_python6L": 0.98611,
+      "cos_engine_28L_vs_python6L": -0.01803
     },
     {
       "text": "How do I increase potassium in my garden?",
-      "cos_engine_6L_vs_python6L": 0.98878,
+      "cos_engine_6L_vs_python6L": 0.98871,
       "cos_engine_28L_vs_python6L": null
     }
   ],
