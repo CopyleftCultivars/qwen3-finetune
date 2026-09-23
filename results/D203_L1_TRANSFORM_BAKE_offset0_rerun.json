@@ -1,0 +1,314 @@
+{
+  "issue": 216,
+  "arm": "bf16",
+  "n_personas": 12,
+  "persona_offset": 0,
+  "fit_steps": 40,
+  "max_length": 192,
+  "fit_max_length": 128,
+  "selection": "S0 (#211 math, recomputed in-run): per-persona mean of training-query encodings -> attention argmax per head",
+  "bake_rule": "raw = bake[k,h,top[k,h]] (pre-transform, as #211/#212/#214); transformed = out_ln[h](v + mlp(v))",
+  "s0_top": [
+    [
+      15,
+      19,
+      17,
+      12,
+      17,
+      21,
+      6,
+      27
+    ],
+    [
+      29,
+      17,
+      15,
+      26,
+      21,
+      23,
+      20,
+      25
+    ],
+    [
+      12,
+      25,
+      18,
+      30,
+      8,
+      14,
+      18,
+      12
+    ],
+    [
+      6,
+      20,
+      26,
+      7,
+      16,
+      25,
+      17,
+      20
+    ],
+    [
+      13,
+      12,
+      20,
+      30,
+      29,
+      12,
+      30,
+      30
+    ],
+    [
+      7,
+      17,
+      0,
+      15,
+      12,
+      14,
+      25,
+      24
+    ],
+    [
+      18,
+      27,
+      25,
+      21,
+      29,
+      4,
+      25,
+      17
+    ],
+    [
+      14,
+      11,
+      8,
+      26,
+      27,
+      25,
+      24,
+      29
+    ],
+    [
+      13,
+      12,
+      11,
+      5,
+      1,
+      31,
+      26,
+      4
+    ],
+    [
+      27,
+      27,
+      22,
+      7,
+      17,
+      2,
+      2,
+      1
+    ],
+    [
+      25,
+      22,
+      21,
+      7,
+      18,
+      1,
+      13,
+      27
+    ],
+    [
+      19,
+      7,
+      30,
+      11,
+      5,
+      22,
+      3,
+      23
+    ]
+  ],
+  "attn_max_per_head": [
+    [
+      0.6526,
+      0.128,
+      0.0455,
+      0.0452,
+      0.6054,
+      0.7292,
+      0.0527,
+      0.2834
+    ],
+    [
+      0.4139,
+      0.4023,
+      0.0504,
+      0.0453,
+      0.8181,
+      0.7313,
+      0.0571,
+      0.091
+    ],
+    [
+      0.7336,
+      0.2949,
+      0.0458,
+      0.0492,
+      0.9545,
+      0.9073,
+      0.0577,
+      0.0917
+    ],
+    [
+      0.8169,
+      0.2219,
+      0.0422,
+      0.0414,
+      0.2762,
+      0.6665,
+      0.0603,
+      0.1778
+    ],
+    [
+      0.981,
+      0.4527,
+      0.0446,
+      0.0477,
+      0.9985,
+      0.2884,
+      0.0696,
+      0.5544
+    ],
+    [
+      0.9516,
+      0.7431,
+      0.0388,
+      0.0569,
+      0.333,
+      0.3299,
+      0.0587,
+      0.1083
+    ],
+    [
+      0.9854,
+      0.4206,
+      0.0423,
+      0.0476,
+      0.8912,
+      0.3392,
+      0.0542,
+      0.2629
+    ],
+    [
+      0.9986,
+      0.9998,
+      0.0427,
+      0.0429,
+      0.98,
+      0.8337,
+      0.043,
+      0.4005
+    ],
+    [
+      0.4777,
+      0.2788,
+      0.0447,
+      0.0472,
+      0.8047,
+      0.5853,
+      0.0513,
+      0.051
+    ],
+    [
+      0.9908,
+      0.223,
+      0.0469,
+      0.0752,
+      0.7817,
+      1.0,
+      0.0562,
+      0.0455
+    ],
+    [
+      0.7875,
+      0.4861,
+      0.0466,
+      0.0564,
+      0.9951,
+      0.9863,
+      0.0498,
+      0.0538
+    ],
+    [
+      0.61,
+      0.3943,
+      0.0573,
+      0.0633,
+      0.9149,
+      0.9981,
+      0.0504,
+      0.0526
+    ]
+  ],
+  "raw_norm_mean": 3.0822,
+  "raw_norm_max": 4.0,
+  "transformed_norm_mean": 36.8575,
+  "transformed_norm_max": 39.5396,
+  "raw_dynamic": {
+    "path": "dynamic_fixed_prompt_s0_raw_pretransform",
+    "K": 12,
+    "recall_at1": 0.0,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 3.2161,
+    "offdiag_ntp_loss_mean": 3.2201,
+    "own_minus_offdiag": -0.004,
+    "no_memory_loss_mean": 8.1849,
+    "own_vs_no_memory_delta": -4.9688
+  },
+  "transformed_dynamic": {
+    "path": "dynamic_fixed_prompt_s0_posttransform",
+    "K": 12,
+    "recall_at1": 0.3333,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 2.304,
+    "offdiag_ntp_loss_mean": 2.5731,
+    "own_minus_offdiag": -0.2691,
+    "no_memory_loss_mean": 8.1849,
+    "own_vs_no_memory_delta": -5.8809
+  },
+  "soft_oracle_dynamic": {
+    "path": "dynamic_soft_prompt_oracle_probe_q",
+    "K": 12,
+    "recall_at1": 0.5,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 2.3021,
+    "offdiag_ntp_loss_mean": 2.5684,
+    "own_minus_offdiag": -0.2663,
+    "no_memory_loss_mean": 8.1849,
+    "own_vs_no_memory_delta": -5.8828
+  },
+  "raw_reserved": {
+    "path": "reserved_rows_s0_raw_pretransform",
+    "K": 12,
+    "recall_at1": 0.0833,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 11.1016,
+    "offdiag_ntp_loss_mean": 11.0784,
+    "own_minus_offdiag": 0.0232,
+    "no_memory_loss_mean": 9.625,
+    "own_vs_no_memory_delta": 1.4766
+  },
+  "transformed_reserved": {
+    "path": "reserved_rows_s0_posttransform",
+    "K": 12,
+    "recall_at1": 0.1667,
+    "chance": 0.0833,
+    "own_ntp_loss_mean": 391.1667,
+    "offdiag_ntp_loss_mean": 396.0151,
+    "own_minus_offdiag": -4.8485,
+    "no_memory_loss_mean": 320.0,
+    "own_vs_no_memory_delta": 71.1667
+  }
+}
