@@ -1,0 +1,22 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/a1_memory_prefix_p0.f32",
+  "provenance": {
+    "issue": 225,
+    "artifact_file": "outputs/r179-m1/s2a/a1_memory_prefix_p0.f32",
+    "sha256": "2518df55533a8a8f536065b50d2fbe22be0452787eeeee683e1b5dd029e33e72",
+    "rows": 8,
+    "dim": 1024,
+    "bytes": 32768,
+    "format": "raw FP32 row-major, no header (H rows x d_model floats)",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "seed": 0,
+    "selection": "S0 (#211 math) -> l1_transform_selected out_ln[h](v+mlp(v))",
+    "clamped": false,
+    "norm_mean": 36.9291,
+    "norm_max": 37.8266,
+    "generator": "scripts/gen_memory_prefix_a1.py",
+    "note": "slot fitting is GPU-nondeterministic; this fragment pins the shipped file (by sha256), not a reproduction of a prior JSON measurement"
+  }
+}
