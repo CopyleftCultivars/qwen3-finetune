@@ -1,0 +1,32 @@
+{
+  "reviewer": "human/agent hand review of all 72 Phase-4 completions (none/selected/random/matched/oracle/soft x 12) plus the #228/#230 1024-width set",
+  "persona_under_test": {
+    "persona_id": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+    "salient_memory": "single-session Tulsa, Oklahoma gardener; 4 growbeds (4x6 ft) of peppers, tomatoes, lettuce, kitchen herbs; asks for per-bed nutrient solutions from local invasive plants. Assistant reply uses a '[Short Introduction]' header and 'Greetings!' and names Tulsa/Oklahoma and the specific crops.",
+    "distinctive_lexical_markers": ["tulsa", "oklahoma", "growbed", "invasive", "pepper", "lettuce", "kitchen herb", "[short introduction]", "greetings"]
+  },
+  "bar": "content plausibly tied to the specific selected persona/memory, not a generic register shift regardless of which vectors fired",
+  "verdict": "FAIL",
+  "verdict_label": "differs but generic at 2048",
+  "numeric_vs_qualitative": "Independent. Numeric bar PASSES (selected != random on 12/12, >= 9/12). Qualitative bar FAILS: 0 persona markers in 72 completions.",
+  "comparison_1024_vs_2048": {
+    "selected_differs_random": {"1024": "11/12", "2048": "12/12"},
+    "oracle_differs_random": {"1024": "12/12", "2048": "9/12"},
+    "soft_differs_random": {"1024": "12/12", "2048": "9/12"},
+    "oracle_equals_selected": {"1024": "6/12", "2048": "3/12"},
+    "soft_equals_selected": {"1024": "7/12", "2048": "4/12"},
+    "oracle_equals_soft": {"1024": "4/12", "2048": "10/12"},
+    "persona_marker_hits": {"1024": "0/72", "2048": "0/72"},
+    "qualitative_verdict": {"1024": "FAIL (differs but generic)", "2048": "FAIL (differs but generic)"}
+  },
+  "evidence": {
+    "persona_marker_hits": "0 hits for every marker, in every condition (none/selected/random/matched/oracle/soft) = 0/72 completions.",
+    "hand_read": "All 72 continuations are generic natural-farming prose. No continuation names Tulsa/Oklahoma, the four growbeds, invasive plants, the crop mix, or the [Short Introduction]/Greetings style; no paraphrase (no 'your beds', no 'your Oklahoma garden', no 'invasive plants you mentioned').",
+    "only_distinctive_shift": "The memory-armed objects converge on the KNF-domain token 'Lactic Acid' (selected[0], matched[0], oracle[0], soft[0], random[8], oracle[2], oracle[8], soft[8]). This is a domain shift, not persona content: 'Lactic Acid' is a generic KNF input and already appeared in the 0.6B 'none' condition (#228 prompt 8, 'utilize **Lactic Acid B'); it is absent from the #228 persona marker list and from the persona's own memory text.",
+    "not_a_selector_artifact": "Per #230 the selector is exonerated at 1024, and the 2048 oracle/soft (the strongest query-conditioned objects) are still generic here, so the failure is not selection.",
+    "sanity": "0 reserved-ID emissions, 0 NaN, 0 empty completions in all six conditions. (One benign special-token leak: random[1] emits a literal '</think>' tag, id 151668, below the reserved range; noted, not a reserved-ID breach.)"
+  },
+  "conclusion": "At 2048 width the corrected post-transform object, deployed through the validated inputs_embeds surface, is STILL generic -- no persona-distinctive content. Combined with #230 (selector exonerated) this rules out the selector and, for the BASE Qwen3-1.7B backbone, width. The comparison is confounded by backbone adaptation: the 0.6B arm uses the distilled/domain-adapted champion (outputs/merged-model-distill-v2-rationale) while the 1.7B arm uses the raw Qwen/Qwen3-1.7B base, so this result does not isolate width from adaptation. The leading remaining explanation is that the frozen backbone must be adapted to the task domain for injected memory to surface as text (the LPM paper's own backbones are instruction/chat-adapted), with corpus/persona thinness as the secondary hypothesis.",
+  "recommended_next_step": "Test an ADAPTED 1.7B backbone: distill/adapt Qwen3-1.7B on the same corpus as the 0.6B champion, retrain the LPM module, and re-run this exact probe. That is a new phase/issue (explicitly out of Phase 4 scope). Do NOT re-open the selector (#230) and do NOT expect a width-only change on the base model to produce legibility.",
+  "recall_generation_divergence": "Phase 3 recall proxies were meaningfully above chance (val 6.6x, within-persona probe 8.8x) yet generation remains generic at 2048 -- the same proxy/generation divergence #228/#230 saw at 1024, now confirmed to persist with width. Recall proxies are not a valid proxy for generation legibility in this mechanism."
+}

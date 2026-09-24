@@ -1,0 +1,399 @@
+{
+  "issue": 231,
+  "n_prompts": 12,
+  "max_tokens": 16,
+  "conditions": [
+    "none",
+    "selected",
+    "random",
+    "matched",
+    "oracle",
+    "soft"
+  ],
+  "persona": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+  "markers_scanned": [
+    "tulsa",
+    "oklahoma",
+    "growbed",
+    "invasive",
+    "pepper",
+    "lettuce",
+    "kitchen herb",
+    "[short introduction]",
+    "greetings"
+  ],
+  "numeric": {
+    "oracle_differs_none": "12/12",
+    "oracle_differs_selected": "9/12",
+    "oracle_differs_random": "9/12",
+    "oracle_differs_matched": "10/12",
+    "oracle_differs_soft": "2/12",
+    "soft_differs_none": "12/12",
+    "soft_differs_selected": "8/12",
+    "soft_differs_random": "9/12",
+    "soft_differs_matched": "9/12",
+    "soft_differs_oracle": "2/12",
+    "note": "disambiguation, not a pass/fail bar; see qualitative verdict"
+  },
+  "marker_scan": {
+    "per_condition": {
+      "none": 0,
+      "selected": 0,
+      "random": 0,
+      "matched": 0,
+      "oracle": 0,
+      "soft": 0
+    },
+    "total_hits_all_conditions": 0
+  },
+  "sanity": {
+    "per_condition": {
+      "none": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "selected": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "random": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "matched": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "oracle": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "soft": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      }
+    },
+    "pass": true
+  },
+  "qualitative": {
+    "reviewer": "human/agent hand review of all 72 Phase-4 completions (none/selected/random/matched/oracle/soft x 12) plus the #228/#230 1024-width set",
+    "persona_under_test": {
+      "persona_id": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+      "salient_memory": "single-session Tulsa, Oklahoma gardener; 4 growbeds (4x6 ft) of peppers, tomatoes, lettuce, kitchen herbs; asks for per-bed nutrient solutions from local invasive plants. Assistant reply uses a '[Short Introduction]' header and 'Greetings!' and names Tulsa/Oklahoma and the specific crops.",
+      "distinctive_lexical_markers": [
+        "tulsa",
+        "oklahoma",
+        "growbed",
+        "invasive",
+        "pepper",
+        "lettuce",
+        "kitchen herb",
+        "[short introduction]",
+        "greetings"
+      ]
+    },
+    "bar": "content plausibly tied to the specific selected persona/memory, not a generic register shift regardless of which vectors fired",
+    "verdict": "FAIL",
+    "verdict_label": "differs but generic at 2048",
+    "numeric_vs_qualitative": "Independent. Numeric bar PASSES (selected != random on 12/12, >= 9/12). Qualitative bar FAILS: 0 persona markers in 72 completions.",
+    "comparison_1024_vs_2048": {
+      "selected_differs_random": {
+        "1024": "11/12",
+        "2048": "12/12"
+      },
+      "oracle_differs_random": {
+        "1024": "12/12",
+        "2048": "9/12"
+      },
+      "soft_differs_random": {
+        "1024": "12/12",
+        "2048": "9/12"
+      },
+      "oracle_equals_selected": {
+        "1024": "6/12",
+        "2048": "3/12"
+      },
+      "soft_equals_selected": {
+        "1024": "7/12",
+        "2048": "4/12"
+      },
+      "oracle_equals_soft": {
+        "1024": "4/12",
+        "2048": "10/12"
+      },
+      "persona_marker_hits": {
+        "1024": "0/72",
+        "2048": "0/72"
+      },
+      "qualitative_verdict": {
+        "1024": "FAIL (differs but generic)",
+        "2048": "FAIL (differs but generic)"
+      }
+    },
+    "evidence": {
+      "persona_marker_hits": "0 hits for every marker, in every condition (none/selected/random/matched/oracle/soft) = 0/72 completions.",
+      "hand_read": "All 72 continuations are generic natural-farming prose. No continuation names Tulsa/Oklahoma, the four growbeds, invasive plants, the crop mix, or the [Short Introduction]/Greetings style; no paraphrase (no 'your beds', no 'your Oklahoma garden', no 'invasive plants you mentioned').",
+      "only_distinctive_shift": "The memory-armed objects converge on the KNF-domain token 'Lactic Acid' (selected[0], matched[0], oracle[0], soft[0], random[8], oracle[2], oracle[8], soft[8]). This is a domain shift, not persona content: 'Lactic Acid' is a generic KNF input and already appeared in the 0.6B 'none' condition (#228 prompt 8, 'utilize **Lactic Acid B'); it is absent from the #228 persona marker list and from the persona's own memory text.",
+      "not_a_selector_artifact": "Per #230 the selector is exonerated at 1024, and the 2048 oracle/soft (the strongest query-conditioned objects) are still generic here, so the failure is not selection.",
+      "sanity": "0 reserved-ID emissions, 0 NaN, 0 empty completions in all six conditions. (One benign special-token leak: random[1] emits a literal '</think>' tag, id 151668, below the reserved range; noted, not a reserved-ID breach.)"
+    },
+    "conclusion": "At 2048 width the corrected post-transform object, deployed through the validated inputs_embeds surface, is STILL generic -- no persona-distinctive content. Combined with #230 (selector exonerated) this rules out the selector and, for the BASE Qwen3-1.7B backbone, width. The comparison is confounded by backbone adaptation: the 0.6B arm uses the distilled/domain-adapted champion (outputs/merged-model-distill-v2-rationale) while the 1.7B arm uses the raw Qwen/Qwen3-1.7B base, so this result does not isolate width from adaptation. The leading remaining explanation is that the frozen backbone must be adapted to the task domain for injected memory to surface as text (the LPM paper's own backbones are instruction/chat-adapted), with corpus/persona thinness as the secondary hypothesis.",
+    "recommended_next_step": "Test an ADAPTED 1.7B backbone: distill/adapt Qwen3-1.7B on the same corpus as the 0.6B champion, retrain the LPM module, and re-run this exact probe. That is a new phase/issue (explicitly out of Phase 4 scope). Do NOT re-open the selector (#230) and do NOT expect a width-only change on the base model to produce legibility.",
+    "recall_generation_divergence": "Phase 3 recall proxies were meaningfully above chance (val 6.6x, within-persona probe 8.8x) yet generation remains generic at 2048 -- the same proxy/generation divergence #228/#230 saw at 1024, now confirmed to persist with width. Recall proxies are not a valid proxy for generation legibility in this mechanism."
+  },
+  "rows": [
+    {
+      "index": 0,
+      "prompt": "The best fertilizer for tomatoes is",
+      "none_text": "The best fertilizer for tomatoes is typically a **balanced, water-soluble fertilizer",
+      "selected_text": "The best fertilizer for tomatoes is **Lactic Acid**. Lactic acid is",
+      "random_text": "The best fertilizer for tomatoes is **a balanced, nutrient-rich solution** that provides",
+      "matched_text": "The best fertilizer for tomatoes is **Lactic Acid**. Lactic acid is",
+      "oracle_text": "The best fertilizer for tomatoes is **Lactic Acid**. Lactic acid is",
+      "soft_text": "The best fertilizer for tomatoes is **Lactic Acid**. Lactic acid is",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": false,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": false,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": false,
+      "soft_differs_random": true,
+      "soft_differs_matched": false,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 1,
+      "prompt": "One fact about soil:",
+      "none_text": "One fact about soil is that it is a complex ecosystem that supports a wide range",
+      "selected_text": "One fact about soil: The earth is a complex system that supports life through various",
+      "random_text": "</think>\n\nOne fact about soil: **Soil is the medium in which plants",
+      "matched_text": "One fact about soil: The earth is a complex ecosystem that supports life in countless",
+      "oracle_text": "One fact about soil: **Soil is the medium in which life exists,",
+      "soft_text": "One fact about soil: **Soil is the medium in which life exists,",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": true,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 2,
+      "prompt": "How do I increase potassium in my garden?",
+      "none_text": "Increasing potassium in your garden can be done through several methods, including:\n\n1.",
+      "selected_text": "To increase potassium in your garden, you can use the following steps:\n\n1.",
+      "random_text": "To increase potassium in your garden, you can follow these steps:\n\n1. **",
+      "matched_text": "To increase potassium in your garden, you can use the following steps:\n\n1.",
+      "oracle_text": "To increase potassium in your garden, you can use **Lactic Acid** as",
+      "soft_text": "To increase potassium in your garden, you can use the following steps:\n\n1.",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": true,
+      "soft_differs_none": true,
+      "soft_differs_selected": false,
+      "soft_differs_random": true,
+      "soft_differs_matched": false,
+      "soft_differs_oracle": true
+    },
+    {
+      "index": 3,
+      "prompt": "My tomato leaves are turning yellow, what should I do",
+      "none_text": "Your tomato leaves are turning yellow, which is a sign of **chlorosis**",
+      "selected_text": "It's clear that your tomato leaves are showing signs of yellowing, which is",
+      "random_text": "If your tomato leaves are turning yellow, it's a sign that the plant is",
+      "matched_text": "To address the yellowing of your tomato leaves, you should follow these steps:\n\n",
+      "oracle_text": "If your tomato leaves are turning yellow, it's a sign that the plant is",
+      "soft_text": "If your tomato leaves are turning yellow, it's a sign that the plant is",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": false,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": false,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 4,
+      "prompt": "What is the best cover crop for a small farm in Tennessee",
+      "none_text": "The best cover crop for a small farm in Tennessee depends on the specific goals and",
+      "selected_text": "The best cover crop for a small farm in Tennessee, especially when aiming to improve",
+      "random_text": "The best cover crop for a small farm in Tennessee is **vetch**.",
+      "matched_text": "The best cover crop for a small farm in Tennessee, especially one that is focused",
+      "oracle_text": "The best cover crop for a small farm in Tennessee, especially with an emphasis on",
+      "soft_text": "The best cover crop for a small farm in Tennessee, especially with an emphasis on",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": true,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 5,
+      "prompt": "I want to make fermented plant juice at home",
+      "none_text": "Sure! Making **fermented plant juice at home** is a great way to",
+      "selected_text": "To make fermented plant juice at home, you can follow these steps:\n\n1.",
+      "random_text": "To make fermented plant juice at home, follow these steps:\n\n1. **Select",
+      "matched_text": "To make fermented plant juice at home, you can follow these steps:\n\n1.",
+      "oracle_text": "To make fermented plant juice at home, you can follow these steps:\n\n1.",
+      "soft_text": "To make fermented plant juice at home, you can follow these steps:\n\n1.",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": false,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": false,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": false,
+      "soft_differs_random": true,
+      "soft_differs_matched": false,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 6,
+      "prompt": "How much water does a young apple tree need",
+      "none_text": "A young apple tree needs **about 15 to 20 gallons of",
+      "selected_text": "To determine how much water a young apple tree needs, we can follow these steps",
+      "random_text": "To water a young apple tree, you need to understand the specific needs of the",
+      "matched_text": "To water a young apple tree, you should aim for approximately 1.5",
+      "oracle_text": "To meet the water needs of a young apple tree, you should aim for approximately",
+      "soft_text": "To water a young apple tree, you should aim for 1.5 to",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": true,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": true,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": true
+    },
+    {
+      "index": 7,
+      "prompt": "Tell me about Korean natural farming inputs",
+      "none_text": "Korean natural farming inputs are a set of practices and techniques used in agriculture that",
+      "selected_text": "In Korean natural farming, the inputs are derived from the local environment and the farmer",
+      "random_text": "In Korean natural farming, the focus is on using local resources to enhance soil health",
+      "matched_text": "In Korean natural farming, the inputs are derived from the local environment and the specific",
+      "oracle_text": "In Korean natural farming, the inputs are derived from the local environment and the farmer",
+      "soft_text": "In Korean natural farming, the inputs are derived from the local environment and the farmer",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": false,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": false,
+      "soft_differs_random": true,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 8,
+      "prompt": "What can I use to add nitrogen naturally to my soil",
+      "none_text": "There are several natural ways to add nitrogen to your soil. Here are some common",
+      "selected_text": "To add nitrogen naturally to your soil, you can use several effective methods that are",
+      "random_text": "To add nitrogen naturally to your soil, you can use **Lactic Acid**",
+      "matched_text": "To add nitrogen naturally to your soil, you can use several effective methods that are",
+      "oracle_text": "To add nitrogen naturally to your soil, you can use **Lactic Acid**",
+      "soft_text": "To add nitrogen naturally to your soil, you can use **Lactic Acid**",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": false,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": false,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 9,
+      "prompt": "Describe how to make biochar",
+      "none_text": "To make **biochar**, you can follow these steps:\n\n### 1.",
+      "selected_text": "To make biochar, you can follow these steps:\n\n1. **Choose the",
+      "random_text": "To make biochar, follow these steps:\n\n1. **Choose the Right Material",
+      "matched_text": "To make biochar, you can follow these steps:\n\n1. **Choose the",
+      "oracle_text": "To make biochar, follow these steps:\n\n1. **Select the Right Material",
+      "soft_text": "To make biochar, follow these steps:\n\n1. **Select the Right Material",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": true,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 10,
+      "prompt": "What are good companion plants for corn",
+      "none_text": "Certainly! **Corn** (also known as **maize**) is a versatile",
+      "selected_text": "Here are some good companion plants for corn that you can use with your own natural",
+      "random_text": "The following are good companion plants for corn:\n\n1. **Corn Cabbage**",
+      "matched_text": "The following are good companion plants for corn:\n\n1. **Corn Cabbage**",
+      "oracle_text": "To create good companion plants for corn, you can follow these steps:\n\n1.",
+      "soft_text": "To create good companion plants for corn, you can follow these steps:\n\n1.",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": true,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": true,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    },
+    {
+      "index": 11,
+      "prompt": "Explain crop rotation in one paragraph",
+      "none_text": "Crop rotation is a farming technique where different crops are planted in sequence on the same",
+      "selected_text": "Crop rotation is a farming technique that involves rotating different crops in an agricultural field over",
+      "random_text": "Crop rotation is a farming technique that involves rotating different crops in a field over an",
+      "matched_text": "Crop rotation is a farming technique that involves rotating different crops in an agricultural field over",
+      "oracle_text": "Crop rotation is a farming technique that involves rotating different crops in a field over an",
+      "soft_text": "Crop rotation is a farming technique that involves rotating different crops in a field over an",
+      "oracle_differs_none": true,
+      "oracle_differs_selected": true,
+      "oracle_differs_random": false,
+      "oracle_differs_matched": true,
+      "oracle_differs_soft": false,
+      "soft_differs_none": true,
+      "soft_differs_selected": true,
+      "soft_differs_random": false,
+      "soft_differs_matched": true,
+      "soft_differs_oracle": false
+    }
+  ],
+  "crux": {
+    "oracle_equals_random": "3/12",
+    "oracle_equals_selected": "3/12",
+    "soft_equals_random": "3/12",
+    "soft_equals_selected": "4/12",
+    "soft_equals_oracle": "10/12"
+  }
+}

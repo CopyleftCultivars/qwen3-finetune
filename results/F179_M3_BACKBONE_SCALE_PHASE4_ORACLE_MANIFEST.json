@@ -1,0 +1,22 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/oracle_memory_prefix_17b_p0.f32",
+  "provenance": {
+    "issue": 231,
+    "phase": 4,
+    "artifact_file": "outputs/r179-m1/s2a-17b/oracle_memory_prefix_17b_p0.f32",
+    "sha256": "1b0902461cfea3fe5d45405502f2a2cf3be6cb57837bbfdc102280349444b507",
+    "rows": 8,
+    "dim": 2048,
+    "bytes": 65536,
+    "format": "raw FP32 row-major, no header (H rows x d_model floats)",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "training_checkpoint": "outputs/lpm-persona-memory-231-p3/checkpoint.pt",
+    "selection": "ORACLE oracle_pack (own held-out probe) -> l1_transform_selected",
+    "norm_mean": 52.004,
+    "norm_max": 53.9011,
+    "deployable": false,
+    "note": "#231 Phase 4: 2048-width post-transform object from the Phase-3 trained projection + TTP-fit val slots; inputs_embeds prepend surface (NOT reserved rows). random seed 20260925."
+  }
+}

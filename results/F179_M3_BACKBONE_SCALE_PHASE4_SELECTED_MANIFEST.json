@@ -1,0 +1,22 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/a1_memory_prefix_17b_p0.f32",
+  "provenance": {
+    "issue": 231,
+    "phase": 4,
+    "artifact_file": "outputs/r179-m1/s2a-17b/a1_memory_prefix_17b_p0.f32",
+    "sha256": "d2e87b761deb59a2308c0fbb01d87cf789d4cc6e0b5df7ef31d7ba915b5c8d8e",
+    "rows": 8,
+    "dim": 2048,
+    "bytes": 65536,
+    "format": "raw FP32 row-major, no header (H rows x d_model floats)",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "training_checkpoint": "outputs/lpm-persona-memory-231-p3/checkpoint.pt",
+    "selection": "S0 static -> l1_transform_selected",
+    "norm_mean": 51.9257,
+    "norm_max": 53.9726,
+    "deployable": false,
+    "note": "#231 Phase 4: 2048-width post-transform object from the Phase-3 trained projection + TTP-fit val slots; inputs_embeds prepend surface (NOT reserved rows). random seed 20260925."
+  }
+}
