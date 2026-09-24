@@ -9,7 +9,9 @@ meaningfully above chance (6.6×/8.8×), and real per-step timing is measured.
 GO for Phase 4.** Honest caveat up front: at the recall-proxy level the 1.7B run
 is **comparable to, not better than,** #192's 0.6B run — the decisive backbone
 question is Phase 4's generation-legibility probe, which this phase does not
-answer.
+answer. **This is not a clean backbone-only comparison** (§4): the frozen
+encoders differ in domain adaptation, not just width, so "no recall win" cannot
+be attributed to parameter count alone.
 
 ## 1. Recipe (identical to #192, one memory-only deviation)
 
@@ -69,7 +71,23 @@ The clamp holds exactly as designed: `projected_norm_max` reaches 4.0 and never
 exceeds it (0 leakage-watch triggers), and the mean rises to 3.91 — the memory is
 pinned at the safe-zone cap, same qualitative picture as #192 (3.65).
 
-## 4. Recall proxies (0.6B vs 1.7B, same protocol)
+## 4. Recall proxies (0.6B vs 1.7B, same protocol — but not a backbone-only comparison)
+
+**Confound, stated plainly: this is not an apples-to-apples scale test.** The
+frozen encoder for 0.6B is `outputs/merged-model-distill-v2-rationale`
+(`lpm/encoder.py: DEFAULT_MODEL_PATH`) — distilled + rationale-SFT'd on this
+project's domain (`F8_DISTILLATION_RESULTS.md`). The frozen encoder for 1.7B is
+stock `Qwen/Qwen3-1.7B` off the HF hub — no distillation, no domain SFT, no
+adaptation of any kind. So two variables move at once between these two runs:
+backbone width (1024→2048, ~3× params) **and** domain/task adaptation of the
+early layers the encoder stub reuses (present for 0.6B, absent for 1.7B). A
+base model's early-layer representations are not shaped to produce a
+persona-discriminative query vector the way a rationale-SFT'd model's are, so
+the flat/slightly-worse recall below is fully consistent with "adaptation
+matters more than width at this scale" and does **not** by itself support "1.7B
+gains nothing from scale" — that claim would require distilling/SFT-ing 1.7B
+the same way 0.6B was before comparing recall again. No such run has been done;
+this phase does not attempt one.
 
 | eval step | val recall@1 (chance 0.042) | within-persona probe recall@1 (chance 0.021) |
 |---|---|---|
@@ -88,7 +106,9 @@ Both proxies are clearly above chance and mirror #192's ~7–8× bar, so the mod
 learns persona-discriminative memory and the checkpoint is a valid Phase-4 input.
 **Honest read:** the 1.7B val (persona-disjoint transfer) mean is *lower* than
 0.6B (0.276 vs 0.339) while the within-persona probe mean is *higher* (0.182 vs
-0.140) — i.e. no recall-level backbone win. These are noisy proxies (batch 2, 24
+0.140) — i.e. no recall-level win for the 1.7B *encoder-adaptation state tested
+here* (base, undistilled). Given the confound above, this cannot be read as "no
+recall-level backbone win" in general. These are also noisy proxies (batch 2, 24
 val personas) and, per #230, recall was never the binding constraint anyway; the
 binding question is generation legibility (Phase 4).
 
