@@ -1,0 +1,188 @@
+{
+  "issue": 231,
+  "phase": 1,
+  "bundle": "/src/cactus-sdk/weights/qwen3-1.7b-legacy-rt",
+  "checks": {
+    "init_ok": true,
+    "generation": {
+      "n": 3,
+      "reserved_total": 0,
+      "nan": 0,
+      "empty": 0,
+      "records": [
+        {
+          "ids": [
+            785,
+            1850,
+            64291,
+            369,
+            40513,
+            374,
+            11136,
+            264,
+            3070,
+            58402,
+            11,
+            3015,
+            1331,
+            337,
+            40472,
+            64291
+          ],
+          "text": "The best fertilizer for tomatoes is typically a **balanced, water-soluble fertilizer",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "The best fertilizer for tomatoes is"
+        },
+        {
+          "ids": [
+            42,
+            45195,
+            5810,
+            32389,
+            11127,
+            525,
+            264,
+            738,
+            315,
+            12378,
+            323,
+            12538,
+            1483,
+            304,
+            28929,
+            429
+          ],
+          "text": "Korean natural farming inputs are a set of practices and techniques used in agriculture that",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Tell me about Korean natural farming inputs"
+        },
+        {
+          "ids": [
+            1249,
+            1281,
+            3070,
+            37323,
+            1762,
+            97219,
+            498,
+            646,
+            1795,
+            1493,
+            7354,
+            1447,
+            14374,
+            220,
+            16,
+            13
+          ],
+          "text": "To make **biochar**, you can follow these steps:\n\n### 1.",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Describe how to make biochar"
+        }
+      ]
+    },
+    "hidden_dim_probe": {
+      "dim_2048_succeeds": true,
+      "dim_1024_fails": true,
+      "detail": {
+        "2048": {
+          "rc": 0,
+          "ok": true
+        },
+        "1024": {
+          "error": "RuntimeError: memory prefix dim 1024 does not match model hidden dim 2048",
+          "ok": false
+        }
+      }
+    },
+    "armed_arbitrary_prefix": {
+      "n": 3,
+      "reserved_total": 0,
+      "nan": 0,
+      "empty": 0,
+      "records": [
+        {
+          "ids": [
+            785,
+            330,
+            15862,
+            64291,
+            369,
+            40513,
+            1,
+            646,
+            13289,
+            11649,
+            389,
+            279,
+            3151,
+            3880,
+            315,
+            279
+          ],
+          "text": "The \"best fertilizer for tomatoes\" can vary depending on the specific needs of the",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "The best fertilizer for tomatoes is"
+        },
+        {
+          "ids": [
+            42,
+            45195,
+            5810,
+            32389,
+            11127,
+            525,
+            264,
+            738,
+            315,
+            12378,
+            429,
+            45932,
+            279,
+            990,
+            315,
+            5810
+          ],
+          "text": "Korean natural farming inputs are a set of practices that emphasize the use of natural",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Tell me about Korean natural farming inputs"
+        },
+        {
+          "ids": [
+            59260,
+            1762,
+            374,
+            264,
+            12499,
+            40847,
+            3684,
+            8947,
+            504,
+            57658,
+            1526,
+            28387,
+            65166,
+            320,
+            3288,
+            299
+          ],
+          "text": "Biochar is a carbon-rich material produced from biomass through thermal decomposition (pyro",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Describe how to make biochar"
+        }
+      ]
+    }
+  }
+}
