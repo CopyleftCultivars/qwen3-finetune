@@ -53,12 +53,27 @@ from lpm.data import (  # noqa: E402
     group_by_persona,
     load_corpus,
 )
-from lpm.encoder import load_encoder  # noqa: E402
+from lpm.encoder import MODEL_PATH_QWEN3_1_7B, load_encoder  # noqa: E402
 from lpm.memory import LPMModule  # noqa: E402
 
 DEFAULT_MODEL = "outputs/merged-model-distill-v2-rationale"
 DEFAULT_TRAIN = "data/persona_memory/lpm_corpus_train.jsonl"
 DEFAULT_VAL = "data/persona_memory/lpm_corpus_val.jsonl"
+
+# #231 backbone profiles: 0.6b is the #192 default (d_model=1024, byte-for-byte
+# unchanged); 1.7b routes to LPMConfig.qwen3_1_7b() (d_model=2048) and the
+# Qwen3-1.7B backbone. "1.7b" is the issue's backbone-scale disambiguation arm.
+BACKBONE_0_6B = "0.6b"
+BACKBONE_1_7B = "1.7b"
+DEFAULT_BACKBONE = BACKBONE_0_6B
+BACKBONE_MODEL = {
+    BACKBONE_0_6B: DEFAULT_MODEL,
+    BACKBONE_1_7B: MODEL_PATH_QWEN3_1_7B,
+}
+BACKBONE_CONFIG = {
+    BACKBONE_0_6B: LPMConfig.qwen3_0_6b,
+    BACKBONE_1_7B: LPMConfig.qwen3_1_7b,
+}
 
 
 @dataclass
@@ -97,6 +112,31 @@ def select_train_records(
     keep = {pid for pid, group in groups.items() if len(group) >= min_chunks}
     kept = [r for r in filtered if r["persona_id"] in keep]
     return kept
+
+
+def encode_texts_chunked(
+    encoder: Any,
+    tokenizer: Any,
+    texts: list[str],
+    *,
+    max_length: int,
+    chunk: int,
+) -> torch.Tensor:
+    """Encode texts in mini-batches to bound encoder activation memory.
+
+    ``chunk <= 0`` (or ``chunk >= len(texts)``) reproduces the original single-call
+    behavior exactly, so the 0.6B path is unchanged. A positive chunk bounds the
+    per-forward batch for the 1.7B encoder, whose 1215-record single batch would
+    otherwise materialize attention matrices far beyond a 12 GB GPU. Padding is
+    per-chunk but pooling is masked, so the pooled vectors are identical.
+    """
+    if chunk <= 0 or len(texts) <= chunk:
+        return encoder.encode_texts(tokenizer, texts, max_length=max_length, trainable=False).float()
+    parts = [
+        encoder.encode_texts(tokenizer, texts[start : start + chunk], max_length=max_length, trainable=False).float()
+        for start in range(0, len(texts), chunk)
+    ]
+    return torch.cat(parts, dim=0)
 
 
 def forward_ntp(
@@ -322,10 +362,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--backbone", choices=(BACKBONE_0_6B, BACKBONE_1_7B), default=DEFAULT_BACKBONE,
+                        help="Backbone profile: 0.6b (d_model=1024; #192 default) or 1.7b (d_model=2048; #231).")
+    parser.add_argument("--model", default=None,
+                        help="Override the backbone path/HF id (default: the --backbone's own).")
     parser.add_argument("--train-corpus", default=DEFAULT_TRAIN)
     parser.add_argument("--val-corpus", default=DEFAULT_VAL)
     parser.add_argument("--encoder-layers", type=int, default=6)
+    parser.add_argument("--encoder-chunk", type=int, default=0,
+                        help="Mini-batch size for the encoder precompute (0 = single batch, the 0.6B "
+                             "default). Set a positive value for the 1.7B encoder to bound its activation "
+                             "memory; pooled vectors are unchanged (masked pooling).")
     parser.add_argument("--min-chunks", type=int, default=3, help="#192 persona subset: >= N chunks")
     parser.add_argument("--steps", type=int, default=3000)
     parser.add_argument("--batch-size", type=int, default=4)
@@ -369,10 +416,14 @@ def main(argv: list[str] | None = None) -> int:
     torch.manual_seed(args.seed)
     generator = torch.Generator(device="cpu").manual_seed(args.seed)
 
+    model_path = args.model or BACKBONE_MODEL[args.backbone]
+    config_factory = BACKBONE_CONFIG[args.backbone]
+    print(f"backbone={args.backbone} model={model_path}")
+
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    tokenizer = AutoTokenizer.from_pretrained(args.model)
-    model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=torch.bfloat16).to(device)
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.bfloat16).to(device)
     for param in model.parameters():
         param.requires_grad = False
     if not args.no_grad_checkpoint:
@@ -393,7 +444,7 @@ def main(argv: list[str] | None = None) -> int:
         config_overrides["lambda_mag"] = args.lambda_mag
     if args.alpha_entropy is not None:
         config_overrides["alpha_entropy"] = args.alpha_entropy
-    config = LPMConfig(**config_overrides)
+    config = config_factory(**config_overrides)
 
     train_all = load_corpus(args.train_corpus)
     train_records = select_train_records(train_all, config, args.min_chunks)
@@ -405,14 +456,16 @@ def main(argv: list[str] | None = None) -> int:
         f"fit {len(fit_records)} / held-out probes {len(probe_records)}"
     )
 
-    encoder = load_encoder(args.model, n_layers=args.encoder_layers, device=device, trainable_layers=0)
+    encoder = load_encoder(model_path, n_layers=args.encoder_layers, device=device, trainable_layers=0)
     with torch.no_grad():
-        query_emb = encoder.encode_texts(
-            tokenizer, [r["prompt_text"] for r in fit_records], max_length=args.max_length
-        ).float().to(device)
-        probe_query_emb = encoder.encode_texts(
-            tokenizer, [r["prompt_text"] for r in probe_records], max_length=args.max_length
-        ).float().to(device)
+        query_emb = encode_texts_chunked(
+            encoder, tokenizer, [r["prompt_text"] for r in fit_records],
+            max_length=args.max_length, chunk=args.encoder_chunk,
+        ).to(device)
+        probe_query_emb = encode_texts_chunked(
+            encoder, tokenizer, [r["prompt_text"] for r in probe_records],
+            max_length=args.max_length, chunk=args.encoder_chunk,
+        ).to(device)
     targets = TargetEncoder(tokenizer, fit_records, args.max_length)
 
     module = LPMModule(n_personas=len(train_index), config=config).to(device)
@@ -498,6 +551,10 @@ def main(argv: list[str] | None = None) -> int:
     peak = round(torch.cuda.max_memory_allocated(device) / 1e9, 3) if device.type == "cuda" else None
     summary = {
         "issue": 192,
+        "backbone": args.backbone,
+        "model": model_path,
+        "d_model": config.d_model,
+        "encoder_chunk": args.encoder_chunk,
         "steps": step,
         "batch_size": args.batch_size,
         "lr": args.lr,
