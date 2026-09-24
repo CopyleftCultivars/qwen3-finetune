@@ -13,6 +13,7 @@ is exactly the width LPM's W_Q expects.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -20,8 +21,21 @@ from typing import Iterable
 import torch
 import torch.nn as nn
 
-DEFAULT_MODEL_PATH = "outputs/merged-model-distill-v2-rationale"
+# The 0.6B champion (current M3 backbone) and the 1.7B base backbone used by
+# #231's backbone-scale disambiguation. Both are 28-layer Qwen3 models, so the
+# same absolute stub depth (6) is also the same fraction (6/28) for each; only
+# the pooled width differs (1024 vs 2048). Keeping N=6 also matches the engine's
+# CACTUS_QWEN_EMBED_LAYERS=6 early-layer exposure validated in #212, so the stub
+# stays a prefix of the deployed backbone in both cases.
+DEFAULT_MODEL_PATH = "outputs/merged-model-distill-v2-rationale"  # Qwen3-0.6B champion
+MODEL_PATH_QWEN3_0_6B = DEFAULT_MODEL_PATH
+MODEL_PATH_QWEN3_1_7B = "Qwen/Qwen3-1.7B"  # HF repo id (resolves via cache) or a local path
 DEFAULT_N_LAYERS = 6
+
+
+def _is_hf_repo_id(value: str) -> bool:
+    """True for an ``org/name`` HuggingFace repo id (not a filesystem path)."""
+    return bool(re.fullmatch(r"[\w][\w.-]*/[\w][\w.-]*", value)) and not value.startswith((".", "/", "~"))
 
 
 @dataclass
@@ -30,6 +44,20 @@ class EncoderSpec:
     n_layers: int = DEFAULT_N_LAYERS
     pooling: str = "mean"  # "mean" | "last"
     dtype: str = "auto"
+
+
+def encoder_spec_qwen3_1_7b(
+    n_layers: int = DEFAULT_N_LAYERS,
+    pooling: str = "mean",
+    dtype: str = "auto",
+) -> EncoderSpec:
+    """EncoderSpec for the Qwen3-1.7B backbone (#231): same stub depth, width 2048.
+
+    ``n_layers`` stays 6 (see the module constants' note): 1.7B has the same 28
+    layers as 0.6B, so 6 is both the same absolute depth and the same fraction,
+    and matches the engine's CACTUS_QWEN_EMBED_LAYERS=6 exposure.
+    """
+    return EncoderSpec(model_path=MODEL_PATH_QWEN3_1_7B, n_layers=n_layers, pooling=pooling, dtype=dtype)
 
 
 class Qwen3EarlyLayerEncoder(nn.Module):
@@ -161,7 +189,7 @@ def load_encoder(
     trainable_layers: int = 0,
     pooling: str = "mean",
 ) -> Qwen3EarlyLayerEncoder:
-    if not Path(model_path).exists():
+    if not Path(model_path).exists() and not _is_hf_repo_id(model_path):
         raise FileNotFoundError(f"backbone not found: {model_path}")
     return Qwen3EarlyLayerEncoder(
         EncoderSpec(model_path=model_path, n_layers=n_layers, pooling=pooling),

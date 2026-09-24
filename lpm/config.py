@@ -30,7 +30,15 @@ RESERVED_ID_COUNT = RESERVED_ID_END - RESERVED_ID_START + 1  # 266
 DEFAULT_N_SLOTS_PER_HEAD = 32
 DEFAULT_D_MEM = 256
 DEFAULT_N_HEADS = 8
-DEFAULT_D_MODEL = 1024  # Qwen3-0.6B hidden_size, and the embedding-row width
+# Deployment widths: LPMConfig.d_model must equal the hidden_size of the
+# backbone the module is trained against (whose early layers the encoder stub
+# reuses and whose inputs_embeds the deployed prefix feeds). Two backbones are in
+# scope for this epic, so validation is against the set of supported widths, not
+# a single global constant:
+QWEN3_0_6B_D_MODEL = 1024  # Qwen3-0.6B hidden_size (the current M3 champion)
+QWEN3_1_7B_D_MODEL = 2048  # Qwen3-1.7B hidden_size (#231 backbone-scale disambiguation)
+DEFAULT_D_MODEL = QWEN3_0_6B_D_MODEL  # keeps the existing 0.6B default unchanged
+SUPPORTED_D_MODELS = (QWEN3_0_6B_D_MODEL, QWEN3_1_7B_D_MODEL)
 DEFAULT_D_KEY = 256
 ENTROPY_FRACTION = 0.4  # paper: H_target = 0.4 * log(k), k = slots per head
 M1_SAFE_NORM = 4.0  # M1 #186: norm <= 4.0 did not leak; norm ~8.0 did
@@ -130,10 +138,24 @@ class LPMConfig:
                 f"{self.n_heads} heads x {self.n_slots} slots = "
                 f"{self.total_slots} exceeds the {RESERVED_ID_COUNT}-ID reserved pool"
             )
-        if self.d_model != DEFAULT_D_MODEL:
+        if self.d_model not in SUPPORTED_D_MODELS:
             raise ValueError(
-                f"d_model={self.d_model} but deployment rows are {DEFAULT_D_MODEL}-dim"
+                f"d_model={self.d_model} is not a supported deployment width; "
+                f"expected one of {SUPPORTED_D_MODELS} "
+                f"(Qwen3-0.6B={QWEN3_0_6B_D_MODEL}, Qwen3-1.7B={QWEN3_1_7B_D_MODEL})"
             )
+
+    @classmethod
+    def qwen3_0_6b(cls, **overrides: object) -> "LPMConfig":
+        """0.6B profile (d_model=1024). Same as the bare default; explicit for callers."""
+        overrides.setdefault("d_model", QWEN3_0_6B_D_MODEL)
+        return cls(**overrides)  # type: ignore[arg-type]
+
+    @classmethod
+    def qwen3_1_7b(cls, **overrides: object) -> "LPMConfig":
+        """1.7B profile (#231): only d_model differs from the paper default (H/N/d_mem same)."""
+        overrides.setdefault("d_model", QWEN3_1_7B_D_MODEL)
+        return cls(**overrides)  # type: ignore[arg-type]
 
     def to_dict(self) -> dict[str, object]:
         return {
