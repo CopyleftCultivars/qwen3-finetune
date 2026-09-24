@@ -1,0 +1,20 @@
+{
+  "reviewer": "human/agent hand review of all 36 primary completions (plus 12 supplementary matched)",
+  "persona_under_test": {
+    "persona_id": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+    "salient_memory": "single-session Tulsa, Oklahoma gardener; 4 growbeds (4x6 ft) of peppers, tomatoes, lettuce, kitchen herbs; asks for per-bed nutrient solutions from local invasive plants. Assistant reply uses a '[Short Introduction]' header and 'Greetings!' and names Tulsa/Oklahoma and the specific crops.",
+    "distinctive_lexical_markers": ["tulsa", "oklahoma", "growbed", "invasive", "pepper", "lettuce", "kitchen herb", "[Short Introduction]", "Greetings"]
+  },
+  "bar": "content plausibly tied to the specific selected persona/memory -- not the same generic register shift regardless of which vectors fired",
+  "verdict": "FAIL",
+  "verdict_label": "differs but generic",
+  "numeric_vs_qualitative": "Independent. The numeric bar (selected != random >= 9/12) PASSES at 11/12, but the qualitative bar FAILS.",
+  "evidence": {
+    "persona_marker_hits_in_all_48_completions": 0,
+    "note_on_markers": "A lexical scan for every distinctive persona marker over all 48 completions (selected/random/none/matched x 12) returned zero hits. The selected continuations are NF-domain generic prose; none reference the persona's location, growbeds, crop mix, invasive-plant ask, or response style.",
+    "difference_character": "Every selected!=random difference is a surface/register/knowledge-style shift, not persona content: conversational acknowledgements ('Thank you for sharing this information!'), formatting ('**Shortened Answer:**', bold headers), capitalization, and generic word choices ('nutrient-rich formula' vs 'NPK', 'natural sources', 'from wood' vs 'from local materials', a botanical name for corn). The same register shift appears under random, so it is not selector-specific.",
+    "only_semi_distinctive_term": "Prompt 0 under the SUPPLEMENTARY 'matched' object (not the issue-pinned selected) says 'balanced approach that incorporates **bioaccumulators**', a permaculture term adjacent to the persona's invasive-plant ask. It is a single isolated term; the other 11 matched continuations show no comparable persona content (matched == shipped selected on 7/12, both generic), so it does not support the bar.",
+    "supplementary_signal": "matched (same-fit S0) == shipped selected (different-fit S0) on 7/12 and differs from random on nearly all prompts: the S0-vs-random numeric effect is reproducible across fits, but it remains a generic perturbation."
+  },
+  "conclusion": "The corrected post-transform object deployed through its only viable surface still produces a generic natural-farming register shift, not legible persona content. Necessary but not sufficient. The gap is the SELECTOR (S0 is static, query-independent) and/or the training corpus / persona specificity -- not the object representation (#216) or the deployment surface (#223 S1-S4), both of which are now validated as correct."
+}

@@ -1,0 +1,25 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/random8_memory_prefix_p0.f32",
+  "provenance": {
+    "issue": 228,
+    "artifact_file": "outputs/r179-m1/s2a/random8_memory_prefix_p0.f32",
+    "sha256": "75dc18fc20bd874222c83e3aa3690fb7baf46c739251946644e88a224b9ff57c",
+    "rows": 8,
+    "dim": 1024,
+    "bytes": 32768,
+    "format": "raw FP32 row-major, no header (H rows x d_model floats)",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "seed": 0,
+    "random_seed": 20260924,
+    "prior_random_seed_214": 20260923,
+    "s0_top": [24, 15, 0, 9, 3, 6, 25, 9],
+    "random_slots": [0, 27, 31, 22, 30, 18, 20, 23],
+    "selection": "S0 slots (#211) -> per-head random slot excluding S0 -> l1_transform_selected out_ln[h](v+mlp(v))",
+    "norm_mean": 37.1471,
+    "norm_max": 39.4698,
+    "generator": "scripts/gen_memory_prefix_random8.py",
+    "note": "control object: same pipeline + same post-transform as the A1 selected file; only the slot index per head differs. random_seed pinned and differs from #214's 20260923."
+  }
+}

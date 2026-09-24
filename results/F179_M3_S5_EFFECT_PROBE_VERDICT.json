@@ -1,0 +1,326 @@
+{
+  "issue": 228,
+  "n_prompts": 12,
+  "max_tokens": 16,
+  "conditions": [
+    "selected",
+    "random",
+    "none",
+    "matched"
+  ],
+  "bundles": {
+    "selected": "[LOCAL_PATH]",
+    "random": "[LOCAL_PATH]",
+    "none": "[LOCAL_PATH]",
+    "matched": "[LOCAL_PATH]"
+  },
+  "G6a_numeric": {
+    "bar": "selected != random on >= 9/12",
+    "selected_differs_random": "11/12",
+    "selected_differs_none": "11/12",
+    "random_differs_none": "12/12",
+    "pass": true
+  },
+  "sanity": {
+    "per_condition": {
+      "selected": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "random": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "none": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      },
+      "matched": {
+        "reserved": 0,
+        "nan": 0,
+        "empty": 0
+      }
+    },
+    "pass": true
+  },
+  "G6b_qualitative": {
+    "reviewer": "human/agent hand review of all 36 primary completions (plus 12 supplementary matched)",
+    "persona_under_test": {
+      "persona_id": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+      "salient_memory": "single-session Tulsa, Oklahoma gardener; 4 growbeds (4x6 ft) of peppers, tomatoes, lettuce, kitchen herbs; asks for per-bed nutrient solutions from local invasive plants. Assistant reply uses a '[Short Introduction]' header and 'Greetings!' and names Tulsa/Oklahoma and the specific crops.",
+      "distinctive_lexical_markers": [
+        "tulsa",
+        "oklahoma",
+        "growbed",
+        "invasive",
+        "pepper",
+        "lettuce",
+        "kitchen herb",
+        "[Short Introduction]",
+        "Greetings"
+      ]
+    },
+    "bar": "content plausibly tied to the specific selected persona/memory -- not the same generic register shift regardless of which vectors fired",
+    "verdict": "FAIL",
+    "verdict_label": "differs but generic",
+    "numeric_vs_qualitative": "Independent. The numeric bar (selected != random >= 9/12) PASSES at 11/12, but the qualitative bar FAILS.",
+    "evidence": {
+      "persona_marker_hits_in_all_48_completions": 0,
+      "note_on_markers": "A lexical scan for every distinctive persona marker over all 48 completions (selected/random/none/matched x 12) returned zero hits. The selected continuations are NF-domain generic prose; none reference the persona's location, growbeds, crop mix, invasive-plant ask, or response style.",
+      "difference_character": "Every selected!=random difference is a surface/register/knowledge-style shift, not persona content: conversational acknowledgements ('Thank you for sharing this information!'), formatting ('**Shortened Answer:**', bold headers), capitalization, and generic word choices ('nutrient-rich formula' vs 'NPK', 'natural sources', 'from wood' vs 'from local materials', a botanical name for corn). The same register shift appears under random, so it is not selector-specific.",
+      "only_semi_distinctive_term": "Prompt 0 under the SUPPLEMENTARY 'matched' object (not the issue-pinned selected) says 'balanced approach that incorporates **bioaccumulators**', a permaculture term adjacent to the persona's invasive-plant ask. It is a single isolated term; the other 11 matched continuations show no comparable persona content (matched == shipped selected on 7/12, both generic), so it does not support the bar.",
+      "supplementary_signal": "matched (same-fit S0) == shipped selected (different-fit S0) on 7/12 and differs from random on nearly all prompts: the S0-vs-random numeric effect is reproducible across fits, but it remains a generic perturbation."
+    },
+    "conclusion": "The corrected post-transform object deployed through its only viable surface still produces a generic natural-farming register shift, not legible persona content. Necessary but not sufficient. The gap is the SELECTOR (S0 is static, query-independent) and/or the training corpus / persona specificity -- not the object representation (#216) or the deployment surface (#223 S1-S4), both of which are now validated as correct."
+  },
+  "rows": [
+    {
+      "index": 0,
+      "prompt": "The best fertilizer for tomatoes is",
+      "none_text": "The best fertilizer for tomatoes is a combination of nutrients that supports healthy growth and fruit",
+      "selected_text": "The best fertilizer for tomatoes is a balanced, nutrient-rich formula that ensures they receive",
+      "random_text": "For tomatoes, the best fertilizer is a balanced NPK (Nitrogen, Ph",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "The best fertilizer for tomatoes is a balanced approach that incorporates **bioaccumulators**",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": false
+    },
+    {
+      "index": 1,
+      "prompt": "One fact about soil:",
+      "none_text": "Soil is a critical component of the ecosystem, providing essential nutrients and water for",
+      "selected_text": "Thank you for sharing this information! Soil health is a cornerstone of sustainable gardening.",
+      "random_text": "Thank you for the information! I'm glad to assist. Based on your interest",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Thank you for sharing this information! Soil health is a cornerstone of sustainable gardening.",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": true
+    },
+    {
+      "index": 2,
+      "prompt": "How do I increase potassium in my garden?",
+      "none_text": "Increasing potassium in your garden can be achieved through several methods, including applying compost or",
+      "selected_text": "Increasing potassium in your garden can be achieved through several methods, including using natural sources",
+      "random_text": "To increase potassium in your garden, focus on building strong root systems and using natural",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Increasing potassium in your garden can be achieved through several methods, including applying a strong",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": false
+    },
+    {
+      "index": 3,
+      "prompt": "My tomato leaves are turning yellow, what should I do",
+      "none_text": "If your tomato leaves are turning yellow, it's likely due to a nutrient deficiency",
+      "selected_text": "If your tomato leaves are turning yellow, it's likely due to a nutrient deficiency",
+      "random_text": "**Shortened Answer:**\nIf your tomatoes are turning yellow, it's likely",
+      "selected_differs_random": true,
+      "selected_differs_none": false,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "If your tomato leaves are turning yellow, it's likely due to a nutrient deficiency",
+      "matched_differs_random": true,
+      "matched_differs_none": false,
+      "matched_equals_selected": true
+    },
+    {
+      "index": 4,
+      "prompt": "What is the best cover crop for a small farm in Tennessee",
+      "none_text": "For a small farm in Tennessee, considering the climate and soil conditions, **str",
+      "selected_text": "For a small farm in Tennessee, especially considering the climate and soil conditions, choosing",
+      "random_text": "For a small farm in Tennessee, focusing on **cover crops** that naturally support",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "For a small farm in Tennessee, especially considering the climate and soil conditions, choosing",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": true
+    },
+    {
+      "index": 5,
+      "prompt": "I want to make fermented plant juice at home",
+      "none_text": "Creating fermented plant juice (FPJ) at home is a great way to harness",
+      "selected_text": "Creating fermented plant juice (FPJ) at home is a great way to nour",
+      "random_text": "Creating Fermented Plant Juice (FPJ) at home is a great way to",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Creating fermented plant juice (FPJ) at home is a great way to nour",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": true
+    },
+    {
+      "index": 6,
+      "prompt": "How much water does a young apple tree need",
+      "none_text": "A young apple tree, especially during its early growth phase, typically requires a significant",
+      "selected_text": "A young apple tree, especially during its early growth phase, typically requires a balanced",
+      "random_text": "For young apple trees, a general recommendation for water is about 10-",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "A young apple tree, especially during its early growth phase, typically requires a balanced",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": true
+    },
+    {
+      "index": 7,
+      "prompt": "Tell me about Korean natural farming inputs",
+      "none_text": "Korean Natural Farming (KNF) is a holistic approach to agriculture that",
+      "selected_text": "Korean Natural Farming (KNF) is a holistic approach to farming that",
+      "random_text": "Korean Natural Farming (KNF) is a holistic approach that uses local",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Korean Natural Farming (KNF) is a holistic approach to farming that",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": true
+    },
+    {
+      "index": 8,
+      "prompt": "What can I use to add nitrogen naturally to my soil",
+      "none_text": "To naturally add nitrogen to your soil, you can utilize **Lactic Acid B",
+      "selected_text": "Adding natural nitrogen to your soil naturally can be achieved through several methods, each with",
+      "random_text": "Adding natural nitrogen to your soil naturally can be achieved through several methods, each with",
+      "selected_differs_random": false,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Adding nitrogen naturally to your soil is a great way to improve the health and vitality",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": false
+    },
+    {
+      "index": 9,
+      "prompt": "Describe how to make biochar",
+      "none_text": "Creating biochar from agricultural waste is a sustainable practice that can significantly improve soil health",
+      "selected_text": "Creating biochar from wood is a sustainable way to improve soil health and support plant",
+      "random_text": "Creating biochar from your local materials is a great way to improve soil health and",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Creating biochar from agricultural waste is a sustainable way to improve soil health and reduce",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": false
+    },
+    {
+      "index": 10,
+      "prompt": "What are good companion plants for corn",
+      "none_text": "Good companion plants for corn include:\n\n1. **Tomatoes**: Tomatoes can",
+      "selected_text": "Good companion plants for corn (Zea millefera) include:\n\n1",
+      "random_text": "**Good Companion Plants for Corn:**\n\nFor corn, it's essential to choose",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Good companion plants for corn can be beneficial due to their shared nutrient needs and potential",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": false
+    },
+    {
+      "index": 11,
+      "prompt": "Explain crop rotation in one paragraph",
+      "none_text": "Crop rotation is a fundamental practice in natural farming that involves planting crops in staggered",
+      "selected_text": "Crop rotation is a fundamental practice in natural farming that involves planting crops in alternate seasons",
+      "random_text": "Crop rotation is a fundamental practice in natural farming that ensures soil health and prevents diseases",
+      "selected_differs_random": true,
+      "selected_differs_none": true,
+      "random_differs_none": true,
+      "reserved": {
+        "selected": 0,
+        "random": 0,
+        "none": 0,
+        "matched": 0
+      },
+      "matched_text": "Crop rotation is a fundamental practice in natural farming that involves planting crops in alternate seasons",
+      "matched_differs_random": true,
+      "matched_differs_none": true,
+      "matched_equals_selected": true
+    }
+  ],
+  "supplementary_matched": {
+    "matched_differs_random": "12/12",
+    "matched_differs_none": "11/12",
+    "matched_equals_selected": "7/12"
+  }
+}
