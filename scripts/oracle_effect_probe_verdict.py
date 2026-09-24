@@ -49,6 +49,8 @@ def main(argv=None) -> int:
     p.add_argument("--oracle", required=True)
     p.add_argument("--out", default="")
     p.add_argument("--qualitative", default="")
+    p.add_argument("--issue", type=int, default=230,
+                   help="Issue id recorded in the verdict (e.g. 231 for the Phase-4 1.7B rerun).")
     args = p.parse_args(argv)
 
     base = json.loads(Path(args.base).read_text())
@@ -109,7 +111,7 @@ def main(argv=None) -> int:
     marker_total = sum(marker_hits.values())
 
     verdict = {
-        "issue": 230,
+        "issue": args.issue,
         "n_prompts": n,
         "max_tokens": base.get("max_tokens"),
         "conditions": conditions,
