@@ -1,0 +1,24 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/oracle_soft_mixture_p0.f32",
+  "provenance": {
+    "issue": 230,
+    "artifact_file": "outputs/r179-m1/s2a/oracle_soft_mixture_p0.f32",
+    "sha256": "ccef8ee09d2c68dd7dd0a3a8ed31a2231e61a75436a88d1ced3cdf42ff7a8a36",
+    "rows": 8,
+    "dim": 1024,
+    "bytes": 32768,
+    "format": "raw FP32 row-major, no header (H rows x d_model floats)",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "seed": 0,
+    "selection": "SUPPLEMENTARY soft attention mixture over all N slots (query-conditioned), post-transform: out_ln[h](mix+mlp(mix))",
+    "deployable": false,
+    "cheating": true,
+    "soft_attn_max_per_head": [0.8092, 0.2329, 0.0463, 0.0425, 0.8531, 0.3959, 0.0441, 0.086],
+    "norm_mean": 36.9527,
+    "norm_max": 37.7666,
+    "generator": "scripts/gen_memory_prefix_oracle.py --soft-out",
+    "note": "SUPPLEMENTARY control beyond the issue's specified oracle_pack hard argmax. This is the #216 soft-oracle object (recall 0.25-0.31, the query-conditioned upper bound). Not a static A1 object -- deployable only via the A2 runtime setter (#213). Included to control for the hard-argmax oracle's flat per-head attention."
+  }
+}

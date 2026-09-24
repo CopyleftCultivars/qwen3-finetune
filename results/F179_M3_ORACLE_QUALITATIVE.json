@@ -1,0 +1,23 @@
+{
+  "reviewer": "human/agent hand review of all 12 oracle + 12 soft completions (plus re-glance at #228's 48)",
+  "persona_under_test": {
+    "persona_id": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+    "salient_memory": "single-session Tulsa, Oklahoma gardener; 4 growbeds (4x6 ft) of peppers, tomatoes, lettuce, kitchen herbs; asks for per-bed nutrient solutions from local invasive plants. Assistant reply uses a '[Short Introduction]' header and 'Greetings!' and names Tulsa/Oklahoma and the specific crops.",
+    "distinctive_lexical_markers": ["tulsa", "oklahoma", "growbed", "invasive", "pepper", "lettuce", "kitchen herb", "[short introduction]", "greetings"]
+  },
+  "bar": "content plausibly tied to the specific selected persona/memory, not a generic register shift",
+  "verdict": "SELECTOR EXONERATED",
+  "verdict_label": "oracle (and soft upper bound) also generic",
+  "summary": "Both the issue-specified hard-argmax oracle (oracle_pack on the persona's own held-out probe) AND a supplementary soft attention-mixture upper bound (the #216 soft-oracle object, recall 0.25-0.31) produce only generic NF prose with ZERO persona markers. Neither is closer to persona content than static S0. The selector is not the bottleneck.",
+  "evidence": {
+    "marker_hits": "0 hits for every marker, in every condition (none/selected/random/matched/oracle/soft): 0/72 completions.",
+    "oracle_hand_read": "All 12 oracle continuations are generic NF/gardening prose (e.g. [0] 'balanced, nutrient-rich formula', [1] 'Thank you for sharing this information! Soil health is a cornerstone...', [6] 'Young apple trees, especially those that are just starting to establish...'). None names Tulsa/Oklahoma, the 4 growbeds, invasive plants, the crop mix, or the [Short Introduction]/Greetings style.",
+    "soft_hand_read": "All 12 soft-mixture continuations are likewise generic (e.g. [11] 'planting crops in succession to', [1] 'Soil is a crucial component of healthy plant growth...'). None carries a persona marker.",
+    "no_persona_signal_even_lexically_or_by_paraphrase": "Re-read every completion by hand rather than trusting the scan; no paraphrase or partial match (e.g. no 'your beds', no 'your Oklahoma garden', no 'invasive plants you mentioned') appears either.",
+    "oracle_and_soft_behave_like_memory_objects_not_noise": "oracle==random 0/12 and soft==random 0/12, while oracle==selected 6/12 and soft==selected 7/12 (soft==matched 7/12). So both query-conditioned objects DO change the continuation relative to random/none, but the change is the same generic register perturbation static S0 already produced.",
+    "hard_oracle_is_not_a_strong_selector_here": "The hard oracle_pack attention is peaked on only 2/8 heads (attn_max [0.81, 0.23, 0.05, 0.04, 0.85, 0.40, 0.04, 0.09]) -- on the other heads it is near-uniform over 32 slots, so the hard argmax is near-arbitrary there. This is why the supplementary SOFT mixture (which uses all slots, and is the object #216 scored at 0.25-0.31 recall) was added: it is the true query-conditioned upper bound. It is also generic, so the negative result is not an artifact of the hard argmax being weak."
+  },
+  "conclusion": "The gap is NOT the selector. Un-pausing #213 (a router) would optimize a component that is not the bottleneck. Two sub-hypotheses remain for the generic result: (a) CORPUS -- this persona's single-session Q&A may not have taught the projection network a recoverable latent representation of its salient facts; and (b) BACKBONE CAPACITY -- the 0.6B champion may be unable to surface frozen-backbone soft-prompt conditioning as explicit text, regardless of selector or corpus.",
+  "recommendation_n213": "Leave #213 paused. Do NOT build the router: this experiment (the exact disambiguation #213 was paused for) shows selection quality is not what limits legibility. #213 can only be justified again after the backbone-scale hypothesis is resolved.",
+  "recommended_next_step": "(b) BACKBONE SCALE is the cheaper and more decisive disambiguation: the LPM paper this design follows (arXiv 2606.20911) also freezes the backbone but reports results on Qwen3-1.7B/4B/8B, not 0.6B. Re-run the same fit -> post-transform -> inputs_embeds effect probe (S0 and oracle) on a 1.7B backbone; if persona markers appear, the bottleneck is 0.6B capacity, and the epic's direction should pivot to a larger backbone rather than to corpus re-engineering or routing. Corpus thinness (a) can be tested in parallel by probing richer multi-session personas, but requires new corpus/training work and is the larger of the two."
+}

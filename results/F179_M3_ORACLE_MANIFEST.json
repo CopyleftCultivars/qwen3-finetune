@@ -1,0 +1,25 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/oracle_memory_prefix_p0.f32",
+  "provenance": {
+    "issue": 230,
+    "artifact_file": "outputs/r179-m1/s2a/oracle_memory_prefix_p0.f32",
+    "sha256": "fc43a2fb5b3e8eaf44838dffd33a116a1dea05bef7b13344878526824f8d98b5",
+    "rows": 8,
+    "dim": 1024,
+    "bytes": 32768,
+    "format": "raw FP32 row-major, no header (H rows x d_model floats)",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "seed": 0,
+    "selection": "ORACLE oracle_pack: persona's own held-out probe_q -> attention.argmax per head -> bake[k,h,top] -> l1_transform_selected out_ln[h](v+mlp(v))",
+    "deployable": false,
+    "cheating": true,
+    "oracle_top": [24, 14, 22, 16, 20, 31, 20, 3],
+    "attn_max_per_head": [0.8092, 0.2329, 0.0463, 0.0425, 0.8531, 0.3959, 0.0441, 0.086],
+    "norm_mean": 36.9433,
+    "norm_max": 37.8778,
+    "generator": "scripts/gen_memory_prefix_oracle.py",
+    "note": "NOT deployable: uses the persona's own held-out/future content as the selection query. This is the selection upper bound (hard argmax) used only to separate SELECTOR quality from corpus/backbone capacity."
+  }
+}
