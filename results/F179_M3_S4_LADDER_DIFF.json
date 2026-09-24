@@ -1,0 +1,1916 @@
+{
+  "summary": {
+    "n": 210,
+    "a_label": "new_engine_p185suppress",
+    "a_correct": 174,
+    "a_accuracy": 0.8286,
+    "a_wilson95": [
+      0.7718,
+      0.8735
+    ],
+    "a_ambiguous": 0,
+    "b_label": "207_baseline_patched",
+    "b_correct": 174,
+    "b_accuracy": 0.8286,
+    "b_wilson95": [
+      0.7718,
+      0.8735
+    ],
+    "b_ambiguous": 0,
+    "n_differ": 0,
+    "differ_question_ids": [],
+    "correct_delta": 0
+  },
+  "per_item": [
+    {
+      "question_id": "NF-0001",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0002",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0003",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0004",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0005",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0006",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0007",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0008",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0009",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0010",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0011",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0012",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0013",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0014",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0015",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0016",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0017",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0018",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0019",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0020",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0021",
+      "gold": "B",
+      "a_answer": "C",
+      "a_correct": false,
+      "b_answer": "C",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0022",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0023",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0024",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0025",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0026",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0027",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0028",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0029",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0030",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0031",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0032",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0033",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0034",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0035",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0036",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0037",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0038",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0039",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0040",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0041",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0042",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0043",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0044",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0045",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0046",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0047",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0048",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0049",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0050",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0051",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0052",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0053",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0054",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0055",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0056",
+      "gold": "A",
+      "a_answer": "A",
+      "a_correct": true,
+      "b_answer": "A",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0057",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0058",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0059",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0060",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0061",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0062",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0063",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0064",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0065",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0066",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0067",
+      "gold": "C",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0068",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0069",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0070",
+      "gold": "B",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0071",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0072",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0073",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0074",
+      "gold": "D",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0075",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0076",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0077",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0078",
+      "gold": "B",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0079",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0080",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0081",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0082",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0083",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0084",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0085",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0086",
+      "gold": "B",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0087",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0088",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0089",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0090",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0091",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0092",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0093",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0094",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0095",
+      "gold": "A",
+      "a_answer": "A",
+      "a_correct": true,
+      "b_answer": "A",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0096",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0097",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0098",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0099",
+      "gold": "C",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0100",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0101",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0102",
+      "gold": "A",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0103",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0104",
+      "gold": "B",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0105",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0106",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0107",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0108",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0109",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0110",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0111",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0112",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0113",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0114",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0115",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0116",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0117",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0118",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0119",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0120",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0121",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0122",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0123",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0124",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0125",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0126",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0127",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0128",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0129",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0130",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0131",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0132",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0133",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0134",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0135",
+      "gold": "A",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0136",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0137",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0138",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0139",
+      "gold": "C",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0140",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0141",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0142",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0143",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0144",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0145",
+      "gold": "C",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0146",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0147",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0148",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0149",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0150",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0151",
+      "gold": "A",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0152",
+      "gold": "B",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0153",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0154",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0155",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0156",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0157",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0158",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0159",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0160",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0161",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0162",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0163",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0164",
+      "gold": "A",
+      "a_answer": "A",
+      "a_correct": true,
+      "b_answer": "A",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0165",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0166",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0167",
+      "gold": "C",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0168",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0169",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0170",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0171",
+      "gold": "B",
+      "a_answer": "D",
+      "a_correct": false,
+      "b_answer": "D",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0172",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0173",
+      "gold": "A",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0174",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0175",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0176",
+      "gold": "B",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0177",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0178",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0179",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0180",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0181",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0182",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0183",
+      "gold": "D",
+      "a_answer": "B",
+      "a_correct": false,
+      "b_answer": "B",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0184",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0185",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0186",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0187",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0188",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0189",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0190",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0191",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0192",
+      "gold": "D",
+      "a_answer": "D",
+      "a_correct": true,
+      "b_answer": "D",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0193",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0194",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0195",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0196",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0197",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0198",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0199",
+      "gold": "B",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0200",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0201",
+      "gold": "C",
+      "a_answer": "C",
+      "a_correct": true,
+      "b_answer": "C",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0202",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0203",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0204",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0205",
+      "gold": "C",
+      "a_answer": "A",
+      "a_correct": false,
+      "b_answer": "A",
+      "b_correct": false,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0206",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0207",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0208",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0209",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    },
+    {
+      "question_id": "NF-0210",
+      "gold": "B",
+      "a_answer": "B",
+      "a_correct": true,
+      "b_answer": "B",
+      "b_correct": true,
+      "same_answer": true
+    }
+  ]
+}
