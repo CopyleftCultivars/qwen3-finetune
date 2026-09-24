@@ -1,0 +1,81 @@
+{
+  "issue": 231,
+  "phase": 2,
+  "device": "cpu",
+  "checks": {
+    "encoder": {
+      "model_path": "Qwen/Qwen3-1.7B",
+      "n_layers": 6,
+      "hidden_size": 2048,
+      "stub_layers": 6,
+      "output_shape": [
+        4,
+        2048
+      ],
+      "frozen_params": 613182976,
+      "trainable_params": 0,
+      "finite": true,
+      "dtype": "torch.float32"
+    },
+    "lpm": {
+      "config_d_model": 2048,
+      "config_n_heads": 8,
+      "config_n_slots": 32,
+      "config_d_mem": 256,
+      "total_slots": 256,
+      "prompts_shape": [
+        4,
+        8,
+        2048
+      ],
+      "attention_shape": [
+        4,
+        8,
+        32
+      ],
+      "projected_slots_shape": [
+        4,
+        8,
+        32,
+        2048
+      ],
+      "bake_shape": [
+        4,
+        8,
+        32,
+        2048
+      ],
+      "attention_sum_max_abs_err": 1.2e-07,
+      "finite": true,
+      "w_q_in_features": 2048,
+      "w_v_out_features": 2048,
+      "mlp_in_features": 2048,
+      "mlp_out_features": 2048,
+      "out_ln_normalized_shape": 2048,
+      "bake_matches_forward_max_abs_diff": 0.0,
+      "module_trainable_params": 11328000,
+      "reserved_ids_used": 256,
+      "reserved_id_min": 151670,
+      "reserved_id_max": 151925
+    },
+    "reserved_ids": {
+      "tokenizer_class": "Qwen2Tokenizer",
+      "tokenizer_vocab_size": 151643,
+      "tokenizer_len": 151669,
+      "tokenizer_num_vocab_entries": 151669,
+      "tokenizer_max_vocab_id": 151668,
+      "reserved_id_start": 151670,
+      "reserved_id_end": 151935,
+      "reserved_id_count": 266,
+      "reserved_ids_below_start_max_id": true,
+      "reserved_convert_ids_to_tokens_none": 266,
+      "reserved_decode_nonempty": 0,
+      "reserved_roundtrip_to_self": 0,
+      "reserved_ids_in_encoded_text": [],
+      "text_max_id": 84071,
+      "qwen3_0_6b_tokenizer_max_vocab_id": 151669,
+      "qwen3_0_6b_reserved_unreachable": true
+    }
+  },
+  "pass": true
+}
