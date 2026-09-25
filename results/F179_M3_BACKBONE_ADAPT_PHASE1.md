@@ -58,6 +58,10 @@ Loss decreases and is finite; VRAM peak is ~8.2 GB system-wide against ~10.4 GB
 free, leaving **~4.0 GiB headroom** at the F7 batch 4 / seq 2048. The 1.7B is
 **2.04×** the 0.6B per optimizer step (as measured over 20 steps).
 
+Independent re-run of the 1.7B smoke: **53.84 s, 0.371 steps/s, loss 1.8891,
+peak 8076 MiB** — stable against the first run (55.70 s / 0.359 / 1.8898 / 8228
+MiB).
+
 ## 3. Extrapolated full-run cost
 
 Full run = **1612 optimizer steps** (`4 × ceil(6437/16)`, matching F7).
