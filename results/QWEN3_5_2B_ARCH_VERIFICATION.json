@@ -1,0 +1,96 @@
+{
+  "issue": 236,
+  "phase": 0,
+  "purpose": "architecture/tooling verification for Qwen3.5-2B before any training (no training, no LoRA config, no data prep, no benchmark, no on-device test)",
+  "date": "2026-09-25",
+  "verdict": "NO-GO",
+  "verdict_reason": "trainable in principle but no working Cactus path to a text-only bundle; a model trainable but not deployable as a plain-text on-device LM is not useful for this epic",
+  "model": {
+    "hf_id": "Qwen/Qwen3.5-2B",
+    "architectures": ["Qwen3_5ForConditionalGeneration"],
+    "model_type": "qwen3_5",
+    "pipeline_tag": "image-text-to-text",
+    "text_config": {
+      "model_type": "qwen3_5_text",
+      "hidden_size": 2048,
+      "num_hidden_layers": 24,
+      "layer_types": "18 linear_attention + 6 full_attention (every 4th layer full)",
+      "linear_conv_kernel_dim": 4,
+      "mamba_ssm_dtype": "float32",
+      "attn_output_gate": true,
+      "vocab_size": 248320,
+      "tie_word_embeddings": true,
+      "mtp_num_hidden_layers": 1
+    },
+    "vision_config": {"depth": 24, "hidden_size": 1024, "patch_size": 16}
+  },
+  "q1_unsloth": {
+    "answer": "qualified_yes_training_supported_but_requires_transformers_v5_and_bf16_lora_not_qlora",
+    "installed_env": {"transformers": "4.57.6", "unsloth": "2026.6.9"},
+    "evidence": [
+      "unsloth/models/loader.py:121 FORCE_FLOAT32 includes 'qwen3_5' (comment: GDN layers produce NaN grad norms in float16 training)",
+      "unsloth/models/loader.py:517,1190 raise explicit ImportError: 'does not support Qwen3.5. The minimum required version is 5.2.0.'",
+      "unsloth/save.py:463-475 handles Qwen3_5ForConditionalGeneration / model_type in (qwen3_5, qwen3_5_moe)",
+      "docs.unsloth.ai/models/qwen3.5/fine-tune: 'You can now fine-tune Qwen3.5 model family (0.8B, 2B, 4B, 9B, 27B, 35B-A3B, 122B-A10B) with Unsloth. Support includes both vision, text and RL fine-tuning.'",
+      "docs: 'Qwen3.5 bf16 LoRA VRAM use: ... 2B: 5GB ...'",
+      "docs: 'Please use transformers v5 for Qwen3.5. Older versions will not work.'",
+      "docs: 'It is not recommended to do QLoRA (4-bit) training on the Qwen3.5 models, no matter MoE or dense, due to higher than normal quantization differences.'",
+      "unsloth/Qwen3.5-2B-unsloth-bnb-4bit -> RepositoryNotFoundError (404); Unsloth catalog lists Qwen3.5 GGUF-only, 4-bit column '-' for all sizes",
+      "host transformers 4.57.6 has no Qwen3_5 classes and no qwen3_5 in CONFIG_MAPPING_NAMES"
+    ],
+    "blocker": "requires upgrading the working env's transformers to >=5.2.0 (v5); training recipe must be bf16 LoRA, not the project's QLoRA"
+  },
+  "q2_raw_hf_peft_bnb": {
+    "answer": "nominally_possible_with_transformers_v5_but_explicitly_discouraged_and_gdn_bnb_compat_unverified",
+    "notes": [
+      "raw transformers>=5.2 + peft + bitsandbytes QLoRA on Qwen3_5ForCausalLM is possible in principle",
+      "Unsloth explicitly advises against QLoRA for Qwen3.5 (higher quantization differences)",
+      "GatedDeltaNet custom kernels' compatibility with bnb 4-bit Linear wrapping is unverified",
+      "would forfeit Unsloth's memory/speed gains; #232's plain-transformer 1.7B already peaked at 8.9GB/12GB"
+    ]
+  },
+  "q3_cactus": {
+    "answer": "hard_no_for_text_only_bundle",
+    "weights_conversion": {
+      "command": "python3 -m cactus convert Qwen/Qwen3.5-2B <out> --bits 4 --weights-only --skip-model-load",
+      "result": "SUCCEEDED",
+      "converted": 285,
+      "fallback": 332,
+      "unrecognized": 15,
+      "total_bytes": 1183691808,
+      "components": {"embedding": 2, "language": 333, "vision": 297},
+      "unrecognized_tensors": "all 15 are mtp.* (multi-token-prediction head); core weights clean",
+      "detect_family": "detect_model_type normalizes qwen3_5 -> qwen; converter has Qwen3.5 linear-attention weight patterns"
+    },
+    "legacy_graph_default": {
+      "command": "python3 -m cactus.transpile.hf_model --model-id Qwen/Qwen3.5-2B --weights-dir <cq4> --artifact-dir <legacy> --low-memory-load --skip-execute --skip-reference-compare",
+      "result": "FAILED",
+      "error": "RuntimeError: Qwen3.5 multimodal transpile requires at least one --image-file (hf_model.py:2298 _prepare_qwen3_5_multimodal_inputs)",
+      "root_cause": "model_profiles.QWEN_PROFILE default_task=multimodal_causal_lm_logits, needs_image=True, default_components include vision_encoder; text_component_plans only maps 'qwen3forcausallm', and Qwen3.5's arch is Qwen3_5ForConditionalGeneration"
+    },
+    "legacy_graph_forced_text": {
+      "command": "python3 -m cactus.transpile.hf_model --model-id Qwen/Qwen3.5-2B --weights-dir <cq4> --artifact-dir <text-legacy> --task causal_lm_logits --components decoder,decoder_step --low-memory-load --skip-execute --skip-reference-compare",
+      "result": "FAILED",
+      "error": "cactus.transpile.capture_pytorch.CapturePhaseError: [capture:export] torch.export failed ... Unhandled FakeTensor Device Propagation for aten.bmm.default, found two different devices cpu, meta",
+      "stack": "model_adapters.py:4941 backbone.rotary_emb(hidden_states, multimodal_position_ids) -> transformers/models/qwen3_5/modeling_qwen3_5.py:149 freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(2,3)"
+    }
+  },
+  "q4_text_only": {
+    "answer": "yes_via_Qwen3_5ForCausalLM",
+    "loader_class": "Qwen3_5ForCausalLM (not Qwen3ForCausalLM)",
+    "evidence": {
+      "loaded": "Qwen3_5ForCausalLM in 4s",
+      "generated": "8 tokens in 105s (CPU, arm64 qemu)",
+      "output": "The best fertilizer for tomatoes depends on the",
+      "prompt_render": "<|im_start|>user\\nThe best fertilizer for tomatoes is<|im_end|>\\n<|im_start|>assistant\\n thinking\\n\\n</think>\\n\\n"
+    },
+    "caveat": "GDN fast path requires flash-linear-attention + causal-conv1d; transformers falls back to a slow torch implementation without them"
+  },
+  "fallbacks": ["Qwen3-4B", "Qwen3-8B"],
+  "fallback_rationale": "plain-transformer Qwen3 family is already proven end-to-end through this toolchain (0.6B champion, 1.7B #232 port); no Gated DeltaNet, existing legacy 6-component text bundle and engine inputs_embeds support",
+  "artifacts": [
+    "results/QWEN3_5_2B_ARCH_VERIFICATION.md",
+    "results/QWEN3_5_2B_ARCH_VERIFICATION.json",
+    "scripts/qwen35_2b_textonly_probe.py"
+  ]
+}
