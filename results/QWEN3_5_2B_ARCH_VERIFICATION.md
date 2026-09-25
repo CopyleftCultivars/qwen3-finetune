@@ -5,6 +5,12 @@ Date: 2026-09-25. Parent #236 (epic: distill + benchmark Qwen3.5-2B). Scope:
 prep, no benchmark, no on-device test. Mirrors #231 Phase 1's "does the bundle
 even load" discipline before any compute.
 
+> **Partially superseded:** re-checked against upstream Cactus **v2.2.1** in
+> `QWEN3_5_2B_ARCH_VERIFICATION_ENGINE_UPDATE.md`. The NO-GO for local bundle
+> generation still stands today, but the reason is the upstream graph-builder
+> rewrite (and a missing `qwen3_5` export-patch profile), not a Qwen3.5 dead end;
+> Qwen3.5 is a supported Cactus family with shipped prebuilt weights.
+
 **Verdict: NO-GO for Phase 1.** Qwen3.5-2B is trainable in principle (Unsloth
 supports it, with a transformers-v5 upgrade and bf16 LoRA rather than the
 project's QLoRA recipe), but **there is no working Cactus path to a text-only
