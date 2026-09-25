@@ -1,0 +1,65 @@
+{
+  "issue": 236,
+  "phase": 0,
+  "artifact": "updated-engine addendum",
+  "date": "2026-09-25",
+  "trigger": "project-owner direction: Cactus-Compute ships Qwen3.5-2B, so re-check the Phase-0 NO-GO against the current upstream toolchain instead of the stale pinned fork",
+  "workspace": {
+    "path": "localllm-qwen3.5/",
+    "cactus_sdk": "localllm-qwen3.5/cactus-sdk",
+    "version": "v2.2.1",
+    "commit": "fa094ce8",
+    "origin": "https://github.com/cactus-compute/cactus.git main",
+    "engine_built": true,
+    "engine_so": "localllm-qwen3.5/cactus-sdk/cactus-engine/build/libcactus_engine.so",
+    "old_fork": "LocalLLM/finetune/cactus-sdk-v210-suppress (v2.1.0-suppress-patch, a82155c) — kept separate"
+  },
+  "why_cactus_ships_qwen3_5": {
+    "family_supported": "docs/cactus_transpiler.md supported families table: 'Qwen 3/3.5 | text, vision | component split: no'",
+    "engine_kernels": "v2.2.1 builds cactus-kernels/src/attention_hybrid.cpp; new transpiler has gated_deltanet_decode/prefill fusions + lowerings",
+    "prebuilt_weights": "huggingface.co/Cactus-Compute/Qwen3.5-2B hosts weights/qwen3.5-2b-int4.zip + int8.zip, tags v1.11/v1.12/v1.14",
+    "public_builder_gap": "docs/cactus_engine.md:32, cactus_quants.md:187, finetuning.md:70: 'local runtime bundle generation is unavailable while the graph builder is being rewritten'"
+  },
+  "updated_engine_test": {
+    "command": "python3 -m cactus convert Qwen/Qwen3.5-2B <out> --bits 4 (v2.2.1, arm64 container)",
+    "weights": {
+      "result": "SUCCEEDED",
+      "converted": 285, "fallback": 332, "ignored": 2, "unrecognized": 15,
+      "total_bytes": 1183691808,
+      "components": {"embedding": 2, "language": 335, "vision": 297},
+      "unrecognized": "all 15 are mtp.*"
+    },
+    "graph": {
+      "result": "FAILED",
+      "stack": "Crassus v1.0.0 (new transpiler)",
+      "resolved_profile": "generic_text",
+      "runtime_contract": "plan_name=generic_text_no_cache, execution_strategy=full_context_recompute",
+      "error": "Conversion error: Could not guard on data-dependent expression Eq(u0, 1) (unhinted: Eq(u0, 1)). (Size-like symbols: none)",
+      "location": "transformers/models/qwen3_5/modeling_qwen3_5.py:1301 _update_linear_attn_mask: attention_mask is not None and torch.all(attention_mask == 1)",
+      "root_cause": "no qwen3_5 profile in transpiler/ModelProfiles/profiles.py; generic_text has export_patches=(); a qwen3_5 profile would supply an export patch for _update_linear_attn_mask"
+    }
+  },
+  "updated_sft_distill_api": {
+    "source": "docs/finetuning.md + docs/cactus_transpiler.md",
+    "supported_base_models": ["Qwen3", "Qwen3.5", "Gemma3", "LFM2", "LFM2.5"],
+    "train": "Unsloth, transformers v5 required; Qwen3.5 recommends bf16 LoRA (load_in_4bit=False), NOT QLoRA; 2B bf16 LoRA ~5GB VRAM",
+    "convert_back": "cactus convert <base> <out> --lora <adapter>  -> CQ weights only (no local graph-build step)",
+    "deploy": "cactus run <hf-id|bundle-path> (prebuilt bundle) until the replacement graph builder lands",
+    "build_engine": "cactus build --apple|--android|--python"
+  },
+  "revised_verdict": {
+    "local_bundle_today": "NO-GO (upstream graph-builder rewrite; missing qwen3_5 export-patch profile)",
+    "qwen3_5_architecture": "supported (kernels + fusions + family table + prebuilt weights) — not a dead end",
+    "training_path": "real (Unsloth bf16 LoRA -> cactus convert --lora -> CQ weights)",
+    "tracks": [
+      "watch upstream for the replacement graph builder + qwen3_5 model profile, then re-run the conversion",
+      "or use plain-transformer fallbacks Qwen3-4B / Qwen3-8B which already build on the existing path"
+    ]
+  },
+  "artifacts": [
+    "results/QWEN3_5_2B_ARCH_VERIFICATION_ENGINE_UPDATE.md",
+    "results/QWEN3_5_2B_ARCH_VERIFICATION_ENGINE_UPDATE.json",
+    "localllm-qwen3.5/cactus-sdk (v2.2.1, engine built)",
+    "localllm-qwen3.5/phase0-reference/ (Phase-0 note/JSON/probe)"
+  ]
+}
