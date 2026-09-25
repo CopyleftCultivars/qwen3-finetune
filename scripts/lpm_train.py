@@ -46,7 +46,7 @@ sys.path.insert(0, str(REPO_ROOT))
 import torch  # noqa: E402
 import torch.nn.functional as F  # noqa: E402
 
-from lpm.config import LPMConfig, reserved_id_map  # noqa: E402
+from lpm.config import LPMConfig, SUPPORTED_D_MODELS, reserved_id_map  # noqa: E402
 from lpm.data import (  # noqa: E402
     PersonaIndex,
     filter_records,
@@ -366,6 +366,12 @@ def build_parser() -> argparse.ArgumentParser:
                         help="Backbone profile: 0.6b (d_model=1024; #192 default) or 1.7b (d_model=2048; #231).")
     parser.add_argument("--model", default=None,
                         help="Override the backbone path/HF id (default: the --backbone's own).")
+    parser.add_argument("--backbone-path", default=None,
+                        help="Explicit backbone/encoder path or HF id, taking precedence over both "
+                             "--backbone's built-in model and --model (e.g. the #232 adapted 1.7B "
+                             "checkpoint outputs/merged-model-distill-v2-rationale-1.7b). The LPM "
+                             "d_model profile still comes from --backbone; a hidden-size mismatch "
+                             "is rejected loudly.")
     parser.add_argument("--train-corpus", default=DEFAULT_TRAIN)
     parser.add_argument("--val-corpus", default=DEFAULT_VAL)
     parser.add_argument("--encoder-layers", type=int, default=6)
@@ -416,9 +422,10 @@ def main(argv: list[str] | None = None) -> int:
     torch.manual_seed(args.seed)
     generator = torch.Generator(device="cpu").manual_seed(args.seed)
 
-    model_path = args.model or BACKBONE_MODEL[args.backbone]
+    model_path = args.backbone_path or args.model or BACKBONE_MODEL[args.backbone]
     config_factory = BACKBONE_CONFIG[args.backbone]
-    print(f"backbone={args.backbone} model={model_path}")
+    override = " (backbone-path override)" if args.backbone_path else ""
+    print(f"backbone={args.backbone} model={model_path}{override}")
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -445,6 +452,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.alpha_entropy is not None:
         config_overrides["alpha_entropy"] = args.alpha_entropy
     config = config_factory(**config_overrides)
+    hidden_size = getattr(model.config, "hidden_size", None)
+    if hidden_size is not None and hidden_size != config.d_model:
+        raise ValueError(
+            f"backbone {model_path!r} hidden_size={hidden_size} != LPMConfig.d_model="
+            f"{config.d_model} for --backbone {args.backbone}; pick the matching --backbone "
+            f"profile or a supported width {SUPPORTED_D_MODELS}"
+        )
 
     train_all = load_corpus(args.train_corpus)
     train_records = select_train_records(train_all, config, args.min_chunks)
@@ -553,6 +567,8 @@ def main(argv: list[str] | None = None) -> int:
         "issue": 192,
         "backbone": args.backbone,
         "model": model_path,
+        "backbone_path": args.backbone_path,
+        "backbone_hidden_size": hidden_size,
         "d_model": config.d_model,
         "encoder_chunk": args.encoder_chunk,
         "steps": step,
