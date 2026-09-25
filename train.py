@@ -238,6 +238,7 @@ def build_training_args(
     weight_decay: float = 0.01,
     early_stop_patience: Optional[int] = None,
     packing: bool = False,
+    max_steps: int = -1,
     max_seq_len: Optional[int] = None,
     seed: int = 42,
 ):
@@ -248,6 +249,7 @@ def build_training_args(
     kwargs: dict[str, Any] = dict(
         output_dir=str(output_dir),
         num_train_epochs=epochs,
+        max_steps=max_steps,
         per_device_train_batch_size=batch_size,
         gradient_accumulation_steps=grad_accum,
         warmup_ratio=warmup_ratio,
@@ -330,6 +332,13 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=6,
         help="Number of training epochs (default: 6)",
+    )
+    parser.add_argument(
+        "--max-steps",
+        type=int,
+        default=-1,
+        help="Override total optimizer steps (-1 = drive by --epochs, the F7 behavior). "
+             "Smoke-only knob for cost/VRAM measurement.",
     )
     parser.add_argument(
         "--lr",
@@ -514,6 +523,7 @@ def main() -> None:
         weight_decay=args.weight_decay,
         early_stop_patience=args.early_stop_patience,
         packing=args.packing,
+        max_steps=args.max_steps,
         max_seq_len=args.max_seq_len,
         seed=args.seed,
     )
