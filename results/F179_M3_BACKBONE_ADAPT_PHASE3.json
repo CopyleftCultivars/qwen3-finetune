@@ -1,0 +1,76 @@
+{
+  "issue": 232,
+  "phase": 3,
+  "purpose": "score the merged Qwen3-1.7B distillation and base Qwen3-1.7B on the F8 210-item ladder (accept/revert gate before LPM retraining)",
+  "harness": {
+    "script": "scripts/ladder_score_local.py",
+    "protocol_source": "benchmark-workspace/evaluate.py (SYSTEM_PROMPT, PROMPT_TEMPLATE, extract_answer imported, not duplicated)",
+    "benchmark": "[LOCAL_PATH]",
+    "n_items": 210,
+    "inference": {
+      "transport": "rlm_slice.model_host.ModelHost (4-bit NF4, full_precision=False default; unchanged since #116)",
+      "temperature": 0.0,
+      "do_sample": false,
+      "seed": 42,
+      "max_new_tokens": 8,
+      "enable_thinking": false,
+      "ambiguous_scored_wrong": true
+    },
+    "command": "python scripts/ladder_score_local.py --model <model> --label <label>"
+  },
+  "harness_fidelity_check": {
+    "description": "re-ran the F8 0.6B-distill row on today's stack to confirm the invocation reproduces F8",
+    "f8_recorded": {"correct": 183, "n": 210, "accuracy": 0.8714},
+    "reproduced": {"correct": 182, "n": 210, "accuracy": 0.8667},
+    "artifact": "results/ladder210_f8_repro0.6B.jsonl",
+    "nondeterministic_items": ["NF-0025", "NF-0111", "NF-0162"],
+    "noise_floor_pp": {"hard": 1.4, "overall": 0.5},
+    "note": "1-item net difference on the 4-bit path; far below every effect reported here"
+  },
+  "ladder_results": {
+    "qwen3-8b_target": {"correct": 180, "n": 210, "accuracy": 0.8571, "wilson95": [0.8034, 0.8981], "easy": 0.9371, "hard": 0.4545},
+    "distill-v2-rationale_0.6B_F8": {"correct": 183, "n": 210, "accuracy": 0.8714, "wilson95": [0.8194, 0.9101], "easy": 0.9029, "hard": 0.7273},
+    "distill-v2-rationale_1.7B": {"correct": 182, "n": 210, "accuracy": 0.8667, "wilson95": [0.8140, 0.9061], "easy": 0.9029, "hard": 0.6667, "moderate": 1.0},
+    "base_Qwen3-1.7B": {"correct": 153, "n": 210, "accuracy": 0.7286, "wilson95": [0.6647, 0.7842], "easy": 0.7943, "hard": 0.3939, "moderate": 0.5},
+    "v5clean_0.6B": {"correct": 164, "n": 210, "accuracy": 0.7810, "wilson95": [0.7202, 0.8316], "easy": 0.8286, "hard": 0.5455},
+    "base_Qwen3-0.6B": {"correct": 90, "n": 210, "accuracy": 0.4286, "wilson95": [0.3635, 0.4962], "easy": 0.4686, "hard": 0.2424}
+  },
+  "base_to_distill": {
+    "0.6B": {"base": 0.4286, "distilled": 0.8714, "delta_pp": 44.3},
+    "1.7B": {"base": 0.7286, "distilled": 0.8667, "delta_pp": 13.8,
+             "mcnemar_exact_p": 8.963e-06, "distill_only_correct": 7, "base_only_correct": 36,
+             "two_prop_z": 3.52, "diff_ci95_pp": [6.2, 21.4]}
+  },
+  "vs_f8_0.6B_distillation": {
+    "comparison": "distill-v2-rationale 1.7B vs distill-v2-rationale 0.6B (F8)",
+    "delta_pp": -0.5,
+    "mcnemar_exact_p": 1.0,
+    "diff_ci95_pp": [-6.9, 6.0],
+    "finding": "statistically identical; adapted 1.7B matches, does not beat, the 0.6B distillation"
+  },
+  "vs_8b_teacher": {"delta_pp": 1.0, "mcnemar_exact_p": 0.831, "finding": "matches the 8B target"},
+  "capacity_baseline": {
+    "base_1.7B_minus_base_0.6B_pp": 30.0,
+    "z": 6.23,
+    "diff_ci95_pp": [21.0, 39.0],
+    "note": "raw adaption margin at 1.7B is smaller because the base starts 30 pp higher"
+  },
+  "verdict": "GO",
+  "go_reasons": [
+    "1.7B distillation clearly beats 1.7B base: +13.8 pp (0.8667 vs 0.7286), McNemar p=9.0e-06, non-overlapping Wilson CIs",
+    "adaptation therefore demonstrably landed; the distilled-0.6B vs raw-1.7B confound from #231 is removed",
+    "hard tier (F8's decisive tier) rises +27.3 pp (0.3939 -> 0.6667)"
+  ],
+  "caveats": [
+    "the 1.7B lift (+13.8 pp) is about one-third of F8's 0.6B lift (+44.3 pp) in raw pp; base 1.7B already scores +30 pp over base 0.6B",
+    "the adapted 1.7B matches, not beats, the 0.6B distillation (0.8667 vs 0.8714, p=1.00); Phase 4/5 should not be sold as a ladder-quality gain"
+  ],
+  "raw_outputs": [
+    "results/ladder210_distill-v2-rationale-1.7b.jsonl",
+    "results/ladder210_distill-v2-rationale-1.7b_summary.json",
+    "results/ladder210_base1.7B.jsonl",
+    "results/ladder210_base1.7B_summary.json",
+    "results/ladder210_f8_repro0.6B.jsonl",
+    "results/ladder210_f8_repro0.6B_summary.json"
+  ]
+}

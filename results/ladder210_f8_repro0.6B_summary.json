@@ -1,0 +1,32 @@
+{
+  "label": "f8_repro",
+  "model": "outputs/merged-model-distill-v2-rationale",
+  "benchmark": "[LOCAL_PATH]",
+  "n": 210,
+  "correct": 182,
+  "accuracy": 0.8667,
+  "wilson95": [
+    0.814,
+    0.9061
+  ],
+  "ambiguous": 0,
+  "ambiguous_rate": 0.0,
+  "enable_thinking": false,
+  "temperature": 0.0,
+  "seed": 42,
+  "mean_latency_ms": 53.6,
+  "by_difficulty": {
+    "easy": {
+      "n": 175,
+      "accuracy": 0.9029
+    },
+    "hard": {
+      "n": 33,
+      "accuracy": 0.697
+    },
+    "moderate": {
+      "n": 2,
+      "accuracy": 0.5
+    }
+  }
+}
