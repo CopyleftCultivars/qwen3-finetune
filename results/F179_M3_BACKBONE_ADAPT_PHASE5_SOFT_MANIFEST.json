@@ -1,0 +1,32 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/oracle_soft_mixture_17b_adapted_p0.f32",
+  "provenance": {
+    "issue": 232,
+    "phase": 5,
+    "sha256": "2d60a6bf4aa0ec6679c1c0551f6cd114de243164c2c44d366c1063775a75148a",
+    "rows": 8,
+    "dim": 2048,
+    "bytes": 65536,
+    "format": "raw FP32 row-major, no header (H rows x d_model floats)",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "training_checkpoint": "outputs/lpm-persona-memory-232-p4/checkpoint.pt",
+    "encoder_model": "outputs/merged-model-distill-v2-rationale-1.7b",
+    "selection": "soft attention mixture over all N slots (query-conditioned), post-transform out_ln[h](mix+mlp(mix))",
+    "attn_max_per_head": [
+      1.0,
+      0.3301,
+      0.8089,
+      0.048,
+      0.0447,
+      0.0414,
+      0.0723,
+      0.0838
+    ],
+    "norm_mean": 49.7042,
+    "norm_max": 52.967,
+    "deployable": false,
+    "note": "#232 Phase 5 supplementary soft-mixture upper bound."
+  }
+}

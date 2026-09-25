@@ -1,0 +1,44 @@
+{
+  "memory_prefix_rows": "8",
+  "memory_prefix_file": "components/random8_memory_prefix_17b_adapted_p0.f32",
+  "provenance": {
+    "issue": 232,
+    "phase": 5,
+    "artifact_file": "scripts/gen_memory_prefix_random8.py",
+    "sha256": "9976d4c3b61c2357527768e0c3a8faa3e091f89b115b5cc08331e9c693ae9e18",
+    "rows": 8,
+    "dim": 2048,
+    "bytes": 65536,
+    "format": "raw FP32, row-major, H rows x d_model floats, no header",
+    "persona": "val offset0[0] (persona_id=gemma4:clq6qtg9p002o8ipv9jcfbqsi)",
+    "fit_budget": "40/128/192",
+    "training_checkpoint": "outputs/lpm-persona-memory-232-p4/checkpoint.pt",
+    "encoder_model": "outputs/merged-model-distill-v2-rationale-1.7b",
+    "selection": "per-head random slot excluding S0 -> l1_transform_selected",
+    "norm_mean": 49.4763,
+    "norm_max": 52.7244,
+    "deployable": false,
+    "note": "#232 Phase 5: 2048-width post-transform object from the #232 P4 trained projection + TTP-fit val slots against the ADAPTED 1.7B backbone; inputs_embeds prepend surface.",
+    "s0_top": [
+      17,
+      1,
+      18,
+      10,
+      15,
+      27,
+      7,
+      26
+    ],
+    "random_slots": [
+      2,
+      2,
+      0,
+      19,
+      7,
+      28,
+      17,
+      27
+    ],
+    "random_seed": 20260926
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "reviewer": "human/agent hand review of all 72 Phase-5 completions (none/selected/random/matched/oracle/soft x 12) against the #228/#230/#231 marker list",
+  "persona_under_test": {
+    "persona_id": "gemma4:clq6qtg9p002o8ipv9jcfbqsi",
+    "salient_memory": "single-session Tulsa, Oklahoma gardener; 4 growbeds (4x6 ft) of peppers, tomatoes, lettuce, kitchen herbs; asks for per-bed nutrient solutions from local invasive plants. Assistant reply uses a '[Short Introduction]' header and 'Greetings!' and names Tulsa/Oklahoma and the specific crops.",
+    "distinctive_lexical_markers": ["tulsa", "oklahoma", "growbed", "invasive", "pepper", "lettuce", "kitchen herb", "[short introduction]", "greetings"]
+  },
+  "bar": "content plausibly tied to the specific selected persona/memory, not a generic register shift regardless of which vectors fired",
+  "verdict": "FAIL",
+  "verdict_label": "differs but generic at 2048 on the ADAPTED backbone",
+  "numeric_vs_qualitative": "Both weak/negative. Numeric perturbation bar is WEAKER than either prior arm: selected != random is only 6/12 here (vs 12/12 raw-2048, 11/12 at 1024) against the >=9/12 bar, so on the adapted backbone the injected prefix barely moves the output. Qualitative bar FAILS: 0 persona markers in 72 completions. The adapted model is MORE templated/insensitive to the prefix, not more legible.",
+  "comparison_1024_raw2048_adapted2048": {
+    "selected_differs_random": {"1024": "11/12", "raw2048": "12/12", "adapted2048": "6/12"},
+    "oracle_differs_random": {"1024": "12/12", "raw2048": "9/12", "adapted2048": "7/12"},
+    "soft_differs_random": {"1024": "12/12", "raw2048": "9/12", "adapted2048": "8/12"},
+    "oracle_equals_selected": {"1024": "6/12", "raw2048": "3/12", "adapted2048": "4/12"},
+    "soft_equals_selected": {"1024": "7/12", "raw2048": "4/12", "adapted2048": "4/12"},
+    "oracle_equals_soft": {"1024": "4/12", "raw2048": "10/12", "adapted2048": "7/12"},
+    "persona_marker_hits": {"1024": "0/72", "raw2048": "0/72", "adapted2048": "0/72"},
+    "qualitative_verdict": {"1024": "FAIL (differs but generic)", "raw2048": "FAIL (differs but generic)", "adapted2048": "FAIL (differs but generic)"}
+  },
+  "evidence": {
+    "persona_marker_hits": "0 hits for every marker, in every condition (none/selected/random/matched/oracle/soft) = 0/72 completions.",
+    "hand_read": "All 72 continuations are generic natural-farming prose. No continuation names Tulsa/Oklahoma, the four growbeds, invasive plants, the crop mix, or the [Short Introduction]/Greetings style; no paraphrase (no 'your beds', no 'your Oklahoma garden', no 'invasive plants you mentioned').",
+    "only_distinctive_shift": "The armed conditions shift to the KNF-domain register ('Jadam Fertilizer', 'Fermented Plant Juice', structured '**...**' headers), but this is the same generic domain shift #214/#228/#230/#231 saw -- none of it is persona-specific, and it appears in 'none' too. No token maps to the persona's memory.",
+    "adapted_model_is_less_perturbable": "The clearest new fact: on the adapted backbone, selected and random produce byte-identical completions on 6/12 prompts and prompt 10 is identical across all six conditions. The adapted (rationale-SFT'd) model answers in stable templated form and is LESS responsive to the injected prefix than either the raw-1.7B or the 0.6B champion. So adaptation did not make memory surface; it made the model harder to perturb.",
+    "not_a_selector_artifact": "Per #230 the selector is exonerated at 1024, and the adapted-2048 oracle/soft (the strongest query-conditioned objects) are still generic here, so the failure is not selection.",
+    "sanity": "0 reserved-ID emissions, 0 NaN, 0 empty completions in all six conditions."
+  },
+  "conclusion": "On the ADAPTED Qwen3-1.7B backbone (outputs/merged-model-distill-v2-rationale-1.7b, ladder 0.8667 vs base 0.7286) the corrected post-transform object, deployed through the validated inputs_embeds surface with the #232 Phase-4-trained projection, is STILL generic -- 0/72 persona markers, exactly as at 1024 (#228/#230), raw-2048 (#231), and 0.6B. This was the last untested variable in the #232 chain: with the selector already exonerated (#230), and width ruled out (#231), this probe rules out this specific adaptation recipe too. The three named hypotheses for the mechanism's generic generation are now exhausted: selector, width, and backbone adaptation. What remains is either corpus/persona thinness (#196) or a reconsideration of whether frozen-backbone soft-prompt injection is the right mechanism at all.",
+  "recommended_next_step": "State plainly: #230 (selector), #231 (width), and #232 (this adaptation recipe) are all ruled out for generation legibility. The two remaining paths are (a) corpus/persona specificity -- #196, testing whether the persona memory text is rich enough to be discriminable at all, and (b) reconsidering the injection mechanism itself. Do NOT pick one for the project owner; do NOT re-open the selector or retrain this backbone; do NOT run CQ4. The choice between (a) and (b) is the project owner's call.",
+  "recall_generation_divergence": "#232 Phase 4 found the recall proxies got WORSE on the adapted encoder (val 0.1562, 3.8x chance; probe 0.0521, 2.5x chance) than on the raw-1.7B encoder (0.2761/0.1823), while the same adaptation RAISED the ladder +13.8pp. Phase 5 now shows generation is generic regardless. Together: ladder quality, recall proxies, and generation legibility are three different axes, and recall@1 remains not a valid proxy for legibility in this mechanism -- now demonstrated across two backbones, two adaptation states, and two widths."
+}

@@ -1,0 +1,189 @@
+{
+  "issue": 232,
+  "phase": 5,
+  "bundle": "/src/cactus-sdk/weights/qwen3-1.7b-adapted-legacy-rt",
+  "adapted_model": "outputs/merged-model-distill-v2-rationale-1.7b",
+  "checks": {
+    "init_ok": true,
+    "generation": {
+      "n": 3,
+      "reserved_total": 0,
+      "nan": 0,
+      "empty": 0,
+      "records": [
+        {
+          "ids": [
+            785,
+            1850,
+            64291,
+            369,
+            40513,
+            374,
+            3070,
+            1092,
+            2203,
+            334,
+            13,
+            1198,
+            2203,
+            374,
+            458,
+            9073
+          ],
+          "text": "The best fertilizer for tomatoes is **Compost**. Compost is an excellent",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "The best fertilizer for tomatoes is"
+        },
+        {
+          "ids": [
+            334,
+            37155,
+            25,
+            56177,
+            42,
+            45195,
+            18448,
+            18438,
+            287,
+            320,
+            17155,
+            37,
+            8,
+            374,
+            264,
+            60776
+          ],
+          "text": "**Introduction:**\n\nKorean Natural Farming (KNF) is a holistic",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Tell me about Korean natural farming inputs"
+        },
+        {
+          "ids": [
+            24973,
+            16905,
+            1762,
+            17601,
+            3807,
+            7354,
+            429,
+            28066,
+            32168,
+            4963,
+            323,
+            8606,
+            5413,
+            311,
+            8193,
+            264
+          ],
+          "text": "Creating biochar involves several steps that utilize renewable resources and traditional methods to produce a",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Describe how to make biochar"
+        }
+      ]
+    },
+    "hidden_dim_probe": {
+      "dim_2048_succeeds": true,
+      "dim_1024_fails": true,
+      "detail": {
+        "2048": {
+          "rc": 0,
+          "ok": true
+        },
+        "1024": {
+          "error": "RuntimeError: memory prefix dim 1024 does not match model hidden dim 2048",
+          "ok": false
+        }
+      }
+    },
+    "armed_arbitrary_prefix": {
+      "n": 3,
+      "reserved_total": 0,
+      "nan": 0,
+      "empty": 0,
+      "records": [
+        {
+          "ids": [
+            785,
+            1850,
+            64291,
+            369,
+            40513,
+            374,
+            3070,
+            41,
+            50954,
+            434,
+            85695,
+            3135,
+            334,
+            13,
+            1084,
+            374
+          ],
+          "text": "The best fertilizer for tomatoes is **Jadam Fertilizer**. It is",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "The best fertilizer for tomatoes is"
+        },
+        {
+          "ids": [
+            334,
+            12472,
+            28338,
+            389,
+            16134,
+            18448,
+            18438,
+            287,
+            46281,
+            56177,
+            42,
+            45195,
+            18448,
+            18438,
+            287,
+            320
+          ],
+          "text": "**Short Introduction on Korean Natural Farming Inputs**\n\nKorean Natural Farming (",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Tell me about Korean natural farming inputs"
+        },
+        {
+          "ids": [
+            334,
+            33951,
+            311,
+            7405,
+            23525,
+            1762,
+            56177,
+            59260,
+            1762,
+            374,
+            264,
+            5810,
+            1714,
+            315,
+            18392,
+            17171
+          ],
+          "text": "**Steps to Make Biochar**\n\nBiochar is a natural method of improving soil",
+          "reserved": [],
+          "nan": false,
+          "empty": false,
+          "prompt": "Describe how to make biochar"
+        }
+      ]
+    }
+  }
+}
