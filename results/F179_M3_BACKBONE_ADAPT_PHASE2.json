@@ -1,0 +1,82 @@
+{
+  "issue": 232,
+  "phase": 2,
+  "purpose": "full 4-epoch LoRA SFT of Qwen3-1.7B on the F6 corpus + adapter merge + load/sanity check (no ladder, no LPM, no probe)",
+  "recipe": {
+    "script": "train.py (Unsloth FastLanguageModel + TRL SFTTrainer)",
+    "base": "unsloth/Qwen3-1.7B-unsloth-bnb-4bit",
+    "train_data": "data/train_distill.jsonl (6437 rows)",
+    "val_data": "data/val_distill.jsonl (716 rows)",
+    "max_seq_length": 2048,
+    "per_device_train_batch_size": 4,
+    "gradient_accumulation_steps": 4,
+    "effective_batch": 16,
+    "num_train_epochs": 4,
+    "max_steps": -1,
+    "learning_rate": 5e-05,
+    "lr_scheduler": "cosine",
+    "warmup_ratio": 0.05,
+    "weight_decay": 0.01,
+    "optim": "adamw_8bit",
+    "bf16": true,
+    "gradient_checkpointing": true,
+    "packing": false,
+    "seed": 42,
+    "lora": {"r": 32, "alpha": 64, "dropout": 0.025,
+             "target_modules": ["q_proj","k_proj","v_proj","o_proj","gate_proj","up_proj","down_proj"]},
+    "adapter_out": "outputs/lora-adapter-distill-v2-rationale-1.7b"
+  },
+  "training": {
+    "return_code": 0,
+    "completed_steps": 1612,
+    "wall_seconds": 4282,
+    "wall_minutes": 71.4,
+    "gpu_hours": 1.188,
+    "seconds_per_step": 2.656,
+    "vram_peak_mib_system": 8881,
+    "vram_idle_mib": 1600,
+    "final_train_loss": 0.8292,
+    "loss_first_logged": 2.193,
+    "loss_min": 0.7364,
+    "loss_max": 2.3779,
+    "loss_nan_or_inf": false,
+    "loss_quartile_means": [1.2976, 0.9912, 0.8830, 0.8234],
+    "num_logged_points": 161,
+    "reference_0_6b_f7_final_loss": 1.0299
+  },
+  "phase1_bracket_comparison": {
+    "phase1_bracket_gpu_hours": [0.75, 1.25],
+    "phase1_bracket_minutes": [44, 75],
+    "actual_minutes": 71.4,
+    "actual_gpu_hours": 1.188,
+    "landed": "upper end of the bracket (near the conservative 1.25 GPU-h bound; the 44-min 'steady-state corrected' estimate was too optimistic -- per-step stayed ~2.66 s with no compile amortization gain)"
+  },
+  "merge": {
+    "script": "merge_adapter.py (Unsloth save_pretrained_merged, merged_16bit)",
+    "base": "Qwen/Qwen3-1.7B",
+    "adapter": "outputs/lora-adapter-distill-v2-rationale-1.7b/final",
+    "dtype": "float16",
+    "merged_out": "outputs/merged-model-distill-v2-rationale-1.7b",
+    "safetensors_files": 1,
+    "safetensors_bytes": 3441185608,
+    "safetensors_mb": 3282,
+    "config": {"architectures": ["Qwen3ForCausalLM"], "hidden_size": 2048, "num_hidden_layers": 28, "vocab_size": 151936, "tie_word_embeddings": true}
+  },
+  "sanity_generation": {
+    "method": "greedy (do_sample=False), max_new_tokens=32, chat template, fp16 on GPU",
+    "degenerate": false,
+    "samples": [
+      {"prompt": "The best fertilizer for tomatoes is", "out": "I don't know, but perhaps I can offer more specific guidance if you provide additional details. However, based on the information provided in the \"WHAT IS NAT"},
+      {"prompt": "Explain how to make compost at home.", "out": "I don't know, but perhaps I can offer more guidance if you provide additional details. However, I can provide a general explanation on how to make compost at"},
+      {"prompt": "What is crop rotation?", "out": "Crop rotation is a farming practice where different types of crops are grown in a sequence on the same piece of land over successive seasons. This method is used to optimize"},
+      {"prompt": "One fact about soil:", "out": "Soil is a living, dynamic ecosystem that supports a vast array of life, from microscopic bacteria and fungi to large animals and plants."}
+    ],
+    "note": "Coherent/non-degenerate. Some prompts open with an 'I don't know, but...' hedge inherited from the F6 MCQ-rationale target style; this is a load/sanity signal only -- the quality gate is Phase 3's 210-item ladder."
+  },
+  "verdict": "GO",
+  "go_reasons": [
+    "full 4-epoch run completed without error (1612 steps, RC 0)",
+    "loss sane end-to-end: 2.19 -> 0.83, steady quartile decline, no NaN/inf",
+    "merged model loads (Qwen3ForCausalLM, hidden 2048) and generates coherent non-degenerate text"
+  ]
+}
