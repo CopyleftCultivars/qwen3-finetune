@@ -1,0 +1,93 @@
+{
+  "issue": 232,
+  "phase": 1,
+  "purpose": "confirm Qwen3-1.7B 4-bit base runs the existing SFT script and measure real VRAM / s/step (no full run)",
+  "recipe_located": {
+    "driver": "autoresearch/finetune.py -> train.py (Unsloth + TRL SFTTrainer)",
+    "config": "autoresearch/configs/phase25-distill/distill-v2-rationale.yaml",
+    "f7_adapter": "outputs/lora-adapter-distill-v2-rationale",
+    "f7_base_from_adapter_config": "unsloth/qwen3-0.6b-unsloth-bnb-4bit",
+    "f7_training_args_bin": {
+      "max_seq_length": 2048,
+      "per_device_train_batch_size": 4,
+      "gradient_accumulation_steps": 4,
+      "num_train_epochs": 4,
+      "learning_rate": 5e-05,
+      "lr_scheduler_type": "cosine",
+      "warmup_ratio": 0.05,
+      "weight_decay": 0.01,
+      "optim": "adamw_8bit",
+      "bf16": true,
+      "gradient_checkpointing": true,
+      "packing": false,
+      "seed": 42,
+      "logging_steps": 10
+    },
+    "lora": {"r": 32, "alpha": 64, "dropout": 0.025,
+             "target_modules": ["q_proj","k_proj","v_proj","o_proj","gate_proj","up_proj","down_proj"]}
+  },
+  "data": {
+    "prepared_train": "data/train_distill.jsonl",
+    "prepared_train_rows": 6437,
+    "prepared_val": "data/val_distill.jsonl",
+    "prepared_val_rows": 716,
+    "teacher_source_rows": 871,
+    "note": "871 is the teacher SOURCE (data/sources/teacher_distill_qwen3-8b.jsonl); the prepared F7 training set is 6437 rows (871 expanded). 6437/16=403 steps/epoch x4 = 1612 steps, matching F7 trainer_state max_steps=1612. Correction to the issue premise."
+  },
+  "base_swap": {
+    "1.7b": "unsloth/Qwen3-1.7B-unsloth-bnb-4bit",
+    "exists": true
+  },
+  "smoke": {
+    "command": "train.py --model unsloth/Qwen3-1.7B-unsloth-bnb-4bit --train-data data/train_distill.jsonl --val-data data/val_distill.jsonl --epochs 4 --max-steps 20 --lr 5e-5 --lr-scheduler cosine --warmup-ratio 0.05 --weight-decay 0.01 --batch-size 4 --grad-accum 4 --lora-r 32 --lora-alpha 64 --lora-dropout 0.025 --target-modules q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj --max-seq-len 2048 --chat-template-variant hardcoded-v1 --train-order shuffled --seed 42",
+    "steps": 20,
+    "effective_batch": 16,
+    "return_code": 0,
+    "train_runtime_s": 55.7047,
+    "seconds_per_step": 2.785,
+    "steps_per_second": 0.359,
+    "loss_step10": 1.9696,
+    "loss_step20": 1.8099,
+    "train_loss": 1.8898,
+    "loss_sane": true,
+    "vram_peak_mib_system": 8228,
+    "vram_idle_mib": 1853,
+    "vram_incremental_mib": 6375,
+    "vram_headroom_mib": 4054,
+    "gpu_total_mib": 12282,
+    "rerun": {
+      "train_runtime_s": 53.844,
+      "steps_per_second": 0.371,
+      "train_loss": 1.8891,
+      "vram_peak_mib_system": 8076,
+      "measurement_stable": true
+    }
+  },
+  "smoke_0_6b_reference": {
+    "base": "unsloth/qwen3-0.6b-unsloth-bnb-4bit",
+    "steps": 20,
+    "train_runtime_s": 27.3142,
+    "seconds_per_step": 1.366,
+    "steps_per_second": 0.732,
+    "loss_step10": 2.0381,
+    "loss_step20": 1.9714,
+    "train_loss": 2.0047,
+    "ratio_1_7b_over_0_6b_per_step": 2.04
+  },
+  "extrapolation": {
+    "full_optimizer_steps": 1612,
+    "basis": "4 epochs x ceil(6437/16) = 4 x 403 = 1612 (matches F7 trainer_state)",
+    "one_7b_upper_bound_minutes": 74.8,
+    "one_7b_upper_bound_gpu_hours": 1.25,
+    "zero_6b_measured_avg_minutes": 36.7,
+    "comparable_0_6b_full_4epoch_recorded_minutes": 21.6,
+    "note": "20-step averages include unsloth first-step compile, which inflates per-step cost; the recorded 0.6B full 4-epoch run (~21.6 min) implies ~0.80 s/step steady-state, ~1.7x below the 20-step average. Applying the same correction to 1.7B gives ~44 min realistic; 75 min is a conservative upper bound. Either way ~2x the 0.6B run, proportional to the ~2.8x parameter increase."
+  },
+  "verdict": "GO",
+  "go_reasons": [
+    "runs with only the base_model swapped, same data/recipe, no code path changes beyond a --max-steps smoke knob",
+    "fits VRAM with ~4.0 GiB headroom at the F7 batch 4 / seq 2048 -- no batch/seq-len/grad-accum adjustment needed",
+    "loss curve sane (1.97 -> 1.81, no NaN)",
+    "extrapolated full run ~45-75 min (0.75-1.25 GPU-h), ~2x the 0.6B 4-epoch cost, proportional to parameter count"
+  ]
+}
