@@ -1,0 +1,87 @@
+{
+  "issue": 237,
+  "epic": 236,
+  "task": "G1: Pin and smoke-test hosted Qwen3.5-2B Cactus bundle; establish stock baseline",
+  "date": "2026-09-26",
+  "verdicts": {
+    "hosted_text_only_runtime_arm": "FAIL_BLOCKED",
+    "benchmark_completion_cactus_baseline": "BLOCKED",
+    "physical_device_smoke_pixel7": "PENDING"
+  },
+  "blocker": "no runnable hosted text-only Cactus bundle for Qwen3.5-2B: hosted zip is legacy flat CQ weights (-int4, v1.14) without components/manifest.json; v2.2.1 CLI only resolves -cqN bundle archives; v2.2.1 engine requires components/manifest.json; local fallback graph build fails for Qwen3.5 (prior retry evidence)",
+  "hosted_artifact": {
+    "repo": "Cactus-Compute/Qwen3.5-2B",
+    "revision": "v1.14",
+    "commit_sha": "f906dab20c19645665a3149cfd75ae44454714da",
+    "tags": ["v1.11", "v1.12", "v1.14"],
+    "main_equals": "v1.14",
+    "config_json": {"model_type": "Qwen3.5-2B", "precisions": ["int4"], "fingerprint": "acb4c997c7b6afcc4e818ecc9d9faf673dddc28ac4b324df91570fe1a5ca7c7b"},
+    "pipeline_tag": "image-text-to-text",
+    "readme": "Qwen3.5 2B hybrid vision-language model with DeltaNet for on-device multimodal inference; base_model Qwen/Qwen3.5-2B",
+    "archives": {
+      "int4": {"file": "weights/qwen3.5-2b-int4.zip", "size": 1327893436, "sha256": "e57c9e50ece5f9fd3ca366a5a0db5cc0e79303e595cf004912e9c6fa871feeb4", "sha256_verified_locally": true},
+      "int8": {"file": "weights/qwen3.5-2b-int8.zip", "size": 2177355521, "sha256": "05d02c3b1b07a9ffc50ddb44942ac1b1e18605a5f53dc71d427fe7f65840d993"}
+    },
+    "hf_source_checkpoint": {"id": "Qwen/Qwen3.5-2B", "commit_sha": "15852e8c16360a2fea060d615a32b45270f8a8fc", "base_variant": {"id": "Qwen/Qwen3.5-2B-Base", "commit_sha": "b1485b2fa6dfa1287294f269f5fb618e03d52d7c"}}
+  },
+  "bundle_structure": {
+    "total_files": 396,
+    "weights_files": 389,
+    "sidecars": ["config.txt", "tokenizer.json", "tokenizer_config.txt", "vocab.txt", "merges.txt", "special_tokens.json", "chat_template.jinja2"],
+    "has_components_manifest": false,
+    "has_graph_cactus": false,
+    "has_runtime_plan": false,
+    "int8_same_shape": true,
+    "conclusion": "converted CQ weights only, not a runnable bundle"
+  },
+  "runtime": {
+    "cactus_version": "v2.2.1",
+    "commit": "fa094ce8",
+    "container": "cactus-arm64-convert:v221",
+    "container_digest": "sha256:29ed51100c94947ac597c1cc1180c06f0e9442a76f4354f26c8774381442ff56",
+    "python": "3.12.14", "torch": "2.8.0+cpu", "transformers": "5.5.4",
+    "engine_requires": "components/manifest.json (cactus-engine/src/model.cpp:5885-5888)"
+  },
+  "compatibility_findings": {
+    "cli_archive_naming": "CQ_VARIANT_RE=-cq(\\d+)$ (python/cactus/cli/utils.py:19) matches only -cqN; hosted -int4/-int8 are skipped",
+    "cli_download_result": {
+      "suggested_repo": "Cactus-Compute/Qwen3.5-2B",
+      "resolved_revision": "v1.14",
+      "archives": [],
+      "error": "RuntimeError: no bundles published at Cactus-Compute/Qwen3.5-2B"
+    },
+    "cqN_is_runnable_format": "verified: Cactus-Compute/needle/needle-cq4.zip contains components/manifest.json; Qwen3.5-2B has no -cqN archive at any tag",
+    "engine_init_result": {
+      "command": "cactus_init('/work/g1-evidence/bundle-int4-v114')",
+      "error": "RuntimeError: Failed to create model - check config.txt exists",
+      "engine_log": "[ERROR] [model] Not a runnable Cactus bundle (no components/manifest.json at ...). Run `cactus download <hf_model>` to fetch one."
+    },
+    "unspecified_by_upstream": ["runtime version for the v1.x tag", "that the zip is weights-only", "config.json fingerprint meaning", "an -intN <-> v2 runtime path"]
+  },
+  "steps": {
+    "step1_pin_and_provenance": "DONE (artifact pinned, sha256 verified, structure inspected, runtime incompatibility established)",
+    "step2_text_only_smoke_arm": "BLOCKED (no bundle to init; not run; emulation not substituted)",
+    "step2b_pixel7_smoke": "PENDING (adb devices empty)",
+    "step3_stock_baseline": "BLOCKED (dependent on runtime; not run; no score reported; historical F8/#232 comparators not compared)"
+  },
+  "baseline_protocol_prepared_not_run": {
+    "harness": "scripts/cactus_engine_ladder.py (prepare/run/compare)",
+    "frozen_protocol": "SYSTEM_PROMPT/PROMPT_TEMPLATE/extract_answer imported from benchmark-workspace/evaluate.py; greedy temperature=0, max_tokens=8",
+    "benchmark": "benchmark-workspace/benchmarks/natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl (210 items)",
+    "historical_comparators_not_compared": {"distill-v2-rationale_0.6B": 0.8714, "base_Qwen3-0.6B": 0.4286, "qwen3-8b": 0.8571}
+  },
+  "next_actions": [
+    "upstream: request a -cqN runnable bundle for Qwen3.5-2B or a qwen3_5 export-patch profile, then re-run #237 steps 2-3",
+    "separate HF-runtime stock baseline (transformers 5.5.0 + Qwen3_5ForCausalLM) labelled non-equivalent; informs #239",
+    "attach Pixel 7 and re-attempt the device smoke",
+    "do not start #238+ from this task"
+  ],
+  "evidence_paths": [
+    "localllm-qwen3.5/g1-evidence/artifacts/weights/qwen3.5-2b-int4.zip",
+    "localllm-qwen3.5/g1-evidence/bundle-int4-v114/",
+    "localllm-qwen3.5/g1-evidence/logs/prebuilt_download_error.log",
+    "localllm-qwen3.5/g1-evidence/logs/cli_download_userfacing.log",
+    "localllm-qwen3.5/g1-evidence/logs/cactus_init_flat_weights.log",
+    "results/QWEN3_5_2B_HOSTED_BUNDLE_G1.md"
+  ]
+}
