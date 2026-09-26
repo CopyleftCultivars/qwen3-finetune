@@ -1,0 +1,153 @@
+{
+  "issue": 236,
+  "phase": 0,
+  "artifact": "retry against current upstream engine (v2.2.1)",
+  "purpose": "re-run the Phase 0 architecture/tooling verification against the current upstream Cactus engine instead of the stale v2.0/v2.0.1 pins (no training, no LoRA config, no data prep, no benchmark, no on-device test)",
+  "date": "2026-09-26",
+  "verdict": "NO-GO",
+  "verdict_reason": "training path is real and verified live, but there is still no Cactus path to a text-only bundle; all three runnable paths fail on v2.2.1 (default Crassus transpiler: data-dependent guard; legacy default: --image-file required; legacy forced-text: torch.export RoPE bmm device mismatch). The blocker is the upstream graph-builder rewrite + missing qwen3_5 export-patch profile, not the architecture.",
+  "engine": {
+    "origin": "https://github.com/cactus-compute/cactus main (git pull: already current)",
+    "version": "v2.2.1",
+    "commit": "fa094ce86c99117f351b100a6ebe51021c11499b",
+    "container": "cactus-arm64-convert:v221 (rebuilt from localllm-qwen3.5/cactus-sdk)",
+    "image_id": "sha256:29ed51100c94947ac597c1cc1180c06f0e9442a76f4354f26c8774381442ff56",
+    "arch": "arm64",
+    "python": "3.12.14",
+    "torch": "2.8.0+cpu",
+    "transformers": "5.5.4",
+    "engine_so": "libcactus_engine.so 4.5MB, built via cactus build --python exit 0",
+    "gdn_support_present": ["cactus-kernels/src/attention_hybrid.cpp", "transpile/fusion/deltanet.py::match_gated_deltanet", "transpiler gated_deltanet_* fusions/lowerings"],
+    "old_image": "cactus-arm64-convert:built (created 2026-09-10, older SDK pin) — not used"
+  },
+  "model": {
+    "hf_id": "Qwen/Qwen3.5-2B",
+    "architectures": ["Qwen3_5ForConditionalGeneration"],
+    "model_type": "qwen3_5",
+    "pipeline_tag": "image-text-to-text",
+    "text_config": {
+      "model_type": "qwen3_5_text",
+      "hidden_size": 2048,
+      "num_hidden_layers": 24,
+      "layer_types": "18 linear_attention + 6 full_attention (every 4th layer full)",
+      "linear_conv_kernel_dim": 4,
+      "mamba_ssm_dtype": "float32",
+      "attn_output_gate": true,
+      "vocab_size": 248320,
+      "tie_word_embeddings": true,
+      "mtp_num_hidden_layers": 1
+    },
+    "vision_config": {"depth": 24, "hidden_size": 1024, "patch_size": 16}
+  },
+  "q1_training_path": {
+    "answer": "YES -- working training path verified live (upgraded isolated env)",
+    "conversion_container_transformers": "5.5.4 (satisfies unsloth runtime gate >=5.2.0; but OUTSIDE unsloth's declared pin <=5.5.0)",
+    "unsloth_declared_pin": "unsloth 2026.6.9 / unsloth-zoo 2026.6.7 require transformers>=4.51.3,<=5.5.0 (excluding 5.0.0, 5.1.0, several 4.5x)",
+    "safe_upgrade_target": "transformers==5.5.0 -- verified; NOT 5.5.4",
+    "isolated_env": "venv --system-site-packages over conda qwen3-train (torch 2.10.0+cu128, unsloth 2026.6.9, peft 0.19.1, bnb 0.49.2); real qwen3-train untouched",
+    "evidence": [
+      "AutoConfig('Qwen/Qwen3.5-2B') OK under transformers 5.5.0 and 5.5.4 -> model_type=qwen3_5, 18 linear_attention + 6 full_attention; unsloth's autoconfig_error-based 'minimum 5.2.0' gate is not entered",
+      "unsloth/Qwen3-1.7B and unsloth/Qwen3-0.6B AutoConfig + tokenizer still OK (no regression at config level)",
+      "unsloth 2026.6.9 imports; FastLanguageModel resolves; loader has 'minimum required version is 5.2.0' gate and FORCE_FLOAT32 includes qwen3_5",
+      "LIVE: FastLanguageModel.from_pretrained('Qwen/Qwen3.5-2B', load_in_4bit=False) -> LOADED Qwen3_5ForConditionalGeneration on RTX 4070 Ti ('Switching to 16bit LoRA')",
+      "forward pass OK logits (1, 18, 248320) bfloat16; tokenizer is Qwen3VLProcessor (call tok(text=...) explicitly)",
+      "get_peft_model(...) attached 5,455,872 trainable params with q/k/v/o/gate/up/down target modules"
+    ],
+    "caveats": [
+      "GDN fast path needs flash-linear-attention + causal-conv1d, else slow torch fallback",
+      "unsloth filters explicit target_modules by vision/language/attention/mlp; Phase 1 must re-derive Qwen3.5 module names",
+      "upgrade qwen3-train to transformers==5.5.0, not 5.5.4 (unsloth pins <=5.5.0)"
+    ]
+  },
+  "q2_raw_hf_peft_bnb": {
+    "answer": "unchanged and moot",
+    "notes": [
+      "raw transformers>=5.2 + peft + bitsandbytes QLoRA on Qwen3_5ForCausalLM is nominally possible",
+      "Unsloth explicitly advises against QLoRA for Qwen3.5; GDN x bnb 4-bit compatibility unverified",
+      "bf16 LoRA (~5GB) is the recommended, now-verified path"
+    ]
+  },
+  "q3_cactus": {
+    "answer": "hard_no_for_text_only_bundle",
+    "weights_only": {
+      "command": "python3 -m cactus convert Qwen/Qwen3.5-2B <out> --bits 4 --weights-only --skip-model-load",
+      "result": "SUCCEEDED",
+      "converted": 285,
+      "fallback": 332,
+      "ignored": 0,
+      "unrecognized": 15,
+      "total_bytes": 1183691808,
+      "components": {"embedding": 2, "language": 333, "vision": 297},
+      "weight_files": 632,
+      "unrecognized_tensors": "confirmed from weights_manifest.json: all 15 are mtp.* (status unrecognized)"
+    },
+    "default_convert_crassus": {
+      "command": "python3 -m cactus convert Qwen/Qwen3.5-2B <out> --bits 4",
+      "result": "FAILED",
+      "stack": "Crassus v1.0.0, resolves to generic contract 'generic_text' (no qwen3_5 profile)",
+      "error": "Conversion error: Could not guard on data-dependent expression Eq(u0, 1) (unhinted: Eq(u0, 1)). (Size-like symbols: none)",
+      "location": "transformers/models/qwen3_5/modeling_qwen3_5.py:1301 _update_linear_attn_mask: attention_mask is not None and torch.all(attention_mask == 1)",
+      "root_cause": "no qwen3_5 profile in transpiler/ModelProfiles/profiles.py; Qwen3.5 falls through to GENERIC_TEXT_PROFILE with export_patches=()"
+    },
+    "legacy_hf_model_default": {
+      "command": "python3 -m cactus.transpile.hf_model --model-id Qwen/Qwen3.5-2B --weights-dir <cq4> --artifact-dir <legacy> --low-memory-load --skip-execute --skip-reference-compare",
+      "result": "FAILED",
+      "error": "RuntimeError: Qwen3.5 multimodal transpile requires at least one --image-file",
+      "location": "hf_model.py:2316 (_prepare_qwen3_5_multimodal_inputs)",
+      "root_cause": "QWEN_PROFILE default_task=multimodal_causal_lm_logits, needs_image=True, default components include vision_encoder; text_component_plans maps only 'qwen3forcausallm', not Qwen3_5ForConditionalGeneration"
+    },
+    "legacy_hf_model_forced_text": {
+      "command": "python3 -m cactus.transpile.hf_model --model-id Qwen/Qwen3.5-2B --weights-dir <cq4> --artifact-dir <text-legacy> --task causal_lm_logits --components decoder,decoder_step --low-memory-load --skip-execute --skip-reference-compare",
+      "result": "FAILED",
+      "adapter_family": "qwen3_5",
+      "adapter_module": "component_pipeline",
+      "error": "cactus.transpile.capture_pytorch.CapturePhaseError: [capture:export] torch.export failed for model=_ComponentCaptureWrapper strict=True: Dynamo failed to run FX node with fake tensors: call_function <built-in function matmul>(...): got RuntimeError('Unhandled FakeTensor Device Propagation for aten.bmm.default, found two different devices cpu, meta')",
+      "stack": "model_adapters.py:4913 forward -> :4941 debug_forward -> backbone.rotary_emb(hidden_states, multimodal_position_ids) -> transformers/models/qwen3_5/modeling_qwen3_5.py:149 freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(2,3)"
+    },
+    "why_not_stale_checkout": {
+      "diff_vs_pinned_v2.0.1_suppress": "transpile/model_profiles.py, capture_pytorch.py, fusion/deltanet.py, fusion/rope.py and the Qwen3.5 adapter path are identical; only non-audio change is generic-prefill GQA attention fusion + conv mask; only non-Parakeet diff is the fork's own #212 CACTUS_QWEN_EMBED_LAYERS patch being absent upstream",
+      "conclusion": "the old image already had the GDN fusion pass; the Phase 0 failures were a real current-engine limitation, not a missing-feature version"
+    },
+    "upstream_docs": [
+      "docs/cactus_engine.md:32, docs/cactus_quants.md:187, docs/finetuning.md:71: 'local runtime bundle generation is unavailable while the graph builder is being rewritten'",
+      "docs/cactus_transpiler.md:478 supported families: 'Qwen 3/3.5 | text, vision | component split: no'"
+    ]
+  },
+  "step3_bundle_smoke_test": {
+    "result": "N/A",
+    "reason": "no text-only bundle is produced by any path (no components/manifest.json); cactus_init / unarmed generation / inputs_embeds arming cannot be tested"
+  },
+  "q4_text_only": {
+    "answer": "yes_via_Qwen3_5ForCausalLM",
+    "loader_class": "Qwen3_5ForCausalLM",
+    "evidence": {
+      "transformers": "5.5.4",
+      "loaded": "Qwen3_5ForCausalLM in 3s",
+      "generated": "8 tokens in 53s (CPU, arm64 qemu)",
+      "output": "The best fertilizer for tomatoes depends on the",
+      "result": "TEXT_ONLY_LOAD: OK via Qwen3_5ForCausalLM"
+    },
+    "caveat": "GDN fast path requires flash-linear-attention + causal-conv1d; slow torch fallback without them"
+  },
+  "go_no_go": {
+    "verdict": "NO-GO for Phase 1 (holds against the current engine)",
+    "training_path": "YES (verified live)",
+    "cactus_text_only_bundle": "NO",
+    "note": "harder NO-GO than the original: not a stale-checkout artifact; upstream graph builder is mid-rewrite and no qwen3_5 export-patch profile exists. Architecture itself is supported (kernels + fusions + family table + prebuilt bundles)."
+  },
+  "fallbacks": ["Qwen3-4B", "Qwen3-8B"],
+  "fallback_rationale": "plain-transformer Qwen3 family already proven end-to-end through this toolchain (0.6B champion, 1.7B #232 port); no Gated DeltaNet, existing legacy 6-component text path and engine inputs_embeds support",
+  "tracks": [
+    "watch upstream for the replacement graph builder + a qwen3_5 model profile (with an _update_linear_attn_mask export patch), then re-run Q3",
+    "or use the plain-transformer Qwen3-4B / Qwen3-8B fallbacks",
+    "training half can proceed independently: qwen3-train -> transformers==5.5.0 + flash-linear-attention + causal-conv1d"
+  ],
+  "artifacts": [
+    "localllm-qwen3.5/phase0-reference/QWEN3_5_2B_ARCH_VERIFICATION_RETRY.md",
+    "localllm-qwen3.5/phase0-reference/QWEN3_5_2B_ARCH_VERIFICATION_RETRY.json",
+    "localllm-qwen3.5/retry-evidence/logs/_driver.log",
+    "localllm-qwen3.5/retry-evidence/q1-isolated/",
+    "localllm-qwen3.5/Dockerfile.arm64-convert",
+    "localllm-qwen3.5/retry-evidence/run_retry_tests.sh"
+  ]
+}
