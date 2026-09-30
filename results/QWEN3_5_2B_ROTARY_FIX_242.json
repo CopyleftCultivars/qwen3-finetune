@@ -1,0 +1,118 @@
+{
+  "issue": 242,
+  "parent_issue": 236,
+  "workflow": "chainlink_h0igd",
+  "date": "2026-09-30",
+  "title": "Cherry-pick the qwen3_5 rotary fix (9d07a3bc) onto v2.2.1 and re-run command D",
+  "verdict": "F1_CLEARED_PASS",
+  "verdict_reason": "command D with the cherry-picked rotary fix advanced past capture_component_begin=decoder (the exact line where the #236 retry raised CapturePhaseError: aten.bmm mixed cpu/meta) with no traceback, and wrote the complete two-component artifact bundle (decoder + decoder_step graph.cactus + components/manifest.json, manifest written last). Baseline unpatched run left 0 artifact files. No next error occurred, so there is no 'next error' to record; verdict is derived from the captured log segment plus the artifact bundle, NOT from a captured process exit code (see evidence_gap).",
+  "provenance": {
+    "upstream_commit": "9d07a3bc6c30145ad20f42f113578f0b0fa09d2f",
+    "upstream_commit_subject": "fix(transpile): qwen3_5 rotary under --low-memory-load",
+    "upstream_branches": ["origin/bonsai-masked-gemv", "origin/bonsai-repack"],
+    "present_in_v2_2_1": false,
+    "present_in_v2_2_2": false,
+    "base_ref": "v2.2.1",
+    "base_commit": "fa094ce86c99117f351b100a6ebe51021c11499b",
+    "branch": "qwen35-rotary-fix",
+    "cherry_picked_to": "17dded3185672185cda59b7ff928f3805849c57f",
+    "conflicts": "none (clean auto-merge)",
+    "patch_id": "7bf700c97301c1570853b5800f6eeb594ede905f",
+    "patch_id_matches_upstream": true,
+    "diffstat": "python/cactus/transpile/model_adapters.py | 26 ++++++++++++++++++-------- (18 insertions, 8 deletions)",
+    "helper": "_qwen35_rotary_embeddings (model_adapters.py:4902)",
+    "call_sites_rerouted": 7,
+    "worktree_clean": true
+  },
+  "rebind": {
+    "method": "bind-mount patched checkout python/ over /src/cactus-sdk/python (editable install target); pure Python, no .so rebuild",
+    "image": "cactus-arm64-convert:v221",
+    "image_id": "29ed51100c94947ac597c1cc1180c06f0e9442a76f4354f26c8774381442ff56",
+    "platform": "linux/arm64 under qemu-aarch64",
+    "host_model_adapters_md5": "9bad62554b8dd7911aa8b2503a6a02d5",
+    "container_model_adapters_md5": "9bad62554b8dd7911aa8b2503a6a02d5",
+    "md5_match": true,
+    "helper_refs_in_container": 8,
+    "preflight_exit": 0,
+    "engine_so_unchanged": "/src/cactus-sdk/cactus-engine/build/libcactus_engine.so (from image)",
+    "host_prerequisite": "restored lost qemu-aarch64 binfmt registration via: docker run --privileged --rm tonistiigi/binfmt --install arm64"
+  },
+  "command_d": {
+    "command": "python3 -m cactus.transpile.hf_model --model-id Qwen/Qwen3.5-2B --weights-dir /work/weights/qwen3.5-2b-cq4-conv --artifact-dir /work/artifacts/qwen3.5-2b-text-fix --task causal_lm_logits --components decoder,decoder_step --low-memory-load --skip-execute --skip-reference-compare",
+    "start_utc": "2026-09-30T07:35:24Z",
+    "last_artifact_utc": "2026-09-30T08:01:51Z",
+    "wall_seconds_approx": 1587,
+    "exit_code": null,
+    "exit_code_note": "NOT CAPTURED (driver shell killed + container launched with --rm; see evidence_gap)",
+    "traceback": null,
+    "next_error": null,
+    "next_error_note": "no error occurred before pipeline completion; no traceback exists to record. F2 candidate (_update_linear_attn_mask data-dependent guard, modeling_qwen3_5.py:1292-1304) did NOT trigger.",
+    "f1_recurred": false,
+    "log_frozen_at": "capture_component_begin=decoder (07:36Z, block-buffered stdout of killed driver)",
+    "avoided_per_task": ["--task multimodal_causal_lm_logits", "--image-file"]
+  },
+  "artifact_bundle": {
+    "path": "localllm-qwen3.5/rotary-fix-evidence/artifacts/qwen3.5-2b-text-fix",
+    "file_count": 13,
+    "total_bytes": 132308632,
+    "manifest": {
+      "path": "components/manifest.json",
+      "bytes": 234144,
+      "written_last": true,
+      "written_at_utc": "2026-09-30T08:01:51Z",
+      "component_order": ["decoder", "decoder_step"],
+      "family": "qwen3_5",
+      "task": "causal_lm_logits",
+      "model_id": "Qwen/Qwen3.5-2B"
+    },
+    "components": {
+      "decoder": {"graph_cactus_bytes": 9657834, "raw_ir_bytes": 18577768, "optimized_ir_bytes": 1206793},
+      "decoder_step": {"graph_cactus_bytes": 238298, "raw_ir_bytes": 18479263, "optimized_ir_bytes": 1201206}
+    },
+    "top_level": {"raw_ir_bytes": 40652609, "optimized_ir_bytes": 2595687},
+    "weights_reused": "localllm-qwen3.5/retry-evidence/weights/qwen3.5-2b-cq4-conv (from #236 retry)"
+  },
+  "baseline_f1": {
+    "source": "localllm-qwen3.5/retry-evidence/logs/_driver.log (test D_legacy_forced_text)",
+    "exit_code": 1,
+    "artifact_file_count": 0,
+    "error": "cactus.transpile.capture_pytorch.CapturePhaseError: [capture:export] torch.export failed for model=_ComponentCaptureWrapper strict=True: Dynamo failed to run FX node with fake tensors: call_function <built-in function matmul>(*(FakeTensor(..., size=(3, 1, 32, 1)), FakeTensor(..., device='meta', size=(3, 1, 1, 49))), **{}): got RuntimeError('Unhandled FakeTensor Device Propagation for aten.bmm.default, found two different devices cpu, meta')",
+    "site": "python/cactus/transpile/model_adapters.py:4941 debug_forward -> transformers/models/qwen3_5/modeling_qwen3_5.py:149"
+  },
+  "helper_check": {
+    "script": "localllm-qwen3.5/rotary-fix-evidence/qwen35_rotary_helper_check.py",
+    "mode": "torch FakeTensorMode (mirrors capture)",
+    "exit_code": 0,
+    "baseline_reproduced_f1_error": true,
+    "patched_helper_ok": true,
+    "outputs": "cos (1, 49, 64) meta, sin (1, 49, 64) meta"
+  },
+  "lint_and_tests": {
+    "ruff_vs_v2_2_1": "identical findings (13 pre-existing E731), no new issues",
+    "py_compile": "OK",
+    "upstream_tests_referencing_qwen3_5": 0,
+    "note": "command D + focused helper check are the effective tests for this change"
+  },
+  "evidence_gap": {
+    "lost": ["post-capture stdout of command D", "process exit code"],
+    "cause": "driving shell killed mid-run (block-buffered python stdout through tee never flushed) and container launched with --rm (state removed on exit; docker inspect unavailable)",
+    "verdict_basis": ["captured log advanced past the F1 failure line with no traceback", "13-file 127MB artifact bundle incl. both component graphs and manifest written last", "baseline F1 run left 0 artifact files", "focused helper check reproduces F1 pre-fix / passes post-fix"],
+    "hardening": "run_command_d.sh now uses python3 -u + PYTHONUNBUFFERED=1, keeps the container (named cactus242-cmd-d, no --rm) so docker inspect -f '{{.State.ExitCode}}' recovers the code, and persists logs/exit_code.txt"
+  },
+  "evidence_paths": [
+    "localllm-qwen3.5/rotary-fix-evidence/logs/command_D_rotary_fix.log",
+    "localllm-qwen3.5/rotary-fix-evidence/logs/driver.log",
+    "localllm-qwen3.5/rotary-fix-evidence/logs/helper_check.log",
+    "localllm-qwen3.5/rotary-fix-evidence/logs/preflight.log",
+    "localllm-qwen3.5/rotary-fix-evidence/logs/checkout_log.txt",
+    "localllm-qwen3.5/rotary-fix-evidence/logs/model_adapters.md5",
+    "localllm-qwen3.5/rotary-fix-evidence/artifacts/qwen3.5-2b-text-fix/",
+    "localllm-qwen3.5/rotary-fix-evidence/run_command_d.sh",
+    "localllm-qwen3.5/rotary-fix-evidence/README.md",
+    "localllm-qwen3.5/retry-evidence/logs/_driver.log"
+  ],
+  "next": [
+    "optional: re-run hardened run_command_d.sh (~27 min under qemu) if a captured exit code is required",
+    "#236 remaining blockers (runnable bundle / runtime parity, qwen3_5 export profile for default path) unchanged and out of scope for #242"
+  ]
+}
