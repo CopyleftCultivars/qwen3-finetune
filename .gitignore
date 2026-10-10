@@ -18,7 +18,9 @@ data/sources/gemma4/gemma4-merged/
 data/sources/gemma4/gemma4-text-only/
 
 # Nested git repos inside gemma4 source (external datasets with their own git history)
-# The assembled JSONLs (merged_sharegpt.jsonl, hf_dataset/train.jsonl) are tracked instead.
+# Keep the consolidated source JSONL; intermediate assembled snapshots are excluded.
+data/sources/gemma4/hf_dataset/train.pre_expansion.jsonl
+data/sources/gemma4/merged_sharegpt.jsonl
 data/sources/gemma4/KNF-Methods-QnA/
 data/sources/gemma4/Natural-Farming-Real-QandA-Conversations-Q1-2024-Update/
 data/sources/gemma4/syntheticdata-distiset-farming-chemistry/
