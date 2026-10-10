@@ -37,6 +37,7 @@ Run under the `qwen3-train` env (Unsloth)::
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import re
 import statistics
@@ -46,7 +47,7 @@ from pathlib import Path
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-BENCH_WS = Path("[LOCAL_PATH]")
+BENCH_WS = Path(os.environ.get("BENCHMARK_ROOT", "."))
 DEFAULT_BENCH = BENCH_WS / "benchmarks/natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl"
 DEFAULT_MODEL = "Qwen/Qwen3-8B"
 

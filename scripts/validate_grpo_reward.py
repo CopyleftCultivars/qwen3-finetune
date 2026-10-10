@@ -24,6 +24,7 @@ urllib only) -- this script intentionally has zero dependency on `datasets`/
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import sys
 import time
@@ -44,8 +45,7 @@ from autoresearch.grpo_reward import (  # noqa: E402
 
 HF_ROWS_API = "https://datasets-server.huggingface.co/rows"
 DATASET_ID = "CopyleftCultivars/Agriculture-Agent-RL-Training-Data"
-DEFAULT_CACHE = Path("[LOCAL_TEMP_PATH]"
-                      "/grpo_stage0_dataset_snapshot.jsonl")
+DEFAULT_CACHE = Path(os.environ.get("GRPO_CACHE_DIR", ".cache/grpo_reward"))
 RESULTS_PATH = Path(__file__).resolve().parents[1] / "autoresearch" / "grpo_stage0_reward_validation.json"
 
 

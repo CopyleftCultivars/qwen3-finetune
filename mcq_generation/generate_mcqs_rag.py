@@ -152,7 +152,7 @@ def _parse_snippet_location(snippet: str) -> tuple[int, int] | None:
 # under a different node version crashes with a NODE_MODULE_VERSION mismatch. Force nvm's
 # node bin dir to the front of PATH for every qmd subprocess call, regardless of which
 # conda env is active.
-_NVM_NODE_BIN = "[LOCAL_PATH]"
+_NVM_NODE_BIN = shutil.which("node") or "node"
 
 
 def _qmd_env() -> dict:

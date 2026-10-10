@@ -14,6 +14,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import sys
 from pathlib import Path
@@ -32,7 +33,7 @@ def main() -> None:
     ap.add_argument("--output", required=True, type=Path)
     ap.add_argument("--include-review", action="store_true",
                      help="Also include 'review' verdict items, not just 'keep'")
-    ap.add_argument("--benchmark", default="[LOCAL_PATH]", type=Path)
+    ap.add_argument("--benchmark", default=os.environ.get("BENCHMARK_ROOT", "."), type=Path)
     args = ap.parse_args()
 
     accepted_verdicts = {"keep", "review"} if args.include_review else {"keep"}

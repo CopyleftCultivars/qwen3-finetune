@@ -17,11 +17,12 @@ Usage: python scripts/check_write_embeds_row_refactor.py [FORK_REPO]
 from __future__ import annotations
 
 import re
+import os
 import subprocess
 import sys
 from pathlib import Path
 
-DEFAULT_FORK = Path("[LOCAL_PATH]")
+DEFAULT_FORK = Path(os.environ.get("FORK_ROOT", "."))
 REL = "cactus-engine/src/model.cpp"
 
 SUBS = [

@@ -22,11 +22,11 @@ under its own soft prompts).
 
 Dry run (wiring validation, expected to be minutes)::
 
-  [LOCAL_PATH] scripts/lpm_train.py --dry-run
+  python scripts/lpm_train.py --dry-run
 
 Full run (separately approved)::
 
-  [LOCAL_PATH] scripts/lpm_train.py \
+  python scripts/lpm_train.py \
       --steps 3000 --out-dir outputs/lpm-persona-memory-192
 """
 

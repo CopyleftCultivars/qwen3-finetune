@@ -19,7 +19,7 @@ safety net, not a substitute for an actual dedup check against the real benchmar
 
 Usage:
     python qwen3-finetune/prepare_dataset.py \\
-        --conversations [LOCAL_PATH] \\
+        --conversations "$CONVERSATIONS_DIR" \\
         --mcq <path to a verified non-benchmark-overlapping MCQ source> \\
         --output-dir qwen3-finetune/data \\
         --split 0.9 --seed 42

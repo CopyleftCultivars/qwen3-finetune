@@ -27,7 +27,7 @@ loading benchmark_combined.jsonl directly as its --mcq source. Every v3 checkpoi
 with this default was trained on ~99.9% of the eval benchmark. Do not use this default until
 a clean (non-benchmark-derived, deduped) replacement exists — see MCQ_DIAGNOSTIC_PLAN.md
 Phase 3. Source stream 3 (QMD-generated MCQs) carries the same risk transitively: both it and
-the original benchmark draw from [LOCAL_PATH]
+the original benchmark draw from $BENCHMARK_ROOT
 
 Usage:
     python prepare_dataset_v3.py \\

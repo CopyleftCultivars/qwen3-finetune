@@ -16,7 +16,7 @@ the host/CPU it:
 
 Writes results/F179_M3_BACKBONE_SCALE_PHASE2_SMOKE.json. CPU/host only.
 
-Run: [LOCAL_PATH] \
+Run: python \
        scripts/lpm_backbone_scale_phase2_smoke.py
 """
 

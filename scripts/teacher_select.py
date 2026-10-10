@@ -17,13 +17,14 @@ Cheap by construction: 33 items per candidate rather than 210.
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import math
 import sys
 import time
 from pathlib import Path
 
-BENCH_WS = Path("[LOCAL_PATH]")
+BENCH_WS = Path(os.environ.get("BENCHMARK_ROOT", "."))
 DEFAULT_BENCH = BENCH_WS / "benchmarks/natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl"
 
 

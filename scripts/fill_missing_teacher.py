@@ -12,6 +12,7 @@ and refreshes the manifest. It is idempotent.
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import statistics
 import sys
@@ -19,7 +20,7 @@ import time
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-BENCH_WS = Path("[LOCAL_PATH]")
+BENCH_WS = Path(os.environ.get("BENCHMARK_ROOT", "."))
 
 
 def main(argv: list[str] | None = None) -> int:

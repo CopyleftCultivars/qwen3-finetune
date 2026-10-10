@@ -38,7 +38,7 @@ declare -A CATLABEL=(
   [indigenous_and_traditional_knowledge]="Indigenous and Traditional Knowledge Benchmark"
 )
 
-BENCHMARK=[LOCAL_PATH]
+BENCHMARK="${BENCHMARK_ROOT:?set BENCHMARK_ROOT}"
 mkdir -p output logs
 
 for cat in permaculture organic_farming natural_fertilizers regenerative_agriculture \

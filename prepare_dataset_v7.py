@@ -29,6 +29,7 @@ reported; train/val splits built.
 from __future__ import annotations
 
 import argparse
+import os
 import hashlib
 import json
 import re
@@ -37,8 +38,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent
-BENCH = Path("[LOCAL_PATH]"
-             "natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl")
+BENCH = Path(os.environ.get("LADDER_210_PATH", "data/ladder210.jsonl"))
 
 NGRAM_N = 8
 JACCARD_ALARM = 0.6
