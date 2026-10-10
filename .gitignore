@@ -135,3 +135,8 @@ results/mcq_distractor_quality_validation_*.json
 
 # Archived JSONL result dumps are regenerated and stay out of Git.
 results/**/*.jsonl
+
+# Superseded generated dataset splits and draft evaluation items.
+/data/train*.jsonl
+/data/val*.jsonl
+/eval_freeform/drafts/*.jsonl

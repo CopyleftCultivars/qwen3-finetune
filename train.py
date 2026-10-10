@@ -14,8 +14,8 @@ Usage:
   # Override defaults:
   python finetune/train.py \\
     --model unsloth/Qwen3-0.6B \\
-    --train-data finetune/data/train.jsonl \\
-    --val-data finetune/data/val.jsonl \\
+    --train-data data/g6_rlm_sft_train.jsonl \\
+    --val-data data/g6_rlm_sft_val.jsonl \\
     --output-dir finetune/outputs/lora-adapter \\
     --epochs 3 \\
     --lr 2e-4 \\
@@ -311,15 +311,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--train-data",
-        default="finetune/data/train.jsonl",
+        default="data/g6_rlm_sft_train.jsonl",
         metavar="PATH",
-        help="Training JSONL file (default: finetune/data/train.jsonl)",
+        help="Training JSONL file (default: data/g6_rlm_sft_train.jsonl)",
     )
     parser.add_argument(
         "--val-data",
-        default="finetune/data/val.jsonl",
+        default="data/g6_rlm_sft_val.jsonl",
         metavar="PATH",
-        help="Validation JSONL file (default: finetune/data/val.jsonl)",
+        help="Validation JSONL file (default: data/g6_rlm_sft_val.jsonl)",
     )
     parser.add_argument(
         "--output-dir",
