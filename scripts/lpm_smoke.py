@@ -10,7 +10,7 @@ asks for.
 
 Run under the qwen3-train env::
 
-  [LOCAL_PATH] scripts/lpm_smoke.py --probe
+  python scripts/lpm_smoke.py --probe
 """
 
 from __future__ import annotations

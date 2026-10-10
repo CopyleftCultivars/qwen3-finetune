@@ -17,6 +17,7 @@ fertilizers ladder) -- which would be a pre-existing leak, not a new one.
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -32,10 +33,7 @@ from rlm_slice.domain_data import (  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 EVAL_FREEFORM_TEST = REPO_ROOT / "eval_freeform" / "test.jsonl"
-LADDER_210 = Path(
-    "[LOCAL_PATH]"
-    "natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl"
-)
+LADDER_210 = Path(os.environ.get("LADDER_210_PATH", "data/ladder210.jsonl"))
 NGRAM_N = 8
 JACCARD_ALARM = 0.6
 

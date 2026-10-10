@@ -14,12 +14,12 @@ Three independent signals, because each misses a different failure:
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import re
 from pathlib import Path
 
-BENCH = Path("[LOCAL_PATH]"
-             "natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl")
+BENCH = Path(os.environ.get("LADDER_210_PATH", "data/ladder210.jsonl"))
 SPLITS = ["data/train_v3.jsonl", "data/train_v6.jsonl", "data/val_v3.jsonl"]
 NGRAM_N = 8
 JACCARD_ALARM = 0.6

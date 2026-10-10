@@ -14,7 +14,7 @@ _is_duplicate() for within-category dedup (0.75 for a strict "too similar" bar).
 Usage:
     python dedup_against_benchmark.py \\
         --input-dir <output_dir from generate_mcqs_rag.py, per-topic *.json files> \\
-        --benchmark [LOCAL_PATH] \\
+        --benchmark "$BENCHMARK_ROOT" \\
         [--threshold 0.75] \\
         [--report dedup_report.json]
 

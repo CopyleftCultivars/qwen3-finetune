@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import json
 import random
 import re
@@ -11,7 +12,7 @@ from collections import Counter
 from pathlib import Path
 
 
-CORPUS_ROOT = Path("[LOCAL_PATH]")
+CORPUS_ROOT = Path(os.environ.get("CORPUS_ROOT", "data/sources"))
 STATED_CORPUS_COUNT = 1855
 OUTPUT_DIR = Path(__file__).resolve().parent
 SCREEN_PATH = OUTPUT_DIR / "corpus_screen.json"

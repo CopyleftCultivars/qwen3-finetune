@@ -2,7 +2,7 @@
 # env.sh — Workspace shell helpers for the [LOCAL_FOLDER] benchmark pipeline.
 #
 # Source this file in your shell session (or add to ~/.bashrc):
-#   source [LOCAL_PATH]
+#   source mcq_generation/env.sh
 
 # ---------------------------------------------------------------------------
 # next_round CATEGORY

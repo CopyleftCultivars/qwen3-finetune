@@ -25,6 +25,7 @@ Reproduce (see results/F179_M3_S5S6_RESULTS.md):
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import math
 import statistics
@@ -32,7 +33,7 @@ import sys
 import time
 from pathlib import Path
 
-BENCH_WS = Path("[LOCAL_PATH]")
+BENCH_WS = Path(os.environ.get("BENCHMARK_ROOT", "."))
 DEFAULT_BENCH = BENCH_WS / "benchmarks/natural_fertilizers/natural_fertilizers_benchmark_v1_graded.jsonl"
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

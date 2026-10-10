@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate MCQ training pairs with CoT rationale from QMD topic collections.
 
-Walks qmd/markdown_corpus-compatible directories such as [LOCAL_PATH] (1854 subtopic collections), filters to
+Walks qmd/markdown_corpus-compatible directories such as $QMD_DIR (1854 subtopic collections), filters to
 NF-relevant documents (natural farming, agroecology, permaculture, soil science,
 composting, bioaccumulators, etc.), and calls Claude to generate 3-5 MCQ questions
 per collection with genuine rationale in the <think>...</think> block.
@@ -27,7 +27,7 @@ processes remain after exit.
 
 Usage:
     python scripts/generate_mcq_from_qmd.py \\
-        --qmd-dir [LOCAL_PATH] \\
+        --qmd-dir $QMD_DIR \\
         --output data/sources/qmd_mcq_generated.jsonl \\
         [--model haiku] \\
         [--max-workers 4] \\
@@ -321,7 +321,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--qmd-dir",
-                    default="[LOCAL_PATH]",
+                    default=os.environ.get("QMD_DIR", "."),
                     help="QMD markdown_corpus directory")
     ap.add_argument("--output", required=True, help="Output JSONL path")
     ap.add_argument("--model", default="haiku",
