@@ -40,6 +40,20 @@ python prepare_dataset_v3.py \
 
 Generated historical train/validation snapshots are ignored by Git.
 
+## Local-only training data
+
+The chatbot conversation logs behind the training sets (`data/sources/gemma4/conversations*`, `hf_dataset`, the real-conversation Q&A set), every
+training set derived from them (`data/spanish_debug`, `data/multiturn_reflection`), the persona-memory corpus and a few result files that quote
+user messages are **not in this repository or its history**. They are kept in a folder outside every repository
+(`../training-data/qwen3-finetune` by default, or `QWEN3_TRAINING_DATA_DIR`) and linked into place with:
+
+```bash
+scripts/link_local_training_data.sh      # symlinks every path in data/local_paths.txt; the links are git-ignored
+```
+
+Anyone without that folder can still use everything else here: the sealed evaluation sets, the G6 trajectory splits, the synthetic and
+open-book sources and all code. The v5clean split can only be regenerated where the conversation source exists.
+
 ## Evaluation Boundary
 
 Sealed evaluation splits are not training data. The current free-form test split
