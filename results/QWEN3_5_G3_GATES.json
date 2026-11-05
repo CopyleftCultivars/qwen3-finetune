@@ -1,0 +1,34 @@
+{
+ "decision": "Select (GO) or reject (NO-GO) Qwen3.5-2B as the natural-farming ladder champion replacement. Default on any tie or inconclusive result: keep the distilled 0.6B champion and publish the negative result.",
+ "gates": {
+  "adaptation_landed": {
+   "metric": "adapted Qwen3.5 minus stock Qwen3.5 on the frozen 210-item ladder (paired items)",
+   "threshold": "delta >= +3.0pp AND McNemar p < 0.05",
+   "rationale": "F8 0.6B lift was +44.3pp and #232 1.7B lift +13.8pp (p=9e-06); +3pp is the minimum unambiguous adaptation signal above the ~0.5pp 4-bit run-to-run noise floor."
+  },
+  "deployability_proxy": {
+   "metric": "NF4 4-bit load of adapted Qwen3.5 vs its HF precision on the same ladder",
+   "threshold": "|delta| <= 3.0pp",
+   "rationale": "Cactus CQ leg is BLOCKED (G1/G2); an NF4 proxy drop larger than 3pp means the adapted weights are unlikely to survive INT4 deployment even if R1/R2 unblock."
+  },
+  "freeform_guard": {
+   "metric": "two falsifiable local signals on the fixed first-30 eval_freeform/dev.jsonl rows (sealed test.jsonl never touched): (1) non-degenerate rate = fraction of answers neither empty nor 4-gram-repetition-collapsed; (2) mean teacher-forced per-token NLL of the dev reference_answer given the question",
+   "threshold": "(1) adapted non-degenerate rate regresses vs stock by <= 5pp with zero empty/refusal-cluster failures; (2) adapted mean ref-NLL exceeds stock by <= 5% relative",
+   "rationale": "Mechanical degeneracy plus reference-likelihood regression both falsify: a collapsed model fails (1) and a factually degraded model fails (2). The repo rubric-LLM judge (score_rubric.py, OpenRouter backend) is deliberately excluded: backend-dependent grading would make the gate unreproducible offline. Honestly labelled as a guard against degradation, not a positive instruction-following proof."
+  },
+  "latency_memory": {
+   "metric": "peak training VRAM; mean per-item ladder decode latency vs the 0.6B champion",
+   "threshold": "peak VRAM <= 11.5 GiB on the 12 GiB card; mean latency <= 3x the 0.6B champion mean",
+   "rationale": "A phone-track candidate that cannot train or serve within the project's hardware budget is not selectable."
+  },
+  "quality_go": {
+   "metric": "adapted Qwen3.5 minus distilled 0.6B champion (outputs/merged-model-distill-v2-rationale) on the frozen 210-item ladder, paired",
+   "threshold": "delta >= +2.0pp (about +5 items) AND McNemar p < 0.05",
+   "rationale": "Prior #232: adapted 1.7B scored 182/210 vs F8 183/210 (delta -0.5pp, p=1.00) and was correctly judged 'larger alone is not better'. Qwen3.5 must clear a paired-significant margin, not just match."
+  }
+ },
+ "issue": 239,
+ "note": "Cactus on-device leg is BLOCKED per G1/G2; any GO from this gate is HF-runtime-only (research result), explicitly not a deployed phone deliverable. G4/G5 wait on upstream R1/R2.",
+ "stage": "g3_gates_predeclared",
+ "timestamp_utc": "2026-09-30T00:00:00Z (predeclared before G3 training and final scoring; freeform_guard restated 2026-09-30 to match the falsifiable harness before any G3 scoring ran)"
+}

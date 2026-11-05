@@ -1,0 +1,89 @@
+{
+  "issue": 239,
+  "stage": "g3_freeze",
+  "dataset": {
+    "teacher_source_rows": 871,
+    "train_rows": 6437,
+    "val_rows": 716,
+    "sha256": {
+      "teacher_source": "9e25e19d781405778159d42abb3fe86f21f00e4e2109105ef64c9ccfbe2a7357",
+      "train_distill": "d6f89624983e681646b0f550035239bf57e3124a41df5485edaff7e02640000e",
+      "val_distill": "9ae0467f4fa9ff9bb862246776b34fb9fc1a8854516658e11c6510878f60bbb9"
+    },
+    "provenance": "F6 gold-filtered qwen3:8b teacher rationales (data/sources/teacher_distill_qwen3-8b.jsonl) expanded to data/train_distill.jsonl + data/val_distill.jsonl"
+  },
+  "recipe": {
+    "base": "Qwen/Qwen3.5-2B",
+    "load_in_4bit": false,
+    "dtype": "bf16",
+    "lora": {
+      "r": 32,
+      "alpha": 64,
+      "dropout": 0.025,
+      "targets": [
+        "in_proj_qkv",
+        "in_proj_z",
+        "in_proj_b",
+        "in_proj_a",
+        "out_proj",
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ]
+    },
+    "epochs": 4,
+    "lr": 5e-05,
+    "lr_scheduler": "cosine",
+    "warmup_ratio": 0.05,
+    "weight_decay": 0.01,
+    "batch_size": 2,
+    "grad_accum": 8,
+    "effective_batch": 16,
+    "batch_note": "micro-batch halved vs F7 4x4 after OOM at step 45 on the 12 GB card; effective batch and 1612-step count unchanged",
+    "max_seq_len": 2048,
+    "packing": false,
+    "seed": 42,
+    "optim": "adamw_8bit",
+    "chat_template": "hardcoded-v1 (F7-identical rendering; base-model change is the only lever)"
+  },
+  "eval_protocol": {
+    "benchmark": "[LOCAL_PATH]",
+    "n": 210,
+    "prompt": "SYSTEM_PROMPT/PROMPT_TEMPLATE imported from benchmark-workspace/evaluate.py (frozen)",
+    "parser": "extract_answer from benchmark-workspace/evaluate.py",
+    "template": "each model's native apply_chat_template",
+    "thinking": "off (enable_thinking=False)",
+    "decode": "greedy temperature=0 seed=42 max_new_tokens=8",
+    "cactus_leg": "BLOCKED (G1/G2); deployable-proxy = NF4 4-bit HF load, labelled non-equivalent"
+  },
+  "contamination": {
+    "ladder_exact_hits": [],
+    "ladder_near_hits": [],
+    "ladder_max_8gram_jaccard": 0.0345,
+    "answer_side": {
+      "q_in_target_hits": [],
+      "output_near_hits": [],
+      "max_output_8gram_jaccard": 0.0,
+      "gold_option_text_hits": [
+        "NF-0126",
+        "NF-0133"
+      ],
+      "gold_option_analysis": "2 hits (NF-0126, NF-0133), both the 32-char generic phrase 'the use of synthetic fertilizers'. The phrase occurs in 3 train_distill outputs whose instructions ask unrelated questions (KNF basics; regenerative-farming community benefits; food-security philosophy) -- generic domain vocabulary, not a Q->A leak: neither ladder question appears in training (question-side exact=0, near=0). Non-exploitable; excluded from the binary verdict, reported here for auditability."
+    },
+    "sealed": {
+      "eval_freeform/test.jsonl": {
+        "n": 60,
+        "verbatim_in_train": 0
+      },
+      "eval_freeform/dev.jsonl": {
+        "n": 90,
+        "verbatim_in_train": 0
+      }
+    },
+    "verdict": "CLEAN"
+  }
+}

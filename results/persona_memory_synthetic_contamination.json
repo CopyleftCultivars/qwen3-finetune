@@ -1,0 +1,24 @@
+{
+  "format": "persona_memory_contamination_v1",
+  "issue": 191,
+  "ngram_n": 8,
+  "jaccard_alarm": 0.6,
+  "sealed_eval_freeform_test_opened": false,
+  "eval_sources": {
+    "ladder_210": 210,
+    "val_v3": 489,
+    "eval_freeform_dev": 90
+  },
+  "eval_items_total": 789,
+  "candidates": [
+    {
+      "path": "data/persona_memory/synthetic_multisession.jsonl",
+      "rows": 200,
+      "clean": 200,
+      "contaminated": 0
+    }
+  ],
+  "n_clean": 200,
+  "n_contaminated": 0,
+  "contaminated": []
+}

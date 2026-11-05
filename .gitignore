@@ -142,3 +142,6 @@ results/**/*.jsonl
 /data/train*.jsonl
 /data/val*.jsonl
 /eval_freeform/drafts/*.jsonl
+
+# Generated from real chatbot conversations by scripts/build_persona_memory_corpus.py; contains user text, so it is not committed
+data/persona_memory/
