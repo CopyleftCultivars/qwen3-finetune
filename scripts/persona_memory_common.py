@@ -3,7 +3,6 @@
 
 #191 builds an LPM (Latent Personal Memory, arXiv 2606.20911) training corpus
 from the real Gemma4-era conversation logs at
-import os
 $PERSONA_CONVERSATIONS_DIR plus
 targeted synthetic cross-session augmentation. Four scripts share this module:
 
@@ -31,6 +30,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import os
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
